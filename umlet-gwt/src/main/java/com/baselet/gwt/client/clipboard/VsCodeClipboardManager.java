@@ -5,6 +5,7 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.*;
+import com.google.gwt.core.client.GWT;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static com.baselet.gwt.client.view.widgets.DownloadPopupPanel.exportPngVSCode;
 
+//TODO: Consider renaming to communicationManager since its responsibilities are more thann just the clipboard
 public class VsCodeClipboardManager {
     private static EventHandlingUtils.DragCache storage; //needed to get active diagram
     private static CommandInvoker commandInvoker = CommandInvoker.getInstance();
@@ -26,6 +28,8 @@ public class VsCodeClipboardManager {
             $entry(@com.baselet.gwt.client.clipboard.VsCodeClipboardManager::cutDiagramToClipboard());
         $wnd.HandleExportDiagramRequest =
             $entry(@com.baselet.gwt.client.clipboard.VsCodeClipboardManager::handleExportDiagramRequest(Ljava/lang/String;));
+        $wnd.HandleUpdateContent =
+            $entry(@com.baselet.gwt.client.clipboard.VsCodeClipboardManager::handleUpdateContent(Ljava/lang/String;));
         var newClipboardManager = {
             copy: function () {
                 console.log("hit copy in gwt");
@@ -38,11 +42,28 @@ public class VsCodeClipboardManager {
             cut: function () {
                 console.log("hit cut in gwt");
                 $wnd.CutDiagramToClipboard();
+            },
+            requestExport: function (content) {
+                console.log("requesting export in gwt");
+                $wnd.HandleExportDiagramRequest(content);
+            },
+            updateContent: function (content) {
+                console.log("hit update in gwt, content is: " + content);
+                $wnd.HandleUpdateContent(content);
             }
         };
         console.log("Sending clipboarmanager to gwt");
         window.parent.vsCodeClipboardManager = newClipboardManager;
     }-*/;
+
+    public static void handleUpdateContent(String content)
+    {
+        try {
+            drawPanelDiagram.setDiagram(DiagramXmlParser.xmlToDiagram(content));
+        } catch (Exception e) {
+            GWT.log("failed to load diagram passed from vscode, loading preset empty diagram defaults...");
+        }
+    }
 
     public static native void debugLogInVsCodeWebview(String content) /*-{
         console.log("GWT DEBUG LOG: " + content);

@@ -17,6 +17,7 @@ var nextUmletEditorId = 0; //used to assign ids to each text editor
 var initialSwapWasAlreadySkipped = false; //used to prevent instant disabling of a newly created tab by another tab which would overwrite the currentlyActivePanel to null because it deactivates after the new panel is created
 
 export var currentlyActivePanel: WebviewPanel | null = null;
+let lastChangeTriggeredByUri = ""; //whenever a document change is triggered by an instance of the UMLet Gwt application, the uri of the corresponding document will be tracked here.
 
 
 
@@ -32,7 +33,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
   public static register(context: vscode.ExtensionContext): vscode.Disposable {
 
     const provider = new UmletEditorProvider(context);
-    //Override VSCodes built-in save functionality
     globalContext = context;
 
 
@@ -71,6 +71,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
    *
    */
   resolveCustomTextEditor(document: vscode.TextDocument, webviewPanel: vscode.WebviewPanel, token: vscode.CancellationToken): void | Thenable<void> {
+    console.log("resolving custom editor, uri is: " + document.uri.toString());
     //vscode.commands.executeCommand('setContext', 'textInputFocus', true); //permanently sets textfocus, never to be changed again?
     //vscode.commands.executeCommand('getContext', 'textInputFocus');
 
@@ -88,6 +89,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
 
 
+    //track viewstate changes so currentlyActivePanel stays accurate
     webviewPanel.onDidChangeViewState(
       e => {
         console.log("A panel did change state");
@@ -111,6 +113,31 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       }
     );
 
+
+
+    //whenever the .uxf file is changed (for example throough a text editor in vs code), these changes shoule be reflected in umlet
+    const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
+      console.log("text document changed!, last change  uri:" + lastChangeTriggeredByUri +  "       " + e.document.uri.toString() + "     " + document.uri.toString());
+      
+      //everytime something is changed by the gwt application, lastChangeTriggeredByUri will be set to the according document uri. 
+      //this is used to avoid a reset when the last change came directly from the gwt application, which would de-select current elements
+      //currentlyActivePanel has to be checked, otherwise this will only be triggered for the first opened editor. we only want it on the active
+      if (lastChangeTriggeredByUri === document.uri.toString() && webviewPanel === currentlyActivePanel) {
+        console.log("last change came from the gwt application");
+        lastChangeTriggeredByUri = "";
+      }  else {
+        //only trigger for right document
+        if (e.document.uri.toString() === document.uri.toString()) {
+          console.log("match text change");
+          webviewPanel.webview.postMessage({
+            command: 'myUpdate',
+            text: document.getText()
+          });
+        }
+      }
+			
+		});
+
     webviewPanel.webview.options = {
       enableScripts: true,
       localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'))]
@@ -129,6 +156,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
           this.SaveFile(message.text);
           return;
         case 'updateFiledataUxf':
+          console.log("uri in log is now: +" + document.uri.toString());
           this.UpdateCurrentFile(message.text, document);
           return;
         case 'exportPng':
@@ -165,48 +193,10 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
   }
 
-
-
-
-
-  /*
-  function startUmlet(context: vscode.ExtensionContext, fileContents: string, fileName: string): WebviewPanel {
-  
-    const panel = vscode.window.createWebviewPanel('umlet', fileName, vscode.ViewColumn.One, {
-      enableScripts: true,
-      retainContextWhenHidden: true,
-      localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'))]
-    });
-    // Handle messages from the webview
-    panel.webview.onDidReceiveMessage(message => {
-      switch (message.command) {
-        case 'exportUxf':
-          SaveFile(message.text);
-          return;
-        case 'exportPng':
-          var actual_data = message.text.replace("data:image/png;base64,", "");
-          SaveFileDecode(actual_data);
-          return;
-      }
-    }, undefined, context.subscriptions);
-  
-    // Get path to resource on disk
-    const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'));
-    // And get the special URI to use with the webview
-    const localUmletFolder = panel.webview.asWebviewUri(onDiskPath);
-  
-    if (fileContents === undefined) {
-      panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), 'undefined'); //TODO not working, loads uninteractable umletino without borders
-    } else {
-      panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
-    }
-    return panel;
-  }
-  */
-
-
   //gets the updated filedata from the webview if anything has changed
   UpdateCurrentFile(fileContent: string, document: vscode.TextDocument) {
+    lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
+    console.log("lastChangeTriggeredByUri set to: " + lastChangeTriggeredByUri)
     const edit = new vscode.WorkspaceEdit();
 
     edit.replace(
@@ -314,6 +304,11 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
               console.log("requestin export with size " + message.text);
               if (vsCodeClipboardManager)
                 vsCodeClipboardManager.requestExport(message.text);
+              break;
+          case 'myUpdate': //message.text is expected to be the new diagram the editor should changed to
+              console.log("updating content to: " + message.text);
+              if (vsCodeClipboardManager)
+                vsCodeClipboardManager.updateContent(message.text);
               break;
       }
     });
