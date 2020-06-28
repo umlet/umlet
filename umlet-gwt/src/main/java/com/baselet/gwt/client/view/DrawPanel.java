@@ -36,6 +36,7 @@ import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
@@ -70,6 +71,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	private MenuPopup elementContextMenu;
 	private MenuPopup diagramContextMenu;
+	private Point lastContextMenuPosition;
 
 	protected Set<Direction> resizeDirections = new HashSet<Direction>();
 
@@ -118,6 +120,17 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
      Changes the coordinates of GridElement in the elementList so that they are in the top left of targetPanel
      */
 	public static void snapElementsToVisibleTopLeft(List <GridElement> elementList, DrawPanel targetPanel) {
+		int xOffset = targetPanel.getVisibleBounds().x + targetPanel.getAbsoluteLeft();
+		int yOffset = targetPanel.getVisibleBounds().y + targetPanel.getAbsoluteTop();
+
+		snapElementsToPointPosition(elementList, targetPanel, new Point(xOffset + SharedConstants.DEFAULT_GRID_SIZE, yOffset + SharedConstants.DEFAULT_GRID_SIZE));
+	}
+
+	/*
+     Changes the coordinates of GridElement in the elementList so that they match a point
+     point coordinates must be absolute, not in draw panel coordinates, but the method accounts for a scrolled drawPanel
+     */
+	public static void snapElementsToPointPosition(List <GridElement> elementList, DrawPanel targetPanel, Point point) {
 		//ensure that at least one element is there since later code relies on that
 		if (elementList.size() <= 0)
 			return;
@@ -136,11 +149,12 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 				pivotY = yPosition;
 		}
 
-		//snap all elements to top left, but relative to the pivot
+		//snap all elements to point, but relative to the pivot
 		for (GridElement e:elementList) {
-			int xOffset = (e.getRectangle().x - pivotX) + SharedConstants.DEFAULT_GRID_SIZE;
-			int yOffset = (e.getRectangle().y - pivotY) + SharedConstants.DEFAULT_GRID_SIZE;
-			snapElementToVisibleTopLeft(e, targetPanel, xOffset, yOffset);
+			int xOffset = (e.getRectangle().x - pivotX);
+			int yOffset = (e.getRectangle().y - pivotY);
+			Rectangle visible = targetPanel.getVisibleBounds();
+			e.setLocation(xOffset + point.getX() - targetPanel.getAbsoluteLeft(), yOffset + point.getY() - targetPanel.getAbsoluteTop());
 		}
 	}
 
@@ -239,6 +253,14 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			}
 			ge.setRectangleDifference(diffX, diffY, 0, 0, firstDrag, stickablesToMove.get(ge), false); // uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
 		}
+	}
+
+	public Point getLastContextMenuPosition()
+	{
+		if (elementContextMenu.isShowing() || diagramContextMenu.isShowing())
+			return lastContextMenuPosition;
+		else
+			return null;
 	}
 
 	@Override
@@ -465,6 +487,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		else {
 			elementContextMenu.show(point);
 		}
+		lastContextMenuPosition = point; //used to determine paste positions
 	}
 
 	@Override

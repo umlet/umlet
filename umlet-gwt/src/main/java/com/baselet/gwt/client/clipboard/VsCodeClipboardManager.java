@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.clipboard;
 
+import com.baselet.control.basics.geom.Point;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.DiagramXmlParser;
@@ -55,6 +56,25 @@ public class VsCodeClipboardManager {
         console.log("Sending clipboarmanager to gwt");
         window.parent.vsCodeClipboardManager = newClipboardManager;
     }-*/;
+
+    /*
+        since pastes in the vscode version will not trigger instantly, but rather request vscode to perform a paste action, the information on where a paste context
+        menu is/was will be gone until the paste command arrives, since GWT removes the context window just before vs code has a chance to execute its paste command.
+        Therefore, a prefered next position can be set with setNextPastePosition, nextPastePosition will be set to NULL with the next paste
+     */
+    private static Point nextPastePosition;
+    public static void setNextPastePosition(Point nextPastePosition)
+    {
+        VsCodeClipboardManager.nextPastePosition = nextPastePosition;
+    }
+
+    //gets the previously set input position and sets it back to null
+    public static Point popNextPastePosition()
+    {
+        Point returnpos = nextPastePosition;
+        nextPastePosition = null;
+        return returnpos;
+    }
 
     public static void handleUpdateContent(String content)
     {
@@ -152,5 +172,6 @@ public class VsCodeClipboardManager {
 
     public static void pasteClipboardToDiagram(DrawPanelDiagram target, String content) {
         commandInvoker.pasteElementsVsCode(target, content);
+        nextPastePosition = null;
     }
 }
