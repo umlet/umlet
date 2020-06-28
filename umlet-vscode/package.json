@@ -19,7 +19,8 @@
 	],
 	"activationEvents": [
 		"onCustomEditor:uxfCustoms.umletEditor",
-		"onCommand:extension.umlet"
+		"onCommand:umlet.createNewDiagram",
+		"onStartupFinished"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -31,6 +32,10 @@
 			{
 				"command": "umlet.exportPngFour",
 				"title": "UMLet: Export As PNG (Scale x4).."
+			},
+			{
+				"command": "umlet.createNewDiagram",
+				"title": "UMLet: Create new diagram"
 			},
 			{
 				"command": "umlet.executeCopy",
@@ -54,6 +59,18 @@
 				{
 					"command": "umlet.exportPngFour",
 					"when": "myWebviewFocused"
+				},
+				{
+					"command": "umlet.executeCopy",
+					"when": "false"
+				},
+				{
+					"command": "umlet.executePaste",
+					"when": "false"
+				},
+				{
+					"command": "umlet.executeCut",
+					"when": "false"
 				}
 			]
 		},
