@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.baselet.command.*;
+import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.GridElementUtils;
@@ -17,6 +18,7 @@ import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
 import com.baselet.gwt.client.view.commands.RemoveGridElementCommandNoUpdate;
+import com.google.gwt.core.client.GWT;
 
 public class CommandInvoker extends Controller {
 
@@ -80,6 +82,10 @@ public class CommandInvoker extends Controller {
 	void pasteElements(CommandTarget target) {
 		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
 		{
+			//save context menu position so vscode knows where to put the pasted element when returning
+			if (target instanceof DrawPanel)
+				VsCodeClipboardManager.setNextPastePosition(((DrawPanel) target).getLastContextMenuPosition());
+			//request of paste
 			VsCodeClipboardManager.requestVsCodePaste();
 		} else
 		{
@@ -89,10 +95,32 @@ public class CommandInvoker extends Controller {
 
 	}
 
+	/*
+	 targetPosition is relative to the CommandTarget target, so (0,0) is the top left of target
+	 */
 	private void executePaste(CommandTarget target, List<GridElement> copyOfElements) {
 		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
+		//if there is a context menu currently opened, place it at the cursor position, otherwise at the top left
 		realignElementsToVisibleRect(target, copyOfElements);
-		DrawPanel.snapElementsToVisibleTopLeft(copyOfElements, (DrawPanel) target);
+		if (target instanceof  DrawPanel)
+		{
+			DrawPanel targetDrawPanel = (DrawPanel)target;
+			Point targetPosition = null;
+			if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE){
+				targetPosition = VsCodeClipboardManager.popNextPastePosition();
+			} else {
+				targetPosition = targetDrawPanel.getLastContextMenuPosition();
+			}
+			if (targetPosition != null)
+			{
+				DrawPanel.snapElementsToPointPosition(copyOfElements, targetDrawPanel, targetPosition);
+			} else {
+
+				DrawPanel.snapElementsToVisibleTopLeft(copyOfElements, targetDrawPanel);
+			}
+		}
+
+
 		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
 	}
 
@@ -118,6 +146,8 @@ public class CommandInvoker extends Controller {
 			ge.getRectangle().move(visible.getX() - rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY() - rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);
 		}
 	}
+
+
 
 	public void updateSelectedElementsProperty(CommandTarget target, String key, Object value) {
 		for (GridElement e : target.getSelector().getSelectedElements()) {
