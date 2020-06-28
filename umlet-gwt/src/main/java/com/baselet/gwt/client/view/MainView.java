@@ -377,6 +377,8 @@ public class MainView extends Composite implements ThemeChangeListener {
 		});
 	}
 
+
+
 	@Override
 	public void onThemeChange() {
 		String backgroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)).value();
