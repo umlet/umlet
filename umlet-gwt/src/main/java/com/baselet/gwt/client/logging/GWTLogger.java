@@ -5,11 +5,7 @@ import org.slf4j.LoggerFactory;
 
 public class GWTLogger implements CustomLogger {
 
-    private final Logger logger;
-
-    public GWTLogger(Class<?> clazz) {
-        logger = LoggerFactory.getLogger(clazz);
-    }
+    private Logger logger;
 
     @Override
     public void trace(String message) {
@@ -39,5 +35,10 @@ public class GWTLogger implements CustomLogger {
     @Override
     public void error(String message, Throwable throwable) {
         logger.error(message, throwable);
+    }
+
+    @Override
+    public void init(Class<?> clazz) {
+        logger = LoggerFactory.getLogger(clazz);
     }
 }

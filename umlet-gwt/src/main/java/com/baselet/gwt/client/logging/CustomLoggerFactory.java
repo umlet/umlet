@@ -1,13 +1,11 @@
 package com.baselet.gwt.client.logging;
 
-import com.baselet.gwt.client.view.VersionChecker;
+import com.google.gwt.core.client.GWT;
 
 public class CustomLoggerFactory {
     public static CustomLogger getLogger(Class<?> clazz) {
-        if (VersionChecker.isVsCodeVersion()) {
-            return new VsCodeLogger();
-        } else {
-            return new GWTLogger(clazz);
-        }
+        CustomLogger logger = GWT.create(GWTLogger.class);
+        logger.init(clazz);
+        return logger;
     }
 }

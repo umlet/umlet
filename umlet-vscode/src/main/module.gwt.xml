@@ -3,4 +3,9 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN" "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
 <module>
     <inherits name='baseletgwt' />
+    <inherits name="com.VSCode" />
+
+    <replace-with class="com.vscode.gwt.client.logging.VsCodeLogger">
+        <when-type-is class="com.baselet.gwt.client.logging.GWTLogger"/>
+    </replace-with>
 </module>

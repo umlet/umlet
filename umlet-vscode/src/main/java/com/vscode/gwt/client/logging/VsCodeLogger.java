@@ -1,5 +1,6 @@
-package com.baselet.gwt.client.logging;
+package com.vscode.gwt.client.logging;
 
+import com.baselet.gwt.client.logging.CustomLogger;
 import com.google.gwt.i18n.client.DateTimeFormat;
 
 import java.util.Date;
@@ -8,11 +9,7 @@ import java.util.logging.Logger;
 
 public class VsCodeLogger implements CustomLogger {
 
-    private final int levelValue;
-
-    public VsCodeLogger() {
-        this.levelValue = Logger.getLogger("").getLevel().intValue();
-    }
+    private int levelValue;
 
     @Override
     public void trace(String message) {
@@ -52,6 +49,11 @@ public class VsCodeLogger implements CustomLogger {
     public void error(String message, Throwable throwable) {
         // Ignoring throwable
         error(message);
+    }
+
+    @Override
+    public void init(Class<?> clazz) {
+        this.levelValue = Logger.getLogger("").getLevel().intValue();
     }
 
     private String generatePrefixMessage() {
