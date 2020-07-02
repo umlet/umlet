@@ -514,7 +514,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			if (VersionChecker.GetVersion() != VersionChecker.Version.VSCODE) //Shortcut is handled by VSCODE itself, would lead to to doublepaste
 				commandInvoker.pasteElements(DrawPanel.this);
 		}
-		else if (Shortcut.SAVE.matches(event) && !VersionChecker.isVsCodeVersion()) {
+		else if (Shortcut.SAVE.matches(event)) {
 			mainView.getSaveCommand().execute();
 		}
 		else if (Shortcut.MOVE_UP.matches(event)) {

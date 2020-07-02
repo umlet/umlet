@@ -88,7 +88,7 @@ class UmletEditorProvider {
         });
         webviewPanel.webview.options = {
             enableScripts: true,
-            localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT', 'umletvscode'))]
+            localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'))]
         };
         let WebviewPanelOptions = webviewPanel.options;
         WebviewPanelOptions = {
@@ -127,7 +127,7 @@ class UmletEditorProvider {
             }
         }, undefined, this.context.subscriptions);
         // Get path to resource on disk
-        const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT', 'umletvscode'));
+        const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'));
         // And get the special URI to use with the webview
         const localUmletFolder = webviewPanel.webview.asWebviewUri(onDiskPath);
         let fileContents = document.getText().toString();
