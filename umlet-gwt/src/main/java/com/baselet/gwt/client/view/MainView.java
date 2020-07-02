@@ -9,6 +9,7 @@ import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import com.google.gwt.dev.GwtVersion;
+import com.baselet.gwt.client.view.utils.StartupDiagramLoader;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
@@ -225,29 +226,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 		handler = new FileOpenHandler(diagramPanel);
 
-        PopupImpl i;
-        PopupImplMozilla d;
-
-        //Load diagram if one was passed from vscode
-        if (VersionChecker.GetVersion() == Version.VSCODE) {
-        	//Retrieve the Diagram
-            String VsCodeDiagramRawData = VersionChecker.vsCodePredefinedFile();
-            //In case a plain, newly created empty file was loaded, UMLet will create the default empty workspace
-			//if its not empty, it will load it
-			if (!VersionChecker.vsCodePredefinedFile().equals(""))
-			{
-				//Load the diagram
-				if (VsCodeDiagramRawData != null) {
-					try {
-						diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(VersionChecker.vsCodePredefinedFile()));
-					} catch (Exception e) {
-						GWT.log("failed to load diagram passed from vscode, loading defaults...");
-					}
-				}
-			}
-		}
-
-		diagramPanelWrapper.add(diagramScrollPanel);
+        diagramPanelWrapper.add(diagramScrollPanel);
 
 		palettePanelWrapper.add(paletteScrollPanel);
 
@@ -282,37 +261,36 @@ public class MainView extends Composite implements ThemeChangeListener {
 			DiagramLoader.getFromUrl(uxfStartup, this);
 		}
 		onThemeChange();
+		loadStartupDiagram();
 	}
 
+    private void addRestoreMenuItem(final String chosenName) {
+        final HorizontalPanel hp = new HorizontalPanel();
 
-
-	private void addRestoreMenuItem(final String chosenName) {
-		final HorizontalPanel hp = new HorizontalPanel();
-
-		Label label = new Label(chosenName);
-		label.setTitle("open diagram " + chosenName);
-		label.addStyleName(style.menuItem());
-		label.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(WebStorage.getSavedDiagram(chosenName)));
-				Notification.showInfo("Diagram opened: " + chosenName);
-			}
-		});
-		Image img = new Image("data:image/gif;base64,R0lGODlhCgAKAJEAAAAAAP////8AAP///yH5BAEAAAMALAAAAAAKAAoAAAIUnI8jgmvLlHtwnpqkpZh72UTZUQAAOw==");
-		img.setTitle("delete diagram " + chosenName);
-		img.addStyleName(style.menuItem());
-		img.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (Window.confirm("Delete saved diagram " + chosenName)) {
-					WebStorage.removeSavedDiagram(chosenName);
-					restoreMenuPanel.remove(hp);
-					Notification.showInfo("Deleted diagram: " + chosenName);
-				}
-			}
-		});
-
+        Label label = new Label(chosenName);
+        label.setTitle("open diagram " + chosenName);
+        label.addStyleName(style.menuItem());
+        label.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(WebStorage.getSavedDiagram(chosenName)));
+                Notification.showInfo("Diagram opened: " + chosenName);
+            }
+        });
+        Image img = new Image("data:image/gif;base64,R0lGODlhCgAKAJEAAAAAAP////8AAP///yH5BAEAAAMALAAAAAAKAAoAAAIUnI8jgmvLlHtwnpqkpZh72UTZUQAAOw==");
+        img.setTitle("delete diagram " + chosenName);
+        img.addStyleName(style.menuItem());
+        img.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if (Window.confirm("Delete saved diagram " + chosenName)) {
+                    WebStorage.removeSavedDiagram(chosenName);
+                    restoreMenuPanel.remove(hp);
+                    Notification.showInfo("Deleted diagram: " + chosenName);
+                }
+            }
+        });
+        
 		hp.add(img);
 		hp.add(label);
 		restoreMenuPanel.add(hp);
@@ -383,6 +361,22 @@ public class MainView extends Composite implements ThemeChangeListener {
 	}
 
 
+
+    private void loadStartupDiagram() {
+        StartupDiagramLoader startupDiagramLoader = GWT.create(StartupDiagramLoader.class);
+        // Retrieving the diagram
+        String rawDiagramData = startupDiagramLoader.loadDiagram();
+
+        // In case a plain, newly created empty file was loaded, UMLet will create the default empty workspace
+        // if its not empty, it will load it
+        if (rawDiagramData != null && !rawDiagramData.equals("")) {
+            try {
+                diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(rawDiagramData));
+            } catch (Exception e) {
+                log.error("failed to load diagram passed from startup, loading defaults...");
+            }
+        }
+    }
 
 	@Override
 	public void onThemeChange() {
