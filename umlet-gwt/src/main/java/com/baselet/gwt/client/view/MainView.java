@@ -8,7 +8,7 @@ import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
 import com.baselet.gwt.client.view.VersionChecker.Version;
-import com.google.gwt.dev.GwtVersion;
+import com.baselet.gwt.client.view.commands.SaveCommand;
 import com.baselet.gwt.client.view.utils.StartupDiagramLoader;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.*;
@@ -125,31 +125,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 	private final FilenameAndScaleHolder lastExportFilename = new FilenameAndScaleHolder("");
 
-	private final ScheduledCommand saveCommand = new ScheduledCommand() {
-		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
-			@Override
-			public void callback(final String chosenName) {
-				boolean itemIsNewlyAdded = WebStorage.getSavedDiagram(chosenName) == null;
-				WebStorage.addSavedDiagram(chosenName, DiagramXmlParser.diagramToXml(diagramPanel.getDiagram()));
-				if (itemIsNewlyAdded) {
-					addRestoreMenuItem(chosenName);
-				}
-				Notification.showInfo("Diagram saved as: " + chosenName);
-			}
-		});
-
-		@Override
-		public void execute() {
-			saveDialogBox.clearAndCenter();
-		}
-	};
-
-	private final ScheduledCommand saveCommandVSCode = new ScheduledCommand() {
-		@Override
-		public void execute() {
-			initialiseExportDialog();
-		}
-	};
+    private final SaveCommand saveCommand;
 
 	private final ScheduledCommand exportToDropbox = new ScheduledCommand() {
 		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
@@ -168,13 +144,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 		}
 	};
 
-	public ScheduledCommand getSaveCommand() {
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
-			return saveCommandVSCode;
-		else
-			return saveCommand;
-	}
-
 	public void setDiagram(Diagram diagram) {
 		diagramPanel.setDiagram(diagram);
 	}
@@ -183,6 +152,10 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramPaletteSplitter.setWidgetSize(menuPanel, 0.0);
 		diagramPaletteSplitter.setWidgetSize(palettePropertiesSplitter, 0.0);
 	}
+
+    public SaveCommand getSaveCommand() {
+        return saveCommand;
+    }
 
     private  void vsCodeLoadCopyPasteMessageHandlers() {
         VsCodeClipboardManager.hookUpClipboardManagerToVsCode();
@@ -219,6 +192,9 @@ public class MainView extends Composite implements ThemeChangeListener {
 		for (String diagramName : WebStorage.getSavedDiagramKeys()) {
 			addRestoreMenuItem(diagramName);
 		}
+
+        saveCommand = GWT.create(SaveCommand.class);
+        saveCommand.init(this);
 
 		onThemeChange();
 
@@ -264,7 +240,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 		loadStartupDiagram();
 	}
 
-    private void addRestoreMenuItem(final String chosenName) {
+    public void addRestoreMenuItem(final String chosenName) {
         final HorizontalPanel hp = new HorizontalPanel();
 
         Label label = new Label(chosenName);
@@ -378,6 +354,10 @@ public class MainView extends Composite implements ThemeChangeListener {
         }
     }
 
+    public DrawPanel getDiagramPanel() {
+        return diagramPanel;
+    }
+
 	@Override
 	public void onThemeChange() {
 		String backgroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)).value();
@@ -397,6 +377,5 @@ public class MainView extends Composite implements ThemeChangeListener {
 		propertiesPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		propertiesPanel.getElement().getStyle().setColor(foregroundColor);
 		propertiesPanel.getElement().getStyle().setBorderColor(backgroundColor);
-
 	}
 }
