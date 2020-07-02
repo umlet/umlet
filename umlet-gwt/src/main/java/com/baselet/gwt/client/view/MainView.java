@@ -11,6 +11,8 @@ import com.baselet.gwt.client.view.VersionChecker.Version;
 import com.google.gwt.dev.GwtVersion;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.impl.PopupImpl;
+import com.google.gwt.user.client.ui.impl.PopupImplMozilla;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.control.config.SharedConfig;
@@ -223,11 +225,14 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 		handler = new FileOpenHandler(diagramPanel);
 
-		//Load diagram if one was passed from vscode
-		if (VersionChecker.GetVersion() == Version.VSCODE) {
-			//Retrieve the Diagram
-			String VsCodeDiagramRawData = VersionChecker.vsCodePredefinedFile();
-			//In case a plain, newly created empty file was loaded, UMLet will create the default empty workspace
+        PopupImpl i;
+        PopupImplMozilla d;
+
+        //Load diagram if one was passed from vscode
+        if (VersionChecker.GetVersion() == Version.VSCODE) {
+        	//Retrieve the Diagram
+            String VsCodeDiagramRawData = VersionChecker.vsCodePredefinedFile();
+            //In case a plain, newly created empty file was loaded, UMLet will create the default empty workspace
 			//if its not empty, it will load it
 			if (!VersionChecker.vsCodePredefinedFile().equals(""))
 			{

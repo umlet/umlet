@@ -12,4 +12,6 @@ public interface CustomLogger {
     void error(String message);
 
     void error(String message, Throwable throwable);
+
+    void init(Class<?> clazz);
 }
