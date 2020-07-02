@@ -2,10 +2,5 @@
 <!-- When updating your version of GWT, you should also update this DTD reference, so that your app can take advantage of the latest GWT module capabilities. -->
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN" "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
 <module>
-    <inherits name='baseletgwt' />
-    <inherits name="com.Web" />
-
-    <replace-with class="com.web.gwt.client.view.utils.WebStartupDiagramLoader">
-        <when-type-is class="com.baselet.gwt.client.view.utils.StartupDiagramLoader"/>
-    </replace-with>
+	<source path="web" />
 </module>
