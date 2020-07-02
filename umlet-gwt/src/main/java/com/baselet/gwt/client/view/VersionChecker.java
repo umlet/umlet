@@ -35,14 +35,4 @@ public class VersionChecker {
 				"[waiting for message]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>300</y><w>120</w><h>110</h></coordinates><panel_attributes>lt=&lt;.\n" +
 				"&lt;&lt;instanceOf&gt;&gt;</panel_attributes><additional_attributes>100;90;10;10</additional_attributes></element></diagram>";
 	}
-
-
-
-	public static native String vsCodePredefinedFile() /*-{
-		if (typeof window.parent.vsCodeInitialDiagramData !== 'undefined') {
-			return decodeURIComponent (window.parent.vsCodeInitialDiagramData.toString());
-		}
-		return null;
-	}-*/;
-
 }

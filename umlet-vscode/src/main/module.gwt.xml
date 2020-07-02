@@ -8,4 +8,8 @@
     <replace-with class="com.vscode.gwt.client.logging.VsCodeLogger">
         <when-type-is class="com.baselet.gwt.client.logging.GWTLogger"/>
     </replace-with>
+
+    <replace-with class="com.vscode.gwt.client.view.utils.VSCodeStartupDiagramLoader">
+        <when-type-is class="com.baselet.gwt.client.view.utils.StartupDiagramLoader"/>
+    </replace-with>
 </module>
