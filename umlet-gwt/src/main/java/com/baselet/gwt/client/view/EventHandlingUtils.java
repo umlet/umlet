@@ -265,17 +265,11 @@ public class EventHandlingUtils {
 	}
 
 	private static void handleEnd(EventHandlingTarget panel, final DragCache storage, HumanInputEvent<?> event) {
-		if(event.getNativeEvent().getButton() != 1 && event.getNativeEvent().getButton() != 2)
-			return;
-		if (event.getNativeEvent().getButton() == 1 || event.getNativeEvent().getButton() == 2)
-		{
-			// Notification.showInfo("UP");
-			if (DRAG_COMMANDS.contains(storage.dragging)) {
-				panel.onMouseDragEnd(storage.elementToDrag, getPoint(storage.activePanel, event));
-			}
-			storage.dragging = DragStatus.NO;
+		// Notification.showInfo("UP");
+		if (DRAG_COMMANDS.contains(storage.dragging)) {
+			panel.onMouseDragEnd(storage.elementToDrag, getPoint(storage.activePanel, event));
 		}
-
+		storage.dragging = DragStatus.NO;
 	}
 
 	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event) {
@@ -288,9 +282,6 @@ public class EventHandlingUtils {
 		WebStorage.updateTargetPanel(storage.activePanel);
 
 		Point p = getPoint(storage.activePanel, event);
-
-		if(event.getNativeEvent().getButton() == 1 || event.getNativeEvent().getButton() == 2)
-		{
 		// Notification.showInfo("DOWN " + p.x);
 		handlerTarget.setFocus(true);
 
@@ -298,18 +289,7 @@ public class EventHandlingUtils {
 		storage.moveStart = new Point(p.x, p.y);
 		storage.dragging = DragStatus.FIRST;
 		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
-
-			storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
-		} else {
-			if ( storage.activePanel instanceof DrawPanelPalette)
-			{
-				((DrawPanelPalette) storage.activePanel).CancelDragNoDuplicate();
-			}
-			if ( storage.activePanel instanceof DrawPanelDiagram)
-			{
-				((DrawPanelDiagram) storage.activePanel).CancelDragOfPalette();
-			}
-		}
+		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
 	}
 
 	private static void handleMove(final EventHandlingTarget panel, final DragCache storage, HumanInputEvent<?> event) {
