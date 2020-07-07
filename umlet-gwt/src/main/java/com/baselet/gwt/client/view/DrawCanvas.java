@@ -23,6 +23,9 @@ public class DrawCanvas {
 
 		@Source("Helptext.txt")
 		TextResource helpText();
+
+		@Source("Helptext_vscode.txt")
+		TextResource helpTextVsCode();
 	}
 
 	private final Canvas canvas = Canvas.createIfSupported();
@@ -103,10 +106,17 @@ public class DrawCanvas {
 
 	private void drawEmptyInfoText(double scaling) {
 		double elWidth = 440;
-		double elHeight = 150;
+		double elHeight = 150; //web version 150
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
+			elHeight = 246;
 		double elXPos = getWidth() / 2.0 - elWidth / 2;
-		double elYPos = getHeight() / 2.0 - elHeight;
-		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), HelptextResources.INSTANCE.helpText().getText(), "", null);
+		double elYPos = getHeight() / 2.0 - elHeight / 2;
+		String helptext = HelptextResources.INSTANCE.helpText().getText();
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
+		{
+			helptext = HelptextResources.INSTANCE.helpTextVsCode().getText();
+		}
+		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), helptext, "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
 
 	}

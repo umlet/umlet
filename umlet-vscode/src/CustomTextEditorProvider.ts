@@ -447,5 +447,29 @@ function overriddenClipboardCutAction(textEditor: any, edit: any, params: any) {
 }
 
 
+//overwrite so that strg+a does not select any text in vs code
+var selectAllDisposable = vscode.commands.registerCommand('editor.action.webvieweditor.selectAll', overriddenSelectAllAction);
+/*
+ * Function that overrides the default select all behavior. We get the selection and use it, dispose of this registered
+ * command (returning to the default editor.action.webvieweditor.selectAll), invoke the default one, and then re-register it after the default completes
+ */
+function overriddenSelectAllAction(textEditor: any, edit: any, params: any) {
+  //dispose of the overridden editor.action.clipboardCutAction- back to default cut behavior
+  selectAllDisposable.dispose();
+
+  //execute the default editor.action.webvieweditor.selectAll to cut
+  if (!currentlyActivePanel)
+  {
+    vscode.commands.executeCommand("editor.action.webvieweditor.selectAll");
+  }
+
+  //add the overridden editor.action.webvieweditor.selectAll back
+  selectAllDisposable = vscode.commands.registerCommand('editor.action.webvieweditor.selectAll', overriddenSelectAllAction);
+    //complains about globalConext beeing undefined, not needed? seems to work fine without
+    //globalContext.subscriptions.push(clipboardPasteDisposable);
+  
+}
+
+
 
 

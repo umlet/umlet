@@ -44,6 +44,9 @@ public class PropertiesTextArea extends MySuggestBox {
 		this.oracle = oracle;
 		this.textArea = textArea;
 	}
+	
+
+
 
 	public void setGridElement(HasPanelAttributes panelAttributeProvider, Redrawable panel) {
 		activePanel = panel;

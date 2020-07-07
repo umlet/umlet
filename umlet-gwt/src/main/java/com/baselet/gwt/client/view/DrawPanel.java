@@ -549,6 +549,12 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 	}
 
+
+	public static native void clearSelection() /*-{
+		if (window.getSelection) {window.getSelection().removeAllRanges();}
+		else if (document.selection) {document.selection.empty();}
+	}-*/;
+
 	@Override
 	public void handleKeyUp(KeyUpEvent event) {
 		if (Shortcut.DISABLE_STICKING.matches(event)) {
