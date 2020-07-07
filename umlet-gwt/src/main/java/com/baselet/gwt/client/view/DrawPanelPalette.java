@@ -22,6 +22,7 @@ import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
@@ -100,17 +101,6 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
-
-
-	@Override
-	public void handleKeyDown(KeyDownEvent event) {
-		if (Shortcut.SAVE.matches(event) && VersionChecker.isVsCodeVersion()) {
-			//skip
-		} else {
-			super.handleKeyDown(event);
-		}
-	}
-
 	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
 	private boolean draggingDisabled; //to disable dragging when element was dragged to properties panel
 
@@ -129,7 +119,7 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
-		if (lastPoint.getX() < 0) { // mouse moved from palette to diagram -> insert elements to diagram
+		if (lastPoint.getX() + -scrollPanel.getHorizontalScrollPosition() <= 0) { // mouse moved from palette to diagram -> insert elements to diagram
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
 			for (GridElement original : selector.getSelectedElements()) {
 				GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
