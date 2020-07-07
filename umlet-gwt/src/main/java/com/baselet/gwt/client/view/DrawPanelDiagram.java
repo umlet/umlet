@@ -1,21 +1,26 @@
 package com.baselet.gwt.client.view;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.enums.Direction;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.user.client.ui.Grid;
 
 
 public class DrawPanelDiagram extends DrawPanel {
+    private List<GridElement> currentPreviewElementsInstantiated;
     private List<GridElement> currentPreviewElements; //previewed elements that will be displayed while dragging from palette into actual canvas
 
     public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
@@ -35,10 +40,23 @@ public class DrawPanelDiagram extends DrawPanel {
     public void InitializeDisplayingPreviewElements(List<GridElement> previewElements) {
         if (currentPreviewElements == null) {
             if (previewElements != null)
-                this.addGridElementsDontNotifyUpdate(previewElements);
+                commandInvoker.addElements(this, previewElements);
             this.currentPreviewElements = previewElements;
         }
         this.redraw(false);
+    }
+
+    /*
+    displays a preview object by newly creating a copy.
+    destroys and overrides old copy preview object if one was available.
+    a preview will stay visible until this method is called with (null) as argument or RemoveOldPreview() is called
+    should not be used for multiple objects, due to performance
+    */
+    public void setDisplayingPreviewElementInstantiated(List<GridElement> previewElements) {
+        RemoveOldPreview();
+        if (previewElements != null)
+            this.addGridElementsDontNotifyUpdate(previewElements);
+        this.currentPreviewElementsInstantiated = previewElements;
     }
 
     @Override
@@ -49,12 +67,15 @@ public class DrawPanelDiagram extends DrawPanel {
         }
     }
 
+    //for multiple
     public void UpdateDisplayingPreviewElements(int diffX, int diffY, boolean firstDrag) {
         if (currentPreviewElements != null) {
             moveElements(diffX, diffY, firstDrag, currentPreviewElements);
         }
         this.redraw(false);
     }
+
+
 
 
     @Override
@@ -79,10 +100,19 @@ public class DrawPanelDiagram extends DrawPanel {
     }
 
 
+    /*
+     removes old previews for both instantiated and regular preview variants
+     */
     public void RemoveOldPreview() {
+        //regular
         if (currentPreviewElements != null)
             commandInvoker.removeElementsNoUpdate(this, this.currentPreviewElements);
         currentPreviewElements = null;
+
+        //instantiated
+        if (currentPreviewElementsInstantiated != null)
+            commandInvoker.removeElementsNoUpdate(this, this.currentPreviewElementsInstantiated);
+        currentPreviewElementsInstantiated = null;
     }
 
     public boolean currentlyDisplayingPreview() {

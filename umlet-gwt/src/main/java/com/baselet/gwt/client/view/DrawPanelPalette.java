@@ -7,6 +7,7 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.MenuConstants;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.Selector;
@@ -75,27 +76,7 @@ public class DrawPanelPalette extends DrawPanel {
 		ThemeFactory.addListener(this);
 	}
 
-	@Override
-	protected List<MenuPopup.MenuPopupItem> getStandardMenuPopupItems() {
-		return Arrays.asList(new MenuPopup.MenuPopupItem(MenuConstants.SELECT_ALL) {
-					@Override
-					public void execute() {
-						selector.select(diagram.getGridElements());
-						propertiesPanel.setEnabled(false); //needs to be disabled, otherwise palette elements could be edited
-					}
-				}, new MenuPopup.MenuPopupItem(MenuConstants.COPY) {
-					@Override
-					public void execute() {
-						commandInvoker.copySelectedElements(DrawPanelPalette.this);
-					}
-				}
-		);
-	}
 
-	@Override
-	protected List<MenuPopup.MenuPopupItem> getStandardAdditionalElementMenuItems() {
-		return Arrays.asList();
-	}
 
 	private Diagram parsePalette(TextResource res) {
 		Diagram diagram = paletteCache.get(res);
@@ -119,26 +100,14 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
+
+
 	@Override
 	public void handleKeyDown(KeyDownEvent event) {
-
-		boolean avoidBrowserDefault = true;
-		if (Shortcut.DESELECT_ALL.matches(event)) {
+		if (Shortcut.SAVE.matches(event) && VersionChecker.isVsCodeVersion()) {
+			//skip
+		} else {
 			super.handleKeyDown(event);
-		} else if (Shortcut.SELECT_ALL.matches(event)) {
-			super.handleKeyDown(event);
-		} else if (Shortcut.COPY.matches(event)) {
-            super.handleKeyDown(event);
-        } else if (Shortcut.SAVE.matches(event)) {
-            super.handleKeyDown(event);
-		}
-		else {
-			avoidBrowserDefault = false;
-		}
-
-		// avoid browser default key handling for all overwritten keys, but not for others (like F5 for refresh or the zoom controls)
-		if (avoidBrowserDefault) {
-			event.preventDefault();
 		}
 	}
 
@@ -151,35 +120,34 @@ public class DrawPanelPalette extends DrawPanel {
 		otherDrawFocusPanel.selector.deselectAll(); //prevents selecting elements in both the diagram panel and palette
 		propertiesPanel.setGridElement(element, this); //grid element would be set by by super.onMouseDown, but is set to null by deselect all, therefore the reset here
 		for (GridElement original : selector.getSelectedElements()) {
-				draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
+			draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
 		}
 		draggingDisabled = false;
-		propertiesPanel.setEnabled(false); //Disable editing of elements in palette
 
 	}
 
 
-
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
-		//reset view if it was dragged out of bounds
-		if (selector.getAllElements().size() == 0) {
-			// todo: reset palette view to not be out-of-bounds
-		}
+		if (lastPoint.getX() < 0) { // mouse moved from palette to diagram -> insert elements to diagram
+			List<GridElement> elementsToMove = new ArrayList<GridElement>();
+			for (GridElement original : selector.getSelectedElements()) {
+				GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
+				int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
+				int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
+				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
 
-		//reset dragged elements to origin position, if they were actually moved
-		if (cursorWasMovedDuringDrag) {
-			List<GridElement> elementsToMove = ResetDraggedPaletteElements();
-			RemoveDiagramPreview();
-			if (lastPoint.getX() < 0 && resizeDirections.isEmpty()) { // mouse moved from palette to diagram -> insert elements to diagram
-
-				commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
-				propertiesPanel.setEnabled(true);
+				copy.setRectangle(SharedUtils.realignToGrid(copy.getRectangle(), false)); // realign location to grid (width and height should not be changed)
+				elementsToMove.add(copy);
 			}
+			Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
+			commandInvoker.removeSelectedElements(this);
+			commandInvoker.addElements(this, draggedElements);
+			selector.deselectAll();
+			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
 		}
-
 		draggedElements.clear();
-		//super.onMouseDragEnd(gridElement, lastPoint);
+		super.onMouseDragEnd(gridElement, lastPoint);
 
 	}
 
@@ -188,28 +156,6 @@ public class DrawPanelPalette extends DrawPanel {
 		super.onShowMenu(point);
 	}
 
-	/*
-	Resets the dragged elements from the palette to their original places and returns a copy of them
-	 */
-	public List<GridElement> ResetDraggedPaletteElements() {
-		List<GridElement> elementsToMove = new ArrayList<GridElement>();
-		for (GridElement original : selector.getSelectedElements()) {
-			GridElement copy = gridElementCopyInOtherDiagram(original);
-			elementsToMove.add(copy);
-		}
-		Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
-		commandInvoker.removeSelectedElements(this);
-		commandInvoker.addElements(this, draggedElements);
-		selector.deselectAll();
-		return elementsToMove;
-	}
-
-	private void RemoveDiagramPreview() {
-		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
-			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-			otherDrawDiagramFocusPanel.RemoveOldPreview();
-		}
-	}
 
 	private GridElement gridElementCopyInOtherDiagram(GridElement original) {
 		GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
@@ -233,40 +179,55 @@ public class DrawPanelPalette extends DrawPanel {
 	}
 
 	private GridElement lastDraggedGridElement;
+
 	@Override
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
 		lastDraggedGridElement = draggedGridElement;
 		if (!draggingDisabled) {
-			if (diffX != 0 || diffY != 0) {
+			if (diffX != 0 || diffY != 0)
+			{
 				cursorWasMovedDuringDrag = true;
-			}
-			if (draggedGridElement == null) {
-				return; //do not allow left click dragging of entire diagram, can be done with middle mouse
 			}
 			if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 				stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 			}
 			if (isCtrlKeyDown) {
 				return; // TODO implement Lasso
-			} else if (resizeDirections.isEmpty()) { // dont do anything if resizing is active, elements should not be resizeable in the palette itself
+			} else if (!resizeDirections.isEmpty()) {
+				draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+				List<GridElement> draggedGridElementAsList = new ArrayList<>();
+				draggedGridElementAsList.add(draggedGridElement);
+				handlePreviewDisplayInstantiated(dragStart, diffX, diffY, isShiftKeyDown, firstDrag, draggedGridElementAsList);
+			} // if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
+			else if (selector.getSelectedElements().size() == 1) {
+				draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+				List<GridElement> draggedGridElementAsList = new ArrayList<>();
+				draggedGridElementAsList.add(draggedGridElement);
+				handlePreviewDisplayInstantiated(dragStart, diffX, diffY, isShiftKeyDown, firstDrag, draggedGridElementAsList);
+			}
+			else { // if != 1 elements are selected, move them
 				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
 				handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 			}
+
+
+
 			//stop drag if element is dragged to properties panel
-			if(dragStart.getY()+diffY-scrollPanel.getVerticalScrollPosition() > getVisibleBounds().height && !(dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0)) {
+			if (dragStart.getY() + diffY - scrollPanel.getVerticalScrollPosition() > getVisibleBounds().height && !(dragStart.getX() + diffX + -scrollPanel.getHorizontalScrollPosition() <= 0)) {
 				CancelDrag(dragStart, diffX, diffY, draggedGridElement);
 			}
 			redraw(false);
 		}
 	}
 
-	public void CancelDragNoDuplicate() { //Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
+	public void CancelDragNoDuplicate() //Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
+	{
 		if (!draggingDisabled && lastDraggedGridElement != null) {
 			List<GridElement> lastDraggedGridElementAsList;
 			lastDraggedGridElementAsList = new ArrayList();
 			lastDraggedGridElementAsList.add(lastDraggedGridElement);
 			removeGridElements(lastDraggedGridElementAsList);
-			CancelDrag(new Point(0,0), 0, 0, lastDraggedGridElement);
+			CancelDrag(new Point(0, 0), 0, 0, lastDraggedGridElement);
 		}
 	}
 
@@ -275,20 +236,37 @@ public class DrawPanelPalette extends DrawPanel {
 		draggingDisabled = true;
 	}
 
+	private void handlePreviewDisplayInstantiated(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag, List<GridElement> elementsToPreview) {
+		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
+			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
+			if (dragStart.getX() + diffX + -scrollPanel.getHorizontalScrollPosition() <= 0) {
+				List<GridElement> elementsToMove = new ArrayList<GridElement>();
+				for (GridElement e : elementsToPreview) {
+					elementsToMove.add(gridElementCopyInOtherDiagram(e));
+				}
+				otherDrawDiagramFocusPanel.setDisplayingPreviewElementInstantiated(elementsToMove);
+			} else {
+				//if cursor is dragged back, preview must be removed
+				otherDrawDiagramFocusPanel.RemoveOldPreview();
+			}
+		}
+
+
+	}
+
 	private void handlePreviewDisplay(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
 		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
 			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-			if (dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0)	{
+			if (dragStart.getX() + diffX + -scrollPanel.getHorizontalScrollPosition() <= 0) {
 				if (!otherDrawDiagramFocusPanel.currentlyDisplayingPreview()) {
 					List<GridElement> elementsToMove = new ArrayList<GridElement>();
-					for (GridElement e:selector.getSelectedElements() ) {
+					for (GridElement e : selector.getSelectedElements()) {
 						elementsToMove.add(gridElementCopyInOtherDiagram(e));
 					}
-					otherDrawDiagramFocusPanel.InitializeDisplayingPreviewElements (elementsToMove);
+					otherDrawDiagramFocusPanel.InitializeDisplayingPreviewElements(elementsToMove);
 				} else {
 					otherDrawDiagramFocusPanel.UpdateDisplayingPreviewElements(diffX, diffY, firstDrag);
 				}
-
 			} else {
 				//if cursor is dragged back, preview must be removed
 				otherDrawDiagramFocusPanel.RemoveOldPreview();
@@ -299,22 +277,20 @@ public class DrawPanelPalette extends DrawPanel {
 	}
 
 
-
-
 	@Override
 	protected StickableMap getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
 		// Moves at the palette NEVER stick
 		return StickableMap.EMPTY_MAP;
 	}
 
-    @Override
-    public void onThemeChange() {
-        super.onThemeChange();
-        Element option = this.paletteChooser.getElement().getFirstChildElement();
-        // We need to restyle all options in palette selector
-        while (option != null && option.getTagName().equals("OPTION")) {
-            option.getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_DOCUMENT_BACKGROUND)).value());
-            option = option.getNextSiblingElement();
-        }
-    }
+	@Override
+	public void onThemeChange() {
+		super.onThemeChange();
+		Element option = this.paletteChooser.getElement().getFirstChildElement();
+		// We need to restyle all options in palette selector
+		while (option != null && option.getTagName().equals("OPTION")) {
+			option.getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_DOCUMENT_BACKGROUND)).value());
+			option = option.getNextSiblingElement();
+		}
+	}
 }
