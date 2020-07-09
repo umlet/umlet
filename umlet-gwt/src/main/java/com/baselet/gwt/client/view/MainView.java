@@ -65,14 +65,14 @@ public class MainView extends Composite implements ThemeChangeListener {
 	@UiField
 	FocusPanel mainPanel;
 
-	@UiField(provided = true)
-	SplitLayoutPanel diagramPaletteSplitter = new SplitLayoutPanel(4) {
-		@Override
-		public void onResize() {
-			super.onResize();
-			updateNotificationPosition();
-		}
-	};
+    @UiField(provided = true)
+    protected SplitLayoutPanel diagramPaletteSplitter = new SplitLayoutPanel(4) {
+        @Override
+        public void onResize() {
+            super.onResize();
+            updateNotificationPosition();
+        }
+    };
 
 	@UiField
 	FlowPanel menuPanel;
@@ -159,9 +159,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		if (VersionChecker.GetVersion() == Version.VSCODE) {
-			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
-		}
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
 		diagramPaletteSplitter.setWidgetSnapClosedSize(palettePropertiesSplitter, 100);
 		diagramPaletteSplitter.setWidgetMinSize(palettePropertiesSplitter, 200);

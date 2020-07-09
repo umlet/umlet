@@ -5,6 +5,10 @@
     <inherits name='baseletgwt' />
     <inherits name="com.VSCode" />
 
+    <replace-with class="com.vscode.gwt.client.view.VsCodeMainView">
+        <when-type-is class="com.baselet.gwt.client.view.MainView"/>
+    </replace-with>
+
     <replace-with class="com.vscode.gwt.client.logging.VsCodeLogger">
         <when-type-is class="com.baselet.gwt.client.logging.GWTLogger"/>
     </replace-with>
