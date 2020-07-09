@@ -30,6 +30,7 @@ import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.clipboard.ClipboardShortcutWrapper;
 import com.baselet.gwt.client.element.DiagramGwt;
+import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.file.FileChangeNotifier;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
@@ -88,6 +89,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	private Boolean focus = false;
 
 	private final FileChangeNotifier fileChangeNotifier;
+	private String lastDiagramXMLState;
 
 	@Override
 	public void setFocus(boolean focus) {
@@ -315,7 +317,12 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());
 		}
 		canvas.draw(true, gridElements, selector);
-		handleFileUpdate();
+
+		String newDiagramXMLState = DiagramXmlParser.diagramToXml(getDiagram());
+		if(lastDiagramXMLState != null && !lastDiagramXMLState.equals(newDiagramXMLState)) {
+			handleFileUpdate(newDiagramXMLState);
+		}
+		lastDiagramXMLState = newDiagramXMLState;
 	}
 
 	@Override
@@ -353,14 +360,14 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	public void addGridElements(List<GridElement> elements) {
 		diagram.getGridElements().addAll(elements);
 		selector.selectOnly(elements);
-		handleFileUpdate();
+		handleFileUpdate(DiagramXmlParser.diagramToXml(getDiagram()));
 	}
 
 	@Override
 	public void removeGridElements(List<GridElement> elements) {
 		diagram.getGridElements().removeAll(elements);
 		selector.deselect(elements);
-		handleFileUpdate();
+		handleFileUpdate(DiagramXmlParser.diagramToXml(getDiagram()));
 	}
 
 	@Override
@@ -600,10 +607,10 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		elementContextMenu = new MenuPopup(elementItems);
 	}
 
-	private void handleFileUpdate() {
+	private void handleFileUpdate(String diagramXMLState) {
 		// We only save diagram states of DrawPanelDiagram
 		if (this instanceof DrawPanelDiagram) {
-			fileChangeNotifier.notifyFileChange(getDiagram());
+			fileChangeNotifier.notifyFileChange(diagramXMLState);
 		}
 	}
 }
