@@ -6,7 +6,6 @@ import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
-import com.baselet.gwt.client.view.VersionChecker.Version;
 import com.baselet.gwt.client.view.commands.SaveCommand;
 import com.baselet.gwt.client.view.utils.StartupDiagramLoader;
 import com.google.gwt.dom.client.DivElement;
