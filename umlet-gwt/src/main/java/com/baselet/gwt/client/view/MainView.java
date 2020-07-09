@@ -6,14 +6,11 @@ import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
-import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import com.baselet.gwt.client.view.commands.SaveCommand;
 import com.baselet.gwt.client.view.utils.StartupDiagramLoader;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.ui.impl.PopupImpl;
-import com.google.gwt.user.client.ui.impl.PopupImplMozilla;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.control.config.SharedConfig;
@@ -127,10 +124,12 @@ public class MainView extends Composite implements ThemeChangeListener {
 
     private final SaveCommand saveCommand;
 
-	private final ScheduledCommand exportToDropbox = new ScheduledCommand() {
-		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
-			@Override
-			public void callback(final String chosenName) {
+    private final DownloadPopupPanel popupPanel;
+
+    private final ScheduledCommand exportToDropbox = new ScheduledCommand() {
+        private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
+            @Override
+            public void callback(final String chosenName) {
 
 				String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, false, diagramPanel.getDiagram());
 				dropboxInt.openDropboxExport(uxfUrl, chosenName);
@@ -157,16 +156,11 @@ public class MainView extends Composite implements ThemeChangeListener {
         return saveCommand;
     }
 
-    private  void vsCodeLoadCopyPasteMessageHandlers() {
-        VsCodeClipboardManager.hookUpClipboardManagerToVsCode();
-    }
-
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		if (VersionChecker.GetVersion() == Version.VSCODE) {
 			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
-			//this.vsCodeLoadCopyPasteMessageHandlers();
 		}
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
 		diagramPaletteSplitter.setWidgetSnapClosedSize(palettePropertiesSplitter, 100);
@@ -176,11 +170,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
 		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
-		if (VersionChecker.GetVersion() == Version.VSCODE)
-        {
-            //VsCodeClipboardManager.setDiagramPanel((DrawPanelDiagram) diagramPanel);
-        }
-
 		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
 		diagramPanel.setOtherDrawFocusPanel(palettePanel);
 		palettePanel.setOtherDrawFocusPanel(diagramPanel);
@@ -238,6 +227,8 @@ public class MainView extends Composite implements ThemeChangeListener {
 		}
 		onThemeChange();
 		loadStartupDiagram();
+        popupPanel = GWT.create(DownloadPopupPanel.class);
+        popupPanel.init(diagramPanel);
 	}
 
     public void addRestoreMenuItem(final String chosenName) {
@@ -282,17 +273,15 @@ public class MainView extends Composite implements ThemeChangeListener {
 		initialiseExportDialog();
 	}
 
-	public void initialiseExportDialog() {
-		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagramPanel.getDiagram());
-		log.info("Exporting: " + uxfUrl);
-		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
-		new DownloadPopupPanel(uxfUrl, pngUrl, diagramPanel.getDiagram(), lastExportFilename).center();
-	}
-
 	@UiHandler("importDropboxMenuItem")
 	void onImportDropboxMenuItemClick(ClickEvent event) {
 		dropboxInt.openDropboxImport();
 	}
+
+    public void initialiseExportDialog() {
+        popupPanel.prepare(lastExportFilename);
+        popupPanel.center();
+    }
 
 	@UiHandler("exportDropboxMenuItem")
 	void onExportDropboxMenuItemClick(ClickEvent event) {

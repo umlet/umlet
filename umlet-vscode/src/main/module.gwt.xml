@@ -16,4 +16,8 @@
     <replace-with class="com.vscode.gwt.client.clipboard.VsCodeClipboard">
         <when-type-is class="com.baselet.gwt.client.clipboard.ClipboardStorage"/>
     </replace-with>
+
+    <replace-with class="com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel">
+        <when-type-is class="com.baselet.gwt.client.view.widgets.DownloadPopupPanel"/>
+    </replace-with>
 </module>
