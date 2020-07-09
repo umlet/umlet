@@ -20,4 +20,8 @@
     <replace-with class="com.web.gwt.client.view.widgets.WebDownloadPopupPanel">
         <when-type-is class="com.baselet.gwt.client.view.widgets.DownloadPopupPanel"/>
     </replace-with>
+
+    <replace-with class="com.web.gwt.client.file.WebFileChangeNotifier">
+        <when-type-is class="com.baselet.gwt.client.file.FileChangeNotifier"/>
+    </replace-with>
 </module>
