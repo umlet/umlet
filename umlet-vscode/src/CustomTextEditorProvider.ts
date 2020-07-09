@@ -25,10 +25,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
   private outputChannel: vscode.OutputChannel;
 
-
-
-
-
+  private lastFileUpdate: String | null = null;
 
   public static register(context: vscode.ExtensionContext): vscode.Disposable {
 
@@ -197,6 +194,12 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
   UpdateCurrentFile(fileContent: string, document: vscode.TextDocument) {
     lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
     console.log("lastChangeTriggeredByUri set to: " + lastChangeTriggeredByUri)
+    if (this.lastFileUpdate === null || this.lastFileUpdate === fileContent) {
+      // Nothing has changed or it is the first update on file load
+      this.lastFileUpdate = fileContent;
+      return;
+    }
+    this.lastFileUpdate = fileContent;
     const edit = new vscode.WorkspaceEdit();
 
     edit.replace(

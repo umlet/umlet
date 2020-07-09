@@ -30,11 +30,6 @@ public class PropertiesTextArea extends MySuggestBox {
 					gridElement.setPanelAttributes(getValue());
 				}
 				activePanel.redraw();
-				//Update the file-in progress for vscode on any value changes
-				if(activePanel instanceof DrawPanelDiagram)
-				{
-					((DrawPanelDiagram) activePanel).handleVSCodeFileUpdate();
-				}
 			}
 		});
 	}

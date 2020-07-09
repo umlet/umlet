@@ -30,6 +30,7 @@ import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.clipboard.ClipboardShortcutWrapper;
 import com.baselet.gwt.client.element.DiagramGwt;
+import com.baselet.gwt.client.file.FileChangeNotifier;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
@@ -85,6 +86,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	private Boolean focus = false;
+
+	private final FileChangeNotifier fileChangeNotifier;
 
 	@Override
 	public void setFocus(boolean focus) {
@@ -180,6 +183,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		this.add(canvas.getWidget());
 
 		clipboardShortcutWrapper = GWT.create(ClipboardShortcutWrapper.class);
+		fileChangeNotifier = GWT.create(FileChangeNotifier.class);
 
 		ThemeFactory.addListener(this);
 	}
@@ -311,6 +315,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());
 		}
 		canvas.draw(true, gridElements, selector);
+		handleFileUpdate();
 	}
 
 	@Override
@@ -348,12 +353,14 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	public void addGridElements(List<GridElement> elements) {
 		diagram.getGridElements().addAll(elements);
 		selector.selectOnly(elements);
+		handleFileUpdate();
 	}
 
 	@Override
 	public void removeGridElements(List<GridElement> elements) {
 		diagram.getGridElements().removeAll(elements);
 		selector.deselect(elements);
+		handleFileUpdate();
 	}
 
 	@Override
@@ -591,5 +598,12 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		elementItems.addAll(getStandardAdditionalElementMenuItems());
 		diagramContextMenu = new MenuPopup(diagramItems);
 		elementContextMenu = new MenuPopup(elementItems);
+	}
+
+	private void handleFileUpdate() {
+		// We only save diagram states of DrawPanelDiagram
+		if (this instanceof DrawPanelDiagram) {
+			fileChangeNotifier.notifyFileChange(getDiagram());
+		}
 	}
 }

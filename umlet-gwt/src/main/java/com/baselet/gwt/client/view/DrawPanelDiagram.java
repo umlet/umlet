@@ -1,23 +1,14 @@
 package com.baselet.gwt.client.view;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.control.enums.Direction;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.element.sticking.StickableMap;
-import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
-import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.user.client.ui.Grid;
-
 
 public class DrawPanelDiagram extends DrawPanel {
     private List<GridElement> currentPreviewElementsInstantiated;
@@ -57,14 +48,6 @@ public class DrawPanelDiagram extends DrawPanel {
         if (previewElements != null)
             this.addGridElementsDontNotifyUpdate(previewElements);
         this.currentPreviewElementsInstantiated = previewElements;
-    }
-
-    @Override
-    public void handleKeyDown(KeyDownEvent event) {
-        super.handleKeyDown(event);
-        if (Shortcut.MOVE_UP.matches(event) || Shortcut.MOVE_DOWN.matches(event) || Shortcut.MOVE_LEFT.matches(event) || Shortcut.MOVE_RIGHT.matches(event)) {
-            handleVSCodeFileUpdate();
-        }
     }
 
     //for multiple
@@ -122,49 +105,11 @@ public class DrawPanelDiagram extends DrawPanel {
             return true;
     }
 
-    //Whenever elements are updated (added, moved/deformed, removed, edited in the properties panel), visual studio code must be informed and update with the newest file
-    @Override
-    public void addGridElements(List<GridElement> elements) {
-        super.addGridElements(elements);
-        handleVSCodeFileUpdate();
-    }
-
     public void addGridElementsDontNotifyUpdate(List<GridElement> elements) {
         super.addGridElements(elements);
-    }
-
-
-
-    @Override
-    public void removeGridElements(List<GridElement> elements) {
-        super.removeGridElements(elements);
-        handleVSCodeFileUpdate();
     }
 
     public void removeGridElementsDontNotifyUpdate(List<GridElement> elements) {
         super.removeGridElements(elements);
     }
-
-    @Override
-    public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
-        super.onMouseDragEnd(gridElement, lastPoint);
-        if (cursorWasMovedDuringDrag)
-            handleVSCodeFileUpdate();
-    }
-
-    //sends the current diagram file to vscode, also called when properties change
-    public void handleVSCodeFileUpdate() {
-        if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
-            String uxfUrl = DiagramXmlParser.diagramToXml(getDiagram());
-            updateDiagramVSCode(uxfUrl);
-        }
-    }
-
-    public static native void updateDiagramVSCode(String msg) /*-{
-        window.parent.vscode.postMessage({
-            command: 'updateFiledataUxf',
-            text: msg
-        });
-    }-*/;
-
 }
