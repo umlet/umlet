@@ -55,7 +55,7 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 				@Override
 				public void onSuccess() {
 					Notification.showInfo("");
-					RootLayoutPanel.get().add(new MainView());
+					RootLayoutPanel.get().add(GWT.create(MainView.class));
 				}
 
 				@Override
