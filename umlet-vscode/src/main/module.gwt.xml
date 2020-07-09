@@ -20,4 +20,8 @@
     <replace-with class="com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel">
         <when-type-is class="com.baselet.gwt.client.view.widgets.DownloadPopupPanel"/>
     </replace-with>
+
+    <replace-with class="com.vscode.gwt.client.file.VsCodeFileChangeNotifier">
+        <when-type-is class="com.baselet.gwt.client.file.FileChangeNotifier"/>
+    </replace-with>
 </module>
