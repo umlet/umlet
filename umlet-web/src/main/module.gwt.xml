@@ -16,4 +16,8 @@
     <replace-with class="com.web.gwt.client.clipboard.WebClipboardShortcutWrapper">
         <when-type-is class="com.baselet.gwt.client.clipboard.ClipboardShortcutWrapper"/>
     </replace-with>
+
+    <replace-with class="com.web.gwt.client.view.widgets.WebDownloadPopupPanel">
+        <when-type-is class="com.baselet.gwt.client.view.widgets.DownloadPopupPanel"/>
+    </replace-with>
 </module>
