@@ -12,7 +12,6 @@ import {
 import * as path from 'path';
 import fs = require('fs');
 
-var globalContext: vscode.ExtensionContext;
 var nextUmletEditorId = 0; //used to assign ids to each text editor
 var initialSwapWasAlreadySkipped = false; //used to prevent instant disabling of a newly created tab by another tab which would overwrite the currentlyActivePanel to null because it deactivates after the new panel is created
 
@@ -30,21 +29,152 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
   public static register(context: vscode.ExtensionContext): vscode.Disposable {
 
     const provider = new UmletEditorProvider(context);
-    globalContext = context;
-
-
-
-
-
-
-
-    provider.consoleLog('asdasd');
-    context.subscriptions.push(clipboardCopyDisposable);
-    context.subscriptions.push(clipboardPasteDisposable);
-    provider.consoleLog('asdasd');
+    
+    this.overrideVsCodeCommands(context);
 
     const providerRegistration = vscode.window.registerCustomEditorProvider(UmletEditorProvider.viewType, provider);
     return providerRegistration;
+  }
+
+  /*
+  Overrides multiple vscode commands like copy and paste so they can be intercepted
+
+  Select all for webviews is also intercepted so it can be disabled in umlet since it would select the property panel
+  */
+  private static overrideVsCodeCommands(context: vscode.ExtensionContext) {
+    //COPY
+    //override the editor.action.clipboardCopyAction with our own
+    var clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
+    context.subscriptions.push(clipboardCopyDisposable);
+    /*
+     * Function that overrides the default copy behavior. We get the selection and use it, dispose of this registered
+     * command (returning to the default editor.action.clipboardCopyAction), invoke the default one, and then re-register it after the default completes
+     */
+    function overriddenClipboardCopyAction(textEditor: any, edit: any, params: any) {
+
+      //debug
+      //Write to output.
+      console.log("Copy registered");
+      //dispose of the overridden editor.action.clipboardCopyAction- back to default copy behavior
+      clipboardCopyDisposable.dispose();
+
+
+      //execute the default editor.action.clipboardCopyAction to copy
+      vscode.commands.executeCommand("editor.action.clipboardCopyAction").then(function () {
+
+        console.log("After Copy");
+        if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+          console.log("MESSAGE Copy");
+          currentlyActivePanel?.webview.postMessage({ command: 'copy' });
+        }
+
+        //add the overridden editor.action.clipboardCopyAction back
+        clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
+
+        //complains about globalConext beeing undefined, not needed? seems to work fine without
+        context.subscriptions.push(clipboardCopyDisposable);
+      });
+    }
+
+    //PASTE
+    //override the editor.action.clipboardPasteAction with our own
+    var clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
+    context.subscriptions.push(clipboardPasteDisposable);
+    /*
+     * Function that overrides the default paste behavior. We get the selection and use it, dispose of this registered
+     * command (returning to the default editor.action.clipboardPasteAction), invoke the default one, and then re-register it after the default completes
+     */
+    function overriddenClipboardPasteAction(textEditor: any, edit: any, params: any) {
+
+      //debug
+      //Write to output.
+      console.log("Paste registered");
+      //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
+      clipboardPasteDisposable.dispose();
+
+
+
+      //execute the default editor.action.clipboardPasteAction to paste
+      vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
+
+        console.log("After Paste");
+        if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+          vscode.env.clipboard.readText().then((text) => {
+            let clipboard_content = text;
+            console.log("MESSAGE Paste, content is:" + clipboard_content);
+            currentlyActivePanel?.webview.postMessage({
+              command: 'paste',
+              text: clipboard_content
+            });
+          });
+
+        }
+        //add the overridden editor.action.clipboardPasteAction back
+        clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
+
+
+        //complains about globalConext beeing undefined, not needed? seems to work fine without
+        context.subscriptions.push(clipboardPasteDisposable);
+      });
+    }
+
+    //CUT
+    //override the editor.action.clipboardCutDisposable with our own
+    var clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
+    context.subscriptions.push(clipboardCutDisposable);
+    /*
+     * Function that overrides the default paste behavior. We get the selection and use it, dispose of this registered
+     * command (returning to the default editor.action.clipboardPasteAction), invoke the default one, and then re-register it after the default completes
+     */
+    function overriddenClipboardCutAction(textEditor: any, edit: any, params: any) {
+
+      //debug
+      //Write to output.
+      console.log("Cut registered");
+      //dispose of the overridden editor.action.clipboardCutAction- back to default cut behavior
+      clipboardCutDisposable.dispose();
+
+
+
+      //execute the default editor.action.clipboardCutAction to cut
+      vscode.commands.executeCommand("editor.action.clipboardCutAction").then(function () {
+
+        console.log("After Cut");
+        if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+          console.log("MESSAGE Cut");
+          currentlyActivePanel?.webview.postMessage({ command: 'cut' });
+        }
+        //add the overridden editor.action.clipboardCutAction back
+        clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
+
+
+        context.subscriptions.push(clipboardCutDisposable);
+      });
+    }
+
+    //SELECT ALL
+    //overwrite so that strg+a does not select any text in vs code
+    var selectAllDisposable = vscode.commands.registerCommand('editor.action.webvieweditor.selectAll', overriddenSelectAllAction);
+    context.subscriptions.push(selectAllDisposable);
+    /*
+     * Function that overrides the default select all behavior. We get the selection and use it, dispose of this registered
+     * command (returning to the default editor.action.webvieweditor.selectAll), invoke the default one, and then re-register it after the default completes
+     */
+    function overriddenSelectAllAction(textEditor: any, edit: any, params: any) {
+      //dispose of the overridden editor.action.clipboardCutAction- back to default cut behavior
+      selectAllDisposable.dispose();
+
+      //execute the default editor.action.webvieweditor.selectAll to cut
+      if (!currentlyActivePanel) {
+        vscode.commands.executeCommand("editor.action.webvieweditor.selectAll");
+      }
+
+      //add the overridden editor.action.webvieweditor.selectAll back
+      selectAllDisposable = vscode.commands.registerCommand('editor.action.webvieweditor.selectAll', overriddenSelectAllAction);
+      //set the subscription again so vscode can clean it up properly
+      context.subscriptions.push(selectAllDisposable);
+
+    }
   }
 
   constructor(
@@ -114,15 +244,15 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
     //whenever the .uxf file is changed (for example throough a text editor in vs code), these changes shoule be reflected in umlet
     const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
-      console.log("text document changed!, last change  uri:" + lastChangeTriggeredByUri +  "       " + e.document.uri.toString() + "     " + document.uri.toString());
-      
+      console.log("text document changed!, last change  uri:" + lastChangeTriggeredByUri + "       " + e.document.uri.toString() + "     " + document.uri.toString());
+
       //everytime something is changed by the gwt application, lastChangeTriggeredByUri will be set to the according document uri. 
       //this is used to avoid a reset when the last change came directly from the gwt application, which would de-select current elements
       //currentlyActivePanel has to be checked, otherwise this will only be triggered for the first opened editor. we only want it on the active
       if (lastChangeTriggeredByUri === document.uri.toString() && webviewPanel === currentlyActivePanel) {
         console.log("last change came from the gwt application");
         lastChangeTriggeredByUri = "";
-      }  else {
+      } else {
         //only trigger for right document
         if (e.document.uri.toString() === document.uri.toString()) {
           console.log("match text change");
@@ -132,8 +262,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
           });
         }
       }
-			
-		});
+
+    });
 
     webviewPanel.webview.options = {
       enableScripts: true,
@@ -337,135 +467,15 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 //vscode.commands.executeCommand('setContext', 'textInputFocus', true);
 
 
-//override the editor.action.clipboardCopyAction with our own
-var clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
-/*
- * Function that overrides the default copy behavior. We get the selection and use it, dispose of this registered
- * command (returning to the default editor.action.clipboardCopyAction), invoke the default one, and then re-register it after the default completes
- */
-function overriddenClipboardCopyAction(textEditor: any, edit: any, params: any) {
-
-  //debug
-  //Write to output.
-  console.log("Copy registered");
-  //dispose of the overridden editor.action.clipboardCopyAction- back to default copy behavior
-  clipboardCopyDisposable.dispose();
-
-
-  //execute the default editor.action.clipboardCopyAction to copy
-  vscode.commands.executeCommand("editor.action.clipboardCopyAction").then(function () {
-
-    console.log("After Copy");
-    if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
-      console.log("MESSAGE Copy");
-      currentlyActivePanel?.webview.postMessage({ command: 'copy' });
-    }
-
-    //add the overridden editor.action.clipboardCopyAction back
-    clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
-
-    //complains about globalConext beeing undefined, not needed? seems to work fine without
-    //globalContext.subscriptions.push(clipboardCopyDisposable);
-  });
-}
-
-//override the editor.action.clipboardPasteAction with our own
-var clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
-/*
- * Function that overrides the default paste behavior. We get the selection and use it, dispose of this registered
- * command (returning to the default editor.action.clipboardPasteAction), invoke the default one, and then re-register it after the default completes
- */
-function overriddenClipboardPasteAction(textEditor: any, edit: any, params: any) {
-
-  //debug
-  //Write to output.
-  console.log("Paste registered");
-  //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
-  clipboardPasteDisposable.dispose();
 
 
 
-  //execute the default editor.action.clipboardPasteAction to paste
-  vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
-
-    console.log("After Paste");
-    if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
-      vscode.env.clipboard.readText().then((text) => {
-        let clipboard_content = text;
-        console.log("MESSAGE Paste, content is:" + clipboard_content);
-        currentlyActivePanel?.webview.postMessage({
-          command: 'paste',
-          text: clipboard_content
-        });
-      });
-
-    }
-    //add the overridden editor.action.clipboardPasteAction back
-    clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
-
-
-    //complains about globalConext beeing undefined, not needed? seems to work fine without
-    //globalContext.subscriptions.push(clipboardPasteDisposable);
-  });
-}
-
-
-//override the editor.action.clipboardCutDisposable with our own
-var clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
-/*
- * Function that overrides the default paste behavior. We get the selection and use it, dispose of this registered
- * command (returning to the default editor.action.clipboardPasteAction), invoke the default one, and then re-register it after the default completes
- */
-function overriddenClipboardCutAction(textEditor: any, edit: any, params: any) {
-
-  //debug
-  //Write to output.
-  console.log("Cut registered");
-  //dispose of the overridden editor.action.clipboardCutAction- back to default cut behavior
-  clipboardCutDisposable.dispose();
 
 
 
-  //execute the default editor.action.clipboardCutAction to cut
-  vscode.commands.executeCommand("editor.action.clipboardCutAction").then(function () {
-
-    console.log("After Cut");
-    if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
-      console.log("MESSAGE Cut");
-      currentlyActivePanel?.webview.postMessage({ command: 'cut' });
-    }
-    //add the overridden editor.action.clipboardCutAction back
-    clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
 
 
-    //complains about globalConext beeing undefined, not needed? seems to work fine without
-    //globalContext.subscriptions.push(clipboardPasteDisposable);
-  });
-}
 
-
-//overwrite so that strg+a does not select any text in vs code
-var selectAllDisposable = vscode.commands.registerCommand('editor.action.webvieweditor.selectAll', overriddenSelectAllAction);
-/*
- * Function that overrides the default select all behavior. We get the selection and use it, dispose of this registered
- * command (returning to the default editor.action.webvieweditor.selectAll), invoke the default one, and then re-register it after the default completes
- */
-function overriddenSelectAllAction(textEditor: any, edit: any, params: any) {
-  //dispose of the overridden editor.action.clipboardCutAction- back to default cut behavior
-  selectAllDisposable.dispose();
-
-  //execute the default editor.action.webvieweditor.selectAll to cut
-  if (!currentlyActivePanel)
-  {
-    vscode.commands.executeCommand("editor.action.webvieweditor.selectAll");
-  }
-
-  //add the overridden editor.action.webvieweditor.selectAll back
-  selectAllDisposable = vscode.commands.registerCommand('editor.action.webvieweditor.selectAll', overriddenSelectAllAction);
-    //complains about globalConext beeing undefined, not needed? seems to work fine without
-    //globalContext.subscriptions.push(clipboardPasteDisposable);
-  
-}
 
 
 
