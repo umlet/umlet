@@ -50,7 +50,6 @@ class UmletEditorProvider {
                 }
                 //add the overridden editor.action.clipboardCopyAction back
                 clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
-                //complains about globalConext beeing undefined, not needed? seems to work fine without
                 context.subscriptions.push(clipboardCopyDisposable);
             });
         }
@@ -83,7 +82,6 @@ class UmletEditorProvider {
                 }
                 //add the overridden editor.action.clipboardPasteAction back
                 clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
-                //complains about globalConext beeing undefined, not needed? seems to work fine without
                 context.subscriptions.push(clipboardPasteDisposable);
             });
         }
