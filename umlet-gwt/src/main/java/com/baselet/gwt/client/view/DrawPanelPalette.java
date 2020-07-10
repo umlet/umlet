@@ -19,6 +19,8 @@ import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
@@ -32,6 +34,7 @@ import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class DrawPanelPalette extends DrawPanel {
+
 
 	private static final List<TextResource> PALETTELIST = Arrays.asList(
 			Resources.INSTANCE.UML_Common_Elements(),
@@ -137,6 +140,11 @@ public class DrawPanelPalette extends DrawPanel {
 			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
 		}
 		draggedElements.clear();
+
+		//clear preview object
+		if (otherDrawFocusPanel instanceof  DrawPanelDiagram)
+			((DrawPanelDiagram) otherDrawFocusPanel).RemoveOldPreview();
+
 		super.onMouseDragEnd(gridElement, lastPoint);
 
 	}

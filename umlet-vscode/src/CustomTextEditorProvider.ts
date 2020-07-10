@@ -29,7 +29,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
   public static register(context: vscode.ExtensionContext): vscode.Disposable {
 
     const provider = new UmletEditorProvider(context);
-    
+
     this.overrideVsCodeCommands(context);
 
     const providerRegistration = vscode.window.registerCustomEditorProvider(UmletEditorProvider.viewType, provider);
@@ -71,7 +71,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         //add the overridden editor.action.clipboardCopyAction back
         clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
 
-        //complains about globalConext beeing undefined, not needed? seems to work fine without
         context.subscriptions.push(clipboardCopyDisposable);
       });
     }
@@ -112,8 +111,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         //add the overridden editor.action.clipboardPasteAction back
         clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
 
-
-        //complains about globalConext beeing undefined, not needed? seems to work fine without
         context.subscriptions.push(clipboardPasteDisposable);
       });
     }
