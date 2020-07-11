@@ -23,25 +23,15 @@ let lastChangeTriggeredByUri = ""; //whenever a document change is triggered by 
 export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
   private outputChannel: vscode.OutputChannel;
-
-  private lastFileUpdate: String | null = null;
-
-  public static register(context: vscode.ExtensionContext): vscode.Disposable {
-
-    const provider = new UmletEditorProvider(context);
-
-    this.overrideVsCodeCommands(context);
-
-    const providerRegistration = vscode.window.registerCustomEditorProvider(UmletEditorProvider.viewType, provider);
-    return providerRegistration;
-  }
+  
 
   /*
   Overrides multiple vscode commands like copy and paste so they can be intercepted
 
   Select all for webviews is also intercepted so it can be disabled in umlet since it would select the property panel
   */
-  private static overrideVsCodeCommands(context: vscode.ExtensionContext) {
+  public static overrideVsCodeCommands(context: vscode.ExtensionContext) {
+    console.log("Overriding commands....");
     //COPY
     //override the editor.action.clipboardCopyAction with our own
     var clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
