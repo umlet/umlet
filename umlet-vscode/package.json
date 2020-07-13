@@ -2,7 +2,7 @@
 	"name": "umlet",
 	"displayName": "UMLet",
 	"description": "Free UML Tool for Fast UML Diagrams",
-	"version": "0.0.15",
+	"version": "0.0.18",
 	"publisher": "theumletteam",
 	"author": {
 		"name": "The UMLet Team"
@@ -74,26 +74,6 @@
 				}
 			]
 		},
-		"keybindings": [
-			{
-				"command": "umlet.executeCopy",
-				"key": "ctrl+c",
-				"mac": "cmd+c",
-				"when": "myWebviewFocused"
-			},
-			{
-				"command": "umlet.executePaste",
-				"key": "ctrl+v",
-				"mac": "cmd+v",
-				"when": "myWebviewFocused"
-			},
-			{
-				"command": "umlet.executeCut",
-				"key": "ctrl+x",
-				"mac": "cmd+x",
-				"when": "myWebviewFocused"
-			}
-		],
 		"customEditors": [
 			{
 				"viewType": "uxfCustoms.umletEditor",

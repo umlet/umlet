@@ -94,6 +94,7 @@ function createUmletCommands(context: vscode.ExtensionContext) {
     return ("" + yyyy + "-" + mm + "-" + dd + " " + hh + "-" + mins + "-" + ss );
   }
 
+  /*
   //keyboard commands for copy paste cut
   //copy
   const commandHandlerKeyboardCopy = () => {
@@ -130,4 +131,5 @@ function createUmletCommands(context: vscode.ExtensionContext) {
     }
   };
   context.subscriptions.push(vscode.commands.registerCommand('umlet.executeCut', commandHandlerKeyboardCut));
+  */
 }
