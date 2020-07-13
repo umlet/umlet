@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const vscode = require("vscode");
 const path = require("path");
 const fs = require("fs");
-var nextUmletEditorId = 0; //used to assign ids to each text editor
-var initialSwapWasAlreadySkipped = false; //used to prevent instant disabling of a newly created tab by another tab which would overwrite the currentlyActivePanel to null because it deactivates after the new panel is created
 exports.currentlyActivePanel = null;
 let lastChangeTriggeredByUri = ""; //whenever a document change is triggered by an instance of the UMLet Gwt application, the uri of the corresponding document will be tracked here.
 class UmletEditorProvider {
@@ -38,8 +36,7 @@ class UmletEditorProvider {
             //execute the default editor.action.clipboardCopyAction to copy
             vscode.commands.executeCommand("editor.action.clipboardCopyAction").then(function () {
                 console.log("After Copy");
-                if (exports.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
-                    console.log("MESSAGE Copy");
+                if (exports.currentlyActivePanel !== null) {
                     exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({ command: 'copy' });
                 }
                 //add the overridden editor.action.clipboardCopyAction back
@@ -64,7 +61,7 @@ class UmletEditorProvider {
             //execute the default editor.action.clipboardPasteAction to paste
             vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
                 console.log("After Paste");
-                if (exports.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+                if (exports.currentlyActivePanel !== null) {
                     vscode.env.clipboard.readText().then((text) => {
                         let clipboard_content = text;
                         console.log("MESSAGE Paste, content is:" + clipboard_content);
@@ -96,7 +93,7 @@ class UmletEditorProvider {
             //execute the default editor.action.clipboardCutAction to cut
             vscode.commands.executeCommand("editor.action.clipboardCutAction").then(function () {
                 console.log("After Cut");
-                if (exports.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+                if (exports.currentlyActivePanel !== null) {
                     console.log("MESSAGE Cut");
                     exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({ command: 'cut' });
                 }
@@ -136,44 +133,14 @@ class UmletEditorProvider {
      *
      */
     resolveCustomTextEditor(document, webviewPanel, token) {
-        console.log("resolving custom editor, uri is: " + document.uri.toString());
-        //vscode.commands.executeCommand('setContext', 'textInputFocus', true); //permanently sets textfocus, never to be changed again?
-        //vscode.commands.executeCommand('getContext', 'textInputFocus');
-        console.log("Opened Custom Editor opened, id " + nextUmletEditorId);
-        let myId = nextUmletEditorId;
-        initialSwapWasAlreadySkipped = false;
-        nextUmletEditorId++;
-        exports.currentlyActivePanel = webviewPanel;
-        //Set myWebviewFocused as in context, so the extension can decide wheter or not to show the umlet specific export commands in vscode
-        vscode.commands.executeCommand('setContext', 'myWebviewFocused', exports.currentlyActivePanel);
-        console.log("editor swapped to active");
-        //track viewstate changes so currentlyActivePanel stays accurate
-        webviewPanel.onDidChangeViewState(e => {
-            console.log("A panel did change state");
-            if (e.webviewPanel.active) {
-                console.log("editor swapped to active");
-                exports.currentlyActivePanel = webviewPanel;
-            }
-            else {
-                //Do not set to null if this was triggere was a newly opened panel
-                //otherwise this would always overwrite newly opened panels
-                if (myId === (nextUmletEditorId - 1) || initialSwapWasAlreadySkipped === true) {
-                    console.log("editor swapped to DEACT, myId: " + myId + ", next-1: " + (nextUmletEditorId - 1));
-                    exports.currentlyActivePanel = null;
-                }
-            }
-            initialSwapWasAlreadySkipped = true;
-            //Set myWebviewFocused as in context, so the extension can decide wheter or not to show the umlet specific export commands in vscode
-            vscode.commands.executeCommand('setContext', 'myWebviewFocused', exports.currentlyActivePanel);
-        });
         //whenever the .uxf file is changed (for example throough a text editor in vs code), these changes shoule be reflected in umlet
         const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
-            console.log("text document changed!, last change  uri:" + lastChangeTriggeredByUri + "       " + e.document.uri.toString() + "     " + document.uri.toString());
+            //console.log("text document changed!, last change  uri:" + lastChangeTriggeredByUri + "       " + e.document.uri.toString() + "     " + document.uri.toString());
             //everytime something is changed by the gwt application, lastChangeTriggeredByUri will be set to the according document uri. 
             //this is used to avoid a reset when the last change came directly from the gwt application, which would de-select current elements
             //currentlyActivePanel has to be checked, otherwise this will only be triggered for the first opened editor. we only want it on the active
             if (lastChangeTriggeredByUri === document.uri.toString() && webviewPanel === exports.currentlyActivePanel) {
-                console.log("last change came from the gwt application");
+                //console.log("last change came from the gwt application");
                 lastChangeTriggeredByUri = "";
             }
             else {
@@ -191,10 +158,6 @@ class UmletEditorProvider {
             enableScripts: true,
             localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'))]
         };
-        let WebviewPanelOptions = webviewPanel.options;
-        WebviewPanelOptions = {
-            retainContextWhenHidden: true
-        };
         // Handle messages from the webview
         webviewPanel.webview.onDidReceiveMessage(message => {
             switch (message.command) {
@@ -202,7 +165,7 @@ class UmletEditorProvider {
                     this.SaveFile(message.text);
                     return;
                 case 'updateFiledataUxf':
-                    console.log("uri in log is now: +" + document.uri.toString());
+                    //console.log("uri in log is now: +" + document.uri.toString());
                     this.UpdateCurrentFile(message.text, document);
                     return;
                 case 'exportPng':
@@ -225,6 +188,15 @@ class UmletEditorProvider {
                         });
                     });
                     return;
+                case 'consoleLog':
+                    this.postLog(message.text);
+                    return;
+                case 'onFocus':
+                    exports.currentlyActivePanel = webviewPanel;
+                    return;
+                case 'onBlur':
+                    exports.currentlyActivePanel = null;
+                    return;
             }
         }, undefined, this.context.subscriptions);
         // Get path to resource on disk
@@ -233,11 +205,41 @@ class UmletEditorProvider {
         const localUmletFolder = webviewPanel.webview.asWebviewUri(onDiskPath);
         let fileContents = document.getText().toString();
         webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
+        /*
+        webviewPanel.webview.options = {
+          enableScripts: true,
+          localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'))]
+        };
+        webviewPanel.webview.html = `<!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+          </head>
+          <body>
+            <h1>Test/h1>
+            <canvas id="maincanvas" tabindex="0" width=200 height=200>
+            </canvas>
+            <textarea rows="4" cols="50">
+              Bisschen Text
+              </textarea>
+            <script>
+              var canv = document.getElementById("maincanvas");
+              var ctx = canv.getContext("2d");
+              ctx.moveTo(0, 0);
+              ctx.lineTo(200, 100);
+              ctx.stroke();
+              canv.addEventListener("focus", function(){console.log("focus")}, false);
+              canv.addEventListener("blur", function(){console.log("blur")}, false);
+              canv.addEventListener("keydown", function(e) {console.log("key:"+e.keyCode+" "+e.metaKey)}, false);
+            </script>
+          </body>
+        </html>`;
+        */
     }
     //gets the updated filedata from the webview if anything has changed
     UpdateCurrentFile(fileContent, document) {
         lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
-        console.log("lastChangeTriggeredByUri set to: " + lastChangeTriggeredByUri);
+        //console.log("lastChangeTriggeredByUri set to: " + lastChangeTriggeredByUri);
         const edit = new vscode.WorkspaceEdit();
         edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), fileContent);
         return vscode.workspace.applyEdit(edit);
@@ -299,6 +301,8 @@ class UmletEditorProvider {
       <script type="text/javascript" src="umletvscode/umletvscode.nocache.js?2020-03-15_09-48-08"></script>
     </head>
     <body>
+
+    <input type="text" id="copypaste" style="opacity: 0"/>
       <!-- the following line is necessary for history support -->
       <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
       
@@ -309,7 +313,11 @@ class UmletEditorProvider {
       </div>
       </noscript>
       <div align="left" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
-      
+      <script>
+      //track focus/blur
+      window.addEventListener("focus", function(){consoleLogVsCode("focus TT"); notifyFocusVsCode();}, false);
+      window.addEventListener("blur", function(){consoleLogVsCode("blur TT"); notifyBlurVsCode();}, false);
+      </script>
     </body>
     <script>
 
@@ -359,7 +367,26 @@ class UmletEditorProvider {
 
       var vscode = acquireVsCodeApi();
       var vsCodeInitialDiagramData = \`${encodedDiagramData}\`;
-      console.log("vsCodeInitialDiagramData: " + vsCodeInitialDiagramData);
+
+      function consoleLogVsCode(consoleMessage) {
+        vscode.postMessage({
+          command: 'consoleLog',
+          text: consoleMessage
+        })
+      }
+
+      function notifyFocusVsCode() {
+        vscode.postMessage({
+          command: 'onFocus'
+        })
+      }
+
+      function notifyBlurVsCode() {
+        vscode.postMessage({
+          command: 'onBlur'
+        })
+      }
+      
     </script>
 
   </html>`;
@@ -367,6 +394,4 @@ class UmletEditorProvider {
 }
 exports.UmletEditorProvider = UmletEditorProvider;
 UmletEditorProvider.viewType = 'uxfCustoms.umletEditor';
-//Has to be set to true, so copy paste commands via keyboard are registered by vs code
-//vscode.commands.executeCommand('setContext', 'textInputFocus', true);
 //# sourceMappingURL=CustomTextEditorProvider.js.map

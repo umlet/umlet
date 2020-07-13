@@ -1,14 +1,19 @@
 package com.baselet.gwt.client.clipboard;
 
 import com.baselet.command.CommandTarget;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.CommandInvoker;
 import com.baselet.gwt.client.view.DrawPanel;
+import com.baselet.gwt.client.view.DrawPanelDiagram;
+import com.baselet.gwt.client.view.DrawPanelPalette;
 
 import java.util.Map;
 
 public abstract class ClipboardStorage {
     protected String CLIPBOARD = "Clipboard";
     protected String SAVE_PREFIX = "s_";
+    private static final CustomLogger log = CustomLoggerFactory.getLogger(ClipboardStorage.class);
 
     protected DrawPanel target;    // Target of clipboard actions
     protected CommandInvoker commandInvoker = CommandInvoker.getInstance();

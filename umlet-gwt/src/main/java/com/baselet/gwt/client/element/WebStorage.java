@@ -50,8 +50,6 @@ public class WebStorage {
     }
 
     public static void updateTargetPanel(EventHandlingUtils.EventHandlingTarget target) {
-        if (target instanceof DrawPanelDiagram) {
-            clipboardStorage.updateTargetPanel((DrawPanel) target);
-        }
+        clipboardStorage.updateTargetPanel((DrawPanel) target);
     }
 }

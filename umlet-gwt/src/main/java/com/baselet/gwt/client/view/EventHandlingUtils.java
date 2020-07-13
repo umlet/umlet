@@ -8,7 +8,10 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.gwt.client.clipboard.ClipboardStorage;
 import com.baselet.gwt.client.element.WebStorage;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
@@ -274,7 +277,6 @@ public class EventHandlingUtils {
 
 	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event) {
 		storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
-
 		if (storage.activePanel == null) {
 			return;
 		}

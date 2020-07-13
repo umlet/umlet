@@ -4,6 +4,8 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.gwt.client.clipboard.ClipboardStorage;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.view.DrawPanelDiagram;
+import com.baselet.gwt.client.view.DrawPanelPalette;
 
 import java.util.HashMap;
 import java.util.Map;
