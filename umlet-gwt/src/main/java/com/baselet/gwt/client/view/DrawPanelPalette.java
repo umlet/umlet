@@ -122,6 +122,10 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
+		//clear preview object
+		if (otherDrawFocusPanel instanceof  DrawPanelDiagram)
+			((DrawPanelDiagram) otherDrawFocusPanel).RemoveOldPreview();
+
 		if (lastPoint.getX() + -scrollPanel.getHorizontalScrollPosition() <= 0) { // mouse moved from palette to diagram -> insert elements to diagram
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
 			for (GridElement original : selector.getSelectedElements()) {
@@ -141,9 +145,6 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 		draggedElements.clear();
 
-		//clear preview object
-		if (otherDrawFocusPanel instanceof  DrawPanelDiagram)
-			((DrawPanelDiagram) otherDrawFocusPanel).RemoveOldPreview();
 
 		super.onMouseDragEnd(gridElement, lastPoint);
 

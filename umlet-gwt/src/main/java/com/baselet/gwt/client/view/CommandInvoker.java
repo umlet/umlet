@@ -17,7 +17,7 @@ import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
 import com.baselet.gwt.client.view.commands.RemoveGridElementCommandNoUpdate;
-import com.google.gwt.core.client.GWT;
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 
 public class CommandInvoker extends Controller {
 
@@ -33,6 +33,34 @@ public class CommandInvoker extends Controller {
 
 	void addElements(CommandTarget target, List<GridElement> elements) {
 		executeCommand(new AddGridElementCommand(target, elements));
+	}
+
+	//adds elements but does not notify vs code that anything is changed
+	void addElementsDontNotifyUpdate(CommandTarget target, List<GridElement> elements) {
+		executeCommand(new AddGridElementCommandDontNotifyUpdate(target, elements));
+	}
+
+	private class AddGridElementCommandDontNotifyUpdate extends AddGridElementCommand{
+
+		public AddGridElementCommandDontNotifyUpdate(CommandTarget target, List<GridElement> elements) {
+			super(target, elements);
+		}
+
+		@Override
+		public void execute() {
+			if(target instanceof DrawPanelDiagram)
+				((DrawPanelDiagram)target).addGridElementsDontNotifyUpdate(elements);
+			else
+				super.execute();
+		}
+
+		@Override
+		public void undo() {
+			if(target instanceof DrawPanelDiagram)
+				((DrawPanelDiagram)target).removeGridElementsDontNotifyUpdate(elements);
+			else
+				super.undo();
+		}
 	}
 
 	void removeElements(CommandTarget target, List<GridElement> elements) {
@@ -111,6 +139,9 @@ public class CommandInvoker extends Controller {
 		for (GridElement e : target.getSelector().getSelectedElements()) {
 			e.setProperty(key, value);
 		}
+		//Notify updates to vscode
+		if (target instanceof DrawPanelDiagram)
+			((DrawPanelDiagram)target).handleFileUpdate();
 		target.updatePropertiesPanelWithSelectedElement();
 	}
 }
