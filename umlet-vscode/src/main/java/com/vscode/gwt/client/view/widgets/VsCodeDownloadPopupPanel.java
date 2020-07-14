@@ -22,7 +22,7 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 
     @Override
     public void prepare(FilenameAndScaleHolder filenameAndScaleHolder) {
-        Diagram diagram = drawPanel.getDiagram();
+        Diagram diagram = drawPanelDiagram.getDiagram();
 
         setHeader("Export Diagram");
         FlowPanel panel = new FlowPanel();
@@ -86,9 +86,11 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
          * @Override public void onInput(InputEvent event) { //not needed in vs code version since filename will be entered in popup dialog //filenameAndScaleHolder.setFilename(textBox.getText()); } }, InputEvent.getType()); */
     }
 
+
+
     private void handleExport(String size) {
         double scalingValue = Double.parseDouble(size);
-        String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(drawPanel.getDiagram(), scalingValue);
+        String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(drawPanelDiagram.getDiagram(), scalingValue);
         exportPngVSCode(scaledPngUrl);
     }
 
@@ -100,9 +102,24 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
                 case 'requestExport':
                     that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleExport(Ljava/lang/String;)(message.text);
                     break;
+                case 'myUpdate': //message.text is expected to be the new diagram the editor should changed to
+                    that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleUpdateContent(Ljava/lang/String;)(message.text);
+                    break;
             }
+
         });
     }-*/;
+
+    public  void handleUpdateContent(String content)
+    {
+        //TODO this try/catch does not work since xmlToDiagram apparently does not throw exceptions
+        try {
+            this.drawPanelDiagram.setDiagram(DiagramXmlParser.xmlToDiagram(content));
+        } catch (Exception e) {
+            //TODO display error message if state is currently invalid
+            //GWT.log("failed to load diagram passed from vscode, loading preset empty diagram defaults...");
+        }
+    }
 
     private native void exportDiagramVSCode(String msg) /*-{
         window.parent.vscode.postMessage({

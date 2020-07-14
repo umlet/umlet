@@ -140,13 +140,16 @@ class UmletEditorProvider {
             //this is used to avoid a reset when the last change came directly from the gwt application, which would de-select current elements
             //currentlyActivePanel has to be checked, otherwise this will only be triggered for the first opened editor. we only want it on the active
             if (lastChangeTriggeredByUri === document.uri.toString() && webviewPanel === exports.currentlyActivePanel) {
-                //console.log("last change came from the gwt application");
+                console.log("last change came from the gwt application" + e.contentChanges.length);
                 lastChangeTriggeredByUri = "";
             }
             else {
                 //only trigger for right document
-                if (e.document.uri.toString() === document.uri.toString()) {
-                    console.log("match text change");
+                //if e.contentChanges.length === 0, then there was no actual content change, but the grey dirty indicator was set by vs code
+                //in that case we do not want to set gwt again, because that would unselect all selected elements
+                if (e.document.uri.toString() === document.uri.toString() && e.contentChanges.length !== 0) {
+                    console.log("match text change, injecting changes to gwt ");
+                    console.log('webview panel is: ' + webviewPanel);
                     webviewPanel.webview.postMessage({
                         command: 'myUpdate',
                         text: document.getText()
@@ -239,7 +242,7 @@ class UmletEditorProvider {
     //gets the updated filedata from the webview if anything has changed
     UpdateCurrentFile(fileContent, document) {
         lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
-        //console.log("lastChangeTriggeredByUri set to: " + lastChangeTriggeredByUri);
+        console.log("lastChangeTriggeredByUri set to: " + lastChangeTriggeredByUri);
         const edit = new vscode.WorkspaceEdit();
         edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), fileContent);
         return vscode.workspace.applyEdit(edit);
@@ -320,6 +323,8 @@ class UmletEditorProvider {
       </script>
     </body>
     <script>
+
+    
 
       function getTheme() {
         switch(document.body.className) {

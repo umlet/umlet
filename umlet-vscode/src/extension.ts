@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
   console.log("activitaing umlet extension...");
-  UmletEditorProvider.overrideVsCodeCommands(context);
+  //UmletEditorProvider.overrideVsCodeCommands(context);
   context.subscriptions.push(vscode.window.registerCustomEditorProvider(
     "uxfCustoms.umletEditor",
     new UmletEditorProvider(context),
