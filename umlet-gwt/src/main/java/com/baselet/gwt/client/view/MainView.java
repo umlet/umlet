@@ -336,6 +336,12 @@ public class MainView extends Composite implements ThemeChangeListener {
             } catch (Exception e) {
                 log.error("failed to load diagram passed from startup, loading defaults...");
             }
+        } else {
+            log.info("current diag is at start:" + DiagramXmlParser.diagramToXml(((DrawPanelDiagram)diagramPanel).getDiagram()));
+            //if diagram is indeed empty, a new empty diagram file was opened
+            //send the 'basic' empty umlet file data back to vscode
+            if (diagramPanel instanceof  DrawPanelDiagram)
+                ((DrawPanelDiagram)diagramPanel).handleFileUpdate();
         }
     }
 

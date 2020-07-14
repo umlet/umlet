@@ -188,7 +188,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
     //whenever the .uxf file is changed (for example throough a text editor in vs code), these changes shoule be reflected in umlet
     const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
-      
+      console.log("DOCCHANGE" + e.contentChanges.length);
       //console.log("text document changed!, last change  uri:" + lastChangeTriggeredByUri + "       " + e.document.uri.toString() + "     " + document.uri.toString());
       //everytime something is changed by the gwt application, lastChangeTriggeredByUri will be set to the according document uri. 
       //this is used to avoid a reset when the last change came directly from the gwt application, which would de-select current elements
