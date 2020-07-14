@@ -36,7 +36,7 @@ public class DrawPanelDiagram extends DrawPanel {
     public void InitializeDisplayingPreviewElements(List<GridElement> previewElements) {
         if (currentPreviewElements == null) {
             if (previewElements != null)
-                commandInvoker.addElements(this, previewElements);
+                commandInvoker.addElementsDontNotifyUpdate(this, previewElements);
             this.currentPreviewElements = previewElements;
         }
         this.redraw(false);
@@ -91,13 +91,7 @@ public class DrawPanelDiagram extends DrawPanel {
     takes the current state of the diagram and forwards it (to vscode)
      */
     public void handleFileUpdate() {
-        String newDiagramXMLState = DiagramXmlParser.diagramToXml(getDiagram());
-        if (lastDiagramXMLState != null && !lastDiagramXMLState.equals(newDiagramXMLState)) {
-
-            fileChangeNotifier.notifyFileChange(newDiagramXMLState);
-        }
-
-        lastDiagramXMLState = newDiagramXMLState;
+        fileChangeNotifier.notifyFileChange(DiagramXmlParser.diagramToXml(getDiagram()));
     }
 
     /*
@@ -159,5 +153,6 @@ public class DrawPanelDiagram extends DrawPanel {
             handleFileUpdate();
         }
     }
+
 
 }
