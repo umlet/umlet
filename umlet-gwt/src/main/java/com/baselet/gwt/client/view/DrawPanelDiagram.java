@@ -7,12 +7,17 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 
 public class DrawPanelDiagram extends DrawPanel {
     private List<GridElement> currentPreviewElementsInstantiated;
     private List<GridElement> currentPreviewElements; //previewed elements that will be displayed while dragging from palette into actual canvas
+
+    private String lastDiagramXMLState;
 
     public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
         super(mainView, propertiesPanel);
@@ -82,10 +87,22 @@ public class DrawPanelDiagram extends DrawPanel {
         super.onShowMenu(point);
     }
 
+    /*
+    takes the current state of the diagram and forwards it (to vscode)
+     */
+    public void handleFileUpdate() {
+        String newDiagramXMLState = DiagramXmlParser.diagramToXml(getDiagram());
+        if (lastDiagramXMLState != null && !lastDiagramXMLState.equals(newDiagramXMLState)) {
+
+            fileChangeNotifier.notifyFileChange(newDiagramXMLState);
+        }
+
+        lastDiagramXMLState = newDiagramXMLState;
+    }
 
     /*
-     removes old previews for both instantiated and regular preview variants
-     */
+         removes old previews for both instantiated and regular preview variants
+         */
     public void RemoveOldPreview() {
         //regular
         if (currentPreviewElements != null)
@@ -105,11 +122,42 @@ public class DrawPanelDiagram extends DrawPanel {
             return true;
     }
 
+    //Whenever elements are updated (added, moved/deformed, removed, edited in the properties panel), visual studio code must be informed and update with the newest file
+    @Override
+    public void addGridElements(List<GridElement> elements) {
+        super.addGridElements(elements);
+        handleFileUpdate();
+    }
+
     public void addGridElementsDontNotifyUpdate(List<GridElement> elements) {
         super.addGridElements(elements);
+    }
+
+
+
+    @Override
+    public void removeGridElements(List<GridElement> elements) {
+        super.removeGridElements(elements);
+        handleFileUpdate();
     }
 
     public void removeGridElementsDontNotifyUpdate(List<GridElement> elements) {
         super.removeGridElements(elements);
     }
+
+    @Override
+    public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
+        super.onMouseDragEnd(gridElement, lastPoint);
+        if (cursorWasMovedDuringDrag)
+            handleFileUpdate();
+    }
+
+    @Override
+    public void handleKeyDown(KeyDownEvent event) {
+        super.handleKeyDown(event);
+        if (Shortcut.MOVE_UP.matches(event) || Shortcut.MOVE_DOWN.matches(event) || Shortcut.MOVE_LEFT.matches(event) || Shortcut.MOVE_RIGHT.matches(event)) {
+            handleFileUpdate();
+        }
+    }
+
 }

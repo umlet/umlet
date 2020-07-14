@@ -38,7 +38,7 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 
         textBox.setValue(filenameAndScaleHolder.getFilename());
 
-        Diagram diagram = drawPanel.getDiagram();
+        Diagram diagram = drawPanelDiagram.getDiagram();
         String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagram);
         String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagram);
 
