@@ -2,7 +2,7 @@
 	"name": "umlet",
 	"displayName": "UMLet",
 	"description": "Free UML Tool for Fast UML Diagrams",
-	"version": "0.0.18",
+	"version": "0.0.19",
 	"publisher": "theumletteam",
 	"author": {
 		"name": "The UMLet Team"
@@ -36,18 +36,6 @@
 			{
 				"command": "umlet.createNewDiagram",
 				"title": "UMLet: Create new diagram"
-			},
-			{
-				"command": "umlet.executeCopy",
-				"title": "UMLet: Copy"
-			},
-			{
-				"command": "umlet.executePaste",
-				"title": "UMLet: Paste"
-			},
-			{
-				"command": "umlet.executeCut",
-				"title": "UMLet: Cut"
 			}
 		],
 		"menus": {
@@ -59,18 +47,6 @@
 				{
 					"command": "umlet.exportPngFour",
 					"when": "myWebviewFocused"
-				},
-				{
-					"command": "umlet.executeCopy",
-					"when": "false"
-				},
-				{
-					"command": "umlet.executePaste",
-					"when": "false"
-				},
-				{
-					"command": "umlet.executeCut",
-					"when": "false"
 				}
 			]
 		},

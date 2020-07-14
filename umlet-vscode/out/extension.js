@@ -12,7 +12,7 @@ const CustomTextEditorProvider_1 = require("./CustomTextEditorProvider");
 function activate(context) {
     createUmletCommands(context);
     console.log("activitaing umlet extension...");
-    CustomTextEditorProvider_1.UmletEditorProvider.overrideVsCodeCommands(context);
+    //UmletEditorProvider.overrideVsCodeCommands(context);
     context.subscriptions.push(vscode.window.registerCustomEditorProvider("uxfCustoms.umletEditor", new CustomTextEditorProvider_1.UmletEditorProvider(context), {
         webviewOptions: { retainContextWhenHidden: true }
     }));

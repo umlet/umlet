@@ -224,7 +224,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 		onThemeChange();
 		loadStartupDiagram();
         popupPanel = GWT.create(DownloadPopupPanel.class);
-        popupPanel.init(diagramPanel);
+        popupPanel.init((DrawPanelDiagram)diagramPanel);
 	}
 
     public void addRestoreMenuItem(final String chosenName) {
