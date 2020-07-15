@@ -10,7 +10,7 @@ import {
 } from "vscode";
 import * as path from 'path';
 import fs = require('fs');
-import { UmletEditorProvider, currentlyActivePanel } from './CustomTextEditorProvider';
+import { UmletEditorProvider, currentlyActivePanel, lastCurrentlyActivePanelPurified } from './CustomTextEditorProvider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -40,7 +40,7 @@ function createUmletCommands(context: vscode.ExtensionContext) {
   //Register Commands for exporting in default and x4 size
   //x1 Size
   const commandHandlerOneExport = () => {
-    currentlyActivePanel?.webview.postMessage({
+    lastCurrentlyActivePanelPurified()?.webview.postMessage({
       command: 'requestExport',
       text: "1"
     });
@@ -48,7 +48,7 @@ function createUmletCommands(context: vscode.ExtensionContext) {
   context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPngOne', commandHandlerOneExport));
   //x4 Size
   const commandHandlerFourExport = () => {
-    currentlyActivePanel?.webview.postMessage({
+    lastCurrentlyActivePanelPurified()?.webview.postMessage({
       command: 'requestExport',
       text: "4"
     });
