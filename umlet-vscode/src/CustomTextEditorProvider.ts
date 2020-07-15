@@ -14,6 +14,15 @@ import fs = require('fs');
 
 
 export var currentlyActivePanel: WebviewPanel | null = null;
+let lastCurrentlyActivePanel: WebviewPanel | null = null; //always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut
+//always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut, and ALSO checks if there is currently an active text window.
+//this is to avoid triggering commands if a user switched to another text based tab. be aware that this will still trigger if a user switches to another custom tab instead.
+export function lastCurrentlyActivePanelPurified(): WebviewPanel | null {
+  if (vscode.window.activeTextEditor === undefined)
+    {return lastCurrentlyActivePanel;}
+  else
+    {return null;}
+}
 let lastChangeTriggeredByUri = ""; //whenever a document change is triggered by an instance of the UMLet Gwt application, the uri of the corresponding document will be tracked here.
 
 
@@ -52,7 +61,11 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
         console.log("After Copy");
         if (currentlyActivePanel !== null) {
+          //if there is an actual panel in focus, just copy it
           currentlyActivePanel?.webview.postMessage({ command: 'copy' });
+        } else if (lastCurrentlyActivePanelPurified() !== null) {
+          //else use command on the last active UMLet tab. this is to enable this command via context menu, as umlet looses focus when the edit menu is pressed on the now standard custom toolbar
+          lastCurrentlyActivePanelPurified()?.webview.postMessage({ command: 'copy' });
         }
 
         //add the overridden editor.action.clipboardCopyAction back
@@ -85,6 +98,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
         console.log("After Paste");
         if (currentlyActivePanel !== null) {
+          //TODO remove UMLET tag from paste if needed
           vscode.env.clipboard.readText().then((text) => {
             let clipboard_content = text;
             console.log("MESSAGE Paste, content is:" + clipboard_content);
@@ -94,6 +108,17 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             });
           });
 
+        }else if (lastCurrentlyActivePanelPurified() !== null) {
+          //else use command on the last active UMLet tab. this is to enable this command via context menu, as umlet looses focus when the edit menu is pressed on the now standard custom toolbar
+          vscode.env.clipboard.readText().then((text) => {
+            //TODO check for and remove UMLET tag from paste
+            let clipboard_content = text;
+            console.log("MESSAGE Paste, content is:" + clipboard_content);
+            lastCurrentlyActivePanelPurified()?.webview.postMessage({
+              command: 'paste',
+              text: clipboard_content
+            });
+          });
         }
         //add the overridden editor.action.clipboardPasteAction back
         clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
@@ -127,6 +152,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         if (currentlyActivePanel !== null) {
           console.log("MESSAGE Cut");
           currentlyActivePanel?.webview.postMessage({ command: 'cut' });
+        } else if (lastCurrentlyActivePanelPurified() !== null) {
+          console.log("MESSAGE Cut");
+          lastCurrentlyActivePanelPurified()?.webview.postMessage({ command: 'cut' });
         }
         //add the overridden editor.action.clipboardCutAction back
         clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
@@ -254,6 +282,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
           return;
         case 'onFocus':
           currentlyActivePanel = webviewPanel;
+          lastCurrentlyActivePanel = currentlyActivePanel;
           return;
         case 'onBlur':
           currentlyActivePanel = null;

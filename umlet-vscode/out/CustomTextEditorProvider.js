@@ -6,6 +6,18 @@ const vscode = require("vscode");
 const path = require("path");
 const fs = require("fs");
 exports.currentlyActivePanel = null;
+let lastCurrentlyActivePanel = null; //always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut
+//always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut, and ALSO checks if there is currently an active text window.
+//this is to avoid triggering commands if a user switched to another text based tab. be aware that this will still trigger if a user switches to another custom tab instead.
+function lastCurrentlyActivePanelPurified() {
+    if (vscode.window.activeTextEditor === undefined) {
+        return lastCurrentlyActivePanel;
+    }
+    else {
+        return null;
+    }
+}
+exports.lastCurrentlyActivePanelPurified = lastCurrentlyActivePanelPurified;
 let lastChangeTriggeredByUri = ""; //whenever a document change is triggered by an instance of the UMLet Gwt application, the uri of the corresponding document will be tracked here.
 class UmletEditorProvider {
     constructor(context) {
@@ -35,9 +47,15 @@ class UmletEditorProvider {
             clipboardCopyDisposable.dispose();
             //execute the default editor.action.clipboardCopyAction to copy
             vscode.commands.executeCommand("editor.action.clipboardCopyAction").then(function () {
+                var _a;
                 console.log("After Copy");
                 if (exports.currentlyActivePanel !== null) {
+                    //if there is an actual panel in focus, just copy it
                     exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({ command: 'copy' });
+                }
+                else if (lastCurrentlyActivePanelPurified() !== null) {
+                    //else use command on the last active UMLet tab. this is to enable this command via context menu, as umlet looses focus when the edit menu is pressed on the now standard custom toolbar
+                    (_a = lastCurrentlyActivePanelPurified()) === null || _a === void 0 ? void 0 : _a.webview.postMessage({ command: 'copy' });
                 }
                 //add the overridden editor.action.clipboardCopyAction back
                 clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
@@ -62,10 +80,24 @@ class UmletEditorProvider {
             vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
                 console.log("After Paste");
                 if (exports.currentlyActivePanel !== null) {
+                    //TODO remove UMLET tag from paste if needed
                     vscode.env.clipboard.readText().then((text) => {
                         let clipboard_content = text;
                         console.log("MESSAGE Paste, content is:" + clipboard_content);
                         exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({
+                            command: 'paste',
+                            text: clipboard_content
+                        });
+                    });
+                }
+                else if (lastCurrentlyActivePanelPurified() !== null) {
+                    //else use command on the last active UMLet tab. this is to enable this command via context menu, as umlet looses focus when the edit menu is pressed on the now standard custom toolbar
+                    vscode.env.clipboard.readText().then((text) => {
+                        var _a;
+                        //TODO check for and remove UMLET tag from paste
+                        let clipboard_content = text;
+                        console.log("MESSAGE Paste, content is:" + clipboard_content);
+                        (_a = lastCurrentlyActivePanelPurified()) === null || _a === void 0 ? void 0 : _a.webview.postMessage({
                             command: 'paste',
                             text: clipboard_content
                         });
@@ -92,10 +124,15 @@ class UmletEditorProvider {
             clipboardCutDisposable.dispose();
             //execute the default editor.action.clipboardCutAction to cut
             vscode.commands.executeCommand("editor.action.clipboardCutAction").then(function () {
+                var _a;
                 console.log("After Cut");
                 if (exports.currentlyActivePanel !== null) {
                     console.log("MESSAGE Cut");
                     exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({ command: 'cut' });
+                }
+                else if (lastCurrentlyActivePanelPurified() !== null) {
+                    console.log("MESSAGE Cut");
+                    (_a = lastCurrentlyActivePanelPurified()) === null || _a === void 0 ? void 0 : _a.webview.postMessage({ command: 'cut' });
                 }
                 //add the overridden editor.action.clipboardCutAction back
                 clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
@@ -197,6 +234,7 @@ class UmletEditorProvider {
                     return;
                 case 'onFocus':
                     exports.currentlyActivePanel = webviewPanel;
+                    lastCurrentlyActivePanel = exports.currentlyActivePanel;
                     return;
                 case 'onBlur':
                     exports.currentlyActivePanel = null;

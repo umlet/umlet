@@ -22,7 +22,8 @@ function createUmletCommands(context) {
     //Register Commands for exporting in default and x4 size
     //x1 Size
     const commandHandlerOneExport = () => {
-        CustomTextEditorProvider_1.currentlyActivePanel === null || CustomTextEditorProvider_1.currentlyActivePanel === void 0 ? void 0 : CustomTextEditorProvider_1.currentlyActivePanel.webview.postMessage({
+        var _a;
+        (_a = CustomTextEditorProvider_1.lastCurrentlyActivePanelPurified()) === null || _a === void 0 ? void 0 : _a.webview.postMessage({
             command: 'requestExport',
             text: "1"
         });
@@ -30,7 +31,8 @@ function createUmletCommands(context) {
     context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPngOne', commandHandlerOneExport));
     //x4 Size
     const commandHandlerFourExport = () => {
-        CustomTextEditorProvider_1.currentlyActivePanel === null || CustomTextEditorProvider_1.currentlyActivePanel === void 0 ? void 0 : CustomTextEditorProvider_1.currentlyActivePanel.webview.postMessage({
+        var _a;
+        (_a = CustomTextEditorProvider_1.lastCurrentlyActivePanelPurified()) === null || _a === void 0 ? void 0 : _a.webview.postMessage({
             command: 'requestExport',
             text: "4"
         });
