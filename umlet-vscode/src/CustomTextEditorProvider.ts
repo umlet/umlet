@@ -174,7 +174,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             let clipboard_content = text;
             console.log("MESSAGE Paste, content is:" + clipboard_content);
             currentlyActivePanel?.webview.postMessage({
-              command: 'paste',
+              command: 'paste-response',
               text: clipboard_content
             });
           });
@@ -281,37 +281,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     <script>
     
       var vsCodeClipboardManager = null;
-      window.addEventListener('message', event => {
-      const message = event.data; // The JSON data our extension sent
-  
-      switch (message.command) {
-          case 'copy':
-              console.log("COPYYY" + vsCodeClipboardManager);
-              if (vsCodeClipboardManager)
-                vsCodeClipboardManager.copy();
-              break;
-          case 'paste':
-              console.log("PASTE" + vsCodeClipboardManager);
-              if (vsCodeClipboardManager)
-                vsCodeClipboardManager.paste(message.text);
-              break;
-          case 'cut':
-              console.log("CUT");
-              if (vsCodeClipboardManager)
-                vsCodeClipboardManager.cut();
-              break;
-          case 'requestExport': //message.text is expected to be the size
-              console.log("requestin export with size " + message.text);
-              if (vsCodeClipboardManager)
-                vsCodeClipboardManager.requestExport(message.text);
-              break;
-          case 'myUpdate': //message.text is expected to be the new diagram the editor should changed to
-              console.log("updating content to: " + message.text);
-              if (vsCodeClipboardManager)
-                vsCodeClipboardManager.updateContent(message.text);
-              break;
-      }
-    });
 
       function getTheme() {
         switch(document.body.className) {

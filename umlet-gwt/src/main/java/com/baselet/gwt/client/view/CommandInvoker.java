@@ -12,7 +12,6 @@ import com.baselet.element.GridElementUtils;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
@@ -62,16 +61,7 @@ public class CommandInvoker extends Controller {
 
 
 	public void copySelectedElements(CommandTarget target) {
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
-		{
-			if (target instanceof DrawPanel)
-			{
-				VsCodeClipboardManager.copyDiagramToClipboard((DrawPanel)target);
-			}
-		} else {
-			WebStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
-		}
-
+		WebStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
 	}
 
 	public void cutSelectedElements(CommandTarget target) {
@@ -79,55 +69,23 @@ public class CommandInvoker extends Controller {
 		removeSelectedElements(target);
 	}
 
-	void pasteElements(CommandTarget target) {
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
-		{
-			//save context menu position so vscode knows where to put the pasted element when returning
-			if (target instanceof DrawPanel)
-				VsCodeClipboardManager.setNextPastePosition(((DrawPanel) target).getLastContextMenuPosition());
-			//request of paste
-			VsCodeClipboardManager.requestVsCodePaste();
-		} else
-		{
-			List<GridElement> copyOfElements = copyElementsInList(WebStorage.getClipboard(), target.getDiagram());
-			executePaste(target, copyOfElements);
-		}
-
+	public void pasteElements() {
+		WebStorage.getClipboardAsync();
 	}
 
-	/*
-	 targetPosition is relative to the CommandTarget target, so (0,0) is the top left of target
-	 */
-	private void executePaste(CommandTarget target, List<GridElement> copyOfElements) {
+	public void executePaste(CommandTarget target, String content, Point pasteTargetPosition) {
+		List<GridElement> copyOfElements = copyElementsInList(DiagramXmlParser.xmlToGridElements(content), target.getDiagram());
 		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
 		//if there is a context menu currently opened, place it at the cursor position, otherwise at the top left
 		realignElementsToVisibleRect(target, copyOfElements);
-		if (target instanceof  DrawPanel)
-		{
-			DrawPanel targetDrawPanel = (DrawPanel)target;
-			Point targetPosition = null;
-			if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE){
-				targetPosition = VsCodeClipboardManager.popNextPastePosition();
-			} else {
-				targetPosition = targetDrawPanel.getLastContextMenuPosition();
-			}
-			if (targetPosition != null)
-			{
-				DrawPanel.snapElementsToPointPosition(copyOfElements, targetDrawPanel, targetPosition);
-			} else {
-
-				DrawPanel.snapElementsToVisibleTopLeft(copyOfElements, targetDrawPanel);
-			}
+		DrawPanel targetDrawPanel = (DrawPanel)target;
+		if (pasteTargetPosition != null) {
+			DrawPanel.snapElementsToPointPosition(copyOfElements, targetDrawPanel, pasteTargetPosition);
+		} else {
+			DrawPanel.snapElementsToVisibleTopLeft(copyOfElements, targetDrawPanel);
 		}
 
-
 		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
-	}
-
-	//used when paste is called via vs code command
-	public void pasteElementsVsCode(CommandTarget target, String content) {
-		List<GridElement> copyOfElements = copyElementsInList(DiagramXmlParser.xmlToGridElements(content), target.getDiagram());
-		executePaste(target, copyOfElements);
 	}
 
 	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements, Diagram targetDiagram) {
