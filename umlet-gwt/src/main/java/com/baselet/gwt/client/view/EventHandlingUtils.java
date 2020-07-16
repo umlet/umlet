@@ -8,7 +8,7 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
+import com.baselet.gwt.client.element.WebStorage;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
@@ -111,11 +111,14 @@ public class EventHandlingUtils {
 
 	public static void addEventHandler(final FocusPanel handlerTarget, final EventHandlingTarget... panels) {
 		final DragCache storage = new DragCache();
-		if(VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
-		{
-			VsCodeClipboardManager.setStorage(storage);
-		}
 
+		// Initializing active panel to be diagram panel
+		for (EventHandlingTarget panel : panels) {
+			if (panel instanceof DrawPanelDiagram) {
+				storage.activePanel = panel;
+				WebStorage.updateTargetPanel(panel);
+			}
+		}
 
 		for (final EventHandlingTarget panel : panels) {
 			storage.nonTouchHandlers.add(panel.addMouseOutHandler(new MouseOutHandler() {
@@ -143,11 +146,7 @@ public class EventHandlingUtils {
 					storage.nonTouchHandlers = null;
 				}
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
-					final Point absolutePos = getPointAbsolute(event);
-					storage.activePanel = getPanelWhichContainsPoint(panels, absolutePos);
-					if (storage.activePanel != null) {
-						handleStart(panels, storage, handlerTarget, event, getPoint(storage.activePanel, event));
-					}
+					handleStart(panels, storage, handlerTarget, event);
 					// storage.menuShowTimer = new Timer() {
 					// @Override
 					// public void run() {
@@ -181,10 +180,7 @@ public class EventHandlingUtils {
 		storage.nonTouchHandlers.add(handlerTarget.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
-				if (storage.activePanel != null) {
-					handleStart(panels, storage, handlerTarget, event, getPoint(storage.activePanel, event));
-				}
+				handleStart(panels, storage, handlerTarget, event);
 			}
 		}));
 
@@ -282,7 +278,17 @@ public class EventHandlingUtils {
 
 	}
 
-	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event, Point p) {
+	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event) {
+		storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
+
+		if (storage.activePanel == null) {
+			return;
+		}
+
+		WebStorage.updateTargetPanel(storage.activePanel);
+
+		Point p = getPoint(storage.activePanel, event);
+
 		if(event.getNativeEvent().getButton() == 1 || event.getNativeEvent().getButton() == 2)
 		{
 		// Notification.showInfo("DOWN " + p.x);

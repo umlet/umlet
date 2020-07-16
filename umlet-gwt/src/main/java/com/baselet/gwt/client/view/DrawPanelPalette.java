@@ -128,10 +128,11 @@ public class DrawPanelPalette extends DrawPanel {
 		} else if (Shortcut.SELECT_ALL.matches(event)) {
 			super.handleKeyDown(event);
 		} else if (Shortcut.COPY.matches(event)) {
-			super.handleKeyDown(event);
-		} else if (Shortcut.SAVE.matches(event) && !VersionChecker.isVsCodeVersion()) {
-			super.handleKeyDown(event);
-		} else {
+            super.handleKeyDown(event);
+        } else if (Shortcut.SAVE.matches(event)) {
+            super.handleKeyDown(event);
+		}
+		else {
 			avoidBrowserDefault = false;
 		}
 

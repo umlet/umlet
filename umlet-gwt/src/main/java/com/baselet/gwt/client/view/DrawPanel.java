@@ -28,6 +28,7 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Utils;
+import com.baselet.gwt.client.clipboard.ClipboardShortcutWrapper;
 import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
@@ -60,6 +61,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	SelectorNew selector;
 
 	CommandInvoker commandInvoker = CommandInvoker.getInstance();
+
+	ClipboardShortcutWrapper clipboardShortcutWrapper;
 
 	DrawPanel otherDrawFocusPanel;
 
@@ -175,6 +178,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		createMenuPopups();
 
 		this.add(canvas.getWidget());
+
+		clipboardShortcutWrapper = GWT.create(ClipboardShortcutWrapper.class);
+
 		ThemeFactory.addListener(this);
 	}
 
@@ -215,7 +221,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 					}, new MenuPopupItem(MenuConstants.PASTE) {
 						@Override
 						public void execute() {
-							commandInvoker.pasteElements(DrawPanel.this);
+							commandInvoker.pasteElements();
 						}
 					}, new MenuPopupItem(MenuConstants.SELECT_ALL) {
 						@Override
@@ -503,16 +509,13 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			selector.select(diagram.getGridElements());
 		}
 		else if (Shortcut.COPY.matches(event)) {
-			if (VersionChecker.GetVersion() != VersionChecker.Version.VSCODE) //Shortcut is handled by VSCODE itself, would lead to one unecessary copy
-				commandInvoker.copySelectedElements(DrawPanel.this);
+			clipboardShortcutWrapper.onCopy(DrawPanel.this);
 		}
 		else if (Shortcut.CUT.matches(event)) {
-			if (VersionChecker.GetVersion() != VersionChecker.Version.VSCODE) //Shortcut is handled by VSCODE itself
-				commandInvoker.cutSelectedElements(DrawPanel.this);
+			clipboardShortcutWrapper.onCut(DrawPanel.this);
 		}
 		else if (Shortcut.PASTE.matches(event)) {
-			if (VersionChecker.GetVersion() != VersionChecker.Version.VSCODE) //Shortcut is handled by VSCODE itself, would lead to to doublepaste
-				commandInvoker.pasteElements(DrawPanel.this);
+			clipboardShortcutWrapper.onPaste();
 		}
 		else if (Shortcut.SAVE.matches(event)) {
 			mainView.getSaveCommand().execute();
