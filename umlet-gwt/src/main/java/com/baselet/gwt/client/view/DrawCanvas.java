@@ -106,19 +106,12 @@ public class DrawCanvas {
 
 	private void drawEmptyInfoText(double scaling) {
 		double elWidth = 440;
-		double elHeight = 150; //web version 150
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
-			elHeight = 246;
+		double elHeight = 246; //web version 150
 		double elXPos = getWidth() / 2.0 - elWidth / 2;
 		double elYPos = getHeight() / 2.0 - elHeight / 2;
 		String helptext = HelptextResources.INSTANCE.helpText().getText();
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
-		{
-			helptext = HelptextResources.INSTANCE.helpTextVsCode().getText();
-		}
 		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), helptext, "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
-
 	}
 
 	// TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
