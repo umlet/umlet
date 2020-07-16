@@ -1,5 +1,6 @@
-package com.baselet.gwt.client.clipboard;
+package com.web.gwt.client.clipboard;
 
+import com.baselet.gwt.client.clipboard.ClipboardStorage;
 import com.google.gwt.storage.client.Storage;
 
 import java.util.HashMap;
@@ -9,12 +10,12 @@ import java.util.Map;
  * uses local storage of browser
  * local storage calculator: http://glynrob.com/webapp/lscalc/
  */
-public class LocalStorageClipboard implements ClipboardStorage {
+public class LocalStorageClipboard extends ClipboardStorage {
     private static Storage localStorage;
 
     @Override
-    public String get() {
-        return localStorage.getItem(CLIPBOARD);
+    public void get() {
+        commandInvoker.executePaste(target, localStorage.getItem(CLIPBOARD), target.getLastContextMenuPosition());
     }
 
     @Override

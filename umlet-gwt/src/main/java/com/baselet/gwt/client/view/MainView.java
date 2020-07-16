@@ -166,7 +166,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 		if (VersionChecker.GetVersion() == Version.VSCODE) {
 			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
-			this.vsCodeLoadCopyPasteMessageHandlers();
+			//this.vsCodeLoadCopyPasteMessageHandlers();
 		}
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
 		diagramPaletteSplitter.setWidgetSnapClosedSize(palettePropertiesSplitter, 100);
@@ -178,7 +178,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
 		if (VersionChecker.GetVersion() == Version.VSCODE)
         {
-            VsCodeClipboardManager.setDiagramPanel((DrawPanelDiagram) diagramPanel);
+            //VsCodeClipboardManager.setDiagramPanel((DrawPanelDiagram) diagramPanel);
         }
 
 		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);

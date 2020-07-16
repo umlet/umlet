@@ -9,7 +9,11 @@
         <when-type-is class="com.baselet.gwt.client.view.utils.StartupDiagramLoader"/>
     </replace-with>
 
-    <replace-with class="com.web.gwt.client.view.commands.WebSaveCommand">
-        <when-type-is class="com.baselet.gwt.client.view.commands.SaveCommand"/>
+    <replace-with class="com.web.gwt.client.clipboard.LocalStorageClipboard">
+        <when-type-is class="com.baselet.gwt.client.clipboard.ClipboardStorage"/>
+    </replace-with>
+
+    <replace-with class="com.web.gwt.client.clipboard.WebClipboardShortcutWrapper">
+        <when-type-is class="com.baselet.gwt.client.clipboard.ClipboardShortcutWrapper"/>
     </replace-with>
 </module>
