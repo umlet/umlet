@@ -8,5 +8,5 @@ npm/
 .classpath
 # .project must be checked in because it is used for the linkedResources for umlet-eclipse-plugin
 
-umletino-vscode/src/umlet-gwt/baseletgwt/
+umletino-vscode/src/umlet-gwt/
 *.vsix

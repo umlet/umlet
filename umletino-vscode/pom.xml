@@ -40,7 +40,7 @@
                         <phase>clean</phase>
                         <configuration>
                             <target>
-                                <delete includeemptydirs="true">
+                                <delete includeemptydirs="true" failonerror="false">
                                     <fileset dir="src/umlet-gwt/baseletgwt/" includes="**/*"/>
                                 </delete>
                             </target>
@@ -75,7 +75,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <arguments>run env -- vsce package</arguments>
+                            <arguments>run vsce</arguments>
                         </configuration>
                     </execution>
                 </executions>

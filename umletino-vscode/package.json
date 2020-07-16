@@ -14,6 +14,7 @@
 		"Other"
 	],
 	"activationEvents": [
+		"onLanguage:plaintext",
 		"onCommand:extension.helloWorld"
 	],
 	"main": "./out/extension.js",
@@ -26,6 +27,7 @@
 		]
 	},
 	"scripts": {
+		"vsce": "./node_modules/.bin/vsce package",
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
