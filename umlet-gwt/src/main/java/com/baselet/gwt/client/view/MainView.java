@@ -173,6 +173,9 @@ public class MainView extends Composite {
 
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
+			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
+		}
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
 		diagramPaletteSplitter.setWidgetSnapClosedSize(palettePropertiesSplitter, 100);
 		diagramPaletteSplitter.setWidgetMinSize(palettePropertiesSplitter, 200);
