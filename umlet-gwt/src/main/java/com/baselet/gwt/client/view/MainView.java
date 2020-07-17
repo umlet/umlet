@@ -19,7 +19,6 @@ import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel;
 import com.baselet.gwt.client.view.panel.wrapper.FileOpenHandler;
-import com.baselet.gwt.client.view.utils.DiagramLoader;
 import com.baselet.gwt.client.view.utils.DropboxIntegration;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.FilenameAndScaleHolder;
@@ -216,13 +215,10 @@ public class MainView extends Composite implements ThemeChangeListener {
 		dropboxInt.exposeDropboxImportJSCallback(dropboxInt);
 		dropboxInt.exposeDropboxShowNotification(dropboxInt);
 
-		// if uxf parameter is set, a GET request is made to get and load the diagram from the specified URL
-		String uxfStartup = Window.Location.getParameter("uxf");
-		if (uxfStartup != null) {
-			DiagramLoader.getFromUrl(uxfStartup, this);
-		}
+		StartupDiagramLoader startupDiagramLoader = GWT.create(StartupDiagramLoader.class);
+		startupDiagramLoader.loadDiagram(this);
+
 		onThemeChange();
-		loadStartupDiagram();
         popupPanel = GWT.create(DownloadPopupPanel.class);
         popupPanel.init((DrawPanelDiagram)diagramPanel);
 	}
@@ -320,30 +316,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 			}
 		});
 	}
-
-
-
-    private void loadStartupDiagram() {
-        StartupDiagramLoader startupDiagramLoader = GWT.create(StartupDiagramLoader.class);
-        // Retrieving the diagram
-        String rawDiagramData = startupDiagramLoader.loadDiagram();
-
-        // In case a plain, newly created empty file was loaded, UMLet will create the default empty workspace
-        // if its not empty, it will load it
-        if (rawDiagramData != null && !rawDiagramData.equals("")) {
-            try {
-                diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(rawDiagramData));
-            } catch (Exception e) {
-                log.error("failed to load diagram passed from startup, loading defaults...");
-            }
-        } else {
-            log.info("current diag is at start:" + DiagramXmlParser.diagramToXml(((DrawPanelDiagram)diagramPanel).getDiagram()));
-            //if diagram is indeed empty, a new empty diagram file was opened
-            //send the 'basic' empty umlet file data back to vscode
-            if (diagramPanel instanceof  DrawPanelDiagram)
-                ((DrawPanelDiagram)diagramPanel).handleFileUpdate();
-        }
-    }
 
     public DrawPanel getDiagramPanel() {
         return diagramPanel;

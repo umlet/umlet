@@ -1,0 +1,18 @@
+Add a UML element to the diagram with double-click or drag&drop
+
+Edit an element in its markup on the lower right
+
+Export a diagram and more via the UMLet command palette
+
+
+
+UMLet
+Homepage: https://www.umlet.com/
+Video Tutorial: https://www.youtube.com/watch?v=3UHZedDtr28
+Umletino: https://www.umletino.com/
+Github: https://github.com/umlet/umlet
+Patreon: https://www.patreon.com/umlet
+Mails: info@umlet.com
+Facebook: https://www.facebook.com/UML.tool.UMLet
+
+halign=center
