@@ -10,7 +10,9 @@ let lastCurrentlyActivePanel = null; //always saves last panel which was active,
 //always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut, and ALSO checks if there is currently an active text window.
 //this is to avoid triggering commands if a user switched to another text based tab. be aware that this will still trigger if a user switches to another custom tab instead.
 function lastCurrentlyActivePanelPurified() {
-    if (vscode.window.activeTextEditor === undefined) {
+    console.log("current active text editor is: " + vscode.window.activeTextEditor);
+    console.log("current active custom editor is: " + (lastCurrentlyActivePanel === null || lastCurrentlyActivePanel === void 0 ? void 0 : lastCurrentlyActivePanel.active));
+    if (lastCurrentlyActivePanel === null || lastCurrentlyActivePanel === void 0 ? void 0 : lastCurrentlyActivePanel.active) {
         return lastCurrentlyActivePanel;
     }
     else {
@@ -170,6 +172,10 @@ class UmletEditorProvider {
      *
      */
     resolveCustomTextEditor(document, webviewPanel, token) {
+        //TRACK WINDOW STATUS FOR DEBUG PURPOSES
+        const changevis = vscode.window.onDidChangeVisibleTextEditors(e => {
+            console.log("vis text edit length" + e.length);
+        });
         //whenever the .uxf file is changed (for example throough a text editor in vs code), these changes shoule be reflected in umlet
         const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
             console.log("DOCCHANGE" + e.contentChanges.length);
