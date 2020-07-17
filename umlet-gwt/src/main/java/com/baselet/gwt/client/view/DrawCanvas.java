@@ -9,6 +9,8 @@ import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.ComponentGwt;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.resources.HelptextFactory;
+import com.baselet.gwt.client.resources.HelptextResources;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
@@ -18,15 +20,6 @@ import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.FocusWidget;
 
 public class DrawCanvas {
-	public interface HelptextResources extends ClientBundle {
-		HelptextResources INSTANCE = GWT.create(HelptextResources.class);
-
-		@Source("Helptext.txt")
-		TextResource helpText();
-
-		@Source("Helptext_vscode.txt")
-		TextResource helpTextVsCode();
-	}
 
 	private final Canvas canvas = Canvas.createIfSupported();
 
@@ -106,10 +99,12 @@ public class DrawCanvas {
 
 	private void drawEmptyInfoText(double scaling) {
 		double elWidth = 440;
-		double elHeight = 246; //web version 150
+		double elHeight = 246;
 		double elXPos = getWidth() / 2.0 - elWidth / 2;
 		double elYPos = getHeight() / 2.0 - elHeight / 2;
-		String helptext = HelptextResources.INSTANCE.helpText().getText();
+		HelptextFactory factory = GWT.create(HelptextFactory.class);
+		HelptextResources resources = factory.getInstance();
+		String helptext = resources.helpText().getText();
 		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), helptext, "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
 	}
