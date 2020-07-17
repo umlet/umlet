@@ -1,12 +1,7 @@
 bin/
 target/
-node/
-npm/
 .idea/
 *.iml
 .factorypath
 .classpath
-# .project must be checked in because it is used for the linkedResources for umlet-eclipse-plugin
-
-umletino-vscode/src/umlet-gwt/
-*.vsix
+# .project must be checked in because it is used for the linkedResources for umlet-eclipse-plugin
