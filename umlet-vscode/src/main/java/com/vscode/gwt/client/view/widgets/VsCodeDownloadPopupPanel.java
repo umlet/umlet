@@ -2,7 +2,10 @@ package com.vscode.gwt.client.view.widgets;
 
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.element.DiagramXmlParser;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.CanvasUtils;
+import com.baselet.gwt.client.view.DrawPanelDiagram;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.FilenameAndScaleHolder;
 import com.baselet.gwt.client.view.widgets.InputEvent;
@@ -16,6 +19,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 
+    private static final CustomLogger log = CustomLoggerFactory.getLogger(DiagramXmlParser.class);
     public VsCodeDownloadPopupPanel() {
         initListener();
     }
@@ -37,7 +41,7 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 
         panel.add(new HTML("<br>"));
 
-        String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagram);
+        String uxfUrl = DiagramXmlParser.diagramToXml(diagram);
 
         Button saveDiagramButton = new Button();
         saveDiagramButton.setText("Save Diagram File");
@@ -112,13 +116,17 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 
     public  void handleUpdateContent(String content)
     {
-        //TODO this try/catch does not work since xmlToDiagram apparently does not throw exceptions
-        try {
-            this.drawPanelDiagram.setDiagram(DiagramXmlParser.xmlToDiagram(content));
-        } catch (Exception e) {
-            //TODO display error message if state is currently invalid
-            //GWT.log("failed to load diagram passed from vscode, loading preset empty diagram defaults...");
+        Diagram parsedDiagram = DiagramXmlParser.xmlToDiagram(content);
+        log.error("is the parsed diagram null? " + (parsedDiagram == null));
+        if (parsedDiagram != null)
+        {
+            this.drawPanelDiagram.setDiagram(parsedDiagram);
+            this.drawPanelDiagram.setTempInvalid(false);
+        } else {
+            this.drawPanelDiagram.setTempInvalid(true);
         }
+
+
     }
 
     private native void exportDiagramVSCode(String msg) /*-{

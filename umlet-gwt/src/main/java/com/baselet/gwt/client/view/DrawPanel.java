@@ -60,6 +60,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
     protected DrawCanvas canvas = new DrawCanvas();
     protected boolean cursorWasMovedDuringDrag; //check if cursor was actually moved
 
+
     SelectorNew selector;
 
     CommandInvoker commandInvoker = CommandInvoker.getInstance();
@@ -346,9 +347,10 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
         this.diagram = diagram;
         selector.setGridElementProvider(diagram);
         selector.deselectAll(); // necessary to trigger setting helptext to properties
-        //if vs code is notified of this redraw, then an undo from vs code will trigger another action by the gwt application, resulting in one more 'empty' action which has to be undone
         redraw();
     }
+
+
 
     @Override
     public void addGridElements(List<GridElement> elements) {

@@ -114,6 +114,23 @@ public class DrawCanvas {
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
 	}
 
+	/*
+	 used to diaply temporal invalid if vs code passes a wrong uxf
+	 */
+	void drawInvalidDiagramInfo()
+	{
+		double elWidth = 440;
+		double elHeight = 246;
+		double elXPos = getWidth() / 2.0 - elWidth / 2;
+		double elYPos = getHeight() / 2.0 - elHeight / 2;
+		String invalidDiagramText = "valign=center\n" +
+				"halign=center\n" +
+				".uxf file is currently invalid and can't be displayed.\n" +
+				"Please revert changes or load a valid file";
+		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), invalidDiagramText, "", null);
+		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
+	}
+
 	// TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
 	// private boolean tryOptimizedDrawing() {
 	// List<GridElement> geToRedraw = new ArrayList<GridElement>();

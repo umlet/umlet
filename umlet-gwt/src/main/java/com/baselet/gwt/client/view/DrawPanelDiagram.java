@@ -4,12 +4,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.basics.geom.Point;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.element.GridElementUtils;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 
@@ -18,6 +22,9 @@ public class DrawPanelDiagram extends DrawPanel {
     private List<GridElement> currentPreviewElements; //previewed elements that will be displayed while dragging from palette into actual canvas
 
     private String lastDiagramXMLState;
+    private boolean tempInvalid;
+
+    private static final CustomLogger log = CustomLoggerFactory.getLogger(DiagramXmlParser.class);
 
     public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
         super(mainView, propertiesPanel);
@@ -42,12 +49,53 @@ public class DrawPanelDiagram extends DrawPanel {
         this.redraw(false);
     }
 
+    @Override
+    void redraw(boolean recalcSize) {
+        if (tempInvalid)
+        {
+            log.info("redrawing temp invalid");
+            List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
+            if (recalcSize) {
+                if (scrollPanel == null) {
+                    return;
+                }
+
+                Rectangle diagramRect = GridElementUtils.getGridElementsRectangle(gridElements);
+                Rectangle visibleRect = getVisibleBounds();
+                // realign top left corner of the diagram back to the canvas and remove invisible whitespace outside of the diagram
+                final int xTranslate = Math.min(visibleRect.getX(), diagramRect.getX()); // can be positive (to cut upper left whitespace without diagram) or negative (to move diagram back to the visible canvas which starts at (0,0))
+                final int yTranslate = Math.min(visibleRect.getY(), diagramRect.getY());
+                if (xTranslate != 0 || yTranslate != 0) {
+                    // temp increase of canvas size to make sure scrollbar can be moved
+                    canvas.clearAndSetSize(canvas.getWidth() + Math.abs(xTranslate), canvas.getHeight() + Math.abs(yTranslate));
+                    // move scrollbars
+                    scrollPanel.moveHorizontalScrollbar(-xTranslate);
+                    scrollPanel.moveVerticalScrollbar(-yTranslate);
+                    // then move gridelements to correct position
+                    for (GridElement ge : gridElements) {
+                        ge.setLocationDifference(-xTranslate, -yTranslate);
+                    }
+                }
+                // now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
+                int width = Math.max(visibleRect.getX2(), diagramRect.getX2()) - xTranslate;
+                int height = Math.max(visibleRect.getY2(), diagramRect.getY2()) - yTranslate;
+                canvas.clearAndSetSize(width, height);
+            } else {
+                canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());
+            }
+            canvas.drawInvalidDiagramInfo();
+        } else {
+            log.info("redrawing super");
+            super.redraw(recalcSize);
+        }
+    }
+
     /*
-    displays a preview object by newly creating a copy.
-    destroys and overrides old copy preview object if one was available.
-    a preview will stay visible until this method is called with (null) as argument or RemoveOldPreview() is called
-    should not be used for multiple objects, due to performance
-    */
+        displays a preview object by newly creating a copy.
+        destroys and overrides old copy preview object if one was available.
+        a preview will stay visible until this method is called with (null) as argument or RemoveOldPreview() is called
+        should not be used for multiple objects, due to performance
+        */
     public void setDisplayingPreviewElementInstantiated(List<GridElement> previewElements) {
         RemoveOldPreview();
         if (previewElements != null)
@@ -91,7 +139,20 @@ public class DrawPanelDiagram extends DrawPanel {
     takes the current state of the diagram and forwards it (to vscode)
      */
     public void handleFileUpdate() {
-        fileChangeNotifier.notifyFileChange(DiagramXmlParser.diagramToXml(getDiagram()));
+        if (!tempInvalid)
+            fileChangeNotifier.notifyFileChange(DiagramXmlParser.diagramToXml(getDiagram()));
+    }
+
+
+    /*
+     if vs code injects an invalid uxf during use, then umletino will go into an tempInvalid state until a valid diagram is sent by vscode.
+     no changes will be submitted to vs code while tempInvalid, and redraw() will result in and error message beeing drawn.
+     */
+    public void setTempInvalid(boolean tempInvalid)
+    {
+        this.tempInvalid = tempInvalid;
+        //keep in mind a redraw is needed
+        redraw();
     }
 
     /*
