@@ -1,5 +1,7 @@
 package com.baselet.gwt.client.view.utils;
 
+import com.baselet.gwt.client.view.MainView;
+
 public interface StartupDiagramLoader {
-    String loadDiagram();
+    void loadDiagram(MainView mainView);
 }
