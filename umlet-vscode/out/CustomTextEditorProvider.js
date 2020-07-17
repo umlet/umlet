@@ -368,6 +368,8 @@ class UmletEditorProvider {
       </script>
     </body>
     <script>
+    
+      var vsCodeClipboardManager = null;
 
     
 
