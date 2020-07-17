@@ -101,6 +101,10 @@ public class EventHandlingUtils {
 		{
 			return activePanel;
 		}
+		public void setActivePanel(EventHandlingTarget activePanel)
+		{
+			this.activePanel = activePanel;
+		}
 
 		/**
 		 * doubleclicks are only handled if the mouse has moved into the canvas before
@@ -112,8 +116,15 @@ public class EventHandlingUtils {
 		// private Timer menuShowTimer; //TODO doesn't really work at the moment (because some move and end events are not processed, therefore it's shown even if not wanted)
 	}
 
+	private static DragCache storageInstance;
+	public static DragCache getStorageInstance()
+	{
+		return storageInstance;
+	}
+
 	public static void addEventHandler(final FocusPanel handlerTarget, final EventHandlingTarget... panels) {
 		final DragCache storage = new DragCache();
+		storageInstance = storage;
 
 		// Initializing active panel to be diagram panel
 		for (EventHandlingTarget panel : panels) {
