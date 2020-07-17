@@ -142,6 +142,9 @@ public class DrawPanelPalette extends DrawPanel {
 			commandInvoker.addElements(this, draggedElements);
 			selector.deselectAll();
 			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
+
+			//set focus to the diagram
+			EventHandlingUtils.getStorageInstance().setActivePanel(otherDrawFocusPanel);
 		}
 		draggedElements.clear();
 
