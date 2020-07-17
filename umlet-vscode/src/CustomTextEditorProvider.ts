@@ -18,7 +18,9 @@ let lastCurrentlyActivePanel: WebviewPanel | null = null; //always saves last pa
 //always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut, and ALSO checks if there is currently an active text window.
 //this is to avoid triggering commands if a user switched to another text based tab. be aware that this will still trigger if a user switches to another custom tab instead.
 export function lastCurrentlyActivePanelPurified(): WebviewPanel | null {
-  if (vscode.window.activeTextEditor === undefined)
+  console.log("current active text editor is: " + vscode.window.activeTextEditor);
+  console.log("current active custom editor is: " + lastCurrentlyActivePanel?.active)
+  if (lastCurrentlyActivePanel?.active)
     {return lastCurrentlyActivePanel;}
   else
     {return null;}
@@ -210,6 +212,13 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
    *
    */
   resolveCustomTextEditor(document: vscode.TextDocument, webviewPanel: vscode.WebviewPanel, token: vscode.CancellationToken): void | Thenable<void> {
+    //TRACK WINDOW STATUS FOR DEBUG PURPOSES
+    const changevis = vscode.window.onDidChangeVisibleTextEditors(e => {
+      console.log("vis text edit length" + e.length);
+    });
+
+    
+
 
 
 
