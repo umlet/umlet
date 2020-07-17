@@ -4,8 +4,10 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.gwt.client.clipboard.ClipboardStorage;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.view.DrawPanel;
 import com.baselet.gwt.client.view.DrawPanelDiagram;
 import com.baselet.gwt.client.view.DrawPanelPalette;
+import com.baselet.gwt.client.view.EventHandlingUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,7 @@ public class VsCodeClipboard extends ClipboardStorage {
     private static final CustomLogger log = CustomLoggerFactory.getLogger(VsCodeClipboard.class);
 
     private Point pasteTargetPosition;
+
 
     @Override
     public native void get() /*-{
@@ -35,6 +38,8 @@ public class VsCodeClipboard extends ClipboardStorage {
             }
         });
     }-*/;
+
+
 
     @Override
     public String getSaved(String name) {
@@ -65,7 +70,9 @@ public class VsCodeClipboard extends ClipboardStorage {
     }-*/;
 
     private void setExternal() {
-        commandInvoker.copySelectedElements(target);
+        //avoid copy when only focus is on properties panel
+        if (EventHandlingUtils.getStorageInstance().getActivePanel() instanceof DrawPanel)
+            commandInvoker.copySelectedElements((DrawPanel)EventHandlingUtils.getStorageInstance().getActivePanel());
     }
 
     @Override
@@ -86,8 +93,12 @@ public class VsCodeClipboard extends ClipboardStorage {
     }
 
     private void pasteExternal(String data) {
-        commandInvoker.executePaste(target, data, pasteTargetPosition);
-        pasteTargetPosition = null;
+        //avoid paste when only focus is on properties panel
+        if (EventHandlingUtils.getStorageInstance().getActivePanel() instanceof DrawPanel)
+        {
+            commandInvoker.executePaste((DrawPanel)EventHandlingUtils.getStorageInstance().getActivePanel(), data, pasteTargetPosition);
+            pasteTargetPosition = null;
+        }
     }
 
     private void savePasteTargetPosition() {
@@ -95,7 +106,9 @@ public class VsCodeClipboard extends ClipboardStorage {
     }
 
     private void cutExternal() {
-        commandInvoker.cutSelectedElements(target);
+        //avoid cut when only focus is on properties panel
+        if (EventHandlingUtils.getStorageInstance().getActivePanel() instanceof DrawPanel)
+            commandInvoker.cutSelectedElements((DrawPanel)EventHandlingUtils.getStorageInstance().getActivePanel());
     }
 
     private native void initListener() /*-{

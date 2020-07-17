@@ -3,10 +3,7 @@ package com.baselet.gwt.client.clipboard;
 import com.baselet.command.CommandTarget;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
-import com.baselet.gwt.client.view.CommandInvoker;
-import com.baselet.gwt.client.view.DrawPanel;
-import com.baselet.gwt.client.view.DrawPanelDiagram;
-import com.baselet.gwt.client.view.DrawPanelPalette;
+import com.baselet.gwt.client.view.*;
 
 import java.util.Map;
 
@@ -17,6 +14,8 @@ public abstract class ClipboardStorage {
 
     protected DrawPanel target;    // Target of clipboard actions
     protected CommandInvoker commandInvoker = CommandInvoker.getInstance();
+
+
 
     /**
      * Returns the value inside the "clipboard" of the local storage.
@@ -64,6 +63,7 @@ public abstract class ClipboardStorage {
      * Initializes the clipboard.
      */
     public abstract boolean init();
+
 
     public void updateTargetPanel(DrawPanel target) {
         this.target = target;
