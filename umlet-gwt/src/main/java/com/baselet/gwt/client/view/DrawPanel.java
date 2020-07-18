@@ -25,10 +25,12 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.element.DiagramGwt;
+import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
 import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
+import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
@@ -425,7 +427,13 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			commandInvoker.pasteElements(DrawPanel.this);
 		}
 		else if (Shortcut.SAVE.matches(event)) {
-			mainView.getSaveCommand().execute();
+			if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
+			{
+				mainView.initialiseExportDialog();
+			} else {
+				mainView.getSaveCommand().execute();
+			}
+
 		}
 		else if (Shortcut.MOVE_UP.matches(event)) {
 			keyboardMoveSelectedElements(0, -SharedConstants.DEFAULT_GRID_SIZE);
