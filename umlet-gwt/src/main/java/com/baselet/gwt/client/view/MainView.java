@@ -1,7 +1,9 @@
 package com.baselet.gwt.client.view;
 
+import com.baselet.gwt.client.view.VersionChecker.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vectomatic.file.Blob;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.control.config.SharedConfig;
@@ -51,6 +53,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.util.List;
 
 public class MainView extends Composite {
 
@@ -141,6 +145,25 @@ public class MainView extends Composite {
 		}
 	};
 
+	private final ScheduledCommand saveCommandVSCode = new ScheduledCommand() {
+		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
+			@Override
+			public void callback(final String chosenName) {
+				boolean itemIsNewlyAdded = BrowserStorage.getSavedDiagram(chosenName) == null;
+				BrowserStorage.addSavedDiagram(chosenName, DiagramXmlParser.diagramToXml(diagramPanel.getDiagram()));
+				if (itemIsNewlyAdded) {
+					addRestoreMenuItem(chosenName);
+				}
+				Notification.showInfo("Diagram saved as: " + chosenName);
+			}
+		});
+
+		@Override
+		public void execute() {
+			saveDialogBox.clearAndCenter();
+		}
+	};
+
 	private final ScheduledCommand exportToDropbox = new ScheduledCommand() {
 		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
 			@Override
@@ -173,6 +196,9 @@ public class MainView extends Composite {
 
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
+		if (VersionChecker.GetVersion() == Version.VSCODE) {
+			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
+		}
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
 		diagramPaletteSplitter.setWidgetSnapClosedSize(palettePropertiesSplitter, 100);
 		diagramPaletteSplitter.setWidgetMinSize(palettePropertiesSplitter, 200);
@@ -181,6 +207,8 @@ public class MainView extends Composite {
 		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
 		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
+
+
 		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
 		diagramPanel.setOtherDrawFocusPanel(palettePanel);
 		palettePanel.setOtherDrawFocusPanel(diagramPanel);
@@ -195,6 +223,17 @@ public class MainView extends Composite {
 		log.trace("Main View initialized");
 
 		handler = new FileOpenHandler(diagramPanel);
+
+		//Load diagram if one was passed from vscode
+		if(VersionChecker.GetVersion() == Version.VSCODE && VersionChecker.vsCodePredefinedFile() != null)
+		{
+			try {
+				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(VersionChecker.vsCodePredefinedFile()));
+			} catch (Exception e)
+			{
+				GWT.log("failed to load diagram passed from vscode, loading defaults...");
+			}
+		}
 
 		diagramPanelWrapper.add(diagramScrollPanel);
 
@@ -271,6 +310,10 @@ public class MainView extends Composite {
 
 	@UiHandler("exportMenuItem")
 	void onExportMenuItemClick(ClickEvent event) {
+		initialiseExportDialog();
+	}
+
+	public void initialiseExportDialog() {
 		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagramPanel.getDiagram());
 		log.info("Exporting: " + uxfUrl);
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());

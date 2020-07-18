@@ -1,0 +1,20 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLNote</id><coordinates><x>660</x><y>340</y><w>140</w><h>70</h></coordinates><panel_attributes>Note..
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>650</x><y>490</y><w>210</w><h>70</h></coordinates><panel_attributes>_object: Class_
+--
+id: Long="36548"
+[waiting for message]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>860</x><y>330</y><w>140</w><h>70</h></coordinates><panel_attributes>Note..
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>480</x><y>630</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;Stereotype&gt;&gt;
+Package::FatClass
+{Some Properties}
+--
+-id: Long
+_-ClassAttribute: Long_
+--
+#Operation(i: int): int
+/+AbstractOperation()/
+--
+Responsibilities
+-- Resp1
+*-- Resp2*</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>920</x><y>500</y><w>140</w><h>70</h></coordinates><panel_attributes>EmptyPackage
+--
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element></diagram>
