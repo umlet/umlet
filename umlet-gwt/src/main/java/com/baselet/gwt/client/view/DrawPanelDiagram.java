@@ -21,7 +21,6 @@ public class DrawPanelDiagram extends DrawPanel {
     private List<GridElement> currentPreviewElementsInstantiated;
     private List<GridElement> currentPreviewElements; //previewed elements that will be displayed while dragging from palette into actual canvas
 
-    private String lastDiagramXMLState;
     private boolean tempInvalid;
 
     private static final CustomLogger log = CustomLoggerFactory.getLogger(DiagramXmlParser.class);
@@ -40,7 +39,7 @@ public class DrawPanelDiagram extends DrawPanel {
         }
     }
 
-    public void InitializeDisplayingPreviewElements(List<GridElement> previewElements) {
+    public void initializeDisplayingPreviewElements(List<GridElement> previewElements) {
         if (currentPreviewElements == null) {
             if (previewElements != null)
                 commandInvoker.addElementsDontNotifyUpdate(this, previewElements);
@@ -97,14 +96,14 @@ public class DrawPanelDiagram extends DrawPanel {
         should not be used for multiple objects, due to performance
         */
     public void setDisplayingPreviewElementInstantiated(List<GridElement> previewElements) {
-        RemoveOldPreview();
+        removeOldPreview();
         if (previewElements != null)
             this.addGridElementsDontNotifyUpdate(previewElements);
         this.currentPreviewElementsInstantiated = previewElements;
     }
 
     //for multiple
-    public void UpdateDisplayingPreviewElements(int diffX, int diffY, boolean firstDrag) {
+    public void updateDisplayingPreviewElements(int diffX, int diffY, boolean firstDrag) {
         if (currentPreviewElements != null) {
             moveElements(diffX, diffY, firstDrag, currentPreviewElements);
         }
@@ -120,18 +119,18 @@ public class DrawPanelDiagram extends DrawPanel {
         //CancelDragOfPalette(); //Should not be needed anymore since selecting elements only works with left click now
         if (!isControlKeyDown || selector.getSelectedElements().size() > 0)
             propertiesPanel.setEnabled(true);
-        RemoveOldPreview();
+        removeOldPreview();
 
     }
 
-    public void CancelDragOfPalette() {
+    public void cancelDragOfPalette() {
         if (otherDrawFocusPanel instanceof DrawPanelPalette)
-            ((DrawPanelPalette) otherDrawFocusPanel).CancelDragNoDuplicate();
+            ((DrawPanelPalette) otherDrawFocusPanel).cancelDragNoDuplicate();
     }
 
     @Override
     public void onShowMenu(Point point) {
-        CancelDragOfPalette();
+        cancelDragOfPalette();
         super.onShowMenu(point);
     }
 
@@ -158,7 +157,7 @@ public class DrawPanelDiagram extends DrawPanel {
     /*
          removes old previews for both instantiated and regular preview variants
          */
-    public void RemoveOldPreview() {
+    public void removeOldPreview() {
         //regular
         if (currentPreviewElements != null)
             commandInvoker.removeElementsNoUpdate(this, this.currentPreviewElements);

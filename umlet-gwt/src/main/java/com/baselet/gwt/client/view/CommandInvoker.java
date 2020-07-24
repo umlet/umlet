@@ -39,7 +39,7 @@ public class CommandInvoker extends Controller {
 		executeCommand(new AddGridElementCommandDontNotifyUpdate(target, elements));
 	}
 
-	private class AddGridElementCommandDontNotifyUpdate extends AddGridElementCommand{
+	private static class AddGridElementCommandDontNotifyUpdate extends AddGridElementCommand{
 
 		public AddGridElementCommandDontNotifyUpdate(CommandTarget target, List<GridElement> elements) {
 			super(target, elements);

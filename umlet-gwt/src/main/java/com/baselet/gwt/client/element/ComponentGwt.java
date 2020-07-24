@@ -20,7 +20,6 @@ public class ComponentGwt implements Component {
 	private final GridElement element;
 
 	private Rectangle rect;
-	private double scaling;
 
 	public ComponentGwt(GridElement element) {
 		this(element, 1d);
@@ -30,7 +29,6 @@ public class ComponentGwt implements Component {
 		this.element = element;
 		drawer = new DrawHandlerGwt(canvas, scaling);
 		metadrawer = new DrawHandlerGwt(canvas, scaling);
-		this.scaling = scaling;
 	}
 
 	@Override

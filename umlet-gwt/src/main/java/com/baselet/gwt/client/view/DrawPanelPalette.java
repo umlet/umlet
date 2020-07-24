@@ -4,9 +4,6 @@ import java.util.*;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
-import com.baselet.control.basics.geom.Rectangle;
-import com.baselet.control.config.SharedConfig;
-import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
@@ -18,17 +15,10 @@ import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
-import com.baselet.gwt.client.keyboard.Shortcut;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.palettes.Resources;
-import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.ListBox;
@@ -124,7 +114,7 @@ public class DrawPanelPalette extends DrawPanel {
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
 		//clear preview object
 		if (otherDrawFocusPanel instanceof  DrawPanelDiagram)
-			((DrawPanelDiagram) otherDrawFocusPanel).RemoveOldPreview();
+			((DrawPanelDiagram) otherDrawFocusPanel).removeOldPreview();
 
 		if (lastPoint.getX() + -scrollPanel.getHorizontalScrollPosition() <= 0) { // mouse moved from palette to diagram -> insert elements to diagram
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
@@ -216,24 +206,24 @@ public class DrawPanelPalette extends DrawPanel {
 
 			//stop drag if element is dragged to properties panel
 			if (dragStart.getY() + diffY - scrollPanel.getVerticalScrollPosition() > getVisibleBounds().height && !(dragStart.getX() + diffX + -scrollPanel.getHorizontalScrollPosition() <= 0)) {
-				CancelDrag(dragStart, diffX, diffY, draggedGridElement);
+				cancelDrag(dragStart, diffX, diffY, draggedGridElement);
 			}
 			redraw(false);
 		}
 	}
 
-	public void CancelDragNoDuplicate() //Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
+	public void cancelDragNoDuplicate() //Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
 	{
 		if (!draggingDisabled && lastDraggedGridElement != null) {
 			List<GridElement> lastDraggedGridElementAsList;
 			lastDraggedGridElementAsList = new ArrayList();
 			lastDraggedGridElementAsList.add(lastDraggedGridElement);
 			removeGridElements(lastDraggedGridElementAsList);
-			CancelDrag(new Point(0, 0), 0, 0, lastDraggedGridElement);
+			cancelDrag(new Point(0, 0), 0, 0, lastDraggedGridElement);
 		}
 	}
 
-	private void CancelDrag(Point dragStart, int diffX, int diffY, GridElement draggedGridElement) {
+	private void cancelDrag(Point dragStart, int diffX, int diffY, GridElement draggedGridElement) {
 		onMouseDragEnd(draggedGridElement, new Point(dragStart.getX() + diffX, dragStart.getY() + diffY));
 		draggingDisabled = true;
 	}
@@ -249,7 +239,7 @@ public class DrawPanelPalette extends DrawPanel {
 				otherDrawDiagramFocusPanel.setDisplayingPreviewElementInstantiated(elementsToMove);
 			} else {
 				//if cursor is dragged back, preview must be removed
-				otherDrawDiagramFocusPanel.RemoveOldPreview();
+				otherDrawDiagramFocusPanel.removeOldPreview();
 			}
 		}
 
@@ -265,13 +255,13 @@ public class DrawPanelPalette extends DrawPanel {
 					for (GridElement e : selector.getSelectedElements()) {
 						elementsToMove.add(gridElementCopyInOtherDiagram(e));
 					}
-					otherDrawDiagramFocusPanel.InitializeDisplayingPreviewElements(elementsToMove);
+					otherDrawDiagramFocusPanel.initializeDisplayingPreviewElements(elementsToMove);
 				} else {
-					otherDrawDiagramFocusPanel.UpdateDisplayingPreviewElements(diffX, diffY, firstDrag);
+					otherDrawDiagramFocusPanel.updateDisplayingPreviewElements(diffX, diffY, firstDrag);
 				}
 			} else {
 				//if cursor is dragged back, preview must be removed
-				otherDrawDiagramFocusPanel.RemoveOldPreview();
+				otherDrawDiagramFocusPanel.removeOldPreview();
 			}
 		}
 
