@@ -381,8 +381,7 @@ public class PlotDrawHandler {
 				}
 			}
 			else {
-				for (int i = 0; i < points.size(); i++) {
-					Point point = points.get(i);
+				for (Point point : points) {
 					base.drawCircle(point.x, point.y, 2);
 				}
 			}

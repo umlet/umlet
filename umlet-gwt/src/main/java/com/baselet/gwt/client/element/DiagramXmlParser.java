@@ -3,15 +3,14 @@ package com.baselet.gwt.client.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
-
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.ElementId;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.base.Notification;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.version.BuildInfoProperties;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;

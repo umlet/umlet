@@ -3,8 +3,6 @@ package com.baselet.element.elementnew.plot;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.diagram.draw.helper.theme.Theme;
-import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +11,8 @@ import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.elementnew.plot.drawer.PlotGridDrawConfig;
 import com.baselet.element.elementnew.plot.elements.AbstractPlot;

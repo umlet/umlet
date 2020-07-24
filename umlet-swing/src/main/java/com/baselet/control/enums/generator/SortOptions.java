@@ -2,6 +2,7 @@ package com.baselet.control.enums.generator;
 
 public enum SortOptions {
 	HEIGHT("by size"), PACKAGE("by package"), ALPHABET("alphabetically"), RELATIONS("with relations");
+
 	private final String label;
 
 	private SortOptions(String label) {

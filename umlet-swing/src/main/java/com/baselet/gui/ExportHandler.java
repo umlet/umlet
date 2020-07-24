@@ -1,13 +1,12 @@
 package com.baselet.gui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.baselet.control.config.Config;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.Notifier;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ExportHandler {
 	private static final String DEFAULT_EXPORT_EXTENSION = "pdf";
@@ -55,7 +54,8 @@ public class ExportHandler {
 			String lastExportFilePath = getLastExportFilePath();
 			exportFilePathWithoutExtension = filePathWithoutExtension(lastExportFilePath);
 			exportExtension = extension(lastExportFilePath);
-		} else {
+		}
+		else {
 			exportFilePathWithoutExtension = null;
 			exportExtension = determineDefaultExportExtension();
 		}
@@ -76,7 +76,8 @@ public class ExportHandler {
 		String configuredExportFormat = Config.getInstance().getLastExportFormat();
 		if (configuredExportFormat.isEmpty()) {
 			return DEFAULT_EXPORT_EXTENSION;
-		} else {
+		}
+		else {
 			return configuredExportFormat;
 		}
 	}
@@ -85,7 +86,8 @@ public class ExportHandler {
 		int extensionPos = filePath.lastIndexOf(".");
 		if (extensionPos > 0) {
 			return filePath.substring(0, extensionPos);
-		} else {
+		}
+		else {
 			return filePath;
 		}
 	}
@@ -94,7 +96,8 @@ public class ExportHandler {
 		int extensionPos = filePath.lastIndexOf(".");
 		if (extensionPos > 0) {
 			return filePath.substring(extensionPos + 1);
-		} else {
+		}
+		else {
 			return "";
 		}
 	}

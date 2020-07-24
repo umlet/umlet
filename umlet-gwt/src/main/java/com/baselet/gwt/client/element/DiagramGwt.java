@@ -1,6 +1,10 @@
 package com.baselet.gwt.client.element;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import com.baselet.control.config.SharedConfig;
 import com.baselet.element.interfaces.Diagram;

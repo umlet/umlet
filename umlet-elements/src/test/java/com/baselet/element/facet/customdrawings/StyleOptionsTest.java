@@ -2,15 +2,15 @@ package com.baselet.element.facet.customdrawings;
 
 import static org.junit.Assert.assertEquals;
 
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.theme.Theme;
-import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 
 public class StyleOptionsTest {
 	private DummyDrawHandler drawHandler;

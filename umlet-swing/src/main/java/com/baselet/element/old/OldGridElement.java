@@ -17,8 +17,6 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 
-import com.baselet.diagram.draw.helper.theme.Theme;
-import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +38,8 @@ import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.ElementUtils;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoHistory;
@@ -201,8 +201,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		bgColor = getDefaultBackgroundColor();
 		fgColorBase = Converter.convert(currentTheme.getColor(Theme.ColorStyle.DEFAULT_FOREGROUND));
 		List<String> v = panelAttributes;
-		for (int i = 0; i < v.size(); i++) {
-			String line = v.get(i);
+		for (String line : v) {
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
 				// OldGridElements apply transparency for background explicitly, therefore don't apply it here

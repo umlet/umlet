@@ -9,9 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.theme.Theme;
-import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +26,10 @@ import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;

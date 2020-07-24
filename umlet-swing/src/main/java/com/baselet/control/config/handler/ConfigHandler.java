@@ -1,5 +1,7 @@
 package com.baselet.control.config.handler;
 
+import static com.baselet.control.constants.Constants.exportFormatList;
+
 import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
@@ -22,8 +24,6 @@ import com.baselet.control.enums.generator.SortOptions;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.gui.BaseGUI;
-
-import static com.baselet.control.constants.Constants.exportFormatList;
 
 public class ConfigHandler {
 

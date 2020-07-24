@@ -31,9 +31,8 @@ public class PropertiesTextArea extends MySuggestBox {
 				}
 				activePanel.redraw();
 
-				//Update the file-in progress for vscode on any value changes
-				if(activePanel instanceof DrawPanelDiagram)
-				{
+				// Update the file-in progress for vscode on any value changes
+				if (activePanel instanceof DrawPanelDiagram) {
 					((DrawPanelDiagram) activePanel).handleFileUpdate();
 				}
 			}
@@ -45,9 +44,6 @@ public class PropertiesTextArea extends MySuggestBox {
 		this.oracle = oracle;
 		this.textArea = textArea;
 	}
-	
-
-
 
 	public void setGridElement(HasPanelAttributes panelAttributeProvider, Redrawable panel) {
 		activePanel = panel;

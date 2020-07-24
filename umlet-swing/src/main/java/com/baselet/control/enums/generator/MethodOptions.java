@@ -2,6 +2,7 @@ package com.baselet.control.enums.generator;
 
 public enum MethodOptions {
 	ALL("all"), NONE("none"), PUBLIC("public only");
+
 	private final String label;
 
 	private MethodOptions(String label) {

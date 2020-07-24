@@ -1,18 +1,17 @@
 package com.baselet.gwt.client;
 
-import com.baselet.diagram.draw.helper.theme.Theme;
-import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
-import com.baselet.diagram.draw.helper.theme.ThemeFactory;
-import com.baselet.gwt.client.base.Converter;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
-
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.gwt.client.base.Browser;
+import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.WebStorage;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.version.BuildInfoProperties;
 import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
@@ -29,11 +28,11 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 
 	@Override
 	public void onModuleLoad() {
-        setUncaughtExceptionHandler();
+		setUncaughtExceptionHandler();
 
 		GWT.create(ThemeFactory.class);
 		ThemeFactory.addListener(this);
-        onThemeChange();
+		onThemeChange();
 
 		log.info("Starting GUI ...");
 		Program.init(BuildInfoProperties.getVersion(), RuntimeType.GWT);
@@ -76,23 +75,23 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 		log.info("GUI started");
 	}
 
-    private void setUncaughtExceptionHandler() {
-        GWT.setUncaughtExceptionHandler(throwable -> {
-            Throwable unwrapped = unwrap(throwable);
-            Notification.showFeatureNotSupported("Sorry, the program just crashed. Please check logs and report a bug.", false);
-            log.error(unwrapped.getMessage());
-        });
-    }
+	private void setUncaughtExceptionHandler() {
+		GWT.setUncaughtExceptionHandler(throwable -> {
+			Throwable unwrapped = unwrap(throwable);
+			Notification.showFeatureNotSupported("Sorry, the program just crashed. Please check logs and report a bug.", false);
+			log.error(unwrapped.getMessage());
+		});
+	}
 
-    public Throwable unwrap(Throwable e) {
-        if (e instanceof UmbrellaException) {
-            UmbrellaException ue = (UmbrellaException) e;
-            if (ue.getCauses().size() == 1) {
-                return unwrap(ue.getCauses().iterator().next());
-            }
-        }
-        return e;
-    }
+	public Throwable unwrap(Throwable e) {
+		if (e instanceof UmbrellaException) {
+			UmbrellaException ue = (UmbrellaException) e;
+			if (ue.getCauses().size() == 1) {
+				return unwrap(ue.getCauses().iterator().next());
+			}
+		}
+		return e;
+	}
 
 	@Override
 	public void onThemeChange() {

@@ -204,21 +204,17 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	protected double getOverallMinWidthSelfMessage(DrawHandler drawHandler, double lifelineHorizontalPadding) {
 		double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick),
 				to.getLifelineRightPartWidth(sendTick + duration));
-		return (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP +
-				SELF_MESSAGE_TEXT_PADDING + TextSplitter.getTextMinWidth(textLines, drawHandler))
-		* 2.0; // multiplied by 2, because this space is needed on the right half of the lifeline
+		return (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP + SELF_MESSAGE_TEXT_PADDING + TextSplitter.getTextMinWidth(textLines, drawHandler)) * 2.0; // multiplied by 2, because this space is needed on the right half of the lifeline
 	}
 
 	protected double getOverallMinWidthNormalMessage(DrawHandler drawHandler, double lifelineHorizontalPadding) {
 		double executionSpecWidth = Math.abs(getSendCenterXOffset()) + Math.abs(getReceiveCenterXOffset());
-		double neededWidth = executionSpecWidth + TextSplitter.getTextMinWidth(textLines, drawHandler)
-								+ LIFELINE_TEXT_PADDING * 2;
+		double neededWidth = executionSpecWidth + TextSplitter.getTextMinWidth(textLines, drawHandler) + LIFELINE_TEXT_PADDING * 2;
 		int affectedLifelineCount = getLastLifeline().getIndex() - getFirstLifeline().getIndex() + 1;
 		// increase the needed width because we only calculated the width for the arrow, but we need the overall width
 		if (!to.isCreatedOnStart() && to.getCreated() != null && to.getCreated() == sendTick + duration) {
 			// here we must compensate for the 1 1/2 lifelines (half one at the send and a full lifeline at the receive)
-			return (2 * affectedLifelineCount * neededWidth - 3 * (affectedLifelineCount - 1) * lifelineHorizontalPadding)
-					/ (2 * affectedLifelineCount - 3);
+			return (2 * affectedLifelineCount * neededWidth - 3 * (affectedLifelineCount - 1) * lifelineHorizontalPadding) / (2 * affectedLifelineCount - 3);
 		}
 		else {
 			// here we must compensate for the 2 half lifelines on each end
@@ -263,8 +259,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		maxTextWidth = Math.min(hInfo.getHDrawingInfo(to).getSymmetricWidth(sendTick),
 				hInfo.getHDrawingInfo(to).getSymmetricWidth(sendTick + duration)) / 2.0;
 		maxTextWidth = maxTextWidth - (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP + SELF_MESSAGE_TEXT_PADDING);
-		additionalHeight = TextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler)
-							- duration * defaultTickHeight;
+		additionalHeight = TextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler) - duration * defaultTickHeight;
 		if (additionalHeight > 0) {
 			for (int i = sendTick + 1; i < sendTick + duration; i++) {
 				ret.put(i, additionalHeight / duration);

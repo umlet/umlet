@@ -1,10 +1,9 @@
 package com.baselet.gwt.client.view.utils;
 
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
-
 import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.DiagramXmlParser;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.DrawPanel;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;

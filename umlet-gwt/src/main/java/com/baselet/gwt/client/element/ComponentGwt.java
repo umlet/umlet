@@ -6,7 +6,6 @@ import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class ComponentGwt implements Component {
@@ -69,7 +68,7 @@ public class ComponentGwt implements Component {
 	private boolean lastSelected = false;
 
 	public void drawOn(Context2d context, boolean isSelected) {
-		drawOn( context,  isSelected,  1d);
+		drawOn(context, isSelected, 1d);
 	}
 
 	public void drawOn(Context2d context, boolean isSelected, double scaling) {
@@ -78,16 +77,16 @@ public class ComponentGwt implements Component {
 		if (redrawNecessary || lastSelected != isSelected) {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();
-			canvas.getContext2d().clearRect(0, 0, el.getWidth()*scaling, el.getHeight()*scaling);
-			canvas.getCanvasElement().setWidth(((int)((double)rect.getWidth()*scaling)) + (int)Math.ceil(1d*scaling)); // canvas size is +1px to make sure a rectangle with width pixels is still visible (in Swing the bound-checking happens in BaseDrawHandlerSwing because you cannot extend the clipping area)
-			canvas.getCanvasElement().setHeight(((int)((double)rect.getHeight()*scaling)) + (int)Math.ceil(1d*scaling));
+			canvas.getContext2d().clearRect(0, 0, el.getWidth() * scaling, el.getHeight() * scaling);
+			canvas.getCanvasElement().setWidth((int) (rect.getWidth() * scaling) + (int) Math.ceil(1d * scaling)); // canvas size is +1px to make sure a rectangle with width pixels is still visible (in Swing the bound-checking happens in BaseDrawHandlerSwing because you cannot extend the clipping area)
+			canvas.getCanvasElement().setHeight((int) (rect.getHeight() * scaling) + (int) Math.ceil(1d * scaling));
 			drawer.drawAll(isSelected);
 			if (isSelected) {
 				metadrawer.drawAll();
 			}
 		}
 		lastSelected = isSelected;
-		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX()*scaling, element.getRectangle().getY()*scaling);
+		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX() * scaling, element.getRectangle().getY() * scaling);
 	}
 
 }

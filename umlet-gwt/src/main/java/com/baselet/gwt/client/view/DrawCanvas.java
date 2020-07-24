@@ -15,8 +15,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.FocusWidget;
 
 public class DrawCanvas {
@@ -62,9 +60,9 @@ public class DrawCanvas {
 	 */
 	private double scaling = 1.0d;
 	private boolean scaleHasChangedSinceLastDraw = false;
-	public void setScaling(double scaling)
-	{
-	this.scaling = scaling;
+
+	public void setScaling(double scaling) {
+		this.scaling = scaling;
 		scaleHasChangedSinceLastDraw = true;
 	}
 
@@ -80,20 +78,21 @@ public class DrawCanvas {
 		else {
 			// if (tryOptimizedDrawing()) return;
 			for (GridElement ge : gridElements) {
-				if (forceRedraw)
+				if (forceRedraw) {
 					((ComponentGwt) ge.getComponent()).afterModelUpdate();
+				}
 				((ComponentGwt) ge.getComponent()).drawOn(canvas.getContext2d(), selector.isSelected(ge), scaling);
 			}
 		}
 	}
 
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
-		if (scaleHasChangedSinceLastDraw)
-		{
-			draw(drawEmptyInfo, gridElements,  selector, true);
+		if (scaleHasChangedSinceLastDraw) {
+			draw(drawEmptyInfo, gridElements, selector, true);
 			scaleHasChangedSinceLastDraw = false;
-		} else {
-			draw(drawEmptyInfo, gridElements,  selector, false);
+		}
+		else {
+			draw(drawEmptyInfo, gridElements, selector, false);
 		}
 	}
 
@@ -109,19 +108,16 @@ public class DrawCanvas {
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
 	}
 
-	/*
-	 used to diaply temporal invalid if vs code passes a wrong uxf
-	 */
-	void drawInvalidDiagramInfo()
-	{
+	/* used to diaply temporal invalid if vs code passes a wrong uxf */
+	void drawInvalidDiagramInfo() {
 		double elWidth = 440;
 		double elHeight = 246;
 		double elXPos = getWidth() / 2.0 - elWidth / 2;
 		double elYPos = getHeight() / 2.0 - elHeight / 2;
 		String invalidDiagramText = "valign=center\n" +
-				"halign=center\n" +
-				".uxf file is currently invalid and can't be displayed.\n" +
-				"Please revert changes or load a valid file";
+									"halign=center\n" +
+									".uxf file is currently invalid and can't be displayed.\n" +
+									"Please revert changes or load a valid file";
 		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), invalidDiagramText, "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
 	}

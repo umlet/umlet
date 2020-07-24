@@ -3,8 +3,6 @@ package com.baselet.gwt.client.view.panel.wrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -14,6 +12,8 @@ import org.vectomatic.file.events.LoadEndEvent;
 import org.vectomatic.file.events.LoadEndHandler;
 
 import com.baselet.gwt.client.element.DiagramXmlParser;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.interfaces.AcceptDiagram;
 import com.google.gwt.user.client.Window;
 

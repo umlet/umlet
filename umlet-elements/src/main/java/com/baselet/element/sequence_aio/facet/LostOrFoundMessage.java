@@ -1,6 +1,5 @@
 package com.baselet.element.sequence_aio.facet;
 
-import com.baselet.diagram.draw.helper.ColorOwn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +11,7 @@ import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.relation.helper.RelationDrawer;
 import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
 import com.baselet.element.sequence_aio.facet.Message.ArrowType;
@@ -111,15 +111,13 @@ public class LostOrFoundMessage implements LifelineOccurrence {
 
 	@Override
 	public double getMinWidth(DrawHandler drawHandler) {
-		return (TextSplitter.getTextMinWidth(textLines, drawHandler)
-				+ LIFELINE_TEXT_PADDING * 2 + Math.abs(getCenterXOffset())) * 2;
+		return (TextSplitter.getTextMinWidth(textLines, drawHandler) + LIFELINE_TEXT_PADDING * 2 + Math.abs(getCenterXOffset())) * 2;
 	}
 
 	@Override
 	public double getAdditionalYHeight(DrawHandler drawHandler, PointDouble size) {
 		return TextSplitter.getSplitStringHeight(textLines,
-				size.x / 2 - LIFELINE_TEXT_PADDING * 2 - Math.abs(getCenterXOffset()), drawHandler
-				) * 2 - size.y;
+				size.x / 2 - LIFELINE_TEXT_PADDING * 2 - Math.abs(getCenterXOffset()), drawHandler) * 2 - size.y;
 	}
 
 	public OccurrenceSpecification sendOccurrenceSpecification() {

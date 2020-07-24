@@ -1,11 +1,5 @@
 package com.baselet.gwt.client.element;
 
-import com.baselet.diagram.draw.helper.ColorOwn;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
-
 import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
@@ -14,44 +8,45 @@ import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Notification;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 
 public class DrawHandlerGwt extends DrawHandler {
 
-    private static final CustomLogger log = CustomLoggerFactory.getLogger(DrawHandlerGwt.class);
+	private static final CustomLogger log = CustomLoggerFactory.getLogger(DrawHandlerGwt.class);
 
 	private final Canvas canvas;
 	private final Context2d ctx;
 
 	public DrawHandlerGwt(Canvas canvas) {
-		this (canvas,1.0d);
+		this(canvas, 1.0d);
 	}
 
 	private double scalingFactor;
 	private boolean scalingIsSet;
+
 	public DrawHandlerGwt(Canvas canvas, double scaling) {
 		this.canvas = canvas;
 		ctx = canvas.getContext2d();
-		this.scalingFactor = scaling;
-		this.scalingIsSet = false;
+		scalingFactor = scaling;
+		scalingIsSet = false;
 	}
 
-	public void setNewScaling(double scalingFactor)
-	{
+	public void setNewScaling(double scalingFactor) {
 
 		this.scalingFactor = scalingFactor;
 		scalingIsSet = false;
 	}
 
-	private void setScalingOnce()
-	{
-		if (!scalingIsSet)
-		{
+	private void setScalingOnce() {
+		if (!scalingIsSet) {
 
 			ctx.setTransform(1, 0, 0, 1, 0, 0);
 			ctx.scale(scalingFactor, scalingFactor);

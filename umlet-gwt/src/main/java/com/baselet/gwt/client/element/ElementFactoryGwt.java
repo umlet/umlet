@@ -12,7 +12,6 @@ import com.baselet.element.sticking.StickableMap;
 
 public class ElementFactoryGwt extends ElementFactory {
 
-
 	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes, String additionalPanelAttributes, final Diagram diagram) {
 		final NewGridElement element = createAssociatedGridElement(id);
 

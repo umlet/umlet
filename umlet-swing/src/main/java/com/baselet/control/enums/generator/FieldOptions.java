@@ -2,6 +2,7 @@ package com.baselet.control.enums.generator;
 
 public enum FieldOptions {
 	ALL("all"), NONE("none"), PUBLIC("public only");
+
 	private final String label;
 
 	private FieldOptions(String label) {
