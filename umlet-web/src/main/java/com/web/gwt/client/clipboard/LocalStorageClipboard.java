@@ -11,7 +11,7 @@ import java.util.Map;
  * local storage calculator: http://glynrob.com/webapp/lscalc/
  */
 public class LocalStorageClipboard extends ClipboardStorage {
-    private static Storage localStorage;
+    private Storage localStorage;
 
     @Override
     public void get() {

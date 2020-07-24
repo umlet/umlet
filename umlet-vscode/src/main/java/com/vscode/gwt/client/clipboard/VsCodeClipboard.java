@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VsCodeClipboard extends ClipboardStorage {
-    private static Map<String, String> clipboard;
+    private Map<String, String> clipboard;
     private static final CustomLogger log = CustomLoggerFactory.getLogger(VsCodeClipboard.class);
 
     private Point pasteTargetPosition;
