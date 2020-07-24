@@ -24,4 +24,8 @@
     <replace-with class="com.web.gwt.client.file.WebFileChangeNotifier">
         <when-type-is class="com.baselet.gwt.client.file.FileChangeNotifier"/>
     </replace-with>
+
+    <replace-with class="com.web.gwt.client.view.theme.ThemeFactoryWeb">
+        <when-type-is class="com.baselet.diagram.draw.helper.theme.ThemeFactory"/>
+    </replace-with>
 </module>
