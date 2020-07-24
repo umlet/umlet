@@ -11,13 +11,57 @@
   <body>
     <!-- the following line is necessary for history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
-    
+
     <!-- the website will not work without JavaScript -->
     <noscript>
     	<div style="width: 25em; position: absolute; left: 50%; margin-left: -11em; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
 	    	You must enable JavaScript to use this web application.
 		</div>
     </noscript>
+
+    <script>
+        function getTheme() {
+            // If browser does not support this feature, choose light theme
+            if (window.matchMedia('(prefers-color-scheme)').media === 'not all') {
+                return "LIGHT";
+            }
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return "DARK";
+            } else {
+                return "LIGHT";
+            }
+        }
+
+        function switchBodyColor(theme) {
+            switch(theme) {
+                case 'DARK':
+                    document.body.style.backgroundColor = 'black';
+                    break;
+                case 'LIGHT':
+                    document.body.style.backgroundColor = '';
+                    break;
+                default:
+                    document.body.style.backgroundColor = '';
+            }
+        }
+
+        // Observing theme changes
+        const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        darkModeMediaQuery.addEventListener("change", function (e) {
+            const darkMode = e.matches;
+            if (darkMode) {
+                window.changeTheme('DARK');
+                switchBodyColor('DARK')
+            } else {
+                window.changeTheme('LIGHT');
+                switchBodyColor('LIGHT')
+            }
+        });
+
+        var theme = getTheme();
+        switchBodyColor(theme);
+    </script>
     <div align="left" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
   </body>
 </html>

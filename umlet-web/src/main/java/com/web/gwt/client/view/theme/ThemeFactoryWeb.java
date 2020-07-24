@@ -8,7 +8,7 @@ public class ThemeFactoryWeb extends ThemeFactory {
     public ThemeFactoryWeb() {
         // We need to initialize theme retrieval on first initialisation of this class
         if (!ThemeFactoryWeb.initialized) {
-            initialiseChangeListener();
+            exportChangeTheme();
             String theme = getTheme();
             if (theme != null) {
                 changeTheme(theme);
@@ -26,28 +26,11 @@ public class ThemeFactoryWeb extends ThemeFactory {
     }
 
     private static native String getTheme() /*-{
-        // If browser does not support this feature, choose light theme
-        if ($wnd.matchMedia('(prefers-color-scheme)').media === 'not all') {
-            return "LIGHT";
-        }
-
-        if ($wnd.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return "DARK";
-        } else {
-            return "LIGHT";
-        }
+        return $wnd.theme;
     }-*/;
 
-    private static native void initialiseChangeListener() /*-{
-        var darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        var that = this;
-        darkModeMediaQuery.addEventListener("change", function (e) {
-            var darkMode = e.matches;
-            if (darkMode) {
-                @com.web.gwt.client.view.theme.ThemeFactoryWeb::changeTheme(Ljava/lang/String;)("DARK");
-            } else {
-                @com.web.gwt.client.view.theme.ThemeFactoryWeb::changeTheme(Ljava/lang/String;)("LIGHT");
-            }
-        })
+    public static native void exportChangeTheme() /*-{
+        $wnd.changeTheme =
+            $entry(@com.web.gwt.client.view.theme.ThemeFactoryWeb::changeTheme(Ljava/lang/String;))
     }-*/;
 }
