@@ -31,7 +31,8 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 	public void onModuleLoad() {
         setUncaughtExceptionHandler();
 
-        ThemeFactory.addListener(this);
+		GWT.create(ThemeFactory.class);
+		ThemeFactory.addListener(this);
         onThemeChange();
 
 		log.info("Starting GUI ...");

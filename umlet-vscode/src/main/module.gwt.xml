@@ -32,4 +32,8 @@
     <replace-with class="com.vscode.gwt.client.resources.VsCodeHelptextFactory">
         <when-type-is class="com.baselet.gwt.client.resources.HelptextFactory"/>
     </replace-with>
+
+    <replace-with class="com.vscode.gwt.client.view.theme.ThemeFactoryVsCode">
+        <when-type-is class="com.baselet.diagram.draw.helper.theme.ThemeFactory"/>
+    </replace-with>
 </module>
