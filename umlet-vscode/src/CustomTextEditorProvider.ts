@@ -478,56 +478,50 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       </script>
     </body>
     <script>
-    
-      var vsCodeClipboardManager = null;
-
-    
+      var vscode = acquireVsCodeApi();
 
       function getTheme() {
         switch(document.body.className) {
           case 'vscode-light':
             return 'LIGHT'; 
           case 'vscode-dark':
-          case 'vscode-hight-contrast':
+          case 'vscode-high-contrast':
             return 'DARK';
           default:
             return 'LIGHT';
         }
       }
 
-      function switchBodyColor(theme) {
-        switch(theme) {
-          case 'DARK':
-            document.body.style.backgroundColor = 'black';
-            break;
-          case 'LIGHT':
-            document.body.style.backgroundColor = '';
-            break;
-          default:
-            document.body.style.backgroundColor = '';
-        }
+      function getEditorBackgroundColor() {
+        return getComputedStyle(document.body).getPropertyValue('--vscode-editor-background');
+      }
+
+      function switchBackgroundColor(color) {
+        document.body.style.backgroundColor = color;
       }
 
       // Observing theme changes
       var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutationRecord) {
             var themeFromClass = getTheme();
+            backgroundColor = getEditorBackgroundColor();
             if(window.changeTheme) {
-              window.changeTheme(themeFromClass);
+              consoleLogVsCode('Switching Theme');
+              window.changeTheme(themeFromClass, backgroundColor);
             }
-            switchBodyColor(themeFromClass);
+            switchBackgroundColor(backgroundColor);
         });    
       });
       
-      var target = document.body;
-      observer.observe(target, { attributes : true, attributeFilter : ['class'] });
+      observer.observe(document.body, { attributes : true, attributeFilter : ['class'] });
 
       // Retrieving current theme
       var theme = 'LIGHT';
       theme = getTheme();
-      switchBodyColor(theme);
 
-      var vscode = acquireVsCodeApi();
+      var backgroundColor = getEditorBackgroundColor();
+      switchBackgroundColor(backgroundColor);
+
       var vsCodeInitialDiagramData = \`${encodedDiagramData}\`;
 
       function consoleLogVsCode(consoleMessage) {

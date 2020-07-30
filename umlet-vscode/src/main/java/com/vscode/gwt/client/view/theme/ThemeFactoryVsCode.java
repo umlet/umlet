@@ -10,8 +10,9 @@ public class ThemeFactoryVsCode extends ThemeFactory {
         if (!ThemeFactoryVsCode.initialized) {
             exportChangeTheme();
             String theme = getTheme();
+			String backgroundColor = getBackgroundColor();
             if (theme != null) {
-                changeTheme(theme);
+                changeTheme(theme, backgroundColor);
             }
             setInitialized();
         }
@@ -21,16 +22,20 @@ public class ThemeFactoryVsCode extends ThemeFactory {
         ThemeFactoryVsCode.initialized = true;
     }
 
-    private static void changeTheme(String themeString) {
-        changeTheme(ThemeFactory.THEMES.valueOf(themeString));
+    private static void changeTheme(String themeString, String backgroundColor) {
+        changeTheme(ThemeFactory.THEMES.valueOf(themeString), backgroundColor, true);
     }
 
     private static native String getTheme() /*-{
         return $wnd.theme;
     }-*/;
 
+    private static native String getBackgroundColor() /*-{
+        return $wnd.backgroundColor;
+    }-*/;
+
     public static native void exportChangeTheme() /*-{
         $wnd.changeTheme =
-            $entry(@com.vscode.gwt.client.view.theme.ThemeFactoryVsCode::changeTheme(Ljava/lang/String;))
+            $entry(@com.vscode.gwt.client.view.theme.ThemeFactoryVsCode::changeTheme(Ljava/lang/String;Ljava/lang/String;))
     }-*/;
 }

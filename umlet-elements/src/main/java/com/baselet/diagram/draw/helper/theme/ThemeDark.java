@@ -1,6 +1,5 @@
 package com.baselet.diagram.draw.helper.theme;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -52,7 +51,7 @@ public class ThemeDark extends Theme {
 		colorMap.put(PredefinedColors.YELLOW, YELLOW);
 		colorMap.put(PredefinedColors.TRANSPARENT, TRANSPARENT);
 		colorMap.put(PredefinedColors.NONE, TRANSPARENT);
-		this.colorMap = Collections.unmodifiableMap(colorMap);
+		this.colorMap = colorMap;
 
 		HashMap<ColorStyle, ColorOwn> styleColorMap = new HashMap<ColorStyle, ColorOwn>();
 		styleColorMap.put(ColorStyle.SELECTION_FG, SELECTION_FG);
@@ -63,6 +62,6 @@ public class ThemeDark extends Theme {
 		styleColorMap.put(ColorStyle.DEFAULT_BACKGROUND, DEFAULT_BACKGROUND);
 		styleColorMap.put(ColorStyle.DEFAULT_SPLITTER_COLOR, DEFAULT_SPLITTER_COLOR);
 		styleColorMap.put(ColorStyle.DEFAULT_DOCUMENT_BACKGROUND, DEFAULT_DOCUMENT_BACKGROUND);
-		this.styleColorMap = Collections.unmodifiableMap(styleColorMap);
+		this.styleColorMap = styleColorMap;
 	}
 }

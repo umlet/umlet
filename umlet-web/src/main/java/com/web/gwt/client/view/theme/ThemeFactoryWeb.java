@@ -22,7 +22,7 @@ public class ThemeFactoryWeb extends ThemeFactory {
 	}
 
 	private static void changeTheme(String themeString) {
-		changeTheme(ThemeFactory.THEMES.valueOf(themeString.toUpperCase()));
+		changeTheme(ThemeFactory.THEMES.valueOf(themeString.toUpperCase()), null, true);
 	}
 
 	private static native String getTheme() /*-{
@@ -31,6 +31,6 @@ public class ThemeFactoryWeb extends ThemeFactory {
 
 	public static native void exportChangeTheme() /*-{
         $wnd.changeTheme =
-            $entry(@com.web.gwt.client.view.theme.ThemeFactoryWeb::changeTheme(Ljava/lang/String;))
+            $entry(@com.web.gwt.client.view.theme.ThemeFactoryWeb::changeTheme(Ljava/lang/String;));
     }-*/;
 }

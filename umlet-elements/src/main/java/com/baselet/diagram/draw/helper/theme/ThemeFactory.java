@@ -1,5 +1,7 @@
 package com.baselet.diagram.draw.helper.theme;
 
+import com.baselet.diagram.draw.helper.ColorOwn;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class ThemeFactory {
 	}
 
 	private static Theme theme;
+	private static String lastBackgroundColor;
 
 	private static THEMES activeThemeEnum;
 
@@ -18,10 +21,11 @@ public class ThemeFactory {
 		listeners = new ArrayList<ThemeChangeListener>();
 	}
 
-	public static void changeTheme(THEMES chosenTheme) {
+	public static void changeTheme(THEMES chosenTheme, String backgroundColor, boolean overrideBackground) {
 		if (chosenTheme.equals(activeThemeEnum)) {
 			return;
 		}
+
 		switch (chosenTheme) {
 			case DARK:
 				activeThemeEnum = chosenTheme;
@@ -35,6 +39,14 @@ public class ThemeFactory {
 				activeThemeEnum = THEMES.LIGHT;
 				theme = new ThemeLight();
 		}
+		if (backgroundColor != null) {
+			lastBackgroundColor = backgroundColor;
+		}
+
+		// In some occasions (e.g. PNG export) we don't want to overwrite the standard background of the theme
+		if (lastBackgroundColor != null && overrideBackground) {
+			theme.styleColorMap.put(Theme.ColorStyle.DEFAULT_BACKGROUND, new ColorOwn(lastBackgroundColor));
+		}
 		for (ThemeChangeListener listener : listeners) {
 			listener.onThemeChange();
 		}
@@ -42,7 +54,7 @@ public class ThemeFactory {
 
 	public static Theme getCurrentTheme() {
 		if (theme == null) {
-			changeTheme(THEMES.LIGHT);
+			changeTheme(THEMES.LIGHT, null, true);
 		}
 		return theme;
 	}
