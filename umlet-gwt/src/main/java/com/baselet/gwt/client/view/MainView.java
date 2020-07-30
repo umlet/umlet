@@ -57,6 +57,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.dom.client.Element;
 
 public class MainView extends Composite implements ThemeChangeListener {
 
@@ -351,5 +352,26 @@ public class MainView extends Composite implements ThemeChangeListener {
 		propertiesPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		propertiesPanel.getElement().getStyle().setColor(foregroundColor);
 		propertiesPanel.getElement().getStyle().setBorderColor(backgroundColor);
-	}
+
+        mainPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
+        mainPanel.getElement().getStyle().setColor(foregroundColor);
+
+        // There seems to be no better way to retrieve the needed rows to color their hover effect
+        for (int i = 0; i < menuPanel.getWidgetCount(); i++) {
+            Element element = menuPanel.getWidget(i).getElement();
+            if (element.getClassName().contains("com-baselet-gwt-client-view-MainView_MainViewUiBinderImpl_GenCss_style-menuItem")) {
+                element.removeClassName("dark");
+                element.removeClassName("light");
+                switch (ThemeFactory.getActiveThemeEnum()) {
+                    case DARK:
+                        element.addClassName("dark");
+                        break;
+                    case LIGHT:
+                    default:
+                        element.addClassName("light");
+                        break;
+                }
+            }
+        }
+    }
 }
