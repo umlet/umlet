@@ -1,9 +1,19 @@
-# Change Log
+0.3.0 -- Beta Release -- 2020-07-31:
+- Description update
+- Changelog
+- Bug fixes
 
-All notable changes to the "UMLet" extension will be documented in this file.
+0.0.25 -- Alpha Release on Marketplace -- 2020-07-28:
+- Improved copy/paste
+- Keyboard shortcuts
+- Palette optimization
+- Context menu
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+0.0.11 -- Initial Prototype and First .vsix-Release -- 2020-06-29:
+- File handling integration
+- Copy/paste
+- Undo/redo
+- Dark mode
+- New diagram command
+- Logging
+- Export as png

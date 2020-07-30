@@ -20,18 +20,18 @@ let lastCurrentlyActivePanel: WebviewPanel | null = null; //always saves last pa
 export function lastCurrentlyActivePanelPurified(): WebviewPanel | null {
   console.log("current active text editor is: " + vscode.window.activeTextEditor);
   console.log("current active custom editor is: " + lastCurrentlyActivePanel?.active)
-  if (lastCurrentlyActivePanel?.active)
-    {return lastCurrentlyActivePanel;}
-  else
-    {return null;}
+  if (lastCurrentlyActivePanel?.active) { return lastCurrentlyActivePanel; }
+  else { return null; }
 }
 let lastChangeTriggeredByUri = ""; //whenever a document change is triggered by an instance of the UMLet Gwt application, the uri of the corresponding document will be tracked here.
 
 
 
+
+
 export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
-  private outputChannel: vscode.OutputChannel;
+  private static outputChannel: vscode.OutputChannel;
 
 
   /*
@@ -40,6 +40,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
   Select all for webviews is also intercepted so it can be disabled in umlet since it would select the property panel
   */
   public static overrideVsCodeCommands(context: vscode.ExtensionContext) {
+
     console.log("Overriding commands....");
     //COPY
     //override the editor.action.clipboardCopyAction with our own
@@ -110,7 +111,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             });
           });
 
-        }else if (lastCurrentlyActivePanelPurified() !== null) {
+        } else if (lastCurrentlyActivePanelPurified() !== null) {
           //else use command on the last active UMLet tab. this is to enable this command via context menu, as umlet looses focus when the edit menu is pressed on the now standard custom toolbar
           vscode.env.clipboard.readText().then((text) => {
             //TODO check for and remove UMLET tag from paste
@@ -194,7 +195,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
   constructor(
     private readonly context: vscode.ExtensionContext
   ) {
-    this.outputChannel = vscode.window.createOutputChannel('UMLet');
+    UmletEditorProvider.outputChannel = vscode.window.createOutputChannel('UMLet');
   }
 
   private static readonly viewType = 'uxfCustoms.umletEditor';
@@ -203,6 +204,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     var channel = vscode.window.createOutputChannel('myoutputchannel');
     channel.appendLine('new clip pushg');
     channel.show();
+
   }
 
 
@@ -217,7 +219,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       console.log("vis text edit length" + e.length);
     });
 
-    
+
 
 
 
@@ -255,7 +257,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'))]
     };
 
-
     // Handle messages from the webview
     webviewPanel.webview.onDidReceiveMessage(message => {
       switch (message.command) {
@@ -271,7 +272,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
           this.SaveFileDecode(actual_data);
           return;
         case 'postLog':
-          this.postLog(message.text);
+          UmletEditorProvider.postLog(message.text);
           return;
         case 'setClipboard':
           vscode.env.clipboard.writeText(message.text);
@@ -287,17 +288,60 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
           });
           return;
         case 'consoleLog':
-          this.postLog(message.text);
+          UmletEditorProvider.postLog(message.text);
           return;
         case 'onFocus':
-          currentlyActivePanel = webviewPanel;
-          lastCurrentlyActivePanel = currentlyActivePanel;
+          if (webviewPanel.active)
+          {
+            UmletEditorProvider.postLog("Webview " + document.fileName + " now focused because tt focus and is active");
+            currentlyActivePanel = webviewPanel;
+            setLastPanel(webviewPanel);
+          } else {
+            UmletEditorProvider.postLog("Webview " + document.fileName + " NOT FOCUSED because not active");
+          }
+          
           return;
         case 'onBlur':
-          currentlyActivePanel = null;
+          //for some reason, onBlur gets called when a panel which was already opened gets opened.
+          //this is not expected and leads to weird behaviour with tracking currently active panel, so its prevented
+          if (currentlyActivePanel === webviewPanel)
+          {
+            currentlyActivePanel = null;
+            UmletEditorProvider.postLog("panel " + document.fileName + " blured, 1.5 seconds until last panel is reset");
+            setTimeout(resetLastPanel, 1500);
+          } else {
+            UmletEditorProvider.postLog("timer for " + document.fileName + " was not set, there is another currently active panel");
+          }
           return;
       }
     }, undefined, this.context.subscriptions);
+
+
+    /*
+    set last active panel, but only for 1.5 seconds
+    Lazy copy/paste is only available during 1.5 seconds after the UMLet editor looses focus.
+    this is to avoid situations where a user goes into the console to write something and uses copy/cut/paste, this would result in the copy/cut/paste command to be triggered
+    in both umlet and the console. same with the command search function.
+    */
+    function setLastPanel(newLastActivePanel : WebviewPanel) {
+      UmletEditorProvider.postLog("last current active panel set, "  + document.fileName);
+      lastCurrentlyActivePanel = newLastActivePanel;
+      
+    }
+
+    //called after 1.5 secs
+    function resetLastPanel()
+    {
+      //only reset if this panel was the last currently active panel
+      if (lastCurrentlyActivePanel === webviewPanel && currentlyActivePanel === null)
+      {
+        lastCurrentlyActivePanel = null;
+        UmletEditorProvider.postLog("last active panel for" +document.fileName + " was reset because time and its still the last active panel");
+      } else {
+        UmletEditorProvider.postLog("last active panel for" +document.fileName + "was NOT reset because there now is another last active panel anyway");
+      }
+      
+    }
 
     // Get path to resource on disk
     const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'));
@@ -391,8 +435,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       });
   }
 
-  postLog(message: string) {
-    this.outputChannel.appendLine(message);
+  public static postLog(message: string) {
+    UmletEditorProvider.outputChannel.appendLine(message);
   }
 
   /**
