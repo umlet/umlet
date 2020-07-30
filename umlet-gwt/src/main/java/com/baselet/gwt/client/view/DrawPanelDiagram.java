@@ -52,7 +52,6 @@ public class DrawPanelDiagram extends DrawPanel {
 	@Override
 	void redraw(boolean recalcSize) {
 		if (tempInvalid) {
-			log.info("redrawing temp invalid");
 			List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
 			if (recalcSize) {
 				if (scrollPanel == null) {
@@ -86,7 +85,6 @@ public class DrawPanelDiagram extends DrawPanel {
 			canvas.drawInvalidDiagramInfo();
 		}
 		else {
-			log.info("redrawing super");
 			super.redraw(recalcSize);
 		}
 	}
