@@ -45,7 +45,7 @@ public class ThemeFactory {
 
 		// In some occasions (e.g. PNG export) we don't want to overwrite the standard background of the theme
 		if (lastBackgroundColor != null && overrideBackground) {
-			theme.styleColorMap.put(Theme.ColorStyle.DEFAULT_BACKGROUND, new ColorOwn(lastBackgroundColor));
+			theme.styleColorMap.put(Theme.ColorStyle.DEFAULT_DOCUMENT_BACKGROUND, new ColorOwn(lastBackgroundColor));
 		}
 		for (ThemeChangeListener listener : listeners) {
 			listener.onThemeChange();
