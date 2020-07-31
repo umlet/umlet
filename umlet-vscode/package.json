@@ -2,7 +2,7 @@
 	"name": "umlet",
 	"displayName": "UMLet",
 	"description": "Free UML Tool for Fast UML Diagrams",
-	"version": "14.4.0-SNAPSHOT",
+	"version": "0.3.1",
 	"publisher": "theumletteam",
 	"author": {
 		"name": "The UMLet Team"
@@ -68,8 +68,7 @@
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
-		"test": "node ./out/test/runTest.js",
-		"postinstall": "sync-pom-version"
+		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
 		"@types/file-saver": "^2.0.1",

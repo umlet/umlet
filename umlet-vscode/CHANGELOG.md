@@ -1,4 +1,7 @@
-0.3.0 -- Beta Release -- 2020-07-31:
+0.3.1 -- Theme Update -- 2020-07-31:
+- Improved theme support
+
+0.3.0 -- Beta Release -- 2020-07-29:
 - Description update
 - Changelog
 - Bug fixes
