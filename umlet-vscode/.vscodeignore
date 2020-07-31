@@ -10,3 +10,14 @@ vsc-extension-quickstart.md
 **/*.ts
 node_modules
 node
+target/antrun
+target/archive-tmp
+target/classes
+target/generated-sources
+target/gwt
+target/gwt-unitCache
+target/maven-archiver
+target/maven-status
+target/*.war
+target/*.zip
+target/*.jar
