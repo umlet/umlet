@@ -68,7 +68,7 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>compile</phase>
                         <configuration>
                             <style>PRETTY</style>
                             <tasks>
