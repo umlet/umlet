@@ -1,6 +1,5 @@
 .vscode/**
 .vscode-test/**
-out/test/**
 src/test/**
 .gitignore
 vsc-extension-quickstart.md
@@ -8,7 +7,6 @@ vsc-extension-quickstart.md
 **/.eslintrc.json
 **/*.map
 **/*.ts
-node_modules
 node
 target/antrun
 target/archive-tmp
@@ -21,3 +19,4 @@ target/maven-status
 target/*.war
 target/*.zip
 target/*.jar
+target/out/test/**
