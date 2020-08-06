@@ -19,127 +19,119 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 
-    private static final CustomLogger log = CustomLoggerFactory.getLogger(DiagramXmlParser.class);
-    public VsCodeDownloadPopupPanel() {
-        initListener();
-    }
+	private static final CustomLogger log = CustomLoggerFactory.getLogger(DiagramXmlParser.class);
 
-    @Override
-    public void prepare(FilenameAndScaleHolder filenameAndScaleHolder) {
-        Diagram diagram = drawPanelDiagram.getDiagram();
+	public VsCodeDownloadPopupPanel() {
+		initListener();
+	}
 
-        setHeader("Export Diagram");
-        FlowPanel panel = new FlowPanel();
+	@Override
+	public void prepare(FilenameAndScaleHolder filenameAndScaleHolder) {
+		Diagram diagram = drawPanelDiagram.getDiagram();
 
-        //handle scaling
-        HTML scaleHtml = new HTML("Set scaling of Image file:");
-        panel.add(scaleHtml);
-        final TextBox scaleBox = new TextBox();
-        panel.add(scaleBox);
-        scaleBox.setValue("1.0");
-        filenameAndScaleHolder.setScaling(1d);
+		setHeader("Export Diagram");
+		FlowPanel panel = new FlowPanel();
 
-        panel.add(new HTML("<br>"));
+		// handle scaling
+		HTML scaleHtml = new HTML("Set scaling of Image file:");
+		panel.add(scaleHtml);
+		final TextBox scaleBox = new TextBox();
+		panel.add(scaleBox);
+		scaleBox.setValue("1.0");
+		filenameAndScaleHolder.setScaling(1d);
 
-        String uxfUrl = DiagramXmlParser.diagramToXml(diagram);
+		panel.add(new HTML("<br>"));
 
-        Button saveDiagramButton = new Button();
-        saveDiagramButton.setText("Save Diagram File");
-        saveDiagramButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                exportDiagramVSCode(uxfUrl);
-            }
-        });
-        panel.add(saveDiagramButton);
-        Button savePictureButton = new Button();
-        savePictureButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
-                exportPngVSCode(scaledPngUrl);
+		String uxfUrl = DiagramXmlParser.diagramToXml(diagram);
 
-					/*
-						this line is to prevent a bug in the vs code version
-						if this is not recalculated with a 1.0 scaling, then the display size of the elements in the diagram will change
-						to whatever scaling was calculated for exporting
-					 */
-                CanvasUtils.createPngCanvasDataUrl(diagram, 1.0d);
-            }
-        });
-        savePictureButton.setText("Save Image File");
-        panel.add(savePictureButton);
-        setWidget(panel);
-        //renew download links when scaling is changed
-        scaleBox.addDomHandler(new InputHandler() {
-            @Override
-            public void onInput(InputEvent event) {
-                try {
-                    double scalingValue = Double.parseDouble(scaleBox.getValue());
-                    if (scalingValue <= 0)
-                        throw new Exception();
-                    filenameAndScaleHolder.setScaling(scalingValue);
-                } catch (Exception e) {
-                    //wrong scaling value, just default to standard
-                    filenameAndScaleHolder.setScaling(1.0d);
-                }
-            }
-        }, InputEvent.getType());
-        // listen to all input events from the browser (http://stackoverflow.com/a/43089693)
-        /* textBox.addDomHandler(new InputHandler() {
-         * @Override public void onInput(InputEvent event) { //not needed in vs code version since filename will be entered in popup dialog //filenameAndScaleHolder.setFilename(textBox.getText()); } }, InputEvent.getType()); */
-    }
+		Button saveDiagramButton = new Button();
+		saveDiagramButton.setText("Save Diagram File");
+		saveDiagramButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				exportDiagramVSCode(uxfUrl);
+			}
+		});
+		panel.add(saveDiagramButton);
+		Button savePictureButton = new Button();
+		savePictureButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
+				exportPngVSCode(scaledPngUrl);
 
+				/* this line is to prevent a bug in the vs code version if this is not recalculated with a 1.0 scaling, then the display size of the elements in the diagram will change to whatever scaling was calculated for exporting */
+				CanvasUtils.createPngCanvasDataUrl(diagram, 1.0d);
+			}
+		});
+		savePictureButton.setText("Save Image File");
+		panel.add(savePictureButton);
+		setWidget(panel);
+		// renew download links when scaling is changed
+		scaleBox.addDomHandler(new InputHandler() {
+			@Override
+			public void onInput(InputEvent event) {
+				try {
+					double scalingValue = Double.parseDouble(scaleBox.getValue());
+					if (scalingValue <= 0)
+						throw new Exception();
+					filenameAndScaleHolder.setScaling(scalingValue);
+				} catch (Exception e) {
+					// wrong scaling value, just default to standard
+					filenameAndScaleHolder.setScaling(1.0d);
+				}
+			}
+		}, InputEvent.getType());
+		// listen to all input events from the browser (http://stackoverflow.com/a/43089693)
+		/* textBox.addDomHandler(new InputHandler() {
+		 * @Override public void onInput(InputEvent event) { //not needed in vs code version since filename will be entered in popup dialog //filenameAndScaleHolder.setFilename(textBox.getText()); } }, InputEvent.getType()); */
+	}
 
+	private void handleExport(String size) {
+		double scalingValue = Double.parseDouble(size);
+		String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(drawPanelDiagram.getDiagram(), scalingValue);
+		exportPngVSCode(scaledPngUrl);
+	}
 
-    private void handleExport(String size) {
-        double scalingValue = Double.parseDouble(size);
-        String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(drawPanelDiagram.getDiagram(), scalingValue);
-        exportPngVSCode(scaledPngUrl);
-    }
+	private native void initListener() /*-{
+		var that = this;
+		$wnd.addEventListener('message', function (event) {
+			var message = event.data;
+			switch (message.command) {
+				case 'requestExport':
+					that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleExport(Ljava/lang/String;)(message.text);
+					break;
+				case 'myUpdate': //message.text is expected to be the new diagram the editor should changed to
+					that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleUpdateContent(Ljava/lang/String;)(message.text);
+					break;
+			}
+		});
+	}-*/;
 
-    private native void initListener() /*-{
-        var that = this;
-        $wnd.addEventListener('message', function (event) {
-            var message = event.data;
-            switch (message.command) {
-                case 'requestExport':
-                    that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleExport(Ljava/lang/String;)(message.text);
-                    break;
-                case 'myUpdate': //message.text is expected to be the new diagram the editor should changed to
-                    that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleUpdateContent(Ljava/lang/String;)(message.text);
-                    break;
-            }
+	public void handleUpdateContent(String content) {
+		Diagram parsedDiagram = DiagramXmlParser.xmlToDiagram(content);
+		log.error("is the parsed diagram null? " + (parsedDiagram == null));
+		if (parsedDiagram != null) {
+			this.drawPanelDiagram.setDiagram(parsedDiagram);
+			this.drawPanelDiagram.setTempInvalid(false);
+		}
+		else {
+			this.drawPanelDiagram.setTempInvalid(true);
+		}
 
-        });
-    }-*/;
+	}
 
-    public  void handleUpdateContent(String content)
-    {
-        Diagram parsedDiagram = DiagramXmlParser.xmlToDiagram(content);
-        log.error("is the parsed diagram null? " + (parsedDiagram == null));
-        if (parsedDiagram != null)
-        {
-            this.drawPanelDiagram.setDiagram(parsedDiagram);
-            this.drawPanelDiagram.setTempInvalid(false);
-        } else {
-            this.drawPanelDiagram.setTempInvalid(true);
-        }
+	private native void exportDiagramVSCode(String msg) /*-{
+		window.parent.vscode.postMessage({
+			command: 'exportUxf',
+			text: msg
+		});
+	}-*/;
 
-
-    }
-
-    private native void exportDiagramVSCode(String msg) /*-{
-        window.parent.vscode.postMessage({
-            command: 'exportUxf',
-            text: msg
-        });
-    }-*/;
-
-    private native void exportPngVSCode(String msg) /*-{
-        window.parent.vscode.postMessage({
-            command: 'exportPng',
-            text: msg
-        });
-    }-*/;
+	private native void exportPngVSCode(String msg) /*-{
+		window.parent.vscode.postMessage({
+			command: 'exportPng',
+			text: msg
+		});
+	}-*/;
 }
