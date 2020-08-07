@@ -21,3 +21,4 @@ target/*.war
 target/*.zip
 target/*.jar
 target/out/test/**
+images
