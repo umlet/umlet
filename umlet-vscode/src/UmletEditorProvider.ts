@@ -451,8 +451,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       observer.observe(document.body, { attributes : true, attributeFilter : ['class'] });
 
       // Retrieving current theme
-      var theme = 'LIGHT';
-      theme = getTheme();
+      var theme = getTheme();
 
       var backgroundColor = getEditorBackgroundColor();
       switchBackgroundColor(backgroundColor);
