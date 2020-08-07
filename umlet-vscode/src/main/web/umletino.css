@@ -41,13 +41,12 @@
     padding-bottom: 0.1em;
 }
 
-.mainView {
-    outline: none;
-}
-
 * {
     /* Prevent any object from being highlighted upon touch event*/
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    /* We don't want any orange borders when clicking on elements */
+    outline: none !important;
 }
 
 .gwt-SuggestBoxPopup {
