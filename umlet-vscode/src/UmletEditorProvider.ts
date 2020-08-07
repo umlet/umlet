@@ -1,12 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import {
-    WebviewPanel,
-} from "vscode";
+import {WebviewPanel} from "vscode";
 import * as path from 'path';
 import * as parser from 'fast-xml-parser';
-import fs = require('fs');
+import * as fs from "fs";
 
 export var currentlyActivePanel: WebviewPanel | null = null;
 let lastCurrentlyActivePanel: WebviewPanel | null = null; //always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut

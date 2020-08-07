@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import {Uri} from "vscode";
 import * as path from 'path';
-import fs = require('fs');
+import * as fs from "fs";
 import {UmletEditorProvider, lastCurrentlyActivePanelPurified} from './UmletEditorProvider';
 
 // this method is called when your extension is activated
