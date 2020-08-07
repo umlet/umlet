@@ -104,7 +104,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <phase>package</phase>
+                        <phase>install</phase>
                         <configuration>
                             <arguments>run vsce</arguments>
                         </configuration>

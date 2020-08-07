@@ -1,6 +1,6 @@
 .vscode/**
 .vscode-test/**
-src/test/**
+src/**
 .gitignore
 vsc-extension-quickstart.md
 **/tsconfig.json
@@ -8,6 +8,7 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 node
+node_modules
 target/antrun
 target/archive-tmp
 target/classes
