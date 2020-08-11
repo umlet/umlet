@@ -1,10 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import {Uri} from "vscode";
+import { Uri } from "vscode";
 import * as path from 'path';
 import * as fs from "fs";
-import {UmletEditorProvider, lastCurrentlyActivePanelPurified} from './UmletEditorProvider';
+import { UmletEditorProvider, lastCurrentlyActivePanelPurified, exportCurrentlyActivePanel } from './UmletEditorProvider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
         "uxfCustoms.umletEditor",
         new UmletEditorProvider(context),
         {
-            webviewOptions: {retainContextWhenHidden: true}
+            webviewOptions: { retainContextWhenHidden: true }
         }
     ));
 }
@@ -27,7 +27,7 @@ function createUmletCommands(context: vscode.ExtensionContext) {
     //Register Commands for exporting in default and x4 size
     //x1 Size
     const commandHandlerOneExport = () => {
-        lastCurrentlyActivePanelPurified()?.webview.postMessage({
+        exportCurrentlyActivePanel?.webview.postMessage({
             command: 'requestExport',
             text: "1"
         });
@@ -35,7 +35,7 @@ function createUmletCommands(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPngOne', commandHandlerOneExport));
     //x4 Size
     const commandHandlerFourExport = () => {
-        lastCurrentlyActivePanelPurified()?.webview.postMessage({
+        exportCurrentlyActivePanel?.webview.postMessage({
             command: 'requestExport',
             text: "4"
         });
