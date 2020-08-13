@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { WebviewPanel } from "vscode";
+import {WebviewPanel} from "vscode";
 import * as path from 'path';
 import * as parser from 'fast-xml-parser';
 import * as fs from "fs";
@@ -208,7 +208,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         })
             .then(fileInfos => {
                 if (fileInfos !== undefined) {
-                    fs.writeFile(fileInfos.fsPath, fileContent, { encoding: 'base64' }, function (err) {
+                    fs.writeFile(fileInfos.fsPath, fileContent, {encoding: 'base64'}, function (err) {
                         if (err) {
                             return console.log(err);
                         }
@@ -253,10 +253,10 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                 UmletEditorProvider.postLog("After Copy");
                 if (currentlyActivePanel !== null) {
                     //if there is an actual panel in focus, just copy it
-                    currentlyActivePanel?.webview.postMessage({ command: 'copy' });
+                    currentlyActivePanel?.webview.postMessage({command: 'copy'});
                 } else if (lastCurrentlyActivePanelPurified() !== null) {
                     //else use command on the last active UMLet tab. this is to enable this command via context menu, as umlet looses focus when the edit menu is pressed on the now standard custom toolbar
-                    lastCurrentlyActivePanelPurified()?.webview.postMessage({ command: 'copy' });
+                    lastCurrentlyActivePanelPurified()?.webview.postMessage({command: 'copy'});
                 }
 
                 //add the overridden editor.action.clipboardCopyAction back
@@ -340,10 +340,10 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                 UmletEditorProvider.postLog("After Cut");
                 if (currentlyActivePanel !== null) {
                     UmletEditorProvider.postLog("MESSAGE Cut");
-                    currentlyActivePanel?.webview.postMessage({ command: 'cut' });
+                    currentlyActivePanel?.webview.postMessage({command: 'cut'});
                 } else if (lastCurrentlyActivePanelPurified() !== null) {
                     UmletEditorProvider.postLog("MESSAGE Cut");
-                    lastCurrentlyActivePanelPurified()?.webview.postMessage({ command: 'cut' });
+                    lastCurrentlyActivePanelPurified()?.webview.postMessage({command: 'cut'});
                 }
                 //add the overridden editor.action.clipboardCutAction back
                 clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
