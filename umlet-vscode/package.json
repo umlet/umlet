@@ -12,7 +12,7 @@
     "ui"
   ],
   "engines": {
-    "vscode": "^1.44.0"
+    "vscode": "^1.47.0"
   },
   "categories": [
     "Other"
@@ -75,19 +75,19 @@
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.1",
-    "@types/glob": "^7.1.1",
+    "@types/glob": "^7.1.3",
     "@types/mocha": "^7.0.1",
-    "@types/node": "^12.12.32",
-    "@types/vscode": "^1.44.0",
-    "@typescript-eslint/eslint-plugin": "^2.25.0",
-    "@typescript-eslint/parser": "^2.25.0",
-    "electron": "^8.2.0",
+    "@types/node": "^12.12.54",
+    "@types/vscode": "^1.47.0",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "electron": "^8.5.0",
     "eslint": "^6.8.0",
     "glob": "^7.1.6",
-    "mocha": "^7.1.1",
+    "mocha": "^7.2.0",
     "ts-loader": "^8.0.2",
-    "typescript": "^3.7.5",
-    "vscode-test": "^1.3.0",
+    "typescript": "^3.9.7",
+    "vscode-test": "^1.4.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
@@ -98,6 +98,6 @@
     "fast-xml-parser": "^3.17.4",
     "file-saver": "^2.0.2",
     "sync-pom-version-to-package": "^1.5.0",
-    "vsce": "^1.75.0"
+    "vsce": "^1.78.0"
   }
 }
