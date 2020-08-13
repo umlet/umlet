@@ -1,11 +1,11 @@
-<center>BETA VERSION of UMLet -- Free UML Tool for Fast UML Diagrams</center><br><br>
+# BETA VERSION of UMLet -- Free UML Tool for Fast UML Diagrams
 
 
-<center>For a new diagram, create an empty text file with a ".uxf"-extension</center><br>
+For a new diagram, create an empty text file with a ".uxf"-extension
 
-<center>(Note: this extension is still experimental; take care and please provide feedback to
-info@umlet.com</center><br>
+(Note: this extension is still experimental; take care and please provide feedback to
+info@umlet.com)
 
-<center>[umlet.com](https://www.umlet.com/) -- info@umlet.com -- [patreon.com/umlet](https://www.patreon.com/umlet)</center><br>
+[umlet.com](https://www.umlet.com/) -- [info@umlet.com](mailto:info@umlet.com) -- [patreon.com/umlet](https://www.patreon.com/umlet)
 
 ![A gif demonstrating UMLet](https://s7.gifyu.com/images/800px-speed-up.gif)
