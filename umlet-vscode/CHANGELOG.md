@@ -1,3 +1,6 @@
+0.4.0 -- Fixed Export Functionality -- 2020-08-13:
+- Fixed export not working in some cases
+
 0.3.1 -- Theme Update -- 2020-07-31:
 - Improved theme support
 
