@@ -31,6 +31,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
     private static outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel('UMLet');
     private static debugLevel: number | undefined = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
+    private static theme: string | undefined = UmletEditorProvider.getConfiguration().get<string>('theme');
 
     constructor(
         private readonly context: vscode.ExtensionContext
@@ -119,14 +120,24 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                         UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' NOT FOCUSED because not active');
                     }
 
-                    const lastDebugLevel = UmletEditorProvider.debugLevel;
                     UmletEditorProvider.debugLevel = UmletEditorProvider.getConfiguration().get<number>('debugLevel')
-                    //if (lastDebugLevel !== UmletEditorProvider.debugLevel) {
-                        currentlyActivePanel?.webview.postMessage({
-                            command: 'debugLevel',
-                            text: UmletEditorProvider.debugLevel
-                        });
-                   // }
+                    currentlyActivePanel?.webview.postMessage({
+                        command: 'debugLevel',
+                        text: UmletEditorProvider.debugLevel
+                    });
+
+                    let themeSetting = UmletEditorProvider.getConfiguration().get<string>('theme');
+                    if (UmletEditorProvider.theme === themeSetting) {
+                        return;
+                    }
+                    if (themeSetting === undefined) {
+                        themeSetting = 'VS Code setting';
+                    }
+                    UmletEditorProvider.theme = themeSetting;
+                    currentlyActivePanel?.webview.postMessage({
+                        command: 'themeSetting',
+                        text: themeSetting
+                    });
                     return;
                 case 'onBlur':
                     //for some reason, onBlur gets called when a panel which was already opened gets opened.
@@ -173,7 +184,11 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
         let fileContents = document.getText().toString();
 
-        webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
+        if (UmletEditorProvider.theme === undefined) {
+            UmletEditorProvider.theme = 'VS Code setting';
+        }
+
+        webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString(), UmletEditorProvider.theme);
     }
 
     //gets the updated filedata from the webview if anything has changed
@@ -402,8 +417,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
      * Gets a modified version of the initial starting page of the GWT umletino version
      * @param localUmletFolder folder which holds the local umletino gwt version.
      * @param diagramData XML data of a diagram which should be loaded on start
+     * @param themeSetting preference which theme should be used
      */
-    getUmletWebviewPage(localUmletFolder: string, diagramData: string) {
+    getUmletWebviewPage(localUmletFolder: string, diagramData: string, themeSetting: string) {
         let encodedDiagramData = encodeURIComponent(diagramData); //encode diagramData to prevent special characters to escape the string quotes which could lead to arbitrary javascript or html
         return `<!DOCTYPE html>
   <html>
@@ -438,28 +454,46 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     <script>
       var vscode = acquireVsCodeApi();
       
-      $wnd.addEventListener('message', function (event) {
-          var message = event.data;
+      var themeSetting = \`${themeSetting}\`;
+      
+      window.addEventListener('message', function (event) {
+          const message = event.data;
           switch (message.command) {
-              case "a":
+              case "themeSetting":
+                  themeSetting = message.text;
+                  switchTheme();
                   break;
           }
        });
 
       function getTheme() {
-        switch(document.body.className) {
-          case 'vscode-light':
-            return 'LIGHT'; 
-          case 'vscode-dark':
-          case 'vscode-high-contrast':
-            return 'DARK';
-          default:
+        switch (themeSetting) {
+          case 'VS Code setting':
+            switch (document.body.className) {
+              case 'vscode-light':
+                return 'LIGHT'; 
+              case 'vscode-dark':
+              case 'vscode-high-contrast':
+                return 'DARK';
+              default:
+                return 'LIGHT';
+            }
+          case 'Light theme':
             return 'LIGHT';
-        }
+          case 'Dark theme':
+            return 'DARK';
+        }        
       }
 
       function getEditorBackgroundColor() {
-        return getComputedStyle(document.body).getPropertyValue('--vscode-editor-background');
+          switch (themeSetting) {
+              case 'VS Code setting':
+                return getComputedStyle(document.body).getPropertyValue('--vscode-editor-background');
+              case 'Light theme':
+                return '#FFFFFF';
+              case 'Dark theme':
+                return '#000000';
+            }
       }
 
       function switchBackgroundColor(color) {
@@ -469,13 +503,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       // Observing theme changes
       var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutationRecord) {
-            var themeFromClass = getTheme();
-            backgroundColor = getEditorBackgroundColor();
-            if(window.changeTheme) {
-              consoleLogVsCode('Switching Theme');
-              window.changeTheme(themeFromClass, backgroundColor);
-            }
-            switchBackgroundColor(backgroundColor);
+            switchTheme();
         });    
       });
       
@@ -488,6 +516,15 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       switchBackgroundColor(backgroundColor);
 
       var vsCodeInitialDiagramData = \`${encodedDiagramData}\`;
+      
+      function switchTheme() {
+        var themeFromClass = getTheme();
+        backgroundColor = getEditorBackgroundColor();
+        if (window.changeTheme) {
+          window.changeTheme(themeFromClass, backgroundColor);
+        }
+        switchBackgroundColor(backgroundColor);
+      }
 
       function notifyFocusVsCode() {
         vscode.postMessage({
