@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import {Uri} from "vscode";
+import {Uri, workspace} from "vscode";
 import * as path from 'path';
 import * as fs from "fs";
 import {UmletEditorProvider, lastCurrentlyActivePanelPurified, exportCurrentlyActivePanel} from './UmletEditorProvider';
@@ -26,21 +26,13 @@ export function activate(context: vscode.ExtensionContext) {
 function createUmletCommands(context: vscode.ExtensionContext) {
     //Register Commands for exporting in default and x4 size
     //x1 Size
-    const commandHandlerOneExport = () => {
+    const commandHandlerExport = () => {
         exportCurrentlyActivePanel?.webview.postMessage({
             command: 'requestExport',
-            text: "1"
+            text: workspace.getConfiguration('umlet').get('exportScale')
         });
     };
-    context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPngOne', commandHandlerOneExport));
-    //x4 Size
-    const commandHandlerFourExport = () => {
-        exportCurrentlyActivePanel?.webview.postMessage({
-            command: 'requestExport',
-            text: "4"
-        });
-    };
-    context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPngFour', commandHandlerFourExport));
+    context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPng', commandHandlerExport));
 
     //create a new file and open it in editor
     const commandHandlerCreateNewDiagram = () => {
