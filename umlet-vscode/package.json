@@ -59,7 +59,43 @@
         ],
         "priority": "default"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "UMLet",
+      "properties": {
+        "umlet.theme": {
+          "type": "string",
+          "default": "VS Code setting",
+          "enum": [
+            "VS Code setting",
+            "Light mode",
+            "Dark mode"
+          ],
+          "enumDescriptions": [
+            "Use the theme set in VS Code",
+            "Use the light theme",
+            "Use the dark theme"
+          ]
+        },
+        "umlet.debugLevel": {
+          "type": "string",
+          "default": "Standard",
+          "enum": [
+            "Standard",
+            "Detailed"
+          ],
+          "enumDescriptions": [
+            "Standard output of debug messages",
+            "Detailed output of debug messages"
+          ]
+        },
+        "umlet.exportScale": {
+          "type": "number",
+          "default": 4,
+          "markdownDescription": "Defines the scale of exported PNG diagrams"
+        }
+      }
+    }
   },
   "scripts": {
     "vsce": "./node_modules/.bin/vsce package -o target/",
