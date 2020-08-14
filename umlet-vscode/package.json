@@ -26,12 +26,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "umlet.exportPngOne",
+        "command": "umlet.exportPng",
         "title": "UMLet: Export As PNG.."
-      },
-      {
-        "command": "umlet.exportPngFour",
-        "title": "UMLet: Export As PNG (Scale x4).."
       },
       {
         "command": "umlet.createNewDiagram",
@@ -41,10 +37,7 @@
     "menus": {
       "commandPalette": [
         {
-          "command": "umlet.exportPngOne"
-        },
-        {
-          "command": "umlet.exportPngFour"
+          "command": "umlet.exportPng"
         }
       ]
     },
