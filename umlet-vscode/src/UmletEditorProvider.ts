@@ -119,7 +119,14 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                         UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' NOT FOCUSED because not active');
                     }
 
+                    const lastDebugLevel = UmletEditorProvider.debugLevel;
                     UmletEditorProvider.debugLevel = UmletEditorProvider.getConfiguration().get<number>('debugLevel')
+                    //if (lastDebugLevel !== UmletEditorProvider.debugLevel) {
+                        currentlyActivePanel?.webview.postMessage({
+                            command: 'debugLevel',
+                            text: UmletEditorProvider.debugLevel
+                        });
+                   // }
                     return;
                 case 'onBlur':
                     //for some reason, onBlur gets called when a panel which was already opened gets opened.

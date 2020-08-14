@@ -53,6 +53,7 @@ public class VsCodeLogger implements CustomLogger {
 
 	@Override
 	public void init(Class<?> clazz) {
+		initListener();
 		this.levelValue = Logger.getLogger("").getLevel().intValue();
 	}
 
@@ -61,10 +62,33 @@ public class VsCodeLogger implements CustomLogger {
 		return "UMLet|" + DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss").format(date) + "|";
 	}
 
+	private void setDebugLevel(int debugLevel) {
+		if (debugLevel == 0) {
+			// Standard level
+			this.levelValue = Level.INFO.intValue();
+		}
+		else {
+			// Detailed level
+			this.levelValue = Level.FINEST.intValue();
+		}
+	}
+
 	private native void postLog(String message) /*-{
-		window.parent.vscode.postMessage({
+		$wnd.vscode.postMessage({
 			command: 'postLog',
 			text: message
+			});
+	}-*/;
+
+	private native void initListener() /*-{
+		var that = this;
+		$wnd.addEventListener('message', function (event) {
+			var message = event.data;
+			switch (message.command) {
+				case 'debugLevel':
+					that.@com.vscode.gwt.client.logging.VsCodeLogger::setDebugLevel(*)(message.text);
+					break;
+			}
 		});
 	}-*/;
 
