@@ -68,8 +68,8 @@
           "default": "VS Code setting",
           "enum": [
             "VS Code setting",
-            "Light mode",
-            "Dark mode"
+            "Light theme",
+            "Dark theme"
           ],
           "enumDescriptions": [
             "Use the theme set in VS Code",

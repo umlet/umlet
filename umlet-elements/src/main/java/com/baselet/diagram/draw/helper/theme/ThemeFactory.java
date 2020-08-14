@@ -22,23 +22,22 @@ public class ThemeFactory {
 	}
 
 	public static void changeTheme(THEMES chosenTheme, String backgroundColor, boolean overrideBackground) {
-		if (chosenTheme.equals(activeThemeEnum)) {
-			return;
+		if (!chosenTheme.equals(activeThemeEnum)) {
+			switch (chosenTheme) {
+				case DARK:
+					activeThemeEnum = chosenTheme;
+					theme = new ThemeDark();
+					break;
+				case LIGHT:
+					activeThemeEnum = chosenTheme;
+					theme = new ThemeLight();
+					break;
+				default:
+					activeThemeEnum = THEMES.LIGHT;
+					theme = new ThemeLight();
+			}
 		}
 
-		switch (chosenTheme) {
-			case DARK:
-				activeThemeEnum = chosenTheme;
-				theme = new ThemeDark();
-				break;
-			case LIGHT:
-				activeThemeEnum = chosenTheme;
-				theme = new ThemeLight();
-				break;
-			default:
-				activeThemeEnum = THEMES.LIGHT;
-				theme = new ThemeLight();
-		}
 		if (backgroundColor != null) {
 			lastBackgroundColor = backgroundColor;
 		}
