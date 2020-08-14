@@ -78,20 +78,16 @@
           ]
         },
         "umlet.debugLevel": {
-          "type": "string",
-          "default": "Standard",
-          "enum": [
-            "Standard",
-            "Detailed"
-          ],
-          "enumDescriptions": [
-            "Standard output of debug messages",
-            "Detailed output of debug messages"
-          ]
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Specifies the granularity of debug messages. 0 = standard, 1 = detailed"
         },
         "umlet.exportScale": {
           "type": "number",
           "default": 4,
+          "minimum": 1,
           "markdownDescription": "Defines the scale of exported PNG diagrams"
         }
       }

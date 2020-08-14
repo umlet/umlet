@@ -1,10 +1,11 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import {WebviewPanel} from "vscode";
+import {WebviewPanel, workspace, WorkspaceConfiguration} from 'vscode';
 import * as path from 'path';
 import * as parser from 'fast-xml-parser';
 import * as fs from "fs";
+import {DebugLevel} from "./main/typescript/DebugLevel";
 
 export var currentlyActivePanel: WebviewPanel | null = null;
 let lastCurrentlyActivePanel: WebviewPanel | null = null; //always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut
@@ -29,6 +30,7 @@ let lastChangeTriggeredByUri = ""; //whenever a document change is triggered by 
 export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
     private static outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel('UMLet');
+    private static debugLevel: number | undefined = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
 
     constructor(
         private readonly context: vscode.ExtensionContext
@@ -91,7 +93,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                     this.saveFileDecode(actual_data);
                     return;
                 case 'postLog':
-                    UmletEditorProvider.postLog(message.text);
+                    UmletEditorProvider.postLog(DebugLevel.STANDARD, message.text);
                     return;
                 case 'setClipboard':
                     vscode.env.clipboard.writeText(message.text);
@@ -99,36 +101,36 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                 case 'requestPasteClipboard':
                     vscode.env.clipboard.readText().then((text) => {
                         let clipboard_content = text;
-                        UmletEditorProvider.postLog('MESSAGE Paste, content is: ' + clipboard_content);
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'MESSAGE Paste, content is: ' + clipboard_content);
                         currentlyActivePanel?.webview.postMessage({
                             command: 'paste-response',
                             text: clipboard_content
                         });
                     });
                     return;
-                case 'consoleLog':
-                    UmletEditorProvider.postLog(message.text);
-                    return;
                 case 'onFocus':
+                    UmletEditorProvider.postLog(DebugLevel.DETAILED, 'focus TT');
                     if (webviewPanel.active) {
-                        UmletEditorProvider.postLog('Webview ' + document.fileName + ' now focused because tt focus and is active');
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' now focused because tt focus and is active');
                         currentlyActivePanel = webviewPanel;
                         exportCurrentlyActivePanel = webviewPanel; //this never gets reset and is always on the last panel which was active
                         setLastPanel(webviewPanel);
                     } else {
-                        UmletEditorProvider.postLog('Webview ' + document.fileName + ' NOT FOCUSED because not active');
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' NOT FOCUSED because not active');
                     }
 
+                    UmletEditorProvider.debugLevel = UmletEditorProvider.getConfiguration().get<number>('debugLevel')
                     return;
                 case 'onBlur':
                     //for some reason, onBlur gets called when a panel which was already opened gets opened.
                     //this is not expected and leads to weird behaviour with tracking currently active panel, so its prevented
+                    UmletEditorProvider.postLog(DebugLevel.DETAILED, "blur TT");
                     if (currentlyActivePanel === webviewPanel) {
                         currentlyActivePanel = null;
-                        UmletEditorProvider.postLog('panel ' + document.fileName + ' blurred, 1.5 seconds until last panel is reset');
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'panel ' + document.fileName + ' blurred, 1.5 seconds until last panel is reset');
                         setTimeout(resetLastPanel, 1500);
                     } else {
-                        UmletEditorProvider.postLog('timer for ' + document.fileName + ' was not set, there is another currently active panel');
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'timer for ' + document.fileName + ' was not set, there is another currently active panel');
                     }
                     return;
             }
@@ -141,7 +143,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         in both umlet and the console. same with the command search function.
         */
         function setLastPanel(newLastActivePanel: WebviewPanel) {
-            UmletEditorProvider.postLog('last current active panel set, ' + document.fileName);
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, 'last current active panel set, ' + document.fileName);
             lastCurrentlyActivePanel = newLastActivePanel;
         }
 
@@ -150,9 +152,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             //only reset if this panel was the last currently active panel
             if (lastCurrentlyActivePanel === webviewPanel && currentlyActivePanel === null) {
                 lastCurrentlyActivePanel = null;
-                UmletEditorProvider.postLog('last active panel for ' + document.fileName + ' was reset because time and its still the last active panel');
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, 'last active panel for ' + document.fileName + ' was reset because time and its still the last active panel');
             } else {
-                UmletEditorProvider.postLog('last active panel for ' + document.fileName + ' was NOT reset because there now is another last active panel anyway');
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, 'last active panel for ' + document.fileName + ' was NOT reset because there now is another last active panel anyway');
             }
 
         }
@@ -170,7 +172,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     //gets the updated filedata from the webview if anything has changed
     updateCurrentFile(fileContent: string, document: vscode.TextDocument) {
         lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
-        UmletEditorProvider.postLog('lastChangeTriggeredByUri set to: ' + lastChangeTriggeredByUri);
+        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'lastChangeTriggeredByUri set to: ' + lastChangeTriggeredByUri);
         const edit = new vscode.WorkspaceEdit();
 
         edit.replace(
@@ -217,8 +219,18 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             });
     }
 
-    public static postLog(message: string) {
-        UmletEditorProvider.outputChannel.appendLine(message);
+    public static postLog(level: DebugLevel, message: string) {
+        if (UmletEditorProvider.debugLevel != undefined) {
+            if (level.valueOf() <= UmletEditorProvider.debugLevel) {
+                UmletEditorProvider.outputChannel.appendLine(message);
+            }
+        } else if (level.valueOf() === 0) { // If for some reason debugLevel = undefined, output standard logs.
+            UmletEditorProvider.outputChannel.appendLine(message);
+        }
+    }
+
+    public static getConfiguration(): WorkspaceConfiguration {
+        return workspace.getConfiguration('umlet');
     }
 
     /*
@@ -228,7 +240,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     */
     public static overrideVsCodeCommands(context: vscode.ExtensionContext) {
 
-        UmletEditorProvider.postLog("Overriding commands....");
+        UmletEditorProvider.postLog(DebugLevel.STANDARD, "Overriding commands....");
         //COPY
         //override the editor.action.clipboardCopyAction with our own
         var clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
@@ -242,7 +254,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
             //debug
             //Write to output.
-            UmletEditorProvider.postLog("Copy registered");
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, "Copy registered");
             //dispose of the overridden editor.action.clipboardCopyAction- back to default copy behavior
             clipboardCopyDisposable.dispose();
 
@@ -250,7 +262,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             //execute the default editor.action.clipboardCopyAction to copy
             vscode.commands.executeCommand("editor.action.clipboardCopyAction").then(function () {
 
-                UmletEditorProvider.postLog("After Copy");
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, "After Copy");
                 if (currentlyActivePanel !== null) {
                     //if there is an actual panel in focus, just copy it
                     currentlyActivePanel?.webview.postMessage({command: 'copy'});
@@ -279,19 +291,19 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
             //debug
             //Write to output.
-            UmletEditorProvider.postLog("Paste registered");
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, "Paste registered");
             //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
             clipboardPasteDisposable.dispose();
 
             //execute the default editor.action.clipboardPasteAction to paste
             vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
 
-                UmletEditorProvider.postLog("After Paste");
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, "After Paste");
                 if (currentlyActivePanel !== null) {
                     //TODO remove UMLET tag from paste if needed
                     vscode.env.clipboard.readText().then((text) => {
                         let clipboard_content = text;
-                        UmletEditorProvider.postLog("MESSAGE Paste, content is:" + clipboard_content);
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, "MESSAGE Paste, content is:" + clipboard_content);
                         currentlyActivePanel?.webview.postMessage({
                             command: 'paste',
                             text: clipboard_content
@@ -302,7 +314,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                     vscode.env.clipboard.readText().then((text) => {
                         //TODO check for and remove UMLET tag from paste
                         let clipboard_content = text;
-                        UmletEditorProvider.postLog("MESSAGE Paste, content is:" + clipboard_content);
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, "MESSAGE Paste, content is:" + clipboard_content);
                         lastCurrentlyActivePanelPurified()?.webview.postMessage({
                             command: 'paste',
                             text: clipboard_content
@@ -329,7 +341,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
             //debug
             //Write to output.
-            UmletEditorProvider.postLog("Cut registered");
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, "Cut registered");
             //dispose of the overridden editor.action.clipboardCutAction- back to default cut behavior
             clipboardCutDisposable.dispose();
 
@@ -337,12 +349,12 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             //execute the default editor.action.clipboardCutAction to cut
             vscode.commands.executeCommand("editor.action.clipboardCutAction").then(function () {
 
-                UmletEditorProvider.postLog("After Cut");
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, "After Cut");
                 if (currentlyActivePanel !== null) {
-                    UmletEditorProvider.postLog("MESSAGE Cut");
+                    UmletEditorProvider.postLog(DebugLevel.DETAILED, "MESSAGE Cut");
                     currentlyActivePanel?.webview.postMessage({command: 'cut'});
                 } else if (lastCurrentlyActivePanelPurified() !== null) {
-                    UmletEditorProvider.postLog("MESSAGE Cut");
+                    UmletEditorProvider.postLog(DebugLevel.DETAILED, "MESSAGE Cut");
                     lastCurrentlyActivePanelPurified()?.webview.postMessage({command: 'cut'});
                 }
                 //add the overridden editor.action.clipboardCutAction back
@@ -412,12 +424,20 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       <div align="left" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
       <script>
       //track focus/blur
-      window.addEventListener("focus", function(){consoleLogVsCode("focus TT"); notifyFocusVsCode();}, false);
-      window.addEventListener("blur", function(){consoleLogVsCode("blur TT"); notifyBlurVsCode();}, false);
+      window.addEventListener("focus", function(){notifyFocusVsCode();}, false);
+      window.addEventListener("blur", function(){notifyBlurVsCode();}, false);
       </script>
     </body>
     <script>
       var vscode = acquireVsCodeApi();
+      
+      $wnd.addEventListener('message', function (event) {
+          var message = event.data;
+          switch (message.command) {
+              case "a":
+                  break;
+          }
+       });
 
       function getTheme() {
         switch(document.body.className) {
@@ -456,18 +476,11 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
       // Retrieving current theme
       var theme = getTheme();
-
+      
       var backgroundColor = getEditorBackgroundColor();
       switchBackgroundColor(backgroundColor);
 
       var vsCodeInitialDiagramData = \`${encodedDiagramData}\`;
-
-      function consoleLogVsCode(consoleMessage) {
-        vscode.postMessage({
-          command: 'consoleLog',
-          text: consoleMessage
-        })
-      }
 
       function notifyFocusVsCode() {
         vscode.postMessage({
