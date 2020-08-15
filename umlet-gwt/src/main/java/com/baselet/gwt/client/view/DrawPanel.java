@@ -148,6 +148,12 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			}
 		}
 
+		// Snap paste position to grid
+		int remX = point.getX() % SharedConstants.DEFAULT_GRID_SIZE;
+		int remY = point.getY() % SharedConstants.DEFAULT_GRID_SIZE;
+		point.setX(remX >= SharedConstants.DEFAULT_GRID_SIZE / 2 ? point.getX() - remX + SharedConstants.DEFAULT_GRID_SIZE : point.getX() - remX);
+		point.setY(remY >= SharedConstants.DEFAULT_GRID_SIZE / 2 ? point.getY() - remY + SharedConstants.DEFAULT_GRID_SIZE : point.getY() - remY);
+
 		// snap all elements to point, but relative to the pivot
 		for (GridElement e : elementList) {
 			int xOffset = e.getRectangle().x - pivotX;
