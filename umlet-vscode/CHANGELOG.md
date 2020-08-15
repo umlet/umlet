@@ -1,3 +1,10 @@
+0.4.1 -- Settings Section and Theme Support Improvements -- 2020-08-14:
+- Extension settings now available
+    * PNG scale of exported diagram now freely choosable
+    * Choose which theme to display
+    * Define log level of extension
+- Background of diagram now always corresponds to VS Code theme (if not overwritten in settings)
+
 0.4.0 -- Fixed Export Functionality -- 2020-08-13:
 - Fixed export not working in some cases
 
