@@ -2,7 +2,7 @@
   "name": "umlet",
   "displayName": "UMLet",
   "description": "Free UML Tool for Fast UML Diagrams",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "publisher": "theumletteam",
   "author": {
     "name": "The UMLet Team"
@@ -84,7 +84,18 @@
           "markdownDescription": "Defines the scale of exported PNG diagrams"
         }
       }
-    }
+    },
+    "languages": [
+      {
+        "id": "umlet",
+        "aliases": [
+          "umlet"
+        ],
+        "extensions": [
+          ".uxf"
+        ]
+      }
+    ]
   },
   "scripts": {
     "vsce": "./node_modules/.bin/vsce package -o target/",
