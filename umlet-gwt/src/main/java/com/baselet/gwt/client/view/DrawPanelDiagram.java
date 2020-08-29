@@ -194,6 +194,9 @@ public class DrawPanelDiagram extends DrawPanel {
 		if (cursorWasMovedDuringDrag) {
 			handleFileUpdate();
 		}
+		if (gridElement != null) {
+			selector.select(gridElement);
+		}
 	}
 
 	@Override
