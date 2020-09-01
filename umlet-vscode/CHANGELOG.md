@@ -1,5 +1,9 @@
 <br/>
 
+1.0.1 -- Selection Bugfix -- 2020-08-29:
+* Fixed selection of element on right click after dragged out of palette
+
+<br/>
 
 1.0.0 -- **Out of Beta!** -- 2020-08-28:
 * Extension settings with

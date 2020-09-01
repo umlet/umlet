@@ -2,8 +2,8 @@
 
 [umlet.com](https://www.umlet.com/) -- [info@umlet.com](mailto:info@umlet.com) -- [patreon.com/umlet](https://www.patreon.com/umlet)
 
-</br>
-</br>
+<br/>
+<br/>
 
 ## >> For a new diagram, create an empty text file with a ".uxf"-extension! <<
 
@@ -14,14 +14,14 @@ Then you can
 
 You're ready to go -- enjoy!
 
-</br>
-</br>
+<br/>
+<br/>
 
 
 ![A gif demonstrating UMLet](https://s7.gifyu.com/images/800px-speed-up.gif)
 
-</br>
-</br>
+<br/>
+<br/>
 
 # Introduction
 
@@ -35,8 +35,8 @@ It runs
 
 The stand-alone version has the most extensive feature set; here is a brief [tutorial video](https://www.youtube.com/watch?v=3UHZedDtr28). 
 
-</br>
-</br>
+<br/>
+<br/>
 
 # Concepts
 
@@ -54,8 +54,8 @@ UMLet main goal is to allow users to sketch UML (and other) diagrams fast.
 
 * It provides simple batch processing on the command line. You can thus convert the uxf-format (an XML dialect) to various file formats, e.g., for you LaTeX workflow.
 
-</br>
-</br>
+<br/>
+<br/>
 
 # Links
 
@@ -65,15 +65,15 @@ UMLet main goal is to allow users to sketch UML (and other) diagrams fast.
 
 * Read about UMLet's underlying ideas in our [papers](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=umlet+uml+martin+auer&btnG=).
 
-</br>
-</br>
+<br/>
+<br/>
 
 # *Hmm.., You a VS Code Extension Guru?*
 
 *One technical issue still niggles us: handling copy/paste commands if triggerend via the menu on Windows, as there the focus is lost. We also use a "custom visual editor" -- those are just a bit problematic as activeTextEditor becomes null if another custom editor gets activated.. If you have any idea to better our current heuristic, let us know (and claim our bottle of Italian red)!*
 
-</br>
-</br>
+<br/>
+<br/>
 
 # Your Support
 
@@ -87,10 +87,10 @@ We highly appreciate your support!
 
 * (Finally, \*cough\*, we're also on [PayPal](https://www.paypal.com/donate?token=qqvXeoMHEtyT1MmjDW6qO-7N0-12zVqK8fq1L8QUCx2wqGAGYJRTq0ajEaUklM066SgEBxA-Oo_gq6vz) and [Patreon](https://www.patreon.com/umlet).)
 
-</br>
-</br>
-</br>
-</br>
+<br/>
+<br/>
+<br/>
+<br/>
 
 *To our past contributors (chronologically) Thomas Tschurtschenthaler, Ludwig Meyer, Johannes Pölz, Elisabeth Blümelhuber, Julian Thöndel, and Thomas Bretterbauer: thanks! The UMLet Team -- Martin Auer, Andreas Fürnweger*
 
