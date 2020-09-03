@@ -110,7 +110,6 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 
 	public void handleUpdateContent(String content) {
 		Diagram parsedDiagram = DiagramXmlParser.xmlToDiagram(content);
-		log.error("is the parsed diagram null? " + (parsedDiagram == null));
 		if (parsedDiagram != null) {
 			this.drawPanelDiagram.setDiagram(parsedDiagram);
 			this.drawPanelDiagram.setTempInvalid(false);
