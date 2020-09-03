@@ -58,8 +58,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                 //if e.contentChanges.length === 0, then there was no actual content change, but the grey dirty indicator was set by vs code
                 //in that case we do not want to set gwt again, because that would unselect all selected elements
                 if (e.document.uri.toString() === document.uri.toString() && e.contentChanges.length !== 0) {
-                    console.log("match text change, injecting changes to gwt ");
-                    console.log('webview panel is: ' + webviewPanel);
+                    UmletEditorProvider.postLog(DebugLevel.STANDARD, "match text change, injecting changes to gwt ");
+                    UmletEditorProvider.postLog(DebugLevel.STANDARD, 'webview panel is: ' + webviewPanel);
                     webviewPanel.webview.postMessage({
                         command: 'myUpdate',
                         text: document.getText()
@@ -109,50 +109,54 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                         });
                     });
                     return;
-                case 'onFocus':
-                    UmletEditorProvider.postLog(DebugLevel.DETAILED, 'focus TT');
-                    if (webviewPanel.active) {
-                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' now focused because tt focus and is active');
-                        currentlyActivePanel = webviewPanel;
-                        exportCurrentlyActivePanel = webviewPanel; //this never gets reset and is always on the last panel which was active
-                        setLastPanel(webviewPanel);
-                    } else {
-                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' NOT FOCUSED because not active');
-                    }
-
-                    UmletEditorProvider.debugLevel = UmletEditorProvider.getConfiguration().get<number>('debugLevel')
-                    currentlyActivePanel?.webview.postMessage({
-                        command: 'debugLevel',
-                        text: UmletEditorProvider.debugLevel
-                    });
-
-                    let themeSetting = UmletEditorProvider.getConfiguration().get<string>('theme');
-                    if (UmletEditorProvider.theme === themeSetting) {
-                        return;
-                    }
-                    if (themeSetting === undefined) {
-                        themeSetting = 'VS Code setting';
-                    }
-                    UmletEditorProvider.theme = themeSetting;
-                    currentlyActivePanel?.webview.postMessage({
-                        command: 'themeSetting',
-                        text: themeSetting
-                    });
-                    return;
-                case 'onBlur':
-                    //for some reason, onBlur gets called when a panel which was already opened gets opened.
-                    //this is not expected and leads to weird behaviour with tracking currently active panel, so its prevented
-                    UmletEditorProvider.postLog(DebugLevel.DETAILED, "blur TT");
-                    if (currentlyActivePanel === webviewPanel) {
-                        currentlyActivePanel = null;
-                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'panel ' + document.fileName + ' blurred, 1.5 seconds until last panel is reset');
-                        setTimeout(resetLastPanel, 1500);
-                    } else {
-                        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'timer for ' + document.fileName + ' was not set, there is another currently active panel');
-                    }
-                    return;
             }
         }, undefined, this.context.subscriptions);
+
+        webviewPanel.onDidChangeViewState(event => {
+            if (event.webviewPanel.active) {
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, 'focus TT');
+                if (webviewPanel.active) {
+                    UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' now focused because tt focus and is active');
+                    currentlyActivePanel = webviewPanel;
+                    exportCurrentlyActivePanel = webviewPanel; //this never gets reset and is always on the last panel which was active
+                    setLastPanel(webviewPanel);
+                } else {
+                    UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' NOT FOCUSED because not active');
+                }
+
+                UmletEditorProvider.debugLevel = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
+                currentlyActivePanel?.webview.postMessage({
+                    command: 'debugLevel',
+                    text: UmletEditorProvider.debugLevel
+                });
+
+                let themeSetting = UmletEditorProvider.getConfiguration().get<string>('theme');
+                if (UmletEditorProvider.theme === themeSetting) {
+                    return;
+                }
+                if (themeSetting === undefined) {
+                    themeSetting = 'VS Code setting';
+                }
+                UmletEditorProvider.theme = themeSetting;
+                currentlyActivePanel?.webview.postMessage({
+                    command: 'themeSetting',
+                    text: themeSetting
+                });
+                return;
+            } else {
+                //for some reason, onBlur gets called when a panel which was already opened gets opened.
+                //this is not expected and leads to weird behaviour with tracking currently active panel, so its prevented
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, "blur TT");
+                if (currentlyActivePanel === webviewPanel) {
+                    currentlyActivePanel = null;
+                    UmletEditorProvider.postLog(DebugLevel.DETAILED, 'panel ' + document.fileName + ' blurred, 1.5 seconds until last panel is reset');
+                    setTimeout(resetLastPanel, 1500);
+                } else {
+                    UmletEditorProvider.postLog(DebugLevel.DETAILED, 'timer for ' + document.fileName + ' was not set, there is another currently active panel');
+                }
+                return;
+            }
+        });
 
         /*
         set last active panel, but only for 1.5 seconds
@@ -445,11 +449,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       </div>
       </noscript>
       <div align="left" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
-      <script>
-      //track focus/blur
-      window.addEventListener("focus", function(){notifyFocusVsCode();}, false);
-      window.addEventListener("blur", function(){notifyBlurVsCode();}, false);
-      </script>
     </body>
     <script>
       var vscode = acquireVsCodeApi();
