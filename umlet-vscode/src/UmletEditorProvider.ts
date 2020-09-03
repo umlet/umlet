@@ -69,6 +69,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         });
         this.context.subscriptions.push(changeDocumentSubscription);
 
+        this.prepareActivePanel(webviewPanel, document);
+
         // Extracting version from POM
         // It might be better to extract it from package.json once we've synchronized all version numbers
         const pomString = fs.readFileSync(this.context.extensionPath + '/pom.xml').toString();
@@ -114,35 +116,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
         webviewPanel.onDidChangeViewState(event => {
             if (event.webviewPanel.active) {
-                UmletEditorProvider.postLog(DebugLevel.DETAILED, 'focus TT');
-                if (webviewPanel.active) {
-                    UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' now focused because tt focus and is active');
-                    currentlyActivePanel = webviewPanel;
-                    exportCurrentlyActivePanel = webviewPanel; //this never gets reset and is always on the last panel which was active
-                    setLastPanel(webviewPanel);
-                } else {
-                    UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' NOT FOCUSED because not active');
-                }
-
-                UmletEditorProvider.debugLevel = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
-                currentlyActivePanel?.webview.postMessage({
-                    command: 'debugLevel',
-                    text: UmletEditorProvider.debugLevel
-                });
-
-                let themeSetting = UmletEditorProvider.getConfiguration().get<string>('theme');
-                if (UmletEditorProvider.theme === themeSetting) {
-                    return;
-                }
-                if (themeSetting === undefined) {
-                    themeSetting = 'VS Code setting';
-                }
-                UmletEditorProvider.theme = themeSetting;
-                currentlyActivePanel?.webview.postMessage({
-                    command: 'themeSetting',
-                    text: themeSetting
-                });
-                return;
+                this.prepareActivePanel(webviewPanel, document);
             } else {
                 //for some reason, onBlur gets called when a panel which was already opened gets opened.
                 //this is not expected and leads to weird behaviour with tracking currently active panel, so its prevented
@@ -157,17 +131,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                 return;
             }
         });
-
-        /*
-        set last active panel, but only for 1.5 seconds
-        Lazy copy/paste is only available during 1.5 seconds after the UMLet editor looses focus.
-        this is to avoid situations where a user goes into the console to write something and uses copy/cut/paste, this would result in the copy/cut/paste command to be triggered
-        in both umlet and the console. same with the command search function.
-        */
-        function setLastPanel(newLastActivePanel: WebviewPanel) {
-            UmletEditorProvider.postLog(DebugLevel.DETAILED, 'last current active panel set, ' + document.fileName);
-            lastCurrentlyActivePanel = newLastActivePanel;
-        }
 
         //called after 1.5 secs
         function resetLastPanel() {
@@ -193,6 +156,46 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         }
 
         webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString(), UmletEditorProvider.theme);
+    }
+
+    prepareActivePanel(webviewPanel: vscode.WebviewPanel, document: vscode.TextDocument) {
+        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'focus TT');
+        if (webviewPanel.active) {
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' now focused because tt focus and is active');
+            currentlyActivePanel = webviewPanel;
+            exportCurrentlyActivePanel = webviewPanel; //this never gets reset and is always on the last panel which was active
+
+            /*
+            set last active panel, but only for 1.5 seconds
+            Lazy copy/paste is only available during 1.5 seconds after the UMLet editor looses focus.
+            this is to avoid situations where a user goes into the console to write something and uses copy/cut/paste, this would result in the copy/cut/paste command to be triggered
+            in both umlet and the console. same with the command search function.
+            */
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, 'last current active panel set, ' + document.fileName);
+            lastCurrentlyActivePanel = webviewPanel;
+        } else {
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Webview ' + document.fileName + ' NOT FOCUSED because not active');
+        }
+
+        UmletEditorProvider.debugLevel = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
+        currentlyActivePanel?.webview.postMessage({
+            command: 'debugLevel',
+            text: UmletEditorProvider.debugLevel
+        });
+
+        let themeSetting = UmletEditorProvider.getConfiguration().get<string>('theme');
+        if (UmletEditorProvider.theme === themeSetting) {
+            return;
+        }
+        if (themeSetting === undefined) {
+            themeSetting = 'VS Code setting';
+        }
+        UmletEditorProvider.theme = themeSetting;
+        currentlyActivePanel?.webview.postMessage({
+            command: 'themeSetting',
+            text: themeSetting
+        });
+        return;
     }
 
     //gets the updated filedata from the webview if anything has changed
