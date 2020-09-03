@@ -1,5 +1,10 @@
 <br/>
 
+1.0.3 -- Selection Bugfix -- 2020-09-03:
+* Fixed selection of elements dropped from the palette
+
+<br/>
+
 1.0.2 -- Split Panel BugFix -- 2020-09-01:
 * Fixed editing of UML diagrams if working in split view
 
