@@ -1,11 +1,17 @@
 package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import com.baselet.element.interfaces.HasPanelAttributes;
+import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.DrawPanelDiagram;
 import com.baselet.gwt.client.view.interfaces.Redrawable;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
+import com.google.gwt.dev.util.collect.Lists;
 import com.google.gwt.uibinder.client.UiConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PropertiesTextArea extends MySuggestBox {
 
@@ -53,7 +59,12 @@ public class PropertiesTextArea extends MySuggestBox {
 			panelAttributes = DEFAULT_HELPTEXT;
 		}
 		textArea.setValue(panelAttributes);
-		oracle.setAutocompletionList(panelAttributeProvider.getAutocompletionList());
+		List<AutocompletionTextGwt> autocompletionTextList = new ArrayList<>();
+		for (AutocompletionText oldText : panelAttributeProvider.getAutocompletionList()) {
+			AutocompletionTextGwt newText = new AutocompletionTextGwt(oldText.getText(), oldText.getInfo(), oldText.getBase64Img());
+			autocompletionTextList.add(newText);
+		}
+		oracle.setAutocompletionList(autocompletionTextList);
 	}
 
 	/**

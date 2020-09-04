@@ -1,5 +1,10 @@
 <br/>
 
+1.0.4 -- Theme Support Improvement -- 2020-09-XX:
+* Autocompletion inside property editor now supports dark theme 
+
+<br/>
+
 1.0.3 -- Selection Bugfix -- 2020-09-03:
 * Fixed selection of elements dropped from the palette
 

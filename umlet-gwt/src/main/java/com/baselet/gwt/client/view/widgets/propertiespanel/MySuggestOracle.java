@@ -50,9 +50,9 @@ public class MySuggestOracle extends SuggestOracle {
 		};
 	}
 
-	public void setAutocompletionList(List<AutocompletionText> autocompletionList) {
+	public void setAutocompletionList(List<AutocompletionTextGwt> autocompletionList) {
 		suggestions.clear();
-		for (AutocompletionText text : autocompletionList) {
+		for (AutocompletionTextGwt text : autocompletionList) {
 			suggestions.add(new MySuggestion(text));
 		}
 	}
