@@ -52,7 +52,7 @@
 .gwt-SuggestBoxPopup {
     /*   overflow: auto !important; */
     /*   max-height: 400px; */
-    background-color: white !important;
+    /*background-color: white !important;*/
 }
 
 .gwt-SuggestBoxPopup .item {
@@ -67,4 +67,67 @@
 
 .gwt-MenuItem.gwt-MenuItem-selected.dark {
     background: #808080 !important;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupContent.light {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupContent.dark {
+    background: #1E1E1E !important;
+    color: #FFFFFF !important;
+}
+
+.suggestPopupTop.light {
+    background: #FFFFFF !important;
+}
+
+.suggestPopupMiddle.light {
+    background: #FFFFFF !important;
+}
+
+.suggestPopupBottom.light {
+    background: #FFFFFF !important;
+}
+
+.suggestPopupTop.dark {
+    background: #1E1E1E !important;
+}
+
+.suggestPopupMiddle.dark {
+    background: #1E1E1E !important;
+}
+
+.suggestPopupBottom.dark {
+    background: #1E1E1E !important;
+}
+
+.gwt-SuggestBoxPopup .item.light {
+    color: black !important;
+}
+
+.gwt-SuggestBoxPopup .item.dark {
+    color: white !important;
+}
+
+.item.light.item-selected {
+    background: #E3E8F3 !important;
+}
+
+.item.dark.item-selected {
+    background: #808080 !important;
+}
+
+.suggestPopupTopCenter, .suggestPopupMiddleLeft, .suggestPopupMiddleRight, .suggestPopupBottomCenter {
+    border: none !important;
+}
+
+.suggestPopupTopLeft, .suggestPopupTopRight, .suggestPopupBottomLeft, .suggestPopupBottomRight {
+    background: none !important;
+}
+
+.gwt-SuggestBoxPopup {
+    border: 2px solid #bbb !important;
+    border-radius: 5px !important;
 }
