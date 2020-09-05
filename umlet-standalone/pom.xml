@@ -30,6 +30,34 @@
 
 	<build>
 		<plugins>
+			<!-- (must be executed with java11 and not java8) -->
+			<plugin>
+				<groupId>io.github.fvarrui</groupId>
+				<artifactId>javapackager</artifactId>
+				<version>1.2.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>package</goal>
+						</goals>
+						<configuration>
+							<mainClass>com.baselet.standalone.MainStandalone</mainClass>
+							<bundleJre>true</bundleJre>
+							<generateInstaller>false</generateInstaller>
+							<additionalResources>
+								<additionalResource>${project.build.directory}/../../umlet-res/src/main/resources/custom_elements</additionalResource>
+								<additionalResource>${project.build.directory}/../../umlet-res/src/main/resources/palettes</additionalResource>
+							</additionalResources>
+							<createZipball>true</createZipball>
+							<jdkPath>D:\temp\Downloads\jdk11_LINUX</jdkPath>
+							<!-- <jdkPath>C:\Program Files\AdoptOpenJDK\jdk-11.0.8.10-hotspot</jdkPath> -->
+							<!-- <jrePath>C:\jdk-11.0.8+10_LINUX</jrePath> -->
+							<platform>linux</platform>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- assemble UMLet output as zip file -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>

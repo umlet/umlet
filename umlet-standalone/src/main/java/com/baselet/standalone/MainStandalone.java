@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 
@@ -266,8 +267,10 @@ public class MainStandalone {
 		tempPath = Path.executable();
 		tempPath = tempPath.substring(0, tempPath.length() - 1);
 		tempPath = tempPath.substring(0, tempPath.lastIndexOf('/') + 1);
-		if (tempPath.endsWith("/lib/")) {
-			tempPath = tempPath.substring(0, tempPath.length() - "lib/".length());
+		for (String sub : Arrays.asList("lib/", "libs/")) { // in case of a javapackager build, the path contains "libs" but resources are outside of libs dir
+			if (tempPath.endsWith("/" + sub)) {
+				tempPath = tempPath.substring(0, tempPath.length() - sub.length());
+			}
 		}
 		realPath = new File(tempPath).getAbsolutePath() + "/";
 		Path.setHomeProgram(realPath);
