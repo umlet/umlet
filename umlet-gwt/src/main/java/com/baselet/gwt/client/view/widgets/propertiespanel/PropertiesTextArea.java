@@ -25,6 +25,8 @@ public class PropertiesTextArea extends MySuggestBox {
 
 	private Redrawable activePanel = null;
 
+	private String oldText;
+
 	@UiConstructor
 	public PropertiesTextArea() {
 		this(new MySuggestOracle(), new OwnTextArea());
@@ -37,9 +39,13 @@ public class PropertiesTextArea extends MySuggestBox {
 				}
 				activePanel.redraw();
 
-				// Update the file-in progress for vscode on any value changes
-				if (activePanel instanceof DrawPanelDiagram) {
-					((DrawPanelDiagram) activePanel).handleFileUpdate();
+				if (oldText != null && !oldText.equals(value)) {
+					oldText = value;
+
+					// Update the file-in progress for vscode on any value changes
+					if (activePanel instanceof DrawPanelDiagram) {
+						((DrawPanelDiagram) activePanel).handleFileUpdate();
+					}
 				}
 			}
 		});
@@ -59,6 +65,7 @@ public class PropertiesTextArea extends MySuggestBox {
 			panelAttributes = DEFAULT_HELPTEXT;
 		}
 		textArea.setValue(panelAttributes);
+		oldText = panelAttributes;
 		List<AutocompletionTextGwt> autocompletionTextList = new ArrayList<>();
 		for (AutocompletionText oldText : panelAttributeProvider.getAutocompletionList()) {
 			AutocompletionTextGwt newText = new AutocompletionTextGwt(oldText.getText(), oldText.getInfo(), oldText.getBase64Img());

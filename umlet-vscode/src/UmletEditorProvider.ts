@@ -200,16 +200,19 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
     //gets the updated filedata from the webview if anything has changed
     updateCurrentFile(fileContent: string, document: vscode.TextDocument) {
-        lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
-        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'lastChangeTriggeredByUri set to: ' + lastChangeTriggeredByUri);
-        const edit = new vscode.WorkspaceEdit();
+        // Only update file state if there actually has been a change
+        if (document.getText() !== fileContent) {
+            lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, 'lastChangeTriggeredByUri set to: ' + lastChangeTriggeredByUri);
+            const edit = new vscode.WorkspaceEdit();
 
-        edit.replace(
-            document.uri,
-            new vscode.Range(0, 0, document.lineCount, 0),
-            fileContent);
+            edit.replace(
+                document.uri,
+                new vscode.Range(0, 0, document.lineCount, 0),
+                fileContent);
 
-        return vscode.workspace.applyEdit(edit);
+            vscode.workspace.applyEdit(edit);
+        }
     }
 
     //shows popup savefile dialog for uxf files
@@ -249,7 +252,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     }
 
     public static postLog(level: DebugLevel, message: string) {
-        if (UmletEditorProvider.debugLevel != undefined) {
+        if (UmletEditorProvider.debugLevel !== undefined) {
             if (level.valueOf() <= UmletEditorProvider.debugLevel) {
                 UmletEditorProvider.outputChannel.appendLine(message);
             }
