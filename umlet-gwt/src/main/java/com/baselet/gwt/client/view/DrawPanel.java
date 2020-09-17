@@ -41,6 +41,7 @@ import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -309,6 +310,19 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			// now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
 			int width = Math.max(visibleRect.getX2(), diagramRect.getX2()) - xTranslate;
 			int height = Math.max(visibleRect.getY2(), diagramRect.getY2()) - yTranslate;
+
+			// finally set height and width depending on diagram and panel dimensions to only show scroll bars if necessary
+			int elementHeight = Document.get().getScrollHeight();
+			int elementWidth = getOffsetWidth();
+			if (height > elementHeight) {
+				// Less space due to visible vertical scrollbar
+				width -= (scrollPanel.getScrollbarSize()[1]);
+			}
+			if (width > elementWidth) {
+				// Less space due to visible horizontal scrollbar
+				height -= (scrollPanel.getScrollbarSize()[0]);
+			}
+
 			canvas.clearAndSetSize(width, height);
 		}
 		else {
