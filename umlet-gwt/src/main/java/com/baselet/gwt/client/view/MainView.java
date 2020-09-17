@@ -180,8 +180,13 @@ public class MainView extends Composite implements ThemeChangeListener {
 		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
 		diagramPanel.setOtherDrawFocusPanel(palettePanel);
 		palettePanel.setOtherDrawFocusPanel(diagramPanel);
-		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramPanel);
-		paletteScrollPanel = new AutoResizeScrollDropPanel(palettePanel);
+		AutoResizeScrollDropPanel autoResizeScrollDropPanelDiagram = GWT.create(AutoResizeScrollDropPanel.class);
+		AutoResizeScrollDropPanel autoResizeScrollDropPanelPalette = GWT.create(AutoResizeScrollDropPanel.class);
+		autoResizeScrollDropPanelDiagram.init(diagramPanel);
+		autoResizeScrollDropPanelPalette.init(palettePanel);
+		diagramScrollPanel = autoResizeScrollDropPanelDiagram;
+		paletteScrollPanel = autoResizeScrollDropPanelPalette;
+
 		updateNotificationPosition();
 		ThemeFactory.addListener(this);
 
