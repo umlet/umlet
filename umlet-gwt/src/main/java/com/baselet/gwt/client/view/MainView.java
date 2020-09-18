@@ -346,6 +346,9 @@ public class MainView extends Composite implements ThemeChangeListener {
 		paletteChooser.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteChooser.getElement().getStyle().setColor(foregroundColor);
 
+		// Splitter between west side and main-canvas
+		diagramPaletteSplitter.getWidget(1).getElement().getStyle().setBackgroundColor(splitterColor);
+
 		// Splitter between main-canvas and east side
 		diagramPaletteSplitter.getWidget(3).getElement().getStyle().setBackgroundColor(splitterColor);
 
