@@ -106,7 +106,6 @@ public class DrawPanelPalette extends DrawPanel {
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
 		super.onMouseDown(element, isControlKeyDown);
 		otherDrawFocusPanel.selector.deselectAll(); // prevents selecting elements in both the diagram panel and palette
-		propertiesPanel.setGridElement(element, this); // grid element would be set by by super.onMouseDown, but is set to null by deselect all, therefore the reset here
 		for (GridElement original : selector.getSelectedElements()) {
 			draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
 		}
