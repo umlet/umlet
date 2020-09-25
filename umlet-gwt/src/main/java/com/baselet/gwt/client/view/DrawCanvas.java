@@ -84,6 +84,9 @@ public class DrawCanvas {
 				((ComponentGwt) ge.getComponent()).drawOn(canvas.getContext2d(), selector.isSelected(ge), scaling);
 			}
 		}
+		if (selector instanceof SelectorNew && ((SelectorNew) selector).isLassoActive()) {
+			((SelectorNew) selector).drawLasso(canvas.getContext2d());
+		}
 	}
 
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {

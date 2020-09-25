@@ -402,6 +402,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			stickablesToMove.remove(ge);
 			ge.dragEnd();
 		}
+		if (selector.isLassoActive()) {
+			selector.selectElementsInsideLasso(this.getDiagram().getGridElements());
+		}
 		redraw(true);
 	}
 
@@ -461,8 +464,11 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
-		if (isCtrlKeyDown) {
-			return; // TODO implement Lasso
+		if (isCtrlKeyDown && !selector.isLassoActive()) {
+			selector.startSelection(dragStart);
+		}
+		if (selector.isLassoActive()) {
+			selector.updateLasso(diffX, diffY);
 		}
 		else if (!resizeDirections.isEmpty()) {
 			draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
@@ -471,7 +477,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		else if (selector.getSelectedElements().size() == 1) {
 			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
-		else { // if != 1 elements are selected, move them
+		else if (!selector.isLassoActive()) { // if != 1 elements are selected, move them
 			moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
 		}
 		redraw(false);

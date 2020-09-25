@@ -194,7 +194,7 @@ public class DrawPanelDiagram extends DrawPanel {
 		if (cursorWasMovedDuringDrag) {
 			handleFileUpdate();
 		}
-		if (gridElement != null) {
+		if (gridElement != null && selector.getSelectedElements().isEmpty()) {
 			selector.select(gridElement);
 		}
 	}
