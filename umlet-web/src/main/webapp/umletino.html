@@ -59,7 +59,7 @@
         switchBodyColor(theme);
         // Observing theme changes (IE does not support this)
         if (!isIE) {
-            const darkModeMediaQuery = window.matchMediaM('(prefers-color-scheme: dark)');
+            const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
             darkModeMediaQuery.addEventListener("change", function (e) {
                 const darkMode = e.matches;
                 if (darkMode) {
