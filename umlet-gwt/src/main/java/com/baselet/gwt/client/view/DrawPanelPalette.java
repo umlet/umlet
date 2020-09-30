@@ -53,6 +53,11 @@ public class DrawPanelPalette extends DrawPanel {
 
 	private final ListBox paletteChooser;
 
+	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
+	private boolean draggingDisabled; // to disable dragging when element was dragged to properties panel
+
+	private GridElement lastDraggedGridElement;
+
 	public DrawPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser) {
 		super(mainView, propertiesPanel);
 		setDiagram(parsePalette(PALETTELIST.get(0)));
@@ -99,9 +104,6 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
-	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
-	private boolean draggingDisabled; // to disable dragging when element was dragged to properties panel
-
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
 		super.onMouseDown(element, isControlKeyDown);
@@ -132,9 +134,7 @@ public class DrawPanelPalette extends DrawPanel {
 				elementsToMove.add(copy);
 			}
 			Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
-			commandInvoker.removeSelectedElements(this);
-			commandInvoker.addElements(this, draggedElements);
-			selector.deselectAll();
+			resetPalette();
 			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
 
 			// set focus to the diagram
@@ -143,7 +143,13 @@ public class DrawPanelPalette extends DrawPanel {
 		draggedElements.clear();
 
 		super.onMouseDragEnd(gridElement, lastPoint);
+	}
 
+	private void resetPalette() {
+		commandInvoker.removeSelectedElements(this);
+		commandInvoker.addElements(this, draggedElements);
+		draggedElements.clear();
+		selector.deselectAll();
 	}
 
 	@Override
@@ -170,8 +176,6 @@ public class DrawPanelPalette extends DrawPanel {
 			}
 		});
 	}
-
-	private GridElement lastDraggedGridElement;
 
 	@Override
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
@@ -214,13 +218,13 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
-	public void cancelDragNoDuplicate(Point point) { // Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
+	public void cancelDragNoDuplicate() { // Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
 		if (!draggingDisabled && lastDraggedGridElement != null) {
 			List<GridElement> lastDraggedGridElementAsList;
 			lastDraggedGridElementAsList = new ArrayList();
 			lastDraggedGridElementAsList.add(lastDraggedGridElement);
 			removeGridElements(lastDraggedGridElementAsList);
-			cancelDrag(point, 0, 0, lastDraggedGridElement);
+			resetPalette();
 		}
 	}
 

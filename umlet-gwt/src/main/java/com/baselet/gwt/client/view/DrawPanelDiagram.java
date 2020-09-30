@@ -117,15 +117,15 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	}
 
-	public void cancelDragOfPalette(Point point) {
+	public void cancelDragOfPalette() {
 		if (otherDrawFocusPanel instanceof DrawPanelPalette) {
-			((DrawPanelPalette) otherDrawFocusPanel).cancelDragNoDuplicate(point);
+			((DrawPanelPalette) otherDrawFocusPanel).cancelDragNoDuplicate();
 		}
 	}
 
 	@Override
 	public void onShowMenu(Point point) {
-		cancelDragOfPalette(point);
+		cancelDragOfPalette();
 		super.onShowMenu(point);
 	}
 
