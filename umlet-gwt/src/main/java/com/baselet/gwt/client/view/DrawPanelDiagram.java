@@ -117,15 +117,15 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	}
 
-	public void cancelDragOfPalette() {
+	public void cancelDragOfPalette(Point point) {
 		if (otherDrawFocusPanel instanceof DrawPanelPalette) {
-			((DrawPanelPalette) otherDrawFocusPanel).cancelDragNoDuplicate();
+			((DrawPanelPalette) otherDrawFocusPanel).cancelDragNoDuplicate(point);
 		}
 	}
 
 	@Override
 	public void onShowMenu(Point point) {
-		cancelDragOfPalette();
+		cancelDragOfPalette(point);
 		super.onShowMenu(point);
 	}
 
@@ -193,9 +193,6 @@ public class DrawPanelDiagram extends DrawPanel {
 		super.onMouseDragEnd(gridElement, lastPoint);
 		if (cursorWasMovedDuringDrag) {
 			handleFileUpdate();
-		}
-		if (gridElement != null && selector.getSelectedElements().isEmpty()) {
-			selector.select(gridElement);
 		}
 	}
 

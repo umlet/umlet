@@ -214,14 +214,13 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
-	public void cancelDragNoDuplicate() // Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
-	{
+	public void cancelDragNoDuplicate(Point point) { // Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
 		if (!draggingDisabled && lastDraggedGridElement != null) {
 			List<GridElement> lastDraggedGridElementAsList;
 			lastDraggedGridElementAsList = new ArrayList();
 			lastDraggedGridElementAsList.add(lastDraggedGridElement);
 			removeGridElements(lastDraggedGridElementAsList);
-			cancelDrag(new Point(0, 0), 0, 0, lastDraggedGridElement);
+			cancelDrag(point, 0, 0, lastDraggedGridElement);
 		}
 	}
 
