@@ -21,8 +21,12 @@ import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class DrawHandler {
+
+	private static final Logger log = LoggerFactory.getLogger(DrawHandler.class);
 
 	protected static final double HALF_PX = 0.5f;
 

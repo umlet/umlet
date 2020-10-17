@@ -12,29 +12,31 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Notification;
+import com.baselet.gwt.client.jsinterop.Context2dPdfWrapper;
+import com.baselet.gwt.client.jsinterop.Context2dWrapper;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 
+import java.util.ArrayList;
+
 public class DrawHandlerGwt extends DrawHandler {
 
 	private static final CustomLogger log = CustomLoggerFactory.getLogger(DrawHandlerGwt.class);
 
-	private final Canvas canvas;
-	private final Context2d ctx;
+	private final Context2dWrapper ctx;
 
-	public DrawHandlerGwt(Canvas canvas) {
-		this(canvas, 1.0d);
+	public DrawHandlerGwt(Context2dWrapper context2d) {
+		this(context2d, 1.0d);
 	}
 
 	private double scalingFactor;
 	private boolean scalingIsSet;
 
-	public DrawHandlerGwt(Canvas canvas, double scaling) {
-		this.canvas = canvas;
-		ctx = canvas.getContext2d();
+	public DrawHandlerGwt(Context2dWrapper context2d, double scaling) {
+		ctx = context2d;
 		scalingFactor = scaling;
 		scalingIsSet = false;
 	}
@@ -47,7 +49,6 @@ public class DrawHandlerGwt extends DrawHandler {
 
 	private void setScalingOnce() {
 		if (!scalingIsSet) {
-
 			ctx.setTransform(1, 0, 0, 1, 0, 0);
 			ctx.scale(scalingFactor, scalingFactor);
 			scalingIsSet = true;
@@ -58,7 +59,7 @@ public class DrawHandlerGwt extends DrawHandler {
 	protected DimensionDouble textDimensionHelper(StringStyle singleLine) {
 		String oldFont = ctx.getFont();
 		ctxSetFont(style.getFontSize(), singleLine);
-		DimensionDouble dim = new DimensionDouble(ctx.measureText(singleLine.getStringWithoutMarkup()).getWidth(), style.getFontSize()); // unfortunately a html canvas offers no method to get the exakt height, therefore just use the fontsize
+		DimensionDouble dim = new DimensionDouble(ctx.measureText(singleLine.getStringWithoutMarkup()), style.getFontSize()); // unfortunately a html canvas offers no method to get the exakt height, therefore just use the fontsize
 		ctx.setFont(oldFont); // restore old font to make sure the textDimensions method doesnt change context state!
 		return dim;
 	}
@@ -97,10 +98,7 @@ public class DrawHandlerGwt extends DrawHandler {
 				}
 				// restore before drawing so the line has the same with and is not affected by the scaling
 				ctx.restore();
-				ctx.fill();
-				if (styleAtDrawingCall.getLineWidth() > 0) {
-					ctx.stroke();
-				}
+				fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
 			}
 		});
 	}
@@ -115,10 +113,7 @@ public class DrawHandlerGwt extends DrawHandler {
 				setStyle(ctx, styleAtDrawingCall);
 				ctx.beginPath();
 				ctx.arc((int) x + HALF_PX, (int) y + HALF_PX, radius, 0, 2 * Math.PI);
-				ctx.fill();
-				if (styleAtDrawingCall.getLineWidth() > 0) {
-					ctx.stroke();
-				}
+				fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
 			}
 		});
 	}
@@ -197,7 +192,6 @@ public class DrawHandlerGwt extends DrawHandler {
 					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
 					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY() + textHeightMax());
 				}
-
 			}
 		});
 	}
@@ -263,7 +257,7 @@ public class DrawHandlerGwt extends DrawHandler {
 	/**
 	 * based on http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas/2173084#2173084
 	 */
-	private static void drawEllipseHelper(Context2d ctx, boolean drawOuterLine, double x, double y, double w, double h) {
+	private static void drawEllipseHelper(Context2dWrapper ctx, boolean drawOuterLine, double x, double y, double w, double h) {
 		double kappa = .5522848f;
 		double ox = w / 2 * kappa; // control point offset horizontal
 		double oy = h / 2 * kappa; // control point offset vertical
@@ -278,16 +272,14 @@ public class DrawHandlerGwt extends DrawHandler {
 		ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
 		ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
 		ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
-		ctx.fill();
-		if (drawOuterLine) {
-			ctx.stroke();
-		}
+
+		fill(ctx, drawOuterLine);
 	}
 
 	/**
 	 * based on http://js-bits.blogspot.co.at/2010/07/canvas-rounded-corner-rectangles.html
 	 */
-	private static void drawRoundRectHelper(Context2d ctx, boolean drawOuterLine, final double x, final double y, final double width, final double height, final double radius) {
+	private static void drawRoundRectHelper(Context2dWrapper ctx, boolean drawOuterLine, final double x, final double y, final double width, final double height, final double radius) {
 		ctx.beginPath();
 		ctx.moveTo(x + radius, y);
 		ctx.lineTo(x + width - radius, y);
@@ -299,10 +291,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		ctx.lineTo(x, y + radius);
 		ctx.quadraticCurveTo(x, y, x + radius, y);
 		ctx.closePath();
-		ctx.fill();
-		if (drawOuterLine) {
-			ctx.stroke();
-		}
+		fill(ctx, drawOuterLine);
 	}
 
 	private void drawLineHelper(boolean drawOuterLine, PointDouble... points) {
@@ -316,14 +305,14 @@ public class DrawHandlerGwt extends DrawHandler {
 			ctx.lineTo(point.x.intValue() + HALF_PX, point.y.intValue() + HALF_PX);
 		}
 		if (points[0].equals(points[points.length - 1])) {
-			ctx.fill(); // only fill if first point == lastpoint
+			fill(ctx, drawOuterLine); // only fill if first point == lastpoint
 		}
 		if (drawOuterLine) {
 			ctx.stroke();
 		}
 	}
 
-	private void setStyle(Context2d ctx, Style style) {
+	private void setStyle(Context2dWrapper ctx, Style style) {
 		if (style.getBackgroundColor() != null) {
 			ctx.setFillStyle(Converter.convert(style.getBackgroundColor()));
 		}
@@ -335,17 +324,17 @@ public class DrawHandlerGwt extends DrawHandler {
 		setLineDash(ctx, style.getLineType(), style.getLineWidth());
 	}
 
-	private void setLineDash(Context2d ctx, LineType lineType, double lineThickness) {
+	private void setLineDash(Context2dWrapper ctx, LineType lineType, double lineThickness) {
 		try {
 			switch (lineType) {
 				case DASHED: // large linethickness values need longer dashes
-					setLineDash(ctx, 6 * Math.max(1, lineThickness / 2));
+					ctx.setLineDash(6 * Math.max(1, lineThickness / 2));
 					break;
 				case DOTTED: // minimum must be 2, otherwise the dotting is not really visible
-					setLineDash(ctx, Math.max(2, lineThickness));
+					ctx.setLineDash(Math.max(2, lineThickness));
 					break;
 				default: // default is a solid line
-					setLineDash(ctx, 0);
+					ctx.setLineDash(0);
 			}
 		} catch (Exception e) {
 			log.debug("No browser support for dashed lines", e);
@@ -353,26 +342,25 @@ public class DrawHandlerGwt extends DrawHandler {
 		}
 	}
 
-	/**
-	 * Chrome and Firefox 33+ support setLineDash()
-	 * Older Firefox version support only mozDash()
-	 */
-	public final native void setLineDash(Context2d ctx, double dash) /*-{
-		if (ctx.setLineDash !== undefined) {
-			if (dash != 0) {
-				ctx.setLineDash([ dash ]);
-			} else {
-				ctx.setLineDash([]); // Firefox 33+ on Linux dont show solid lines if ctx.setLineDash([0]) is used, therefore use empty array which works on every browser
-			}
-		} else if (ctx.mozDash !== undefined) {
-			if (dash != 0) {
-				ctx.mozDash = [ dash ];
-			} else { // default is null
-				ctx.mozDash = null;
-			}
-		} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
-			throw new Exception();
-		}
-	}-*/;
+	public Context2dWrapper getCtx() {
+		return ctx;
+	}
 
+	// The PDF spec does not allow consecutive calls to fill and stroke
+	private static void fill(Context2dWrapper ctx, boolean stroke) {
+		if (ctx instanceof Context2dPdfWrapper) {
+			if (stroke) {
+				((Context2dPdfWrapper) ctx).fillAndStroke();
+			}
+			else {
+				ctx.fill();
+			}
+		}
+		else {
+			ctx.fill();
+			if (stroke) {
+				ctx.stroke();
+			}
+		}
+	}
 }

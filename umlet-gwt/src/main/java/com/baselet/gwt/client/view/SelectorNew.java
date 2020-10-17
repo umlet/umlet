@@ -12,6 +12,8 @@ import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.interfaces.HasGridElements;
 import com.baselet.gwt.client.element.DrawHandlerGwt;
+import com.baselet.gwt.client.jsinterop.Context2dGwtWrapper;
+import com.baselet.gwt.client.jsinterop.Context2dWrapper;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
@@ -31,7 +33,7 @@ public class SelectorNew extends Selector {
 
 	public SelectorNew(HasGridElements gridElementProvider) {
 		this.gridElementProvider = gridElementProvider;
-		this.drawer = new DrawHandlerGwt(this.canvas, 1d);
+		this.drawer = new DrawHandlerGwt(new Context2dGwtWrapper(this.canvas.getContext2d()), 1d);
 		this.drawer.setLineType(LineType.DASHED);
 	}
 
@@ -75,7 +77,7 @@ public class SelectorNew extends Selector {
 		this.rectangle = this.getLassoRectangle();
 	}
 
-	public void drawLasso(Context2d context) {
+	public void drawLasso(Context2dWrapper context) {
 		CanvasElement el = this.canvas.getCanvasElement();
 		this.canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getHeight());
 		this.canvas.getCanvasElement().setWidth((int) (this.rectangle.getWidth()) + 1); // canvas size is +1px to make sure a rectangle with width pixels is still visible (in Swing the bound-checking happens in BaseDrawHandlerSwing because you cannot extend the clipping area)
