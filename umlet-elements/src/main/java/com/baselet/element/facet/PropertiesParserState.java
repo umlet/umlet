@@ -18,7 +18,7 @@ import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 public class PropertiesParserState {
 
 	private final Settings settings;
-	private final DrawHandler drawer;
+	private DrawHandler drawer;
 
 	private Alignment alignment;
 	private double textPrintPosition; // the current y position for drawing text, separator-lines and other properties-text-related stuff
@@ -147,4 +147,9 @@ public class PropertiesParserState {
 	public double getTotalTextBlockHeight() {
 		return totalTextBlockHeight;
 	}
+
+	public void setDrawer(DrawHandler drawer) {
+		this.drawer = drawer;
+	}
+
 }

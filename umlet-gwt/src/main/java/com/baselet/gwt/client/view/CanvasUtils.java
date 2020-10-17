@@ -8,10 +8,16 @@ import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.GridElementUtils;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.base.Converter;
+import com.baselet.gwt.client.jsinterop.Context2dWrapper;
+import com.baselet.gwt.client.jsinterop.DrawPdfCanvas;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 public class CanvasUtils {
+
+	private static final CustomLogger logger = CustomLoggerFactory.getLogger(CanvasUtils.class);
 
 	private static final int EXPORT_BORDER = 10;
 
@@ -40,9 +46,29 @@ public class CanvasUtils {
 		return dataUrl;
 	}
 
+	public static String createPdfCanvasDataUrl(Diagram diagram, double scaling) {
+		ThemeFactory.THEMES currentTheme = ThemeFactory.getActiveThemeEnum();
+		ThemeFactory.changeTheme(ThemeFactory.THEMES.LIGHT, null, false);
+		// Calculate and set canvas width
+		Rectangle geRect = GridElementUtils.getGridElementsRectangle(diagram.getGridElements(), scaling);
+		geRect.addBorder(EXPORT_BORDER);
+		DrawPdfCanvas pdfCanvas = new DrawPdfCanvas(geRect.getWidth(), geRect.getHeight());
+		pdfCanvas.setScaling(scaling);
+		// Fill Canvas white
+		pdfCanvas.getContext2d().setFillStyle(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.WHITE)));
+		pdfCanvas.getContext2d().fillRect(0, 0, pdfCanvas.getWidth(), pdfCanvas.getHeight());
+		// Draw Elements on Canvas and translate their position
+		pdfCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
+		pdfCanvas.drawSvg(diagram.getGridElementsByLayerLowestToHighest());
+		ThemeFactory.changeTheme(currentTheme, null, true);
+		String dataUrl = pdfCanvas.toDataUrl("application/pdf");
+		pdfCanvas.setScaling(1.0d); // to prevent that the scaling is displayed in the actual view since the same diagram items are referenced
+		return dataUrl;
+	}
+
 	private static Canvas gridCanvas;
 
-	public static void drawGridOn(Context2d context2d) {
+	public static void drawGridOn(Context2dWrapper context2d) {
 		if (gridCanvas == null) {
 			gridCanvas = Canvas.createIfSupported();
 			gridCanvas.setCoordinateSpaceWidth(3000);

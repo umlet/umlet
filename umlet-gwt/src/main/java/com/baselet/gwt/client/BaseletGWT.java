@@ -22,6 +22,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
+import java.util.Arrays;
+
 public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 
 	CustomLogger log = CustomLoggerFactory.getLogger(BaseletGWT.class);
@@ -80,6 +82,7 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 			Throwable unwrapped = unwrap(throwable);
 			Notification.showFeatureNotSupported("Sorry, the program just crashed. Please check logs and report a bug.", false);
 			log.error(unwrapped.getMessage());
+			long a = Arrays.stream(unwrapped.getStackTrace()).peek(stackTraceElement -> log.error(stackTraceElement.getClassName() + ":" + stackTraceElement.getMethodName() + "::" + stackTraceElement.getLineNumber())).count();
 		});
 	}
 
@@ -99,6 +102,6 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 	}
 
 	private final native boolean browserSupportsFileReader() /*-{
-    	return typeof FileReader != "undefined";
-    }-*/;
+																return typeof FileReader != "undefined";
+																}-*/;
 }
