@@ -42,7 +42,7 @@ public class DrawPdfCanvas extends CanvasWrapper {
 
 	@Override
 	public Context2dWrapper getContext2d() {
-		return new Context2dPdfWrapper(pdfContext, svgContext, realPdfContext);
+		return new Context2dPdfWrapper(pdfContext, realPdfContext);
 	}
 
 	@Override

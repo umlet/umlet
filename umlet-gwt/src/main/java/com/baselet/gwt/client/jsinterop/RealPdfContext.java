@@ -2,6 +2,7 @@ package com.baselet.gwt.client.jsinterop;
 
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.dom.client.CanvasElement;
@@ -12,7 +13,7 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, name = "PDFDocument", namespace = JsPackage.GLOBAL)
 public class RealPdfContext {
 	String textAlign;
-	String font;
+	Font textFont;
 	public BlobStream stream;
 
 	public RealPdfContext() {}
@@ -52,8 +53,11 @@ public class RealPdfContext {
 	public native void scale(double scalingFactor, double scalingFactor1);
 
 	@JsOverlay
-	public final String getFont() {
-		return this.font;
+	public final Font getFont() {
+		if (textFont == null) {
+			this.textFont = new Font("Helvetica", null, 12);
+		}
+		return this.textFont;
 	}
 
 	@JsOverlay
@@ -62,9 +66,14 @@ public class RealPdfContext {
 	}
 
 	@JsOverlay
-	public final void setFont(String font) {
-		// TODO: SET REAL FONT
-		font("Helvetica");
+	public final void setFont(Font textFont) {
+		this.textFont = textFont;
+		String fontName = textFont.getFontDescription();
+		if (textFont.getFontStyle() != null) {
+			fontName += textFont.getFontStyle();
+		}
+		font(fontName);
+		fontSize(textFont.getFontSize());
 	}
 
 	public native void save();
@@ -267,4 +276,6 @@ public class RealPdfContext {
 	public native void undash();
 
 	public native void transform(int m11, int m12, int m21, int m22, int dx, int dy);
+
+	public native void fontSize(double fontSize);
 }
