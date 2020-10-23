@@ -1,6 +1,8 @@
 package com.baselet.gwt.client.jsinterop;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;
+import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.*;
 import com.google.gwt.dom.client.CanvasElement;
 
@@ -22,11 +24,13 @@ public interface Context2dWrapper {
 
 	void scale(double scalingFactor, double scalingFactor1);
 
-	String getFont();
+	Font getFont();
 
 	double measureText(String text);
 
-	void setFont(String font);
+	void setFont(double fontSize, StringStyle stringStyle);
+
+	void setFont(Font font);
 
 	void save();
 

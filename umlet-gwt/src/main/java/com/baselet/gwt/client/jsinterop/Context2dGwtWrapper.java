@@ -1,5 +1,8 @@
 package com.baselet.gwt.client.jsinterop;
 
+import com.baselet.control.StringStyle;
+import com.baselet.control.enums.FormatLabels;
+import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.*;
 import com.google.gwt.dom.client.CanvasElement;
 
@@ -46,8 +49,21 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 	}
 
 	@Override
-	public String getFont() {
-		return context2d.getFont();
+	public Font getFont() {
+		String htmlFont = context2d.getFont();
+		Font font = new Font();
+		if (htmlFont.contains("bold")) {
+			font.setFontStyle("bold");
+		}
+		if (htmlFont.contains("italic")) {
+			font.setFontStyle("italic");
+		}
+
+		// The pixel size should be the only number inside the string
+		font.setFontSize(Double.parseDouble(htmlFont.replaceAll("\\D+","")));
+		font.setFontDescription(htmlFont.substring(htmlFont.lastIndexOf(" ")));
+
+		return font;
 	}
 
 	@Override
@@ -56,8 +72,20 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 	}
 
 	@Override
-	public void setFont(String font) {
-		context2d.setFont(font);
+	public void setFont(double fontSize, StringStyle stringStyle) {
+		String htmlStyle = "";
+		if (stringStyle.getFormat().contains(FormatLabels.BOLD)) {
+			htmlStyle += " bold";
+		}
+		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
+			htmlStyle += " italic";
+		}
+		context2d.setFont(htmlStyle + " " + fontSize + "px sans-serif");
+	}
+
+	@Override
+	public void setFont(Font font) {
+		context2d.setFont(font.getFontStyle() + " " + font.getFontSize() + "px " + font.getFontDescription());
 	}
 
 	@Override

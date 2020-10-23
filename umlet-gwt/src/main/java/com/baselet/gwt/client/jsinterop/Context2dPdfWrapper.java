@@ -1,26 +1,19 @@
 package com.baselet.gwt.client.jsinterop;
 
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.control.StringStyle;
+import com.baselet.control.enums.FormatLabels;
+import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class Context2dPdfWrapper implements Context2dWrapper {
 
-	private static final CustomLogger logger = CustomLoggerFactory.getLogger(Context2dPdfWrapper.class);
-
 	private final PdfContext pdfContext;
 	private final RealPdfContext realPdfContext;
-	private final SvgContext svgContext;
 
-	public SvgContext getSvgContext() {
-		return svgContext;
-	}
-
-	public Context2dPdfWrapper(PdfContext pdfContext, SvgContext svgContext, RealPdfContext realPdfContext) {
+	public Context2dPdfWrapper(PdfContext pdfContext, RealPdfContext realPdfContext) {
 		this.pdfContext = pdfContext;
-		this.svgContext = svgContext;
 		this.realPdfContext = realPdfContext;
 	}
 
@@ -60,7 +53,7 @@ public class Context2dPdfWrapper implements Context2dWrapper {
 	}
 
 	@Override
-	public String getFont() {
+	public Font getFont() {
 		return realPdfContext.getFont();
 	}
 
@@ -70,7 +63,24 @@ public class Context2dPdfWrapper implements Context2dWrapper {
 	}
 
 	@Override
-	public void setFont(String font) {
+	public void setFont(double fontSize, StringStyle stringStyle) {
+		Font font = new Font();
+		font.setFontDescription("Helvetica");
+
+		String fontStyle = "";
+		if (stringStyle.getFormat().contains(FormatLabels.BOLD)) {
+			fontStyle += "-Bold";
+		}
+		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
+			fontStyle += "-Oblique";
+		}
+		font.setFontStyle(fontStyle);
+		font.setFontSize(fontSize);
+		realPdfContext.setFont(font);
+	}
+
+	@Override
+	public void setFont(Font font) {
 		realPdfContext.setFont(font);
 	}
 

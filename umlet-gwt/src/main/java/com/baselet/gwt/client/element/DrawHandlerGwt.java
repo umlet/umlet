@@ -16,11 +16,8 @@ import com.baselet.gwt.client.jsinterop.Context2dPdfWrapper;
 import com.baselet.gwt.client.jsinterop.Context2dWrapper;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
+import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
-
-import java.util.ArrayList;
 
 public class DrawHandlerGwt extends DrawHandler {
 
@@ -57,7 +54,7 @@ public class DrawHandlerGwt extends DrawHandler {
 
 	@Override
 	protected DimensionDouble textDimensionHelper(StringStyle singleLine) {
-		String oldFont = ctx.getFont();
+		Font oldFont = ctx.getFont();
 		ctxSetFont(style.getFontSize(), singleLine);
 		DimensionDouble dim = new DimensionDouble(ctx.measureText(singleLine.getStringWithoutMarkup()), style.getFontSize()); // unfortunately a html canvas offers no method to get the exakt height, therefore just use the fontsize
 		ctx.setFont(oldFont); // restore old font to make sure the textDimensions method doesnt change context state!
@@ -228,14 +225,7 @@ public class DrawHandlerGwt extends DrawHandler {
 	}
 
 	private void ctxSetFont(double fontSize, StringStyle stringStyle) {
-		String htmlStyle = "";
-		if (stringStyle.getFormat().contains(FormatLabels.BOLD)) {
-			htmlStyle += " bold";
-		}
-		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
-			htmlStyle += " italic";
-		}
-		ctx.setFont(htmlStyle + " " + fontSize + "px sans-serif");
+		ctx.setFont(fontSize, stringStyle);
 	}
 
 	private void ctxSetTextAlign(AlignHorizontal align) {
