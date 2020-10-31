@@ -12,6 +12,7 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Notification;
+import com.baselet.gwt.client.jsinterop.Context2dGwtWrapper;
 import com.baselet.gwt.client.jsinterop.Context2dPdfWrapper;
 import com.baselet.gwt.client.jsinterop.Context2dWrapper;
 import com.baselet.gwt.client.logging.CustomLogger;
@@ -79,18 +80,27 @@ public class DrawHandlerGwt extends DrawHandler {
 				double centerY = (int) (y + height / 2) + HALF_PX;
 
 				ctx.save();
-				// translate the arc and don't use the center parameters because they are affected by scaling
-				ctx.translate(centerX, centerY);
 				ctx.scale(1, height / width);
 				if (open) { // if arc should be open, move before the path begins
 					ctx.beginPath();
 				}
 				else { // otherwise the move is part of the path
 					ctx.beginPath();
-					ctx.moveTo(0, 0);
+					ctx.moveTo(centerX, centerY);
+					if (ctx instanceof Context2dPdfWrapper) { // PDF resets sub-paths on moveTo, therefore we need to draw closed arcs ourselves
+						ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
+						ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start + extent)), centerY + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
+						ctx.closePath();
+						ctx.fill();
+						ctx.moveTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
+						ctx.lineTo(centerX, centerY);
+						ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start + extent)), centerY + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
+						ctx.stroke();
+						ctx.moveTo(centerX, centerY);
+					}
 				}
-				ctx.arc(0, 0, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
-				if (!open) { // close path only if arc is not open
+				ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+				if (!open && (ctx instanceof Context2dGwtWrapper)) { // close path only if arc is not open and not PDF
 					ctx.closePath();
 				}
 				// restore before drawing so the line has the same with and is not affected by the scaling
