@@ -148,7 +148,7 @@ public class RealPdfContext {
 
 	@JsOverlay
 	public final double adjustTextY(String text, double y) {
-		double height = currentLineHeight(false);
+		double height = currentLineHeight(true);
 		y -= (height / 2) + 1;
 		return y;
 	}
