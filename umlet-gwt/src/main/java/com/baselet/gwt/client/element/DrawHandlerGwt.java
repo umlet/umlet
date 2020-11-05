@@ -203,13 +203,9 @@ public class DrawHandlerGwt extends DrawHandler {
 			public void run() {
 				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
-				// int cast on x/y + HALF_PX and int cast on width/height is important to make sure it never draws between pixels
-				ctx.fillRect((int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height);
 				ctx.beginPath();
 				ctx.rect((int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height);
-				if (styleAtDrawingCall.getLineWidth() > 0) {
-					ctx.stroke();
-				}
+				fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
 			}
 		});
 	}
