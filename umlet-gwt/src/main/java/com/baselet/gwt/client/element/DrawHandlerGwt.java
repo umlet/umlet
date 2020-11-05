@@ -81,31 +81,63 @@ public class DrawHandlerGwt extends DrawHandler {
 
 				ctx.save();
 				ctx.scale(1, height / width);
-				if (open) { // if arc should be open, move before the path begins
-					ctx.beginPath();
-				}
-				else { // otherwise the move is part of the path
-					ctx.beginPath();
-					ctx.moveTo(centerX, centerY);
-					if (ctx instanceof Context2dPdfWrapper) { // PDF resets sub-paths on moveTo, therefore we need to draw closed arcs ourselves
-						ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
-						ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start + extent)), centerY + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
-						ctx.closePath();
-						ctx.fill();
-						ctx.moveTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
-						ctx.lineTo(centerX, centerY);
-						ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start + extent)), centerY + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
-						ctx.stroke();
+				if(ctx instanceof Context2dGwtWrapper) { // PDF resets sub-paths on moveTo, therefore we need to draw closed arcs ourselves
+					if (open) { // if arc should be open, move before the path begins
+						ctx.beginPath();
+					}
+					else { // otherwise the move is part of the path
+						ctx.beginPath();
 						ctx.moveTo(centerX, centerY);
 					}
+					ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+					if (!open) { // close path only if arc is not open and not PDF
+						ctx.closePath();
+					}
+					// restore before drawing so the line has the same with and is not affected by the scaling
+					ctx.restore();
+					fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
+				} else {
+					if (open) { // if arc should be open, move before the path begins
+						ctx.beginPath();
+						ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+						// restore before drawing so the line has the same with and is not affected by the scaling
+						ctx.restore();
+						fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
+					}
+					else { // otherwise the move is part of the path
+						ctx.beginPath();
+						ctx.moveTo(centerX, centerY);
+
+						if (Math.toRadians(start + extent) - Math.toRadians(start) < Math.PI) {
+							ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
+							ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start + extent)), centerY + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
+							ctx.closePath();
+							fill(ctx, false);
+							ctx.moveTo(centerX, centerY);
+							ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+						} else {
+							ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -(Math.toRadians(start) + Math.PI), true);
+							fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
+
+							// MoveTo to begin new path
+							ctx.moveTo(centerX, centerY);
+							ctx.lineTo(centerX + (width / 2) * Math.cos(-(Math.toRadians(start) + Math.PI)), centerY + (width / 2) * Math.sin(-(Math.toRadians(start) + Math.PI)));
+							ctx.lineTo(centerX + (width / 2) * Math.cos(-(Math.toRadians(start + extent))), centerY + (width / 2) * Math.sin(-(Math.toRadians(start + extent))));
+							ctx.closePath();
+							fill(ctx, false);
+
+							ctx.moveTo(centerX, centerY);
+							ctx.arc(centerX, centerY, width / 2, -(Math.toRadians(start) + Math.PI), -(Math.toRadians(start + extent)), true);
+						}
+						fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
+
+						// Drawing lines inside the circle
+						ctx.moveTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start + extent)), centerY + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
+						ctx.lineTo(centerX, centerY);
+						ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
+						ctx.stroke();
+					}
 				}
-				ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
-				if (!open && (ctx instanceof Context2dGwtWrapper)) { // close path only if arc is not open and not PDF
-					ctx.closePath();
-				}
-				// restore before drawing so the line has the same with and is not affected by the scaling
-				ctx.restore();
-				fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
 			}
 		});
 	}
