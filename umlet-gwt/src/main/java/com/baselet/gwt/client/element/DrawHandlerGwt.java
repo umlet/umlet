@@ -81,7 +81,7 @@ public class DrawHandlerGwt extends DrawHandler {
 
 				ctx.save();
 				ctx.scale(1, height / width);
-				if(ctx instanceof Context2dGwtWrapper) { // PDF resets sub-paths on moveTo, therefore we need to draw closed arcs ourselves
+				if (ctx instanceof Context2dGwtWrapper) { // PDF resets sub-paths on moveTo, therefore we need to draw closed arcs ourselves
 					if (open) { // if arc should be open, move before the path begins
 						ctx.beginPath();
 					}
@@ -96,7 +96,8 @@ public class DrawHandlerGwt extends DrawHandler {
 					// restore before drawing so the line has the same with and is not affected by the scaling
 					ctx.restore();
 					fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
-				} else {
+				}
+				else {
 					if (open) { // if arc should be open, move before the path begins
 						ctx.beginPath();
 						ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
@@ -109,33 +110,42 @@ public class DrawHandlerGwt extends DrawHandler {
 						ctx.moveTo(centerX, centerY);
 
 						if (Math.toRadians(start + extent) - Math.toRadians(start) < Math.PI) {
+							// Drawing background
 							ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
 							ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start + extent)), centerY + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
 							ctx.closePath();
-							fill(ctx, false);
-							ctx.moveTo(centerX, centerY);
 							ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
-						} else {
-							ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -(Math.toRadians(start) + Math.PI), true);
-							fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
+							fill(ctx, false);
 
-							// MoveTo to begin new path
+							if (styleAtDrawingCall.getLineWidth() > 0) {
+								// Drawing border
+								ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+								ctx.lineTo(centerX, centerY);
+								ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
+								ctx.stroke();
+							}
+						}
+						else {
+							// Drawing background of half of the circle
+							ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -(Math.toRadians(start) + Math.PI), true);
+							fill(ctx, false);
+							// MoveTo to begin new path to draw the background of the rest of the circle
 							ctx.moveTo(centerX, centerY);
 							ctx.lineTo(centerX + (width / 2) * Math.cos(-(Math.toRadians(start) + Math.PI)), centerY + (width / 2) * Math.sin(-(Math.toRadians(start) + Math.PI)));
 							ctx.lineTo(centerX + (width / 2) * Math.cos(-(Math.toRadians(start + extent))), centerY + (width / 2) * Math.sin(-(Math.toRadians(start + extent))));
 							ctx.closePath();
+							ctx.arc(centerX, centerY, width / 2, -(Math.toRadians(start) + Math.PI), -(Math.toRadians(start + extent)), true);
 							fill(ctx, false);
 
-							ctx.moveTo(centerX, centerY);
-							ctx.arc(centerX, centerY, width / 2, -(Math.toRadians(start) + Math.PI), -(Math.toRadians(start + extent)), true);
+							if (styleAtDrawingCall.getLineWidth() > 0) {
+								// Drawing border of figure
+								ctx.moveTo(centerX, centerY);
+								ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -(Math.toRadians(start + extent)), true);
+								ctx.lineTo(centerX, centerY);
+								ctx.closePath();
+								ctx.stroke();
+							}
 						}
-						fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
-
-						// Drawing lines inside the circle
-						ctx.moveTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start + extent)), centerY + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
-						ctx.lineTo(centerX, centerY);
-						ctx.lineTo(centerX + (width / 2) * Math.cos(-Math.toRadians(start)), centerY + (width / 2) * Math.sin(-Math.toRadians(start)));
-						ctx.stroke();
 					}
 				}
 			}
