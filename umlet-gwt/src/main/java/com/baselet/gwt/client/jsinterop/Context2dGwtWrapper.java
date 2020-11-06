@@ -44,8 +44,8 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 	}
 
 	@Override
-	public void scale(double scalingFactor, double scalingFactor1) {
-		context2d.scale(scalingFactor, scalingFactor);
+	public void scale(double x, double y) {
+		context2d.scale(x, y);
 	}
 
 	@Override

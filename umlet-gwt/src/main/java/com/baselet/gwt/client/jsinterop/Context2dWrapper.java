@@ -22,7 +22,7 @@ public interface Context2dWrapper {
 
 	void setTransform(int m11, int m12, int m21, int m22, int dx, int dy);
 
-	void scale(double scalingFactor, double scalingFactor1);
+	void scale(double x, double y);
 
 	Font getFont();
 
