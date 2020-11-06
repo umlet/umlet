@@ -48,8 +48,8 @@ public class Context2dPdfWrapper implements Context2dWrapper {
 	}
 
 	@Override
-	public void scale(double scalingFactor, double scalingFactor1) {
-		realPdfContext.scale(scalingFactor, scalingFactor);
+	public void scale(double x, double y) {
+		realPdfContext.scale(x, y);
 	}
 
 	@Override
