@@ -100,69 +100,18 @@ public class DrawHandlerGwt extends DrawHandler {
 					fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
 				}
 				else {
-					if (open) { // if arc should be open, move before the path begins
-						ctx.beginPath();
+					if (open) {
 						ctx.arc(0, 0, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
-						// restore before drawing so the line has the same with and is not affected by the scaling
-						ctx.restore();
-						fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
 					}
-					else { // otherwise the move is part of the path
-						ctx.beginPath();
+					else {
 						ctx.moveTo(0, 0);
-
-						if (Math.toRadians(start + extent) - Math.toRadians(start) < Math.PI) {
-							// Drawing background
-							ctx.lineTo(0 + (width / 2) * Math.cos(-Math.toRadians(start)), 0 + (width / 2) * Math.sin(-Math.toRadians(start)));
-							ctx.lineTo(0 + (width / 2) * Math.cos(-Math.toRadians(start + extent)), 0 + (width / 2) * Math.sin(-Math.toRadians(start + extent)));
-							ctx.closePath();
-							ctx.arc(0, 0, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
-							ctx.restore();
-							fill(ctx, false);
-
-							if (styleAtDrawingCall.getLineWidth() > 0) {
-								// Drawing border
-								ctx.save();
-								ctx.translate(centerX, centerY);
-								ctx.scale(1, height / width);
-								ctx.arc(0, 0, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
-								ctx.lineTo(0, 0);
-								ctx.lineTo(0 + (width / 2) * Math.cos(-Math.toRadians(start)), 0 + (width / 2) * Math.sin(-Math.toRadians(start)));
-								ctx.restore();
-								ctx.stroke();
-							}
-						}
-						else {
-							// Drawing background of half of the circle
-							ctx.arc(0, 0, width / 2, -Math.toRadians(start), -(Math.toRadians(start) + Math.PI), true);
-							ctx.restore();
-							fill(ctx, false);
-							// MoveTo to begin new path to draw the background of the rest of the circle
-							ctx.save();
-							ctx.translate(centerX, centerY);
-							ctx.scale(1, height / width);
-							ctx.moveTo(0, 0);
-							ctx.lineTo(0 + (width / 2) * Math.cos(-(Math.toRadians(start) + Math.PI)), 0 + (width / 2) * Math.sin(-(Math.toRadians(start) + Math.PI)));
-							ctx.lineTo(0 + (width / 2) * Math.cos(-(Math.toRadians(start + extent))), 0 + (width / 2) * Math.sin(-(Math.toRadians(start + extent))));
-							ctx.closePath();
-							ctx.arc(0, 0, width / 2, -(Math.toRadians(start) + Math.PI), -(Math.toRadians(start + extent)), true);
-							ctx.restore();
-							fill(ctx, false);
-
-							if (styleAtDrawingCall.getLineWidth() > 0) {
-								ctx.save();
-								ctx.translate(centerX, centerY);
-								ctx.scale(1, height / width);
-								// Drawing border of figure
-								ctx.moveTo(0, 0);
-								ctx.arc(0, 0, width / 2, -Math.toRadians(start), -(Math.toRadians(start + extent)), true);
-								ctx.lineTo(0, 0);
-								ctx.closePath();
-								ctx.restore();
-								ctx.stroke();
-							}
-						}
+						ctx.arc(0, 0, width / 2, -Math.toRadians(start), -(Math.toRadians(start + extent)), true);
+						ctx.lineTo(0, 0);
+						ctx.closePath();
 					}
+					// TODO: Find a way to draw lines with uniform line width
+					fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
+					ctx.restore();
 				}
 			}
 		});
