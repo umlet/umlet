@@ -65,14 +65,14 @@ public class Context2dPdfWrapper implements Context2dWrapper {
 	@Override
 	public void setFont(double fontSize, StringStyle stringStyle) {
 		Font font = new Font();
-		font.setFontDescription("Helvetica");
+		font.setFontDescription("DejaVuSans");
 
 		String fontStyle = "";
 		if (stringStyle.getFormat().contains(FormatLabels.BOLD)) {
-			fontStyle += "-Bold";
+			fontStyle = "Bold";
 		}
 		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
-			fontStyle += "-Oblique";
+			fontStyle = "Oblique";
 		}
 		font.setFontStyle(fontStyle);
 		font.setFontSize(fontSize);
