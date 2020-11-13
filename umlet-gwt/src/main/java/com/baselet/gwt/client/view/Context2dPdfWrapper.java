@@ -1,7 +1,8 @@
-package com.baselet.gwt.client.jsinterop;
+package com.baselet.gwt.client.view;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.enums.FormatLabels;
+import com.baselet.gwt.client.jsinterop.PdfContext;
 import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.FillStrokeStyle;
@@ -10,56 +11,54 @@ import com.google.gwt.dom.client.CanvasElement;
 public class Context2dPdfWrapper implements Context2dWrapper {
 
 	private final PdfContext pdfContext;
-	private final RealPdfContext realPdfContext;
 
-	public Context2dPdfWrapper(PdfContext pdfContext, RealPdfContext realPdfContext) {
+	public Context2dPdfWrapper(PdfContext pdfContext) {
 		this.pdfContext = pdfContext;
-		this.realPdfContext = realPdfContext;
 	}
 
 	@Override
 	public void setFillStyle(FillStrokeStyle fillStyle) {
-		realPdfContext.setFillStyle(fillStyle);
+		pdfContext.setFillStyle(fillStyle);
 	}
 
 	@Override
 	public void translate(double x, double y) {
-		realPdfContext.translate(x, y);
+		pdfContext.translate(x, y);
 	}
 
 	@Override
 	public void drawImage(CanvasElement image, double dx, double dy) {
-		realPdfContext.drawImage(image, dx, dy);
+		pdfContext.drawImage(image, dx, dy);
 	}
 
 	@Override
 	public void fillRect(double x, double y, double w, double h) {
-		realPdfContext.fillRect(x, y, w, h);
+		pdfContext.fillRect(x, y, w, h);
 	}
 
 	@Override
 	public void clearRect(double x, double y, double w, double h) {
-		realPdfContext.clearRect(x, y, w, h);
+		pdfContext.clearRect(x, y, w, h);
 	}
 
 	@Override
 	public void setTransform(int m11, int m12, int m21, int m22, int dx, int dy) {
-		realPdfContext.setTransform(m11, m12, m21, m22, dx, dy);
+		pdfContext.setTransform(m11, m12, m21, m22, dx, dy);
 	}
 
 	@Override
 	public void scale(double x, double y) {
-		realPdfContext.scale(x, y);
+		pdfContext.scale(x, y);
 	}
 
 	@Override
 	public Font getFont() {
-		return realPdfContext.getFont();
+		return pdfContext.getFont();
 	}
 
 	@Override
 	public double measureText(String text) {
-		return realPdfContext.measureText(text);
+		return pdfContext.measureText(text);
 	}
 
 	@Override
@@ -76,105 +75,105 @@ public class Context2dPdfWrapper implements Context2dWrapper {
 		}
 		font.setFontStyle(fontStyle);
 		font.setFontSize(fontSize);
-		realPdfContext.setFont(font);
+		pdfContext.setFont(font);
 	}
 
 	@Override
 	public void setFont(Font font) {
-		realPdfContext.setFont(font);
+		pdfContext.setFont(font);
 	}
 
 	@Override
 	public void save() {
-		realPdfContext.save();
+		pdfContext.save();
 	}
 
 	@Override
 	public void beginPath() {
-		realPdfContext.beginPath();
+		pdfContext.beginPath();
 	}
 
 	@Override
 	public void moveTo(double x, double y) {
-		realPdfContext.moveTo(x, y);
+		pdfContext.moveTo(x, y);
 	}
 
 	@Override
 	public void arc(double x, double y, double radius, double startAngle, double endAngle, boolean anticlockwise) {
-		realPdfContext.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+		pdfContext.arc(x, y, radius, startAngle, endAngle, anticlockwise);
 	}
 
 	@Override
 	public void closePath() {
-		realPdfContext.closePath();
+		pdfContext.closePath();
 	}
 
 	@Override
 	public void restore() {
-		realPdfContext.restore();
+		pdfContext.restore();
 	}
 
 	@Override
 	public void fill() {
-		realPdfContext.fill();
+		pdfContext.fill();
 	}
 
 	@Override
 	public void stroke() {
-		realPdfContext.stroke();
+		pdfContext.stroke();
 	}
 
 	@Override
 	public void arc(double x, double y, double radius, double startAngle, double endAngle) {
-		realPdfContext.arc(x, y, radius, startAngle, endAngle);
+		pdfContext.arc(x, y, radius, startAngle, endAngle);
 	}
 
 	@Override
 	public void setStrokeStyle(FillStrokeStyle strokeStyle) {
-		realPdfContext.setStrokeStyle(strokeStyle);
+		pdfContext.setStrokeStyle(strokeStyle);
 	}
 
 	@Override
 	public void setLineWidth(double lineWidth) {
-		realPdfContext.setLineWidth(lineWidth);
+		pdfContext.setLineWidth(lineWidth);
 	}
 
 	@Override
 	public void bezierCurveTo(double cp1x, double cp1y, double cp2x, double cp2y, double x, double y) {
-		realPdfContext.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+		pdfContext.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
 	}
 
 	@Override
 	public void setTextAlign(Context2d.TextAlign ctxAlign) {
-		realPdfContext.setTextAlign(ctxAlign);
+		pdfContext.setTextAlign(ctxAlign);
 	}
 
 	@Override
 	public void fillText(String text, Double x, Double y) {
-		realPdfContext.fillText(text, x, y);
+		pdfContext.fillText(text, x, y);
 	}
 
 	@Override
 	public void rect(double x, double y, int width, int height) {
-		realPdfContext.rect(x, y, width, height);
+		pdfContext.rect(x, y, width, height);
 	}
 
 	@Override
 	public void lineTo(double x, double y) {
-		realPdfContext.lineTo(x, y);
+		pdfContext.lineTo(x, y);
 	}
 
 	@Override
 	public void quadraticCurveTo(double cpx, double cpy, double x, double y) {
-		realPdfContext.quadraticCurveTo(cpx, cpy, x, y);
+		pdfContext.quadraticCurveTo(cpx, cpy, x, y);
 	}
 
 	@Override
 	public void setLineDash(double dash) {
-		realPdfContext.setLineDash(dash);
+		pdfContext.setLineDash(dash);
 	}
 
 	public void fillAndStroke() {
-		realPdfContext.fillAndStroke();
+		pdfContext.fillAndStroke();
 	}
 }
