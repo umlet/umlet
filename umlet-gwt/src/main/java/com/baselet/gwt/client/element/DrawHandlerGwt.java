@@ -215,6 +215,11 @@ public class DrawHandlerGwt extends DrawHandler {
 			return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
 		}
 
+		if (ctx instanceof Context2dPdfWrapper) {
+			// Replacing tabulator unicode because some fonts don't include it
+			textToDraw = textToDraw.replaceAll("\u0009", " ");
+		}
+
 		ctxSetTextAlign(align);
 		ctx.fillText(textToDraw, p.x, p.y);
 
