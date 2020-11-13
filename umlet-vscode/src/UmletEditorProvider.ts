@@ -93,7 +93,11 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                     return;
                 case 'exportPng':
                     var actual_data = message.text.replace("data:image/png;base64,", "");
-                    this.saveFileDecode(actual_data);
+                    this.saveFileDecodePng(actual_data);
+                    return;
+                case 'exportPdf':
+                    var actual_data = message.text.replace("data:application/pdf;base64,", "");
+                    this.saveFileDecodePdf(actual_data);
                     return;
                 case 'postLog':
                     UmletEditorProvider.postLog(DebugLevel.STANDARD, message.text);
@@ -234,10 +238,28 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     }
 
     //shows popup savefile dialog for png files
-    saveFileDecode(fileContent: string) {
+    saveFileDecodePng(fileContent: string) {
         vscode.window.showSaveDialog({
             filters: {
                 'Image': ['png']
+            }
+        })
+            .then(fileInfos => {
+                if (fileInfos !== undefined) {
+                    fs.writeFile(fileInfos.fsPath, fileContent, {encoding: 'base64'}, function (err) {
+                        if (err) {
+                            return console.log(err);
+                        }
+                    });
+                }
+            });
+    }
+
+    //shows popup savefile dialog for PDF files
+    saveFileDecodePdf(fileContent: string) {
+        vscode.window.showSaveDialog({
+            filters: {
+                'PDF': ['pdf']
             }
         })
             .then(fileInfos => {
@@ -441,6 +463,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       <link rel="icon" type="image/x-icon" href="favicon.ico">
       <title>UMLetino - Free Online UML Tool for Fast UML Diagrams</title>
       <script type="text/javascript" src="umletvscode/umletvscode.nocache.js?2020-03-15_09-48-08"></script>
+      <script type="text/javascript" src="pdfkit.standalone.js"></script>
+      <script type="text/javascript" src="blob-stream.js"></script>
     </head>
     <body>
 
