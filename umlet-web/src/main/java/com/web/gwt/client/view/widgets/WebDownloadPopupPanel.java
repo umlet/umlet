@@ -20,8 +20,11 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 
 	private static DateTimeFormat DTF = DateTimeFormat.getFormat("yyyy-MM-dd HH-mm-ss");
 
-	private Timer timerRename;
 	private Timer timer;
+
+	private String standardPngUrl;
+	private String standardPdfUrl;
+	private String standardUxfUrl;
 
 	@Override
 	public void prepare(FilenameAndScaleHolder filenameAndScaleHolder) {
@@ -43,11 +46,19 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 		textBox.setValue(filenameAndScaleHolder.getFilename());
 
 		Diagram diagram = drawPanelDiagram.getDiagram();
-		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagram);
-		String pdfUrl = CanvasUtils.createPdfCanvasDataUrl(diagram, 1.0);
-		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagram);
+		final HTML downloadLinkHtml = new HTML();
 
-		final HTML downloadLinkHtml = new HTML(createDownloadLinks(uxfUrl, pngUrl, pdfUrl, filenameAndScaleHolder.getFilename()));
+		timer = new Timer() {
+			@Override
+			public void run() {
+				standardPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram);
+				standardPdfUrl = CanvasUtils.createPdfCanvasDataUrl(diagram, 1.0);
+				standardUxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagram);
+				downloadLinkHtml.setHTML(createDownloadLinks(standardUxfUrl, standardPngUrl, standardPdfUrl, filenameAndScaleHolder.getFilename()));
+			}
+		};
+		timer.schedule(0);
+
 		panel.add(downloadLinkHtml);
 		panel.add(new HTML("<div style=\"color:gray;\">To change the target directory</div><div style=\"color:gray;\">use \"Right click -&gt; Save as\"</div>"));
 		setWidget(panel);
@@ -64,7 +75,7 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 						filenameAndScaleHolder.setFilename(textBox.getText());
 						String renamedPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
 						String renamedPdfUrl = CanvasUtils.createPdfCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
-						downloadLinkHtml.setHTML(createDownloadLinks(uxfUrl, renamedPngUrl, renamedPdfUrl, filenameAndScaleHolder.getFilename()));
+						downloadLinkHtml.setHTML(createDownloadLinks(standardUxfUrl, renamedPngUrl, renamedPdfUrl, filenameAndScaleHolder.getFilename()));
 					}
 				};
 				timer.schedule(2000);
@@ -86,7 +97,7 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 						public void run() {
 							filenameAndScaleHolder.setScaling(scalingValue);
 							String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
-							downloadLinkHtml.setHTML(createDownloadLinks(uxfUrl, scaledPngUrl, pdfUrl, filenameAndScaleHolder.getFilename()));
+							downloadLinkHtml.setHTML(createDownloadLinks(standardUxfUrl, scaledPngUrl, standardPdfUrl, filenameAndScaleHolder.getFilename()));
 						}
 					};
 					timer.schedule(2000);
@@ -99,7 +110,7 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 						public void run() {
 							filenameAndScaleHolder.setFilename(textBox.getText());
 							filenameAndScaleHolder.setScaling(1.0d);
-							downloadLinkHtml.setHTML(createDownloadLinks(uxfUrl, pngUrl, pdfUrl, filenameAndScaleHolder.getFilename()));
+							downloadLinkHtml.setHTML(createDownloadLinks(standardUxfUrl, standardPngUrl, standardPdfUrl, filenameAndScaleHolder.getFilename()));
 						}
 					};
 					timer.schedule(2000);
@@ -122,9 +133,6 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 	private void cancelTimer() {
 		if (timer != null) {
 			timer.cancel();
-		}
-		if (timerRename != null) {
-			timerRename.cancel();
 		}
 	}
 }
