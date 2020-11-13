@@ -12,6 +12,8 @@ import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.version.BuildInfoProperties;
+import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
+import com.baselet.gwt.client.view.widgets.DownloadType;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
@@ -167,6 +169,11 @@ public class DiagramXmlParser {
 			xml = URL.encode(xml).replace(NUMBER_SIGN, NUMBER_SIGN_URL_ENCODED);
 		}
 		return xml;
+	}
+
+	public static void diagramToXml(boolean encodeUrl, boolean encodeXml, Diagram diagram, DownloadPopupPanel receiver, DownloadType type) {
+		String xml = diagramToXml(encodeUrl, encodeXml, diagram);
+		receiver.onData(xml, type);
 	}
 
 	private static Element create(Document doc, String name, Node... children) {

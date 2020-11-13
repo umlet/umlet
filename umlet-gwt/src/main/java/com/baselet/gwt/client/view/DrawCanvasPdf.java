@@ -10,6 +10,8 @@ import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.jsinterop.*;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
+import com.baselet.gwt.client.view.widgets.DownloadType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +32,7 @@ public class DrawCanvasPdf {
 		return new Context2dPdfWrapper(pdfContext);
 	}
 
-	public void drawPdf(List<GridElement> gridElements) {
+	public void drawPdf(List<GridElement> gridElements, DownloadPopupPanel receiver, DownloadType type) {
 		BlobStream stream = pdfContext.pipe(new BlobStream());
 		if (SharedConfig.getInstance().isDev_mode()) {
 			CanvasUtils.drawGridOn(getContext2d());
@@ -52,7 +54,7 @@ public class DrawCanvasPdf {
 			FileReader fileReader = new FileReader();
 			Object pdfBlob = stream.toBlob("application/pdf");
 			fileReader.onloadend = () -> {
-				logger.info(fileReader.result);
+				receiver.onData(fileReader.result, type);
 			};
 			fileReader.readAsDataURL(pdfBlob);
 		});

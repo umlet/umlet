@@ -3,11 +3,10 @@ package com.web.gwt.client.view.widgets;
 import com.baselet.control.enums.Program;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.element.DiagramXmlParser;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.CanvasUtils;
-import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
-import com.baselet.gwt.client.view.widgets.FilenameAndScaleHolder;
-import com.baselet.gwt.client.view.widgets.InputEvent;
-import com.baselet.gwt.client.view.widgets.InputHandler;
+import com.baselet.gwt.client.view.widgets.*;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -20,14 +19,23 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 
 	private static DateTimeFormat DTF = DateTimeFormat.getFormat("yyyy-MM-dd HH-mm-ss");
 
+	private HTML downloadLinkHtml;
+	private FilenameAndScaleHolder filenameAndScaleHolder;
+
 	private Timer timer;
 
 	private String standardPngUrl;
 	private String standardPdfUrl;
 	private String standardUxfUrl;
 
+	private String outputPngUrl;
+	private String outputPdfUrl;
+	private String outputUxfUrl;
+
 	@Override
 	public void prepare(FilenameAndScaleHolder filenameAndScaleHolder) {
+		this.filenameAndScaleHolder = filenameAndScaleHolder;
+
 		setHeader("Export Diagram");
 		FlowPanel panel = new FlowPanel();
 		HTML w = new HTML("Optionally set a filename");
@@ -46,15 +54,18 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 		textBox.setValue(filenameAndScaleHolder.getFilename());
 
 		Diagram diagram = drawPanelDiagram.getDiagram();
-		final HTML downloadLinkHtml = new HTML();
+		downloadLinkHtml = new HTML();
 
 		timer = new Timer() {
 			@Override
 			public void run() {
-				standardPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram);
-				standardPdfUrl = CanvasUtils.createPdfCanvasDataUrl(diagram, 1.0);
-				standardUxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagram);
-				downloadLinkHtml.setHTML(createDownloadLinks(standardUxfUrl, standardPngUrl, standardPdfUrl, filenameAndScaleHolder.getFilename()));
+				WebDownloadPopupPanel parent = WebDownloadPopupPanel.this;
+				parent.outputUxfUrl = null;
+				parent.outputPngUrl = null;
+				parent.outputPdfUrl = null;
+				DiagramXmlParser.diagramToXml(true, true, diagram, parent, DownloadType.UXF);
+				CanvasUtils.createPngCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PNG);
+				CanvasUtils.createPdfCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PDF);
 			}
 		};
 		timer.schedule(0);
@@ -73,9 +84,11 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 					@Override
 					public void run() {
 						filenameAndScaleHolder.setFilename(textBox.getText());
-						String renamedPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
-						String renamedPdfUrl = CanvasUtils.createPdfCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
-						downloadLinkHtml.setHTML(createDownloadLinks(standardUxfUrl, renamedPngUrl, renamedPdfUrl, filenameAndScaleHolder.getFilename()));
+						WebDownloadPopupPanel parent = WebDownloadPopupPanel.this;
+						parent.outputPngUrl = null;
+						parent.outputPdfUrl = null;
+						CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling(), parent, DownloadType.PNG);
+						CanvasUtils.createPdfCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PDF);
 					}
 				};
 				timer.schedule(2000);
@@ -96,8 +109,9 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 						@Override
 						public void run() {
 							filenameAndScaleHolder.setScaling(scalingValue);
-							String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
-							downloadLinkHtml.setHTML(createDownloadLinks(standardUxfUrl, scaledPngUrl, standardPdfUrl, filenameAndScaleHolder.getFilename()));
+							WebDownloadPopupPanel parent = WebDownloadPopupPanel.this;
+							parent.outputPngUrl = null;
+							CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling(), parent, DownloadType.PNG);
 						}
 					};
 					timer.schedule(2000);
@@ -119,11 +133,40 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 		}, InputEvent.getType());
 	}
 
+	@Override
+	public void onData(String data, DownloadType downloadType) {
+		switch (downloadType) {
+			case PDF:
+				if (this.standardPdfUrl == null) {
+					this.standardPdfUrl = data;
+				}
+				this.outputPdfUrl = data;
+				break;
+			case PNG:
+				if (this.standardPngUrl == null) {
+					this.standardPngUrl = data;
+				}
+				this.outputPngUrl = data;
+				break;
+			case UXF:
+				if (this.standardUxfUrl == null) {
+					this.standardUxfUrl = "data:text/xml;charset=utf-8," + data;
+				}
+				this.outputUxfUrl = "data:text/xml;charset=utf-8," + data;
+				break;
+		}
+
+		if (this.outputPdfUrl != null && this.outputPngUrl != null && this.outputUxfUrl != null) {
+			downloadLinkHtml.setHTML(createDownloadLinks(outputUxfUrl, outputPngUrl, outputPdfUrl, filenameAndScaleHolder.getFilename()));
+		}
+
+	}
+
 	private String createDownloadLinks(String uxfUrl, String pngUrl, String pdfUrl, String filename) {
 		if (filename.isEmpty()) {
 			filename = "Diagram " + DTF.format(new Date());
 		}
-		return "<p class=\"exportLink\">" + link(uxfUrl, filename + "." + Program.getInstance().getExtension()) + "Save Diagram File</a></p>" + "<p class=\"exportLink\">" + link(pngUrl, filename + ".png") + "Save PDF File</a></p>" + "<p class=\"exportLink\">" + link(pdfUrl, filename + ".pdf") + "Save PDF File</a></p>";
+		return "<p class=\"exportLink\">" + link(uxfUrl, filename + "." + Program.getInstance().getExtension()) + "Save Diagram File</a></p>" + "<p class=\"exportLink\">" + link(pngUrl, filename + ".png") + "Save PNG File</a></p>" + "<p class=\"exportLink\">" + link(pdfUrl, filename + ".pdf") + "Save PDF File</a></p>";
 	}
 
 	private String link(String uxfUrl, String filename) {

@@ -6,10 +6,7 @@ import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.CanvasUtils;
 import com.baselet.gwt.client.view.DrawPanelDiagram;
-import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
-import com.baselet.gwt.client.view.widgets.FilenameAndScaleHolder;
-import com.baselet.gwt.client.view.widgets.InputEvent;
-import com.baselet.gwt.client.view.widgets.InputHandler;
+import com.baselet.gwt.client.view.widgets.*;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -57,11 +54,11 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 		savePictureButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
+				/*String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling());
 				exportPngVSCode(scaledPngUrl);
 
 				/* this line is to prevent a bug in the vs code version if this is not recalculated with a 1.0 scaling, then the display size of the elements in the diagram will change to whatever scaling was calculated for exporting */
-				CanvasUtils.createPngCanvasDataUrl(diagram, 1.0d);
+				//CanvasUtils.createPngCanvasDataUrl(diagram, 1.0d);
 			}
 		});
 		savePictureButton.setText("Save Image File");
@@ -87,10 +84,27 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 		 * @Override public void onInput(InputEvent event) { //not needed in vs code version since filename will be entered in popup dialog //filenameAndScaleHolder.setFilename(textBox.getText()); } }, InputEvent.getType()); */
 	}
 
-	private void handleExport(String size) {
+	@Override
+	public void onData(String data, DownloadType downloadType) {
+		switch (downloadType){
+			case UXF:
+				break;
+			case PNG:
+				exportPngVSCode(data);
+				break;
+			case PDF:
+				exportPdfVSCode(data);
+				break;
+		}
+	}
+
+	private void handleExportPng(String size) {
 		double scalingValue = Double.parseDouble(size);
-		String scaledPngUrl = CanvasUtils.createPngCanvasDataUrl(drawPanelDiagram.getDiagram(), scalingValue);
-		exportPngVSCode(scaledPngUrl);
+		CanvasUtils.createPngCanvasDataUrl(drawPanelDiagram.getDiagram(), scalingValue, VsCodeDownloadPopupPanel.this, DownloadType.PNG);
+	}
+
+	private void handleExportPdf() {
+		CanvasUtils.createPdfCanvasDataUrl(drawPanelDiagram.getDiagram(), VsCodeDownloadPopupPanel.this, DownloadType.PDF);
 	}
 
 	private native void initListener() /*-{
@@ -98,8 +112,11 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 		$wnd.addEventListener('message', function (event) {
 			var message = event.data;
 			switch (message.command) {
-				case 'requestExport':
-					that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleExport(Ljava/lang/String;)(message.text);
+				case 'requestExportPng':
+					that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleExportPng(Ljava/lang/String;)(message.text);
+					break;
+				case 'requestExportPdf':
+					that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleExportPdf()();
 					break;
 				case 'myUpdate': //message.text is expected to be the new diagram the editor should changed to
 					that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleUpdateContent(Ljava/lang/String;)(message.text);
@@ -130,6 +147,13 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 	private native void exportPngVSCode(String msg) /*-{
 		window.parent.vscode.postMessage({
 			command: 'exportPng',
+			text: msg
+		});
+	}-*/;
+
+	private native void exportPdfVSCode(String msg) /*-{
+		window.parent.vscode.postMessage({
+			command: 'exportPdf',
 			text: msg
 		});
 	}-*/;

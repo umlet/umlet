@@ -72,8 +72,9 @@
                         <configuration>
                             <style>PRETTY</style>
                             <tasks>
-                                <copy file="${project.basedir}/src/main/web/umletino.css"
-                                      todir="${project.build.directory}/${project.build.finalName}"/>
+                                <copy todir="${project.build.directory}/${project.build.finalName}">
+                                    <fileset dir="${project.basedir}/src/main/web"/>
+                                </copy>
                             </tasks>
                         </configuration>
                         <goals>

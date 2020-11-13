@@ -10,6 +10,8 @@ import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
+import com.baselet.gwt.client.view.widgets.DownloadType;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 
@@ -19,11 +21,11 @@ public class CanvasUtils {
 
 	private static final int EXPORT_BORDER = 10;
 
-	public static String createPngCanvasDataUrl(Diagram diagram) {
-		return createPngCanvasDataUrl(diagram, 1d);
+	public static void createPngCanvasDataUrl(Diagram diagram, DownloadPopupPanel receiver, DownloadType type) {
+		createPngCanvasDataUrl(diagram, 1d, receiver, type);
 	}
 
-	public static String createPngCanvasDataUrl(Diagram diagram, double scaling) {
+	public static void createPngCanvasDataUrl(Diagram diagram, double scaling, DownloadPopupPanel receiver, DownloadType type) {
 		ThemeFactory.THEMES currentTheme = ThemeFactory.getActiveThemeEnum();
 		ThemeFactory.changeTheme(ThemeFactory.THEMES.LIGHT, null, false);
 		DrawCanvas pngCanvas = new DrawCanvas();
@@ -41,23 +43,22 @@ public class CanvasUtils {
 		ThemeFactory.changeTheme(currentTheme, null, true);
 		String dataUrl = pngCanvas.toDataUrl("image/png");
 		pngCanvas.setScaling(1.0d); // to prevent that the scaling is displayed in the actual view since the same diagram items are referenced
-		return dataUrl;
+		receiver.onData(dataUrl, type);
 	}
 
-	public static String createPdfCanvasDataUrl(Diagram diagram, double scaling) {
+	public static void createPdfCanvasDataUrl(Diagram diagram, DownloadPopupPanel receiver, DownloadType type) {
 		ThemeFactory.THEMES currentTheme = ThemeFactory.getActiveThemeEnum();
 		ThemeFactory.changeTheme(ThemeFactory.THEMES.LIGHT, null, false);
 		// Calculate and set canvas width
-		Rectangle geRect = GridElementUtils.getGridElementsRectangle(diagram.getGridElements(), scaling);
+		Rectangle geRect = GridElementUtils.getGridElementsRectangle(diagram.getGridElements(), 1d);
 		geRect.addBorder(EXPORT_BORDER);
 		DrawCanvasPdf pdfCanvas = new DrawCanvasPdf(geRect.getWidth(), geRect.getHeight());
 		// Fill Canvas white
 		pdfCanvas.getContext2d().setFillStyle(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.WHITE)));
 		// Draw Elements on Canvas and translate their position
 		pdfCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
-		pdfCanvas.drawPdf(diagram.getGridElementsByLayerLowestToHighest());
+		pdfCanvas.drawPdf(diagram.getGridElementsByLayerLowestToHighest(), receiver, type);
 		ThemeFactory.changeTheme(currentTheme, null, true);
-		return "dataUrl";
 	}
 
 	private static Canvas gridCanvas;

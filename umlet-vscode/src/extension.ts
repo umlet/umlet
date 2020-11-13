@@ -26,13 +26,20 @@ export function activate(context: vscode.ExtensionContext) {
 function createUmletCommands(context: vscode.ExtensionContext) {
     //Register Commands for exporting in default and x4 size
     //x1 Size
-    const commandHandlerExport = () => {
+    const commandHandlerExportPng = () => {
         exportCurrentlyActivePanel?.webview.postMessage({
-            command: 'requestExport',
+            command: 'requestExportPng',
             text: workspace.getConfiguration('umlet').get('exportScale')
         });
     };
-    context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPng', commandHandlerExport));
+    context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPng', commandHandlerExportPng));
+
+    const commandHandlerExportPdf = () => {
+        exportCurrentlyActivePanel?.webview.postMessage({
+            command: 'requestExportPdf'
+        });
+    };
+    context.subscriptions.push(vscode.commands.registerCommand('umlet.exportPdf', commandHandlerExportPdf));
 
     //create a new file and open it in editor
     const commandHandlerCreateNewDiagram = () => {
