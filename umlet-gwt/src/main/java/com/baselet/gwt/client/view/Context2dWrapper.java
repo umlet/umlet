@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.jsinterop;
+package com.baselet.gwt.client.view;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;

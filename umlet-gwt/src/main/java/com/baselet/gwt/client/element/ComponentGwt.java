@@ -4,19 +4,12 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.gwt.client.jsinterop.Context2dGwtWrapper;
-import com.baselet.gwt.client.jsinterop.Context2dPdfWrapper;
-import com.baselet.gwt.client.jsinterop.Context2dWrapper;
-import com.baselet.gwt.client.jsinterop.SvgContext;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.view.Context2dGwtWrapper;
+import com.baselet.gwt.client.view.Context2dWrapper;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class ComponentGwt implements Component {
-
-	private static final CustomLogger logger = CustomLoggerFactory.getLogger(ComponentGwt.class);
 
 	boolean redrawNecessary = true;
 
@@ -104,7 +97,7 @@ public class ComponentGwt implements Component {
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX() * scaling, element.getRectangle().getY() * scaling);
 	}
 
-	public void drawSvg(Context2dWrapper context) {
+	public void drawPdf(Context2dWrapper context) {
 		context.translate(element.getRectangle().getX(), element.getRectangle().getY());
 		drawer.drawAll();
 		context.translate(-element.getRectangle().getX(), -element.getRectangle().getY());

@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.jsinterop;
+package com.baselet.gwt.client.view;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.enums.FormatLabels;
@@ -179,7 +179,7 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 	 */
 	@Override
 	public final native void setLineDash(double dash) /*-{
-    	var ctx = this.@com.baselet.gwt.client.jsinterop.Context2dGwtWrapper::context2d;
+    	var ctx = this.@com.baselet.gwt.client.view.Context2dGwtWrapper::context2d;
 		if (ctx.setLineDash !== undefined) {
 			if (dash != 0) {
 				ctx.setLineDash([ dash ]);

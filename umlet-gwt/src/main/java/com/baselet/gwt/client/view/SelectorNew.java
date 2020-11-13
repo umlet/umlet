@@ -12,10 +12,7 @@ import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.interfaces.HasGridElements;
 import com.baselet.gwt.client.element.DrawHandlerGwt;
-import com.baselet.gwt.client.jsinterop.Context2dGwtWrapper;
-import com.baselet.gwt.client.jsinterop.Context2dWrapper;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class SelectorNew extends Selector {
