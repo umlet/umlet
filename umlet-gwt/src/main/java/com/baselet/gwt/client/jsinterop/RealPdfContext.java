@@ -1,6 +1,5 @@
 package com.baselet.gwt.client.jsinterop;
 
-import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -57,6 +56,7 @@ public class RealPdfContext {
 		if (textFont == null) {
 			this.textFont = new Font("Helvetica", null, 12);
 		}
+		CustomLoggerFactory.getLogger(RealPdfContext.class).info("Font: " + textFont.getFontDescription() + ", Size: " + textFont.getFontSize());
 		return this.textFont;
 	}
 
@@ -69,11 +69,10 @@ public class RealPdfContext {
 	public final void setFont(Font textFont) {
 		this.textFont = textFont;
 		String fontName = textFont.getFontDescription();
-		if (textFont.getFontStyle() != null) {
-			fontName += textFont.getFontStyle();
+		if (textFont.getFontStyle() != null && !textFont.getFontStyle().equals("")) {
+			fontName += "-" + textFont.getFontStyle();
 		}
-		font(fontName);
-		fontSize(textFont.getFontSize());
+		font(fontName, textFont.getFontSize());
 	}
 
 	public native void save();
@@ -257,7 +256,7 @@ public class RealPdfContext {
 		return Color.create(stringBuilder.toString(), String.valueOf(a));
 	}
 
-	public native void font(String fontName);
+	public native void font(String fontName, double fontSize);
 
 	public native void text(String text, Double x, Double y, Option option);
 
