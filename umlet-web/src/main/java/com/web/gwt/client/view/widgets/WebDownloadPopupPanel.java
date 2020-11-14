@@ -68,7 +68,7 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 				CanvasUtils.createPdfCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PDF);
 			}
 		};
-		timer.schedule(0);
+		timer.schedule(10);
 
 		panel.add(downloadLinkHtml);
 		panel.add(new HTML("<div style=\"color:gray;\">To change the target directory</div><div style=\"color:gray;\">use \"Right click -&gt; Save as\"</div>"));
