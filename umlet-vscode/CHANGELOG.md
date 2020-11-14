@@ -1,6 +1,7 @@
 <br/>
 
-1.0.4 -- Lasso Select, Theme Support Improvement, Bugfix -- 2020-09-25:
+1.0.4 -- PDF export, Lasso Select, Theme Support Improvement, Bugfix -- 2020-11-14:
+* Support for PDF export
 * Support for lasso select. Press and hold the ctrl-key, then click and drag the mouse
 * Autocompletion inside property editor now supports dark theme
 * Fixed unsaved-marker of editor when saving with focus inside properties panel
