@@ -80,7 +80,7 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
 			htmlStyle += " italic";
 		}
-		context2d.setFont(htmlStyle + " " + fontSize + "px sans-serif");
+		context2d.setFont(htmlStyle + " " + fontSize + "px 'Dejavu Sans', sans-serif");
 	}
 
 	@Override
