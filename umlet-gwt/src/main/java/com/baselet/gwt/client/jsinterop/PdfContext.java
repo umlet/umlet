@@ -9,6 +9,10 @@ import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
+/**
+ * This class is a Wrapper for PDFKit: https://pdfkit.org/
+ * Conversions partly adapted from: https://github.com/joshua-gould/canvas2pdf
+ */
 @JsType(isNative = true, name = "PDFDocument", namespace = JsPackage.GLOBAL)
 public class PdfContext {
 	String textAlign;
@@ -19,8 +23,6 @@ public class PdfContext {
 
 	public PdfContext(PdfOptions pdfOptions) {}
 
-	public native BlobStream pipe(BlobStream blobStream);
-
 	@JsOverlay
 	public final void setFillStyle(FillStrokeStyle fillStyle) {
 		String rgba = fillStyle.toString();
@@ -28,28 +30,16 @@ public class PdfContext {
 		fillColor(color.c, color.a);
 	}
 
-	public native void translate(double x, double y);
-
-	public native void drawImage(CanvasElement image, double dx, double dy);
-
 	@JsOverlay
 	public final void fillRect(double x, double y, double w, double h) {
 		this.rect(x, y, (int) w, (int) h);
 		this.fill();
 	}
 
-	public native void clearRect(double x, double y, double w, double h);
-
-	public native void end();
-
-	public native String getSerializedSvg(boolean replaceNamedEntities);
-
 	@JsOverlay
 	public final void setTransform(int m11, int m12, int m21, int m22, int dx, int dy) {
 		transform(m11, m12, m21, m22, dx, dy);
 	}
-
-	public native void scale(double scalingFactor, double scalingFactor1);
 
 	@JsOverlay
 	public final Font getFont() {
@@ -74,26 +64,10 @@ public class PdfContext {
 		font(fontName, textFont.getFontSize());
 	}
 
-	public native void save();
-
 	@JsOverlay
 	public final void beginPath() {
 		// Do nothing
 	}
-
-	public native void moveTo(double x, double y);
-
-	public native void arc(double x, double y, double radius, double startAngle, double endAngle, boolean anticlockwise);
-
-	public native void closePath();
-
-	public native void restore();
-
-	public native void fill();
-
-	public native void stroke();
-
-	public native void arc(double x, double y, double radius, double startAngle, double endAngle);
 
 	@JsOverlay
 	public final void setStrokeStyle(FillStrokeStyle strokeStyle) {
@@ -107,8 +81,6 @@ public class PdfContext {
 		this.lineWidth(lineWidth);
 	}
 
-	public native void bezierCurveTo(double cp1x, double cp1y, double cp2x, double cp2y, double x, double y);
-
 	@JsOverlay
 	public final void setTextAlign(Context2d.TextAlign ctxAlign) {
 		this.textAlign = ctxAlign.getValue();
@@ -121,17 +93,8 @@ public class PdfContext {
 		this.text(text, x, y, Option.create(false, false, true));
 	}
 
-	public native void rect(double x, double y, int width, int height);
-
-	public native void lineTo(double x, double y);
-
-	public native void quadraticCurveTo(double cpx, double cpy, double x, double y);
-
-	public native int widthOfString(String text);
-
 	@JsOverlay
 	public final double adjustTextX(String text, double x) {
-		// TODO: MAYBE FIRST && SHOULD BE || (--> FIRST IF IS IRRELEVANT)
 		if (!this.textAlign.equals("start") && !this.textAlign.equals("left")) {
 			double width = widthOfString(text);
 			if (this.textAlign.equals("right") || this.textAlign.equals("end")) {
@@ -254,6 +217,46 @@ public class PdfContext {
 
 		return Color.create(stringBuilder.toString(), String.valueOf(a));
 	}
+
+	public native BlobStream pipe(BlobStream blobStream);
+
+	public native void translate(double x, double y);
+
+	public native void drawImage(CanvasElement image, double dx, double dy);
+
+	public native void clearRect(double x, double y, double w, double h);
+
+	public native void end();
+
+	public native String getSerializedSvg(boolean replaceNamedEntities);
+
+	public native void scale(double scalingFactor, double scalingFactor1);
+
+	public native void save();
+
+	public native void moveTo(double x, double y);
+
+	public native void arc(double x, double y, double radius, double startAngle, double endAngle, boolean anticlockwise);
+
+	public native void closePath();
+
+	public native void restore();
+
+	public native void fill();
+
+	public native void stroke();
+
+	public native void arc(double x, double y, double radius, double startAngle, double endAngle);
+
+	public native void bezierCurveTo(double cp1x, double cp1y, double cp2x, double cp2y, double x, double y);
+
+	public native void rect(double x, double y, int width, int height);
+
+	public native void lineTo(double x, double y);
+
+	public native void quadraticCurveTo(double cpx, double cpy, double x, double y);
+
+	public native int widthOfString(String text);
 
 	public native void font(String fontName, double fontSize);
 
