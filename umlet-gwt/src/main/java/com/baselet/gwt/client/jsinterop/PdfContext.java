@@ -267,11 +267,6 @@ public class PdfContext {
 		return Color.create(stringBuilder.toString(), String.valueOf(a));
 	}
 
-	/*public native  void setFontInPdf(int[] font, double size)/*-{
-		var pdf = this;
-		pdf.font(Int8Array.from(font), size);
-	}-*/;
-
 	public native BlobStream pipe(BlobStream blobStream);
 
 	public native void translate(double x, double y);

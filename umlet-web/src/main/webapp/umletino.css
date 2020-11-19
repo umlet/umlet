@@ -148,3 +148,20 @@
     border: 2px solid #bbb !important;
     border-radius: 5px !important;
 }
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('fonts/NotoSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: italic;
+    src: url('fonts/NotoSans-Italic.ttf');
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    font-weight: bold;
+    src: url('fonts/NotoSans-Bold.ttf');
+}
