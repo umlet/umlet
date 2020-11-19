@@ -440,11 +440,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public Integer getGroup() {
-		try {
-			return Integer.valueOf(getSettingHelper(GroupFacet.KEY, null));
-		} catch (NumberFormatException e) {/* default value applies */}
-		return null;
+	public String getGroup() {
+		return getSettingHelper(GroupFacet.KEY, null);
 	}
 
 	@Override

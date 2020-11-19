@@ -45,12 +45,13 @@ public abstract class Selector {
 	}
 
 	private List<GridElement> expand(Collection<GridElement> elements) {
-		Map<Integer, Collection<GridElement>> map = Selector.createGroupElementMap(getAllElements());
+		Map<String, Collection<GridElement>> map = Selector.createGroupElementMap(getAllElements());
 		List<GridElement> elemenentsWithGroups = new ArrayList<GridElement>();
 		// add grouped elements BEFORE the really selected elements, to make sure the last element stays the same (because its content will be shown in the property panel)
 		for (GridElement e : elements) {
-			if (e.getGroup() != null) {
-				Collection<GridElement> set = map.get(e.getGroup());
+			String groupValue = GroupFacet.getElementGroupValSafe(e.getGroup());
+			if (groupValue != null) {
+				Collection<GridElement> set = map.get(groupValue);
 				if (set != null) { // TODO set can be null in standalone version because getAllElements is empty (eg if grouped elements are selected when diagram is closed)
 					for (GridElement g : set) {
 						if (g != e) {
@@ -126,17 +127,17 @@ public abstract class Selector {
 		elements.add(element);
 	}
 
-	public Integer getUnusedGroup() {
+	public String getUnusedGroup() {
 		return getUnusedGroupId(createGroupElementMap(getAllElements()).keySet());
 	}
 
 	public abstract List<GridElement> getAllElements();
 
 	public static void replaceGroupsWithNewGroups(Collection<GridElement> elements, Selector selector) {
-		Set<Integer> usedIds = new HashSet<Integer>(createGroupElementMap(selector.getAllElements()).keySet());
-		Map<Integer, Collection<GridElement>> groupedElements = createGroupElementMap(elements);
-		for (Entry<Integer, Collection<GridElement>> entry : groupedElements.entrySet()) {
-			Integer unusedId = getUnusedGroupId(usedIds);
+		Set<String> usedIds = new HashSet<String>(createGroupElementMap(selector.getAllElements()).keySet());
+		Map<String, Collection<GridElement>> groupedElements = createGroupElementMap(elements);
+		for (Entry<String, Collection<GridElement>> entry : groupedElements.entrySet()) {
+			String unusedId = getUnusedGroupId(usedIds);
 			usedIds.add(unusedId);
 			for (GridElement e : entry.getValue()) {
 				e.setProperty(GroupFacet.KEY, unusedId);
@@ -144,25 +145,27 @@ public abstract class Selector {
 		}
 	}
 
-	public static Integer getUnusedGroupId(Collection<Integer> usedGroups) {
-		Integer newGroup;
-		if (usedGroups.isEmpty()) {
-			newGroup = 1;
-		}
-		else {
-			newGroup = Collections.max(usedGroups) + 1;
+	public static String getUnusedGroupId(Collection<String> usedGroups) {
+		String newGroup;
+		while (true) {
+			newGroup = GroupFacet.nextDefaultKey();
+			if (usedGroups.contains(newGroup) == false) {
+				break;
+			}
 		}
 		return newGroup;
 	}
 
-	public static Map<Integer, Collection<GridElement>> createGroupElementMap(Collection<GridElement> elements) {
-		Map<Integer, Collection<GridElement>> returnmap = new HashMap<Integer, Collection<GridElement>>();
+	public static Map<String, Collection<GridElement>> createGroupElementMap(Collection<GridElement> elements) {
+		Map<String, Collection<GridElement>> returnmap = new HashMap<String, Collection<GridElement>>();
+		String groupValue;
 		for (GridElement e : elements) {
-			if (e.getGroup() != null) {
-				Collection<GridElement> elementsWithGroup = returnmap.get(e.getGroup());
+			groupValue = GroupFacet.getElementGroupValSafe(e.getGroup());
+			if (groupValue != null) {
+				Collection<GridElement> elementsWithGroup = returnmap.get(groupValue);
 				if (elementsWithGroup == null) {
 					elementsWithGroup = new ArrayList<GridElement>();
-					returnmap.put(e.getGroup(), elementsWithGroup);
+					returnmap.put(groupValue, elementsWithGroup);
 				}
 				elementsWithGroup.add(e);
 			}

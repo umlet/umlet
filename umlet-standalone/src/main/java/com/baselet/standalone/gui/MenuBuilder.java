@@ -13,6 +13,7 @@ import com.baselet.control.constants.MenuConstants;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.menu.MenuFactorySwing;
 
@@ -129,7 +130,7 @@ public class MenuBuilder {
 
 			boolean allElementsInGroup = true;
 			for (GridElement e : selectedElements) {
-				if (e.getGroup() == null) {
+				if (GroupFacet.getElementGroupValSafe(e.getGroup()) == null) {
 					allElementsInGroup = false;
 				}
 			}

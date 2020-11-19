@@ -352,7 +352,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public Integer getGroup() {
+	public String getGroup() {
 		return state.getFacetResponse(GroupFacet.class, null);
 	}
 

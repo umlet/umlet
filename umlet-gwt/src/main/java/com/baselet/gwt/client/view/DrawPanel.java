@@ -191,7 +191,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 				new MenuPopupItem(MenuConstants.GROUP) {
 					@Override
 					public void execute() {
-						Integer unusedGroup = selector.getUnusedGroup();
+						String unusedGroup = selector.getUnusedGroup();
 						commandInvoker.updateSelectedElementsProperty(DrawPanel.this, GroupFacet.KEY, unusedGroup);
 					}
 				}, new MenuPopupItem(MenuConstants.UNGROUP) {
