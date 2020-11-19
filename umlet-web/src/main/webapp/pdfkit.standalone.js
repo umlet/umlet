@@ -3243,8 +3243,7 @@ class PDFFontFactory {
     } else if (src instanceof ArrayBuffer) {
       font = fontkit.create(new Buffer(new Uint8Array(src)), family);
     } else {
-        let data = Uint8Array.from(src);
-        font = fontkit.create(new Buffer(data), family);
+      font = fontkit.create(new Buffer(src), family);
     }
 
     if (font == null) {
