@@ -3,6 +3,7 @@ package com.baselet.gwt.client.jsinterop;
 import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.FillStrokeStyle;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.typedarrays.client.Uint8ArrayNative;
@@ -22,9 +23,9 @@ public class PdfContext {
 	private Font textFont;
 	private FontData fontData;
 
-	private int[] fontNormal;
-	private int[] fontItalic;
-	private int[] fontBold;
+	private JavaScriptObject fontNormal;
+	private JavaScriptObject fontItalic;
+	private JavaScriptObject fontBold;
 
 	public BlobStream stream;
 
@@ -73,7 +74,7 @@ public class PdfContext {
 
 		if (textFont.getFontStyle() == null) {
 			if (fontNormal == null) {
-				fontNormal = getByteOfBase64(fontData.fontNormal().getText());
+				fontNormal = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontNormal().getText()));
 			}
 			font(fontNormal, textFont.getFontSize());
 		}
@@ -81,19 +82,19 @@ public class PdfContext {
 			switch (textFont.getFontStyle()) {
 				case BOLD:
 					if (fontBold == null) {
-						fontBold = getByteOfBase64(fontData.fontBold().getText());
+						fontBold = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontBold().getText()));
 					}
 					font(fontBold, textFont.getFontSize());
 					break;
 				case ITALIC:
 					if (fontItalic == null) {
-						fontItalic = getByteOfBase64(fontData.fontItalic().getText());
+						fontItalic = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontItalic().getText()));
 					}
 					font(fontItalic, textFont.getFontSize());
 					break;
 				default:
 					if (fontNormal == null) {
-						fontNormal = getByteOfBase64(fontData.fontNormal().getText());
+						fontNormal = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontNormal().getText()));
 					}
 					font(fontNormal, textFont.getFontSize());
 					break;
@@ -313,7 +314,7 @@ public class PdfContext {
 
 	public native void font(String fontName, double fontSize);
 
-	public native void font(int[] fontSource, double fontSize);
+	public native void font(JavaScriptObject fontSource, double fontSize);
 
 	public native void text(String text, Double x, Double y, Option option);
 
