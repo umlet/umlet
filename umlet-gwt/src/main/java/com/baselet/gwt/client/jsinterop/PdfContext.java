@@ -1,10 +1,13 @@
 package com.baselet.gwt.client.jsinterop;
 
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.FillStrokeStyle;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.typedarrays.client.Uint8ArrayNative;
+import com.google.gwt.typedarrays.shared.Uint8Array;
+import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Base64;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -15,8 +18,14 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "PDFDocument", namespace = JsPackage.GLOBAL)
 public class PdfContext {
-	String textAlign;
-	Font textFont;
+	private String textAlign;
+	private Font textFont;
+	private FontData fontData;
+
+	private int[] fontNormal;
+	private int[] fontItalic;
+	private int[] fontBold;
+
 	public BlobStream stream;
 
 	public PdfContext() {}
@@ -56,12 +65,51 @@ public class PdfContext {
 
 	@JsOverlay
 	public final void setFont(Font textFont) {
-		this.textFont = textFont;
-		String fontName = textFont.getFontDescription();
-		if (textFont.getFontStyle() != null && !textFont.getFontStyle().equals("")) {
-			fontName += "-" + textFont.getFontStyle();
+		if (fontData == null) {
+			fontData = GWT.create(FontData.class);
 		}
-		font(fontName, textFont.getFontSize());
+
+		this.textFont = textFont;
+
+		if (textFont.getFontStyle() == null) {
+			if (fontNormal == null) {
+				fontNormal = getByteOfBase64(fontData.fontNormal().getText());
+			}
+			font(fontNormal, textFont.getFontSize());
+		}
+		else {
+			switch (textFont.getFontStyle()) {
+				case BOLD:
+					if (fontBold == null) {
+						fontBold = getByteOfBase64(fontData.fontBold().getText());
+					}
+					font(fontBold, textFont.getFontSize());
+					break;
+				case ITALIC:
+					if (fontItalic == null) {
+						fontItalic = getByteOfBase64(fontData.fontItalic().getText());
+					}
+					font(fontItalic, textFont.getFontSize());
+					break;
+				default:
+					if (fontNormal == null) {
+						fontNormal = getByteOfBase64(fontData.fontNormal().getText());
+					}
+					font(fontNormal, textFont.getFontSize());
+					break;
+			}
+		}
+	}
+
+	@JsOverlay
+	private int[] getByteOfBase64(String base64) {
+		byte[] data = Base64.decode(base64);
+		int[] uint8 = new int[data.length];
+		for (int i = 0; i < data.length; i++) {
+			uint8[i] = (data[i] & 0xFF);
+		}
+		//return Uint8ArrayNative.create(uint8);*/
+		return uint8;
 	}
 
 	@JsOverlay
@@ -218,6 +266,11 @@ public class PdfContext {
 		return Color.create(stringBuilder.toString(), String.valueOf(a));
 	}
 
+	/*public native  void setFontInPdf(int[] font, double size)/*-{
+		var pdf = this;
+		pdf.font(Int8Array.from(font), size);
+	}-*/;
+
 	public native BlobStream pipe(BlobStream blobStream);
 
 	public native void translate(double x, double y);
@@ -259,6 +312,8 @@ public class PdfContext {
 	public native int widthOfString(String text);
 
 	public native void font(String fontName, double fontSize);
+
+	public native void font(int[] fontSource, double fontSize);
 
 	public native void text(String text, Double x, Double y, Option option);
 

@@ -53,15 +53,15 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 		String htmlFont = context2d.getFont();
 		Font font = new Font();
 		if (htmlFont.contains("bold")) {
-			font.setFontStyle("bold");
+			font.setFontStyle(FormatLabels.BOLD);
 		}
 		if (htmlFont.contains("italic")) {
-			font.setFontStyle("italic");
+			font.setFontStyle(FormatLabels.ITALIC);
 		}
 
 		// The pixel size should be the only number inside the string
 		font.setFontSize(Double.parseDouble(htmlFont.replaceAll("\\D+","")));
-		font.setFontDescription(htmlFont.substring(htmlFont.lastIndexOf(" ")));
+		font.setFontName(htmlFont.substring(htmlFont.lastIndexOf(" ")));
 
 		return font;
 	}
@@ -85,7 +85,7 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 
 	@Override
 	public void setFont(Font font) {
-		context2d.setFont(font.getFontStyle() + " " + font.getFontSize() + "px " + font.getFontDescription());
+		context2d.setFont(font.getFontStyle() + " " + font.getFontSize() + "px " + font.getFontName());
 	}
 
 	@Override
