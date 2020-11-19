@@ -1,24 +1,26 @@
 package com.baselet.gwt.client.text;
 
+import com.baselet.control.enums.FormatLabels;
+
 public class Font {
-	private String fontDescription;
-	private String fontStyle;
+	private String fontName;
+	private FormatLabels fontStyle;
 	private double fontSize;
 
 	public Font() {}
 
-	public Font(String fontDescription, String fontStyle, double fontSize) {
-		this.fontDescription = fontDescription;
+	public Font(String fontName, FormatLabels fontStyle, double fontSize) {
+		this.fontName = fontName;
 		this.fontStyle = fontStyle;
 		this.fontSize = fontSize;
 	}
 
-	public String getFontDescription() {
-		return fontDescription;
+	public String getFontName() {
+		return fontName;
 	}
 
-	public void setFontDescription(String fontDescription) {
-		this.fontDescription = fontDescription;
+	public void setFontName(String fontName) {
+		this.fontName = fontName;
 	}
 
 	public double getFontSize() {
@@ -29,11 +31,11 @@ public class Font {
 		this.fontSize = fontSize;
 	}
 
-	public String getFontStyle() {
+	public FormatLabels getFontStyle() {
 		return fontStyle;
 	}
 
-	public void setFontStyle(String fontStyle) {
+	public void setFontStyle(FormatLabels fontStyle) {
 		this.fontStyle = fontStyle;
 	}
 }
