@@ -79,7 +79,8 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 			CurrentDiagram.getInstance().getDiagramHandler().setGridAndZoom(actualZoom - e.getWheelRotation());
 		}
 		else { // otherwise scroll the diagram
-			CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().scroll(e.getWheelRotation());
+                        boolean as_horizontal = (e.getModifiersEx() & MouseWheelEvent.SHIFT_DOWN_MASK) == MouseWheelEvent.SHIFT_DOWN_MASK;
+			CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().scroll(e.getWheelRotation(),as_horizontal);
 		}
 	}
 }
