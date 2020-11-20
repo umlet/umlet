@@ -565,8 +565,8 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		return null;
 	}
 
-	public void scroll(int amount) {
-		JScrollBar scrollBar = _scr.getVerticalScrollBar();
+	public void scroll(int amount, boolean arg_as_horizontal) {
+		JScrollBar scrollBar = arg_as_horizontal ? _scr.getHorizontalScrollBar() : _scr.getVerticalScrollBar();
 		int increment = scrollBar.getUnitIncrement();
 		scrollBar.setValue(scrollBar.getValue() + amount * increment);
 	}
