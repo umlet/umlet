@@ -77,7 +77,7 @@ import com.baselet.gui.command.RemoveElement;
 public class MenuFactory {
 
 	public void doAction(final String menuItem, final Object arg_param) {
-                final String param = arg_param.toString();
+                final String param = (arg_param==null)?null:arg_param.toString();
 		// AB: Hopefully this will resolve threading issues and work for eclipse AND standalone
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
