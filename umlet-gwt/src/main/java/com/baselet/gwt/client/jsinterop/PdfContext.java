@@ -6,11 +6,10 @@ import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.typedarrays.client.Uint8ArrayNative;
-import com.google.gwt.typedarrays.shared.Uint8Array;
 import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Base64;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
@@ -22,6 +21,9 @@ public class PdfContext {
 	private String textAlign;
 	private Font textFont;
 	private FontData fontData;
+
+	@JsProperty(name = "_font.font.fullName")
+	private String fontName;
 
 	private JavaScriptObject fontNormal;
 	private JavaScriptObject fontItalic;
@@ -74,32 +76,36 @@ public class PdfContext {
 
 		if (textFont.getFontStyle() == null) {
 			if (fontNormal == null) {
-				fontNormal = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontNormal().getText()));
+				//fontNormal = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontNormal().getText()));
+				fontNormal = Buffer.from(getByteOfBase64(fontData.fontNormal().getText()));
 			}
 			font(fontNormal, textFont.getFontSize());
-		}
-		else {
+		} else {
 			switch (textFont.getFontStyle()) {
 				case BOLD:
 					if (fontBold == null) {
-						fontBold = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontBold().getText()));
+						//fontBold = ArrayConverterUtil.toUint8Array(getByteOfBase64(fontData.fontBold().getText()));
+						fontBold = Buffer.from(getByteOfBase64(fontData.fontBold().getText()));
 					}
 					font(fontBold, textFont.getFontSize());
 					break;
 				case ITALIC:
 					if (fontItalic == null) {
-						fontItalic = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontItalic().getText()));
+						//fontItalic = ArrayConverterUtil.toUint8Array(getByteOfBase64(fontData.fontItalic().getText()));
+						fontItalic = Buffer.from(getByteOfBase64(fontData.fontItalic().getText()));
 					}
 					font(fontItalic, textFont.getFontSize());
 					break;
 				default:
 					if (fontNormal == null) {
-						fontNormal = ArrayConverterUtil.JtoUint8Array(getByteOfBase64(fontData.fontNormal().getText()));
+						//fontNormal = ArrayConverterUtil.toUint8Array(getByteOfBase64(fontData.fontNormal().getText()));
+						fontNormal = Buffer.from(getByteOfBase64(fontData.fontNormal().getText()));
 					}
 					font(fontNormal, textFont.getFontSize());
 					break;
 			}
 		}
+		this.textFont.setFontName(fontName);
 	}
 
 	@JsOverlay

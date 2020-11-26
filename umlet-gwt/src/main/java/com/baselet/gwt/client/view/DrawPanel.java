@@ -284,7 +284,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		redraw(true);
 	}
 
-	void redraw(boolean recalcSize) {
+	public void redraw(boolean recalcSize) {
 		List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
 		if (recalcSize) {
 			if (scrollPanel == null) {
@@ -595,15 +595,19 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	@Override
 	public void onThemeChange() {
-		List<GridElement> gridElements = diagram.getGridElements();
-		for (GridElement gridElement : gridElements) {
-			gridElement.updateModelFromText();
-		}
+		updateGridElements();
 		redraw(false);
 
 		elementContextMenu.getElement().getStyle().setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value());
 		diagramContextMenu.getElement().getStyle().setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value());
 		createMenuPopups();
+	}
+
+	public void updateGridElements() {
+		List<GridElement> gridElements = diagram.getGridElements();
+		for (GridElement gridElement : gridElements) {
+			gridElement.updateModelFromText();
+		}
 	}
 
 	private void createMenuPopups() {
