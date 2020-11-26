@@ -64,7 +64,6 @@ public class Context2dPdfWrapper implements Context2dWrapper {
 	@Override
 	public void setFont(double fontSize, StringStyle stringStyle) {
 		Font font = new Font();
-		font.setFontName("DejaVuSans");
 
 		FormatLabels fontStyle = null;
 		if (stringStyle.getFormat().contains(FormatLabels.BOLD)) {

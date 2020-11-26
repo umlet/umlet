@@ -60,8 +60,8 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 		}
 
 		// The pixel size should be the only number inside the string
-		font.setFontSize(Double.parseDouble(htmlFont.replaceAll("\\D+","")));
-		font.setFontName(htmlFont.substring(htmlFont.lastIndexOf(" ")));
+		font.setFontSize(Double.parseDouble(htmlFont.replaceAll("\\D+", "")));
+		font.setFontName(htmlFont.substring(htmlFont.indexOf(" ") + 1));
 
 		return font;
 	}
@@ -80,12 +80,12 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
 			htmlStyle += " italic";
 		}
-		context2d.setFont(htmlStyle + " " + fontSize + "px 'Noto Sans', sans-serif");
+		context2d.setFont(htmlStyle + " " + fontSize + "px 'UmletCustomFont', sans-serif");
 	}
 
 	@Override
 	public void setFont(Font font) {
-		context2d.setFont(font.getFontStyle() + " " + font.getFontSize() + "px " + font.getFontName());
+		context2d.setFont(font.getFontStyle() == null ? "" : font.getFontStyle() + " " + font.getFontSize() + "px " + font.getFontName());
 	}
 
 	@Override
@@ -179,21 +179,21 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 	 */
 	@Override
 	public final native void setLineDash(double dash) /*-{
-    	var ctx = this.@com.baselet.gwt.client.view.Context2dGwtWrapper::context2d;
-		if (ctx.setLineDash !== undefined) {
-			if (dash != 0) {
-				ctx.setLineDash([ dash ]);
-			} else {
-				ctx.setLineDash([]); // Firefox 33+ on Linux dont show solid lines if ctx.setLineDash([0]) is used, therefore use empty array which works on every browser
-			}
-		} else if (ctx.mozDash !== undefined) {
-			if (dash != 0) {
-				ctx.mozDash = [ dash ];
-			} else { // default is null
-				ctx.mozDash = null;
-			}
-		} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
-			throw new Exception();
-		}
-	}-*/;
+														var ctx = this.@com.baselet.gwt.client.view.Context2dGwtWrapper::context2d;
+														if (ctx.setLineDash !== undefined) {
+														if (dash != 0) {
+														ctx.setLineDash([ dash ]);
+														} else {
+														ctx.setLineDash([]); // Firefox 33+ on Linux dont show solid lines if ctx.setLineDash([0]) is used, therefore use empty array which works on every browser
+														}
+														} else if (ctx.mozDash !== undefined) {
+														if (dash != 0) {
+														ctx.mozDash = [ dash ];
+														} else { // default is null
+														ctx.mozDash = null;
+														}
+														} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
+														throw new Exception();
+														}
+														}-*/;
 }

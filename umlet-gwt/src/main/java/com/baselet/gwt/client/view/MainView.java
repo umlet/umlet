@@ -117,10 +117,10 @@ public class MainView extends Composite implements ThemeChangeListener {
 	@UiField
 	SimpleLayoutPanel palettePanelWrapper;
 
-	private final DrawPanel diagramPanel;
+	protected final DrawPanel diagramPanel;
 	private final AutoResizeScrollDropPanel diagramScrollPanel;
 
-	private final DrawPanel palettePanel;
+	protected final DrawPanel palettePanel;
 	private final AutoResizeScrollDropPanel paletteScrollPanel;
 
 	private final FileUploadExt hiddenUploadButton = new FileUploadExt();
@@ -196,9 +196,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 		saveCommand = GWT.create(SaveCommand.class);
 		saveCommand.init(this);
-
-		onThemeChange();
-
 		log.trace("Main View initialized");
 
 		handler = new FileOpenHandler(diagramPanel);

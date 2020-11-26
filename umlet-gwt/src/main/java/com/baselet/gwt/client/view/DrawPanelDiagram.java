@@ -50,7 +50,7 @@ public class DrawPanelDiagram extends DrawPanel {
 	}
 
 	@Override
-	void redraw(boolean recalcSize) {
+	public void redraw(boolean recalcSize) {
 		if (tempInvalid) {
 			List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
 			if (recalcSize) {
