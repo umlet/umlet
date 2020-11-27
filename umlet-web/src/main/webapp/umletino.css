@@ -150,18 +150,18 @@
 }
 
 @font-face {
-    font-family: 'Noto Sans';
+    font-family: 'UmletFont';
     src: url('fonts/NotoSans-Regular.ttf');
 }
 
 @font-face {
-    font-family: 'Noto Sans';
+    font-family: 'UmletFont';
     font-style: italic;
     src: url('fonts/NotoSans-Italic.ttf');
 }
 
 @font-face {
-    font-family: 'Noto Sans';
+    font-family: 'UmletFont';
     font-weight: bold;
     src: url('fonts/NotoSans-Bold.ttf');
 }

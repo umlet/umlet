@@ -2,6 +2,7 @@ package com.baselet.gwt.client.view;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.enums.FormatLabels;
+import com.baselet.gwt.client.jsinterop.FontData;
 import com.baselet.gwt.client.text.Font;
 import com.google.gwt.canvas.dom.client.*;
 import com.google.gwt.dom.client.CanvasElement;
@@ -80,7 +81,7 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
 			htmlStyle += " italic";
 		}
-		context2d.setFont(htmlStyle + " " + fontSize + "px 'UmletCustomFont', sans-serif");
+		context2d.setFont(htmlStyle + " " + fontSize + "px '" + FontData.fontName + "', sans-serif");
 	}
 
 	@Override
@@ -179,21 +180,21 @@ public class Context2dGwtWrapper implements Context2dWrapper {
 	 */
 	@Override
 	public final native void setLineDash(double dash) /*-{
-														var ctx = this.@com.baselet.gwt.client.view.Context2dGwtWrapper::context2d;
-														if (ctx.setLineDash !== undefined) {
-														if (dash != 0) {
-														ctx.setLineDash([ dash ]);
-														} else {
-														ctx.setLineDash([]); // Firefox 33+ on Linux dont show solid lines if ctx.setLineDash([0]) is used, therefore use empty array which works on every browser
-														}
-														} else if (ctx.mozDash !== undefined) {
-														if (dash != 0) {
-														ctx.mozDash = [ dash ];
-														} else { // default is null
-														ctx.mozDash = null;
-														}
-														} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
-														throw new Exception();
-														}
-														}-*/;
+		var ctx = this.@com.baselet.gwt.client.view.Context2dGwtWrapper::context2d;
+		if (ctx.setLineDash !== undefined) {
+			if (dash != 0) {
+				ctx.setLineDash([ dash ]);
+			} else {
+			ctx.setLineDash([]); // Firefox 33+ on Linux dont show solid lines if ctx.setLineDash([0]) is used, therefore use empty array which works on every browser
+			}
+		} else if (ctx.mozDash !== undefined) {
+			if (dash != 0) {
+				ctx.mozDash = [ dash ];
+			} else { // default is null
+				ctx.mozDash = null;
+			}
+		} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
+			throw new Exception();
+		}
+	}-*/;
 }
