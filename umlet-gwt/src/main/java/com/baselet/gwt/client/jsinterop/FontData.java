@@ -1,15 +1,18 @@
 package com.baselet.gwt.client.jsinterop;
 
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import com.google.gwt.core.shared.GWT;
 
-public interface FontData extends ClientBundle {
-	@Source("fontNormal.txt")
-	TextResource fontNormal();
+public class FontData {
+	public static final String fontName = "UmletFont";
 
-	@Source("fontBold.txt")
-	TextResource fontBold();
+	public static String fontNormal;
+	public static String fontItalic;
+	public static String fontBold;
 
-	@Source("fontItalic.txt")
-	TextResource fontItalic ();
+	static {
+		FontResource fontResource = GWT.create(FontResource.class);
+		fontNormal = fontResource.fontNormal().getText();
+		fontItalic = fontResource.fontItalic().getText();
+		fontBold = fontResource.fontBold().getText();
+	}
 }

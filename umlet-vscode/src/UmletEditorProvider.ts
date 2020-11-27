@@ -32,6 +32,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     private static outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel('UMLet');
     private static debugLevel: number | undefined = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
     private static theme: string | undefined = UmletEditorProvider.getConfiguration().get<string>('theme');
+    private static fonts: string[] = UmletEditorProvider.getFontSettingsData();
 
     constructor(
         private readonly context: vscode.ExtensionContext
@@ -70,9 +71,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         this.context.subscriptions.push(changeDocumentSubscription);
 
         this.prepareActivePanel(webviewPanel, document);
-
         // Extracting version from POM
-        // It might be better to extract it from package.json once we've synchronized all version numbers
+        // It might be better to extract it from package.json once we've synchronized all version numbers   
         const pomString = fs.readFileSync(this.context.extensionPath + '/pom.xml').toString();
         const pom = parser.parse(pomString);
         const buildFolder = pom.project['artifactId'] + '-' + pom.project.parent['version'];
@@ -159,7 +159,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             UmletEditorProvider.theme = 'VS Code setting';
         }
 
-        webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString(), UmletEditorProvider.theme);
+        webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString(), UmletEditorProvider.theme, UmletEditorProvider.fonts);
     }
 
     prepareActivePanel(webviewPanel: vscode.WebviewPanel, document: vscode.TextDocument) {
@@ -199,7 +199,36 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             command: 'themeSetting',
             text: themeSetting
         });
-        return;
+    }
+
+    static getFontSettingsData(): string[] {
+        let fontNormalSetting = UmletEditorProvider.getConfiguration().get<string>('fontNormal');
+        let fontItalicSetting = UmletEditorProvider.getConfiguration().get<string>('fontItalic');
+        let fontBoldSetting = UmletEditorProvider.getConfiguration().get<string>('fontBold');
+
+        let fonts: string[] = [];
+
+        if (fontNormalSetting !== undefined && fontNormalSetting !== '') {
+            fonts.push('normal@' + UmletEditorProvider.readFileAsBase64(fontNormalSetting));
+        } else {
+            fonts.push('');
+        }
+        if (fontItalicSetting !== undefined && fontItalicSetting !== '') {
+            fonts.push('italic@' + UmletEditorProvider.readFileAsBase64(fontItalicSetting));
+        } else {
+            fonts.push('');
+        }
+        if (fontBoldSetting !== undefined && fontBoldSetting !== '') {
+            fonts.push('bold@' + UmletEditorProvider.readFileAsBase64(fontBoldSetting));
+        } else {
+            fonts.push('');
+        }
+        return fonts;
+    }
+
+    static readFileAsBase64(fileLocation: string): string {
+        let fontFile = fs.readFileSync(fileLocation);
+        return fontFile.toString('base64');
     }
 
     //gets the updated filedata from the webview if anything has changed
@@ -293,7 +322,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     Select all for webviews is also intercepted so it can be disabled in umlet since it would select the property panel
     */
     public static overrideVsCodeCommands(context: vscode.ExtensionContext) {
-
         UmletEditorProvider.postLog(DebugLevel.STANDARD, "Overriding commands....");
         //COPY
         //override the editor.action.clipboardCopyAction with our own
@@ -451,7 +479,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
      * @param diagramData XML data of a diagram which should be loaded on start
      * @param themeSetting preference which theme should be used
      */
-    getUmletWebviewPage(localUmletFolder: string, diagramData: string, themeSetting: string) {
+    getUmletWebviewPage(localUmletFolder: string, diagramData: string, themeSetting: string, fonts: string[]) {
         let encodedDiagramData = encodeURIComponent(diagramData); //encode diagramData to prevent special characters to escape the string quotes which could lead to arbitrary javascript or html
         return `<!DOCTYPE html>
   <html>
@@ -463,6 +491,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       <link rel="icon" type="image/x-icon" href="favicon.ico">
       <title>UMLetino - Free Online UML Tool for Fast UML Diagrams</title>
       <script type="text/javascript" src="umletvscode/umletvscode.nocache.js?2020-03-15_09-48-08"></script>
+      <script src="buffer@6.0.2.js"></script>
       <script type="text/javascript" src="pdfkit.standalone.js"></script>
       <script type="text/javascript" src="blob-stream.js"></script>
     </head>
@@ -484,6 +513,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       var vscode = acquireVsCodeApi();
       
       var themeSetting = \`${themeSetting}\`;
+
+      // Array parameter becomes a string separated by ','
+      var fonts = \`${fonts}\`.split(',');
       
       window.addEventListener('message', function (event) {
           const message = event.data;
@@ -491,6 +523,10 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
               case "themeSetting":
                   themeSetting = message.text;
                   switchTheme();
+                  break;
+              case "changeFont":
+              // TODO: IMPLEMENT
+                  window.changeFont(message.text);
                   break;
           }
        });
