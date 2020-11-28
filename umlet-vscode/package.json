@@ -94,19 +94,19 @@
           "title": "Custom Font File for Normal Fonts",
           "type": "string",
           "default": "",
-          "description": "Input the absolute path to your font file (.ttf)"
+          "description": "Input the absolute path to your font file (.ttf/.otf)"
         },
         "umlet.fontBold": {
           "title": "Custom Font File for Bold Fonts",
           "type": "string",
           "default": "",
-          "description": "Input the absolute path to your font file (.ttf)"
+          "description": "Input the absolute path to your font file (.ttf/.otf)"
         },
         "umlet.fontItalic": {
           "title": "Custom Font File for Italic Fonts",
           "type": "string",
           "default": "",
-          "description": "Input the absolute path to your font file (.ttf)"
+          "description": "Input the absolute path to your font file (.ttf/.otf)"
         }
       }
     },

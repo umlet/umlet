@@ -243,12 +243,15 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         try {
             let fontFile = fs.readFileSync(fileLocation);
             if (UmletEditorProvider.isFontFileTtf(fontFile)) {
-                return fontFile.toString('base64');
+                return 'ttf@' + fontFile.toString('base64');
+            }
+            if(UmletEditorProvider.isFontFileOtf(fontFile)) {
+                return 'otf@' + fontFile.toString('base64');
             }
         } catch (error) {
             // Is a directory or non existent file
         }
-        UmletEditorProvider.postLog(DebugLevel.STANDARD, 'Provided ' + fontType + ' font file is not a TTF file!');
+        UmletEditorProvider.postLog(DebugLevel.STANDARD, 'Provided ' + fontType + ' font file is neither a TTF nor a OTF file!');
         return '';
     }
 
@@ -256,6 +259,16 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         let ttf_signature: number[] = [0, 1, 0, 0, 0];
         for (let i = 0; i < 5; i++) {
             if (file.readUInt8(i) !== ttf_signature[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static isFontFileOtf(file: Buffer): boolean {
+        let otf_signature: number[] = [79, 84, 84, 79, 0];
+        for (let i = 0; i < 5; i++) {
+            if (file.readUInt8(i) !== otf_signature[i]) {
                 return false;
             }
         }
