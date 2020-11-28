@@ -186,7 +186,11 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             command: 'debugLevel',
             text: UmletEditorProvider.debugLevel
         });
+        this.updateTheme();
+        this.updateFonts();
+    }
 
+    updateTheme() {
         let themeSetting = UmletEditorProvider.getConfiguration().get<string>('theme');
         if (UmletEditorProvider.theme === themeSetting) {
             return;
@@ -201,6 +205,15 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         });
     }
 
+    updateFonts() {
+        let fonts = UmletEditorProvider.getFontSettingsData();
+        currentlyActivePanel?.webview.postMessage({
+            command: 'changeFont',
+            text: fonts.join()
+        });
+        UmletEditorProvider.fonts = fonts;
+    }
+
     static getFontSettingsData(): string[] {
         let fontNormalSetting = UmletEditorProvider.getConfiguration().get<string>('fontNormal');
         let fontItalicSetting = UmletEditorProvider.getConfiguration().get<string>('fontItalic');
@@ -211,17 +224,17 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         if (fontNormalSetting !== undefined && fontNormalSetting !== '') {
             fonts.push('normal@' + UmletEditorProvider.readFileAsBase64(fontNormalSetting));
         } else {
-            fonts.push('');
+            fonts.push('normal@');
         }
         if (fontItalicSetting !== undefined && fontItalicSetting !== '') {
             fonts.push('italic@' + UmletEditorProvider.readFileAsBase64(fontItalicSetting));
         } else {
-            fonts.push('');
+            fonts.push('italic@');
         }
         if (fontBoldSetting !== undefined && fontBoldSetting !== '') {
             fonts.push('bold@' + UmletEditorProvider.readFileAsBase64(fontBoldSetting));
         } else {
-            fonts.push('');
+            fonts.push('bold@');
         }
         return fonts;
     }
@@ -523,10 +536,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
               case "themeSetting":
                   themeSetting = message.text;
                   switchTheme();
-                  break;
-              case "changeFont":
-              // TODO: IMPLEMENT
-                  window.changeFont(message.text);
                   break;
           }
        });

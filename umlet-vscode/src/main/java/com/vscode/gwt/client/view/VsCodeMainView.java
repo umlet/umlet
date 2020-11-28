@@ -1,9 +1,9 @@
 package com.vscode.gwt.client.view;
 
 import com.baselet.gwt.client.jsinterop.FontData;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.jsinterop.FontResource;
 import com.baselet.gwt.client.view.MainView;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
@@ -11,12 +11,14 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 
 public class VsCodeMainView extends MainView {
-	private static final CustomLogger log = CustomLoggerFactory.getLogger(VsCodeMainView.class);
+	private final FontResource fontResource;
 
 	public VsCodeMainView() {
 		super();
+		initListener();
+		fontResource = GWT.create(FontResource.class);
+
 		diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
-		exportChangeFont();
 		String[] fonts = getFontSettings();
 		if (fonts != null && fonts.length > 0) {
 			for (int i = 0; i < fonts.length; i++) {
@@ -50,13 +52,25 @@ public class VsCodeMainView extends MainView {
 	private void setFontData(String fontData, boolean removeOldEntries) {
 		String[] fontDataSeparated = fontData.split("@");
 		String fontType = fontDataSeparated[0];
-		String fontDataBase64 = fontDataSeparated[1];
-
-		Element fontFaceStyle = DOM.createElement("style");
-		fontFaceStyle.setAttribute("type", "text/css");
+		String fontDataBase64 = null;
+		if (fontDataSeparated.length == 2) {
+			fontDataBase64 = fontDataSeparated[1];
+		} else {
+			switch (fontType) {
+				case "normal":
+					fontDataBase64 = fontResource.fontNormal().getText();
+					break;
+				case "italic":
+					fontDataBase64 = fontResource.fontItalic().getText();
+					break;
+				case "bold":
+					fontDataBase64 = fontResource.fontBold().getText();
+					break;
+			}
+		}
 
 		Document document = Document.get();
-		NodeList<Element> headElements = Document.get().getHead().getElementsByTagName("style");
+		NodeList<Element> headElements = document.getHead().getElementsByTagName("style");
 
 		if (removeOldEntries) {
 			loop: for (int i = 0; i < headElements.getLength(); i++) {
@@ -87,6 +101,8 @@ public class VsCodeMainView extends MainView {
 			}
 		}
 
+		Element fontFaceStyle = DOM.createElement("style");
+		fontFaceStyle.setAttribute("type", "text/css");
 		switch (fontType) {
 			case "normal":
 				fontFaceStyle.setInnerHTML("@font-face {font-family: " + FontData.fontName + "; src: url('data:font/ttf;base64," + fontDataBase64 + "') format('truetype');}");
@@ -125,13 +141,23 @@ public class VsCodeMainView extends MainView {
 	}
 
 	public void changeFont(String fontData) {
-		setFontData(fontData, true);
+		String[] fonts = fontData.split(",");
+		for (String font : fonts) {
+			setFontData(font, true);
+		}
 		updateView();
 	}
 
-	public static native void exportChangeFont() /*-{
-		$wnd.changeFont =
-			$entry(this.@com.vscode.gwt.client.view.VsCodeMainView::changeFont(Ljava/lang/String;));
+	private native void initListener() /*-{
+		var that = this;
+		$wnd.addEventListener('message', function (event) {
+			var message = event.data;
+			switch (message.command) {
+				case 'changeFont':
+					that.@com.vscode.gwt.client.view.VsCodeMainView::changeFont(Ljava/lang/String;)(message.text);
+					break;
+			}
+		});
 	}-*/;
 
 	private native String[] getFontSettings() /*-{
