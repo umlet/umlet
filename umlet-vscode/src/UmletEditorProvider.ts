@@ -222,26 +222,44 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         let fonts: string[] = [];
 
         if (fontNormalSetting !== undefined && fontNormalSetting !== '') {
-            fonts.push('normal@' + UmletEditorProvider.readFileAsBase64(fontNormalSetting));
+            fonts.push('normal@' + UmletEditorProvider.readFileAsBase64(fontNormalSetting, 'normal'));
         } else {
             fonts.push('normal@');
         }
         if (fontItalicSetting !== undefined && fontItalicSetting !== '') {
-            fonts.push('italic@' + UmletEditorProvider.readFileAsBase64(fontItalicSetting));
+            fonts.push('italic@' + UmletEditorProvider.readFileAsBase64(fontItalicSetting, 'italic'));
         } else {
             fonts.push('italic@');
         }
         if (fontBoldSetting !== undefined && fontBoldSetting !== '') {
-            fonts.push('bold@' + UmletEditorProvider.readFileAsBase64(fontBoldSetting));
+            fonts.push('bold@' + UmletEditorProvider.readFileAsBase64(fontBoldSetting, 'bold'));
         } else {
             fonts.push('bold@');
         }
         return fonts;
     }
 
-    static readFileAsBase64(fileLocation: string): string {
-        let fontFile = fs.readFileSync(fileLocation);
-        return fontFile.toString('base64');
+    static readFileAsBase64(fileLocation: string, fontType: string): string {
+        try {
+            let fontFile = fs.readFileSync(fileLocation);
+            if (UmletEditorProvider.isFontFileTtf(fontFile)) {
+                return fontFile.toString('base64');
+            }
+        } catch (error) {
+            // Is a directory or non existent file
+        }
+        UmletEditorProvider.postLog(DebugLevel.STANDARD, 'Provided ' + fontType + ' font file is not a TTF file!');
+        return '';
+    }
+
+    static isFontFileTtf(file: Buffer): boolean {
+        let ttf_signature: number[] = [0, 1, 0, 0, 0];
+        for (let i = 0; i < 5; i++) {
+            if (file.readUInt8(i) !== ttf_signature[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     //gets the updated filedata from the webview if anything has changed
