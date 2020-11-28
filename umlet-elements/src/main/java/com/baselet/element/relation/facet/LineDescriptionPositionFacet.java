@@ -19,6 +19,7 @@ public class LineDescriptionPositionFacet extends FirstRunKeyValueFacet {
 	public static final LineDescriptionPositionFacet INSTANCE_MESSAGE_END = new LineDescriptionPositionFacet(LineDescriptionEnum.MESSAGE_END);
 	public static final LineDescriptionPositionFacet INSTANCE_ROLE_START = new LineDescriptionPositionFacet(LineDescriptionEnum.ROLE_START);
 	public static final LineDescriptionPositionFacet INSTANCE_ROLE_END = new LineDescriptionPositionFacet(LineDescriptionEnum.ROLE_END);
+	public static final LineDescriptionPositionFacet INSTANCE_MESSAGE_CENTER = new LineDescriptionPositionFacet(LineDescriptionEnum.MESSAGE_CENTER);
 
 	private final LineDescriptionEnum lineDesc;
 

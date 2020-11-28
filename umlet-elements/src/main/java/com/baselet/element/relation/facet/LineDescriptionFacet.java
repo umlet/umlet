@@ -18,6 +18,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.FirstRunFacet;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
+import com.baselet.element.relation.helper.LineDescriptionBasePositionEnum;
 import com.baselet.element.relation.helper.LineDescriptionEnum;
 import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.gui.AutocompletionText;
@@ -35,7 +36,8 @@ public class LineDescriptionFacet extends FirstRunFacet {
 
 	public static final LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
-	private LineDescriptionFacet() {}
+	private LineDescriptionFacet() {
+	}
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
@@ -68,21 +70,25 @@ public class LineDescriptionFacet extends FirstRunFacet {
 	@Override
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
 		Map<String, Point> displacements = state.getOrInitFacetResponse(LineDescriptionPositionFacet.class, new HashMap<String, Point>());
+		Point middleTextDisplacement = extractMiddleTextDisplacement(displacements);
+
+		List<LineDescriptionBasePositionEnum> descriptionBasePositions = state.getOrInitFacetResponse(LineDescriptionBasePositionFacet.class, new ArrayList<LineDescriptionBasePositionEnum>());
+
 		RelationPointHandler relationPoints = getRelationPoints(state);
 		DrawHandler drawer = state.getDrawer();
 		Set<Integer> usedIndexes = new HashSet<Integer>();
-
 		List<String> middleLines = new ArrayList<String>();
 		List<String> otherLines = new ArrayList<String>();
+
 		for (String line : handledLines) {
-			if (LineDescriptionEnum.forString(line) == LineDescriptionEnum.MESSAGE_MIDDLE) {
+			if (LineDescriptionEnum.forString(line) == LineDescriptionEnum.MESSAGE_MIDDLE || LineDescriptionEnum.forString(line) == LineDescriptionEnum.MESSAGE_CENTER) {
 				middleLines.add(line);
 			}
 			else {
 				otherLines.add(line);
 			}
 		}
-		printMiddleDescription(relationPoints, drawer, usedIndexes, middleLines);
+		printMiddleDescription(relationPoints, drawer, usedIndexes, middleLines, descriptionBasePositions, middleTextDisplacement);
 		printEndDescriptions(displacements, relationPoints, drawer, usedIndexes, otherLines);
 
 		// all unused textboxes must be reset to default size (to make sure the relation size is correct even if LineDescriptionFacet is never called)
@@ -90,12 +96,21 @@ public class LineDescriptionFacet extends FirstRunFacet {
 		relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
 	}
 
-	private void printMiddleDescription(RelationPointHandler relationPoints, DrawHandler drawer, Set<Integer> usedIndexes, List<String> middleLines) {
+	private Point extractMiddleTextDisplacement(Map<String, Point> displacements) {
+		Point middleTextDisplacement = displacements.get(LineDescriptionEnum.MESSAGE_CENTER.getKey());
+		displacements.remove(LineDescriptionEnum.MESSAGE_CENTER.getKey());
+		return middleTextDisplacement;
+	}
+
+	private void printMiddleDescription(RelationPointHandler relationPoints, DrawHandler drawer, Set<Integer> usedIndexes, List<String> middleLines, List<LineDescriptionBasePositionEnum> basePositions, Point displacement) {
 		double halfMiddleBlockHeight = middleLines.size() * drawer.textHeightMaxWithSpace() / 2; // because vertical text blocks should be centered, the half of the total text block must be subtracted
 		Rectangle textSpace = null;
 		for (int i = 0; i < middleLines.size(); i++) {
 			String line = LineDescriptionUtils.replaceArrowsWithUtf8Characters(middleLines.get(i));
-			PointDouble pointText = LineDescriptionUtils.calcPosOfMiddleText(drawer, line, relationPoints.getMiddleLine(), i, halfMiddleBlockHeight);
+			PointDouble pointText = LineDescriptionUtils.calcPosOfMiddleText(drawer, line, i, halfMiddleBlockHeight, relationPoints, basePositions);
+			if (displacement != null) {
+				pointText = new PointDouble(pointText.getX() + displacement.getX(), pointText.getY() + displacement.getY());
+			}
 			drawer.print(line, pointText, AlignHorizontal.LEFT);
 			textSpace = increaseTextSpaceRectangleForLine(textSpace, drawer, line, pointText);
 		}

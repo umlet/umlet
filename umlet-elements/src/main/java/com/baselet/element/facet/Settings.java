@@ -26,6 +26,7 @@ import com.baselet.element.facet.common.TransparencyFacet;
 import com.baselet.element.facet.common.VerticalAlignFacet;
 import com.baselet.element.facet.customdrawings.CustomDrawingFacet;
 import com.baselet.element.facet.specific.HierarchyFacet;
+import com.baselet.element.relation.facet.LineDescriptionBasePositionFacet;
 import com.baselet.element.relation.facet.LineDescriptionFacet;
 import com.baselet.element.relation.facet.LineDescriptionPositionFacet;
 import com.baselet.element.relation.facet.RelationLineTypeFacet;
@@ -41,7 +42,7 @@ public abstract class Settings {
 	protected static final List<Facet> BASE_WITH_LINETYPE = listOf(BASE, LineTypeFacet.INSTANCE, CustomDrawingFacet.INSTANCE);
 	protected static final List<Facet> BASE_EXTENDED = listOf(BASE_WITH_LINETYPE, TextPrintFacet.INSTANCE, FontSizeFacet.INSTANCE);
 
-	protected static final List<Facet> RELATION = listOf(BASE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, LineDescriptionPositionFacet.INSTANCE_MESSAGE_START, LineDescriptionPositionFacet.INSTANCE_MESSAGE_END, LineDescriptionPositionFacet.INSTANCE_ROLE_START, LineDescriptionPositionFacet.INSTANCE_ROLE_END);
+	protected static final List<Facet> RELATION = listOf(BASE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, LineDescriptionBasePositionFacet.INSTANCE, LineDescriptionPositionFacet.INSTANCE_MESSAGE_START, LineDescriptionPositionFacet.INSTANCE_MESSAGE_END, LineDescriptionPositionFacet.INSTANCE_ROLE_START, LineDescriptionPositionFacet.INSTANCE_ROLE_END, LineDescriptionPositionFacet.INSTANCE_MESSAGE_CENTER);
 	protected static final List<Facet> MANUALRESIZE = listOf(BASE_EXTENDED, VerticalAlignFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
 	protected static final List<Facet> NOTEXT = BASE_WITH_LINETYPE;
 	protected static final List<Facet> AUTORESIZE = listOf(BASE_EXTENDED, SeparatorLineFacet.INSTANCE);
