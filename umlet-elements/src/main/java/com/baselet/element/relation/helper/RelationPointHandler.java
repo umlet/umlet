@@ -10,6 +10,7 @@ import java.util.Set;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.Point;
+import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.sticking.PointChange;
@@ -36,7 +37,7 @@ public class RelationPointHandler implements ResizableObject {
 		else if (RelationPointHandlerUtils.getRelationPointContaining(point, points) != null) {
 			return RelationSelection.RELATION_POINT;
 		}
-		else if (getLineContaining(point) != null) {
+		else if (getLineContaining(point.toPointDouble()) != null) {
 			return RelationSelection.LINE;
 		}
 		else {
@@ -67,7 +68,7 @@ public class RelationPointHandler implements ResizableObject {
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(pointOverRelationPoint, diffX, diffY);
 			return RelationSelection.RELATION_POINT;
 		}
-		Line lineOnPoint = getLineContaining(point);
+		Line lineOnPoint = getLineContaining(point.toPointDouble());
 		if (lineOnPoint != null) {
 			relationPointOfCurrentDrag = points.addPointOnLine(lineOnPoint, SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
@@ -80,9 +81,9 @@ public class RelationPointHandler implements ResizableObject {
 		return getDragBox().contains(point);
 	}
 
-	private Line getLineContaining(Point point) {
+	public Line getLineContaining(PointDouble point) {
 		for (Line line : points.getRelationPointLines()) {
-			double distanceToPoint = line.getDistanceToPoint(point.toPointDouble());
+			double distanceToPoint = line.getDistanceToPoint(point);
 			if (distanceToPoint < RelationPointConstants.NEW_POINT_DISTANCE) {
 				return line;
 			}
@@ -125,6 +126,10 @@ public class RelationPointHandler implements ResizableObject {
 
 	public Line getMiddleLine() {
 		return points.getMiddleLine();
+	}
+
+	public PointDouble getRelationCenter() {
+		return points.getRelationCenter();
 	}
 
 	public Line getLastLine() {

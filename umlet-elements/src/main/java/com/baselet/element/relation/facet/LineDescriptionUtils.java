@@ -1,9 +1,12 @@
 package com.baselet.element.relation.facet;
 
+import java.util.List;
+
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.element.relation.helper.LineDescriptionBasePositionEnum;
 import com.baselet.element.relation.helper.LineDescriptionEnum;
 import com.baselet.element.relation.helper.RelationPointHandler;
 
@@ -72,20 +75,55 @@ public class LineDescriptionUtils {
 		return text;
 	}
 
-	static PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, Line line, int currentLineNr, double halfMiddleBlockHeight) {
+	static PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, int currentLineNr, double halfMiddleBlockHeight, RelationPointHandler relationPoints, List<LineDescriptionBasePositionEnum> basePositions) {
 		double textWidth = calcWidth(drawer, text);
-		boolean horizontalLine = line.getDirectionOfLine(true).isHorizontal();
-		PointDouble center = line.getCenter();
+		PointDouble center = relationPoints.getRelationCenter();
+		boolean horizontalLine = relationPoints.getLineContaining(center).getDirectionOfLine(true).isHorizontal();
 
-		double textX, textY;
+		PointDouble pointText;
 		double previousLinesUsedSpace = currentLineNr * drawer.textHeightMaxWithSpace();
-		if (horizontalLine) {
-			textX = center.getX() - textWidth / 2;
-			textY = center.getY() + previousLinesUsedSpace - LineDescriptionFacet.MIDDLE_DISTANCE_TO_LINE;
+		if (horizontalLine) { // up
+			double textX = center.getX() - textWidth / 2;
+			double textY = center.getY() + previousLinesUsedSpace - LineDescriptionFacet.MIDDLE_DISTANCE_TO_LINE;
+			pointText = new PointDouble(textX, textY);
 		}
-		else {
-			textX = center.getX() + LineDescriptionFacet.X_DIST_TO_LINE;
-			textY = center.getY() + previousLinesUsedSpace - halfMiddleBlockHeight + drawer.textHeightMaxWithSpace(); // must use textHeightMaxWithSpace and not the height of the line to make sure the text looks good (see Issue 235)
+		else { // right
+			double textX = center.getX() + LineDescriptionFacet.X_DIST_TO_LINE;
+			double textY = center.getY() + previousLinesUsedSpace - halfMiddleBlockHeight + drawer.textHeightMaxWithSpace(); // must use textHeightMaxWithSpace and not the height of the line to make sure the text looks good (see Issue 235)
+			pointText = new PointDouble(textX, textY);
+		}
+
+		if (!basePositions.isEmpty()) {
+			pointText = processBasePositionCommand(drawer, halfMiddleBlockHeight, basePositions, textWidth, center, pointText, previousLinesUsedSpace);
+		}
+
+		return pointText;
+	}
+
+	private static PointDouble processBasePositionCommand(DrawHandler drawer, double halfMiddleBlockHeight, List<LineDescriptionBasePositionEnum> basePositions, double textWidth, PointDouble center, PointDouble pointText, double previousLinesUsedSpace) {
+
+		double textX = center.getX() - textWidth / 2; // set X in case only vertical direction
+		double textY = pointText.getY(); // set Y in case only horizontal direction
+
+		for (LineDescriptionBasePositionEnum basePosition : basePositions) {
+			if (basePosition != null) {
+				switch (basePosition) {
+					case MESSAGE_MIDDLE_RIGHT:
+						textX = center.getX() + LineDescriptionFacet.X_DIST_TO_LINE;
+						break;
+					case MESSAGE_MIDDLE_LEFT:
+						textX = center.getX() - LineDescriptionFacet.X_DIST_TO_LINE - textWidth;
+						break;
+					case MESSAGE_MIDDLE_UP:
+						textY = center.getY() + previousLinesUsedSpace - halfMiddleBlockHeight;
+						break;
+					case MESSAGE_MIDDLE_DOWN:
+						textY = center.getY() + previousLinesUsedSpace + LineDescriptionFacet.MIDDLE_DISTANCE_TO_LINE + drawer.textHeightMaxWithSpace();
+						break;
+					default:
+						break;
+				}
+			}
 		}
 		return new PointDouble(textX, textY);
 	}
