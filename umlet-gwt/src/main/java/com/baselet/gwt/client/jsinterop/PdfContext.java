@@ -21,6 +21,13 @@ public class PdfContext {
 
 	public BlobStream stream;
 
+	private JavaScriptObject fontNormal;
+	private JavaScriptObject fontBold;
+	private JavaScriptObject fontItalic;
+	private String lastFontDataNormal;
+	private String lastFontDataBold;
+	private String lastFontDataItalic;
+
 	public PdfContext() {}
 
 	public PdfContext(PdfOptions pdfOptions) {}
@@ -61,19 +68,35 @@ public class PdfContext {
 		this.textFont = textFont;
 
 		if (textFont.getFontStyle() == null) {
-			JavaScriptObject fontNormal = Buffer.from(getByteOfBase64(FontData.fontNormal));
+			if (lastFontDataNormal == null || !lastFontDataNormal.equals(FontData.fontNormal)) {
+				lastFontDataNormal = FontData.fontNormal;
+				fontNormal = Buffer.from(getByteOfBase64(FontData.fontNormal));
+			}
+
 			font(fontNormal, textFont.getFontSize());
 		}
 		else {
 			switch (textFont.getFontStyle()) {
 				case BOLD:
-					font(Buffer.from(getByteOfBase64(FontData.fontBold)), textFont.getFontSize());
+					if (lastFontDataBold == null || !lastFontDataBold.equals(FontData.fontBold)) {
+						lastFontDataBold = FontData.fontBold;
+						fontBold = Buffer.from(getByteOfBase64(FontData.fontBold));
+					}
+					font(fontBold, textFont.getFontSize());
 					break;
 				case ITALIC:
-					font(Buffer.from(getByteOfBase64(FontData.fontItalic)), textFont.getFontSize());
+					if (lastFontDataItalic == null || !lastFontDataItalic.equals(FontData.fontItalic)) {
+						lastFontDataItalic = FontData.fontItalic;
+						fontItalic = Buffer.from(getByteOfBase64(FontData.fontItalic));
+					}
+					font(fontItalic, textFont.getFontSize());
 					break;
 				default:
-					font(Buffer.from(getByteOfBase64(FontData.fontNormal)), textFont.getFontSize());
+					if (lastFontDataNormal == null || !lastFontDataNormal.equals(FontData.fontNormal)) {
+						lastFontDataNormal = FontData.fontNormal;
+						fontNormal = Buffer.from(getByteOfBase64(FontData.fontBold));
+					}
+					font(fontNormal, textFont.getFontSize());
 					break;
 			}
 		}
