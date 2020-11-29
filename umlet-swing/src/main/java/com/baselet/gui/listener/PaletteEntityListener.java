@@ -62,7 +62,6 @@ public class PaletteEntityListener extends GridElementListener {
 	public void mouseDragged(MouseEvent me) {
 		super.mouseDragged(me);
 		GridElement entity = handler.getDrawPanel().getElementToComponent(me.getComponent());
-
 		if (IS_DRAGGED_FROM_PALETTE) {
 			moveDraggedEntities();
 		}
@@ -151,6 +150,7 @@ public class PaletteEntityListener extends GridElementListener {
 	public void mouseReleased(MouseEvent me) {
 		super.mouseReleased(me);
 		CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
+		resetEntities();
 	}
 
 	protected boolean allowCopyEntity() {
