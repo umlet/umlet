@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.constants.SystemInfo;
+import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
@@ -253,6 +254,17 @@ public class Config {
 
 	public void setStart_maximized(boolean start_maximized) {
 		this.start_maximized = start_maximized;
+	}
+
+	public String getPhysicalFontFamily(String fontFamily) {
+		// Find the specific matching physical font if
+		// one is available, otherwise return the logical font.
+
+		String physicalFontFamily =
+			Constants.fontFamilyMap.get(fontFamily);
+		if (physicalFontFamily == null)
+			physicalFontFamily = fontFamily;
+		return physicalFontFamily;
 	}
 
 	public String getDefaultFontFamily() {
