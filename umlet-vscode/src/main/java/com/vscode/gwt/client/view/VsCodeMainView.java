@@ -137,10 +137,10 @@ public class VsCodeMainView extends MainView {
 						palettePanel.redraw(true);
 					}
 				};
-				timerRedraw.schedule(50);
+				timerRedraw.schedule(100);
 			}
 		};
-		timerUpdate.schedule(50);
+		timerUpdate.schedule(100);
 	}
 
 	public void changeFont(String fontData) {
