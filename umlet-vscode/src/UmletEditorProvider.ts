@@ -245,7 +245,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             if (UmletEditorProvider.isFontFileTtf(fontFile)) {
                 return 'ttf@' + fontFile.toString('base64');
             }
-            if(UmletEditorProvider.isFontFileOtf(fontFile)) {
+            if (UmletEditorProvider.isFontFileOtf(fontFile)) {
                 return 'otf@' + fontFile.toString('base64');
             }
         } catch (error) {
