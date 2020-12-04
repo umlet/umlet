@@ -2983,8 +2983,9 @@ class EmbeddedFont extends PDFFont {
     this.bbox = this.font.bbox;
     this.lineGap = Math.abs(this.bbox.maxY) - Math.abs(this.bbox.minY) - (Math.abs(this.ascender) - Math.abs(this.descender));
     if (this.lineGap < 0) {
-        // BBox does not completely include highest ascender or deepest descender characters
-        this.lineGap = (Math.abs(this.font.head.yMax) - Math.abs(this.font.head.yMin));
+        // BBox does not fully include highest ascender or deepest descender characters
+        // Approximating lineGap as 2/3 of distance between baseline and yMin
+        this.lineGap = (Math.abs(this.font.head.yMin) * 2) / 3;
     }
 
     if (document.options.fontLayoutCache !== false) {
