@@ -22,8 +22,6 @@ public class DrawCanvasPdf {
 
 	private final PdfContext pdfContext;
 
-	String blobString;
-
 	public DrawCanvasPdf(int width, int height) {
 		this.pdfContext = new PdfContext(PdfContext.PdfOptions.create(new int[] { width, height }, PdfContext.PdfOptions.Margins.create(0, 0, 0, 0)));
 	}
@@ -50,7 +48,6 @@ public class DrawCanvasPdf {
 		pdfContext.end();
 
 		stream.on("finish", () -> {
-			this.blobString = stream.toBlobURL("application/pdf");
 			FileReader fileReader = new FileReader();
 			Object pdfBlob = stream.toBlob("application/pdf");
 			fileReader.onloadend = () -> {
