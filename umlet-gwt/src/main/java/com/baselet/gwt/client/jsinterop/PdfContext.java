@@ -16,6 +16,9 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "PDFDocument", namespace = JsPackage.GLOBAL)
 public class PdfContext {
+	@JsOverlay
+	private static final int[] UNICODE_TO_REPLACE = new int[] { 9650, 9658, 9660, 9668 }; // u25B2, u25BA, u25BC, u25C4
+
 	private String textAlign;
 	private Font textFont;
 
@@ -139,7 +142,54 @@ public class PdfContext {
 	public final void fillText(String text, Double x, Double y) {
 		x = this.adjustTextX(text, x);
 		y = this.adjustTextY(text, y);
-		this.text(text, x, y, Option.create(false, false, true));
+
+		// Drawing occurrences of specified unicode characters with the standard font
+		char[] chars = text.toCharArray();
+		int start = 0;
+		boolean replacedOnce = false;
+		for (int i = 0; i < chars.length; i++) {
+			char c = chars[i];
+			for (int checkUnicode : UNICODE_TO_REPLACE) {
+				if ((int) c == checkUnicode) {
+					String textUntilChar = text.substring(start, i);
+					if (!replacedOnce) {
+						this.text(textUntilChar, x, y, Option.create(false, false, true));
+					}
+					else {
+						this.text(textUntilChar, Option.create(false, false, true));
+					}
+					replacedOnce = true;
+					JavaScriptObject font;
+					JavaScriptObject oldFont;
+					if (textFont.getFontStyle() != null) {
+						switch (textFont.getFontStyle()) {
+							case ITALIC:
+								font = Buffer.from(getByteOfBase64(FontData.backupFontItalic));
+								oldFont = fontItalic;
+								break;
+							case BOLD:
+								font = Buffer.from(getByteOfBase64(FontData.backupFontBold));
+								oldFont = fontBold;
+								break;
+							default:
+								font = Buffer.from(getByteOfBase64(FontData.backupFontNormal));
+								oldFont = fontNormal;
+						}
+					}
+					else {
+						font = Buffer.from(getByteOfBase64(FontData.backupFontNormal));
+						oldFont = fontNormal;
+					}
+					font(font, textFont.getFontSize());
+					this.text(String.valueOf(c), Option.create(false, false, true));
+					font(oldFont, textFont.getFontSize());
+					start = i + 1;
+				}
+			}
+		}
+		if (!replacedOnce) {
+			this.text(text, x, y, Option.create(false, false, true));
+		}
 	}
 
 	@JsOverlay
@@ -312,6 +362,8 @@ public class PdfContext {
 	public native void font(JavaScriptObject fontSource, double fontSize);
 
 	public native void text(String text, Double x, Double y, Option option);
+
+	public native void text(String text, Option option);
 
 	public native double currentLineHeight(boolean includeGap);
 
