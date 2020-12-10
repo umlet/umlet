@@ -3029,8 +3029,13 @@ udieresis     yacute         thorn          ydieresis\
                         this.descender = this.font.descent * this.scale;
                         this.xHeight = this.font.xHeight * this.scale;
                         this.capHeight = this.font.capHeight * this.scale;
-                        this.lineGap = this.font.lineGap * this.scale;
                         this.bbox = this.font.bbox;
+                        this.lineGap = Math.abs(this.bbox.maxY) - Math.abs(this.bbox.minY) - (Math.abs(this.ascender) - Math.abs(this.descender));
+                        if (this.lineGap < 0) {
+                            // BBox does not fully include highest ascender or deepest descender characters
+                            // Approximating lineGap as 2/3 of distance between baseline and yMin
+                            this.lineGap = (Math.abs(this.font.head.yMin) * 2) / 3;
+                        }
 
                         if (document.options.fontLayoutCache !== false) {
                             this.layoutCache = Object.create(null);
