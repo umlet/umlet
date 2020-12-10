@@ -3288,8 +3288,6 @@ end\
                             if (StandardFont.isStandardFont(src)) {
                                 return new StandardFont(document, src, id);
                             }
-
-                            src = fs.readFileSync(src);
                         }
 
                         if (Buffer.isBuffer(src)) {
@@ -3298,6 +3296,8 @@ end\
                             font = fontkit.create(new Buffer(src), family);
                         } else if (src instanceof ArrayBuffer) {
                             font = fontkit.create(new Buffer(new Uint8Array(src)), family);
+                        } else {
+                            font = fontkit.create(new Buffer(src), family);
                         }
 
                         if (font == null) {
