@@ -58087,6 +58087,7 @@ exports.inflateUndermine = inflateUndermine;
                         };
                         var used_fds = {};
                         var used_subrs = [];
+                        var fd_select = {};
                         for (var _iterator2 = this.glyphs, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ;) {
                             var _ref2;
                             if (_isArray2) {
@@ -58107,13 +58108,14 @@ exports.inflateUndermine = inflateUndermine;
                             if (!used_fds[fd]) {
                                 topDict.FDArray.push(_Object$assign({}, this.cff.topDict.FDArray[fd]));
                                 used_subrs.push({});
+                                fd_select[fd] = topDict.FDArray.length - 1;
                             }
                             used_fds[fd] = true;
-                            topDict.FDSelect.fds.push(topDict.FDArray.length - 1);
+                            topDict.FDSelect.fds.push(fd_select[fd]);
                             var glyph = this.font.getGlyph(gid);
                             var path = glyph.path;
                             for (var subr in glyph._usedSubrs) {
-                                used_subrs[used_subrs.length - 1][subr] = true;
+                                used_subrs[fd_select[fd]][subr] = true;
                             }
                         }
                         for (var i = 0; i < topDict.FDArray.length; i++) {
