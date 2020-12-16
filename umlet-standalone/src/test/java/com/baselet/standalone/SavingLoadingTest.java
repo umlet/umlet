@@ -19,7 +19,7 @@ import java.io.File;
 
 import static org.junit.Assert.*;
 
-public class StepDefinitions {
+public class SavingLoadingTest {
     private DiagramHandler diagramToSave;
     private DiagramHandler diagramToLoad;
     private File ufxTempFile;
@@ -40,7 +40,7 @@ public class StepDefinitions {
         Program.init(buildInfo.version, RuntimeType.BATCH);
         ConfigHandler.loadConfig();
 
-        ufxTempFile = new File("src/test/resources/empty_diagram.uxf");
+        ufxTempFile = new File("src/test/resources/cucumber/empty_diagram.uxf");
         diagramToSave = new DiagramHandler(ufxTempFile);
 
         NewGridElement element = ElementFactorySwing.create(

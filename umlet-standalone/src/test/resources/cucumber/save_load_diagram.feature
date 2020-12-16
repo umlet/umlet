@@ -4,6 +4,3 @@ Feature: Test saving and loading of a diagram
     When  the diagram has been saved
     Then  load the saved diagram
     Then  verify that the loaded element is positioned at the same position with the same size
-
-Feature:
-  Scenario:
