@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><umlet_diagram><element><type>com.umlet.element.base.Relation</type><coordinates><x>240</x><y>30</y><w>80</w><h>70</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;50;50;50;60;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>290</x><y>30</y><w>90</w><h>80</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;40;70;60</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>580</x><y>130</y><w>80</w><h>70</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>60;20;20;20;20;50</additional_attributes></element><element><type>com.umlet.element.base.Note</type><coordinates><x>580</x><y>180</y><w>140</w><h>50</h></coordinates><panel_attributes>[delay=
+tsh.delay-&gt;sum()]</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Note</type><coordinates><x>270</x><y>170</y><w>90</w><h>60</h></coordinates><panel_attributes>for all cp
+in cps:
+addOne(cp)</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Note</type><coordinates><x>290</x><y>10</y><w>200</w><h>40</h></coordinates><panel_attributes>[dep=cp.dep-&gt;min() and
+arr=cp.arr-&gt;max()]</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>170</y><w>90</w><h>70</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;50;70;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>30</x><y>170</y><w>77</w><h>180</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;-
+r1=cp\\{sequence}
+m1=   1..*</panel_attributes><additional_attributes>38;160;38;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>700</x><y>140</y><w>83</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+r2=/tsh {union}
+m2=   1..*</panel_attributes><additional_attributes>41;20;41;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>250</x><y>350</y><w>130</w><h>40</h></coordinates><panel_attributes>lt=&gt;
+r2=conn</panel_attributes><additional_attributes>110;20;20;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>300</x><y>140</y><w>132</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+r2=+out\\{ordered, unique,\\ subsets\\travelHandling.tsh}
+m2=   1..*</panel_attributes><additional_attributes>66;20;66;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>450</x><y>140</y><w>132</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+r2=+return\\{ordered,unique,\\subsets\\travelHandling.tsh}
+m2=   0..*</panel_attributes><additional_attributes>66;20;66;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>500</x><y>90</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+r1=travel</panel_attributes><additional_attributes>20;20;140;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>510</x><y>350</y><w>150</w><h>40</h></coordinates><panel_attributes>lt=&gt;
+r2=travel</panel_attributes><additional_attributes>130;20;20;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>640</x><y>330</y><w>220</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
+TravelStageHandling
+--
++ delay: Minutes
++ boardingGate: String</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>640</x><y>60</y><w>220</w><h>100</h></coordinates><panel_attributes>&lt;&lt;Interface&gt;&gt;
+TravelHandling
+--
++/ delay: Minutes
++ numOfBag: int=0
+--
+delay() {Query}</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>360</x><y>330</y><w>170</w><h>90</h></coordinates><panel_attributes>TravelStage
+--
+_maxDuration: int = 10_</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>240</x><y>80</y><w>140</w><h>40</h></coordinates><panel_attributes>lt=&gt;-
+r2=conn</panel_attributes><additional_attributes>120;20;20;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>360</x><y>60</y><w>160</w><h>100</h></coordinates><panel_attributes>Travel
+--
++/ dep: Date
++/ arr: Date
++ class: String</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>30</x><y>330</y><w>240</w><h>90</h></coordinates><panel_attributes>ConnectionPart
+--
++ flightNo: String {readOnly}
+--
+-addOne(c: Connection)
+         {redifines addOne}</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>30</x><y>20</y><w>230</w><h>170</h></coordinates><panel_attributes>Connection
+--
++ from: Location
++to: Location
++/ dep: Time
++/ arr: Time
+-status: String = "planned"
+--
+#addOne(cp:ConnectionPart)
++add(cp: ConnectionPart [0..*])</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>160</x><y>170</y><w>40</w><h>180</h></coordinates><panel_attributes>lt=&gt;&gt;-</panel_attributes><additional_attributes>20;160;20;20</additional_attributes></element></umlet_diagram>

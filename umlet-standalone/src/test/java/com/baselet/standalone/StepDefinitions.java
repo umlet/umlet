@@ -7,7 +7,6 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.Notifier;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.NewGridElement;
@@ -15,10 +14,8 @@ import com.baselet.element.interfaces.GridElement;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -27,18 +24,28 @@ public class StepDefinitions {
     private DiagramHandler diagramToLoad;
     private File ufxTempFile;
 
-    @Given("^A new diagram with a element positioned at '(\\d+),(\\d+)'$")
-    public void aNewDiagramWithAElementPositionedAt(int arg0, int arg1) {
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+
+    @Given("A new diagram with a class element positioned at {int}, {int} with a width of {int} and a height of {int}")
+    public void aNewDiagramWithAElementPositionedAt(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+
         Utils.BuildInfo buildInfo = Utils.readBuildInfo();
-        Program.init(buildInfo.version, RuntimeType.STANDALONE);
+        Program.init(buildInfo.version, RuntimeType.BATCH);
         ConfigHandler.loadConfig();
 
-        ufxTempFile = new File("src/test/resources/empty.uxf");
+        ufxTempFile = new File("src/test/resources/empty_diagram.uxf");
         diagramToSave = new DiagramHandler(ufxTempFile);
 
         NewGridElement element = ElementFactorySwing.create(
                 ElementId.UMLClass,
-                new Rectangle(100, 100, 100, 100),
+                new Rectangle(x, y, width, height),
                 "Properties",
                 "Properties",
                 diagramToSave);
@@ -46,7 +53,7 @@ public class StepDefinitions {
     }
 
     @When("the diagram has been saved")
-    public void theDiagramHasBeenSaved() throws IOException {
+    public void theDiagramHasBeenSaved() throws Throwable {
         ufxTempFile = File.createTempFile("temp", ".ufx");
         DiagramFileHandler diagramFileHandler = DiagramFileHandler.createInstance(diagramToSave, ufxTempFile);
         diagramFileHandler.doSave();
@@ -57,10 +64,12 @@ public class StepDefinitions {
         diagramToLoad = new DiagramHandler(ufxTempFile);
     }
 
-    @Then("^verify that the element is positioned at '(\\d+,(\\d+))'$")
-    public void verifyThatTheElementIsPositionedAt(int arg0, int arg1) {
+    @Then("verify that the loaded element is positioned at the same position with the same size")
+    public void verifyThatTheElementIsPositionedAt() {
         GridElement gridElement = diagramToLoad.getDrawPanel().getGridElements().get(0);
-        assertEquals(gridElement.getRectangle().getX(), arg0);
-        assertEquals(gridElement.getRectangle().getY(), arg1);
+        assertEquals(gridElement.getRectangle().getX(), this.x);
+        assertEquals(gridElement.getRectangle().getY(), this.y);
+        assertEquals(gridElement.getRectangle().getWidth(), this.width);
+        assertEquals(gridElement.getRectangle().getHeight(), this.height);
     }
 }
