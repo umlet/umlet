@@ -46,8 +46,8 @@ public class SavingLoadingTest {
         NewGridElement element = ElementFactorySwing.create(
                 ElementId.UMLClass,
                 new Rectangle(x, y, width, height),
-                "Properties",
-                "Properties",
+                "",
+                "",
                 diagramToSave);
         diagramToSave.getDrawPanel().addElement(element);
     }
