@@ -72,40 +72,40 @@ public class MailPanel extends JPanel {
 	private final GridBagLayout layout = new GridBagLayout();
 
 	private final JLabel lb_from = new JLabel("From:");
-	private final JTextField tf_from = new JTextField();
+	public final JTextField tf_from = new JTextField();
 	private final JLink lnk_smtpInfo = new JLink(Program.getInstance().getWebsite() + "/smtp.htm", "What is SMTP?");
 
 	private final JLabel lb_smtp = new JLabel("SMTP:");
-	private final JTextField tf_smtp = new JTextField();
-	private final JCheckBox cb_smtp_auth = new JCheckBox();
+	public final JTextField tf_smtp = new JTextField();
+	public final JCheckBox cb_smtp_auth = new JCheckBox();
 
 	private final JLabel lb_smtpUser = new JLabel("User:");
-	private final JTextField tf_smtpUser = new JTextField();
+	public final JTextField tf_smtpUser = new JTextField();
 
 	private final JLabel lb_smtpPW = new JLabel("PW:");
-	private final JPasswordField pf_smtpPW = new JPasswordField();
+	public final JPasswordField pf_smtpPW = new JPasswordField();
 	private final JCheckBox cb_pwSave = new JCheckBox();
 
 	private final JLabel lb_to = new JLabel("To:");
-	private final JTextField tf_to = new JTextField();
+	public final JTextField tf_to = new JTextField();
 
 	private final JLabel lb_cc = new JLabel("CC:");
-	private final JTextField tf_cc = new JTextField();
+	public final JTextField tf_cc = new JTextField();
 
 	private final JLabel lb_bcc = new JLabel("BCC:");
-	private final JTextField tf_bcc = new JTextField();
+	public final JTextField tf_bcc = new JTextField();
 
 	private final JLabel lb_subject = new JLabel("Subject:");
-	private final JTextField tf_subject = new JTextField();
+	public final JTextField tf_subject = new JTextField();
 
-	private final JTextArea ta_text = new JTextArea(5, 5);
+	public final JTextArea ta_text = new JTextArea(5, 5);
 	JScrollPane sp_text = new JScrollPane(ta_text);
 
-	private final JCheckBox cb_attachXml = new JCheckBox();
-	private final JCheckBox cb_attachGif = new JCheckBox();
-	private final JCheckBox cb_attachPdf = new JCheckBox();
+	public final JCheckBox cb_attachXml = new JCheckBox();
+	public final JCheckBox cb_attachGif = new JCheckBox();
+	public final JCheckBox cb_attachPdf = new JCheckBox();
 
-	private final JButton bt_send = new JButton("Send");
+	public final JButton bt_send = new JButton("Send");
 	private final JButton bt_cancel = new JButton("Cancel");
 
 	private final JPanel panel_attachments = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -211,7 +211,7 @@ public class MailPanel extends JPanel {
 		checkVisibilityOfSmtpAuth();
 	}
 
-	private void sendMail() {
+	public void sendMail() {
 
 		/**
 		 * Initialize some variables and objects

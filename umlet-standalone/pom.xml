@@ -42,6 +42,13 @@
 			<artifactId>cucumber-java</artifactId>
 			<version>6.9.0</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.icegreen/greenmail-junit5 -->
+		<dependency>
+			<groupId>com.icegreen</groupId>
+			<artifactId>greenmail-junit5</artifactId>
+			<version>1.6.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

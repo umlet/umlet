@@ -36,7 +36,7 @@ public class StandaloneGUI extends BaseGUI {
 	private JFrame mainFrame;
 
 	private final MenuBuilder menuBuilder = new MenuBuilder();
-	private final StandaloneGUIBuilder guiBuilder = new StandaloneGUIBuilder();
+	public final StandaloneGUIBuilder guiBuilder = new StandaloneGUIBuilder();
 
 	private final File runningFile;
 
