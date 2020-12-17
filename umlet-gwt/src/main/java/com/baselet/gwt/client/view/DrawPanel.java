@@ -50,6 +50,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -557,6 +558,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 		else if (Shortcut.DISABLE_STICKING.matches(event)) {
 			SharedConfig.getInstance().setStickingEnabled(false);
+		}
+		else if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB) {
+			// Don't do anything on TAB key down
 		}
 		else {
 			avoidBrowserDefault = false;

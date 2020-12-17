@@ -6,12 +6,13 @@ import com.baselet.gwt.client.view.DrawPanelDiagram;
 import com.baselet.gwt.client.view.interfaces.Redrawable;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
-import com.google.gwt.dev.util.collect.Lists;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.uibinder.client.UiConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PropertiesTextArea extends MySuggestBox {
 
@@ -49,6 +50,21 @@ public class PropertiesTextArea extends MySuggestBox {
 				}
 			}
 		});
+
+		textArea.addKeyDownHandler(new KeyDownHandler() { // CTRL+Space shows all suggestions
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				int key = event.getNativeEvent().getKeyCode();
+				if (key == KeyCodes.KEY_TAB) {
+					event.getNativeEvent().preventDefault();
+					int cursorPos = textArea.getCursorPos();
+					int cursorPosLine = getCursorPositionInLine();
+					String currentTextLine = getCursorLine();
+					setText(currentTextLine.substring(0, cursorPosLine) + "\t" + currentTextLine.substring(cursorPosLine));
+					textArea.setCursorPos(cursorPos + 1);
+				}
+			}
+		});
 	}
 
 	public PropertiesTextArea(final MySuggestOracle oracle, OwnTextArea textArea) {
@@ -72,6 +88,27 @@ public class PropertiesTextArea extends MySuggestBox {
 			autocompletionTextList.add(newText);
 		}
 		oracle.setAutocompletionList(autocompletionTextList);
+	}
+
+	private int getCursorPositionInLine() {
+		String wholeText = textArea.getText();
+		int cursorPos = textArea.getCursorPos();
+		int returnPos = 0;
+		if (!wholeText.contains("\n")) {
+			return cursorPos;
+		}
+		else {
+			int currentPos = 0;
+			for (String line : wholeText.split("(\r)?\n")) {
+				int oldPos = currentPos;
+				currentPos += line.length() + 1;
+				if (cursorPos < currentPos) {
+					returnPos = cursorPos - oldPos;
+					break;
+				}
+			}
+		}
+		return returnPos;
 	}
 
 	/**
