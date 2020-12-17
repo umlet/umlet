@@ -1,2 +1,22 @@
 <FindBugsFilter>
+    <Match>
+        <!-- fields are used in native JS code -->
+        <Class name="com.baselet.gwt.client.jsinterop.PdfContext$PdfOptions"/>
+        <Bug pattern="URF_UNREAD_FIELD"/>
+    </Match>
+    <Match>
+        <!-- fields are used in native JS code -->
+        <Class name="com.baselet.gwt.client.jsinterop.PdfContext$Option"/>
+        <Bug pattern="URF_UNREAD_FIELD"/>
+    </Match>
+    <Match>
+        <!-- fields are used in native JS code -->
+        <Class name="com.baselet.gwt.client.jsinterop.PdfContext$PdfOptions$Margins"/>
+        <Bug pattern="URF_UNREAD_FIELD"/>
+    </Match>
+    <Match>
+        <!-- Spotbugs seems to not realize that fields are accessed in other module -->
+        <Class name="com.baselet.gwt.client.jsinterop.FontData"/>
+        <Bug pattern="MS_PKGPROTECT"/>
+    </Match>
 </FindBugsFilter>
