@@ -1,8 +1,12 @@
 package com.web.gwt.client.view.theme;
 
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 
 public class ThemeFactoryWeb extends ThemeFactory {
+	private static final CustomLogger log = CustomLoggerFactory.getLogger(ThemeFactoryWeb.class);
+
 	private static boolean initialized = false;
 
 	public ThemeFactoryWeb() {
@@ -22,7 +26,14 @@ public class ThemeFactoryWeb extends ThemeFactory {
 	}
 
 	private static void changeTheme(String themeString) {
-		changeTheme(ThemeFactory.THEMES.valueOf(themeString.toUpperCase()), null, true);
+		for (THEMES theme : THEMES.values()) {
+			if (theme.toString().equals(themeString.toUpperCase())) {
+				changeTheme(theme, null, true);
+				return;
+			}
+		}
+		log.error("The provided theme parameter is not valid! Expected: <light|dark>, Actual: " + themeString);
+		changeTheme(THEMES.LIGHT, null, true);
 	}
 
 	private static native String getTheme() /*-{
