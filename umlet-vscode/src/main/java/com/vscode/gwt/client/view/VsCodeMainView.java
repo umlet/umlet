@@ -25,14 +25,14 @@ public class VsCodeMainView extends MainView {
 				String font = fonts[i];
 				if (font.length() == 0) {
 					switch (i) {
-						case 0:
-							setFontData("normal@" + FontData.fontNormal, false);
-							break;
 						case 1:
 							setFontData("italic@" + FontData.fontItalic, false);
 							break;
 						case 2:
 							setFontData("bold@" + FontData.fontBold, false);
+							break;
+						default:
+							setFontData("normal@" + FontData.fontNormal, false);
 							break;
 					}
 				}
@@ -59,14 +59,14 @@ public class VsCodeMainView extends MainView {
 			fontDataBase64 = fontDataSeparated[2];
 		} else {
 			switch (fontType) {
-				case "normal":
-					fontDataBase64 = fontResource.fontNormal().getText();
-					break;
 				case "italic":
 					fontDataBase64 = fontResource.fontItalic().getText();
 					break;
 				case "bold":
 					fontDataBase64 = fontResource.fontBold().getText();
+					break;
+				default:
+					fontDataBase64 = fontResource.fontNormal().getText();
 					break;
 			}
 			fontFileType = "ttf";
@@ -107,17 +107,17 @@ public class VsCodeMainView extends MainView {
 		Element fontFaceStyle = DOM.createElement("style");
 		fontFaceStyle.setAttribute("type", "text/css");
 		switch (fontType) {
-			case "normal":
-				fontFaceStyle.setInnerHTML("@font-face {font-family: " + FontData.fontName + "; src: url('data:font/"+getFontUrlType(fontFileType) + ";base64," + fontDataBase64 + "') format('"+getFontUrlFormat(fontFileType) + "');}");
-				FontData.fontNormal = fontDataBase64;
-				break;
 			case "italic":
 				fontFaceStyle.setInnerHTML("@font-face {font-family: " + FontData.fontName + "; font-style: italic; src: url('data:font/"+getFontUrlType(fontFileType) + ";base64," + fontDataBase64 + "') format('"+getFontUrlFormat(fontFileType) + "');}");
-				FontData.fontItalic = fontDataBase64;
+				FontData.setFontItalic(fontDataBase64);
 				break;
 			case "bold":
 				fontFaceStyle.setInnerHTML("@font-face {font-family: " + FontData.fontName + "; font-weight: bold; src: url('data:font/"+getFontUrlType(fontFileType) + ";base64," + fontDataBase64 + "') format('"+getFontUrlFormat(fontFileType) + "');}");
-				FontData.fontBold = fontDataBase64;
+				FontData.setFontBold(fontDataBase64);
+				break;
+			default:
+				fontFaceStyle.setInnerHTML("@font-face {font-family: " + FontData.fontName + "; src: url('data:font/"+getFontUrlType(fontFileType) + ";base64," + fontDataBase64 + "') format('"+getFontUrlFormat(fontFileType) + "');}");
+				FontData.setFontNormal(fontDataBase64);
 				break;
 		}
 		document.getHead().appendChild(fontFaceStyle);
