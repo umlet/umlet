@@ -30,7 +30,7 @@ public class SavingLoadingTest {
     private int height;
 
     @Given("A new diagram with a class element positioned at {int}, {int} with a width of {int} and a height of {int}")
-    public void aNewDiagramWithAElementPositionedAt(int x, int y, int width, int height) {
+    public void createANewDiagram(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -53,19 +53,19 @@ public class SavingLoadingTest {
     }
 
     @When("the diagram has been saved")
-    public void theDiagramHasBeenSaved() throws Throwable {
+    public void saveDiagram() throws Throwable {
         ufxTempFile = File.createTempFile("temp", ".ufx");
         DiagramFileHandler diagramFileHandler = DiagramFileHandler.createInstance(diagramToSave, ufxTempFile);
         diagramFileHandler.doSave();
     }
 
     @Then("load the saved diagram")
-    public void loadTheSavedDiagram() {
+    public void loadDiagram() {
         diagramToLoad = new DiagramHandler(ufxTempFile);
     }
 
     @Then("verify that the loaded element is positioned at the same position with the same size")
-    public void verifyThatTheElementIsPositionedAt() {
+    public void verifyDiagram() {
         GridElement gridElement = diagramToLoad.getDrawPanel().getGridElements().get(0);
         assertEquals(gridElement.getRectangle().getX(), this.x);
         assertEquals(gridElement.getRectangle().getY(), this.y);
