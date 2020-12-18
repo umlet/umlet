@@ -65,11 +65,16 @@
 			<!-- no additional source entry necessary because the author packages
 				the normal jar with the sources -->
 		</dependency>
-		<dependency>
-			<groupId>com.googlecode.gwt-crypto</groupId>
-			<artifactId>gwt-crypto</artifactId>
-			<version>2.3.0</version>
-		</dependency>
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-core</artifactId>
+            <version>1.1.0</version>
+	    </dependency>
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-dom</artifactId>
+            <version>1.1.0</version>
+        </dependency>
 	</dependencies>
 
 	<build>
