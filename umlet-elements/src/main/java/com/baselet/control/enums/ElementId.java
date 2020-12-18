@@ -6,5 +6,4 @@ package com.baselet.control.enums;
  */
 public enum ElementId {
 	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLState, UMLObject, UMLTimer, UMLSpecialState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, UMLFrame, UMLDeployment, UMLGeneric, UMLHierarchy, Relation, Text, PlotGrid, UMLSequenceAllInOne;
-
 }
