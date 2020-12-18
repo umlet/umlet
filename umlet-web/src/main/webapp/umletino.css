@@ -148,20 +148,3 @@
     border: 2px solid #bbb !important;
     border-radius: 5px !important;
 }
-
-@font-face {
-    font-family: 'UmletFont';
-    src: url('fonts/NotoSans-Regular.ttf');
-}
-
-@font-face {
-    font-family: 'UmletFont';
-    font-style: italic;
-    src: url('fonts/NotoSans-Italic.ttf');
-}
-
-@font-face {
-    font-family: 'UmletFont';
-    font-weight: bold;
-    src: url('fonts/NotoSans-Bold.ttf');
-}

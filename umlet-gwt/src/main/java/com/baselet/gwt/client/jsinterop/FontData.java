@@ -23,16 +23,4 @@ public class FontData {
 		backupFontItalic = fontItalic;
 		backupFontBold = fontBold;
 	}
-
-	public static void setFontNormal(String newFontNormal) {
-		fontNormal = newFontNormal;
-	}
-
-	public static void setFontItalic(String newFontItalic) {
-		fontItalic = newFontItalic;
-	}
-
-	public static void setFontBold(String newFontBold) {
-		fontBold = newFontBold;
-	}
 }
