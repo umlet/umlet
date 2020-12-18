@@ -12,17 +12,17 @@ import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.scripts.ScriptResource;
 import com.baselet.gwt.client.version.BuildInfoProperties;
 import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.event.shared.UmbrellaException;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-
-import java.util.Arrays;
 
 public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 
@@ -35,6 +35,8 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 		GWT.create(ThemeFactory.class);
 		ThemeFactory.addListener(this);
 		onThemeChange();
+
+		initScripts();
 
 		log.info("Starting GUI ...");
 		Program.init(BuildInfoProperties.getVersion(), RuntimeType.GWT);
@@ -75,6 +77,14 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 			}
 		}
 		log.info("GUI started");
+	}
+
+	private void initScripts() {
+		ScriptResource scriptResource = GWT.create(ScriptResource.class);
+		String[] scripts = new String[] { scriptResource.blobStream().getText(), scriptResource.buffer().getText(), scriptResource.pdfKit().getText() };
+		for (String script : scripts) {
+			ScriptInjector.fromString(script).setWindow(ScriptInjector.TOP_WINDOW).inject();
+		}
 	}
 
 	private void setUncaughtExceptionHandler() {
