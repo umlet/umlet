@@ -15,8 +15,8 @@
         <Bug pattern="URF_UNREAD_FIELD"/>
     </Match>
     <Match>
-        <!-- Spotbugs seems to not realize that fields are accessed in other module -->
         <Class name="com.baselet.gwt.client.jsinterop.FontData"/>
-        <Bug pattern="MS_PKGPROTECT"/>
+        <!-- static variables are supposed to be changed by other classes -->
+        <Bug pattern="MS_CANNOT_BE_FINAL"/>
     </Match>
 </FindBugsFilter>
