@@ -16,7 +16,7 @@
 		<!-- GWT 2.8 requires Java 8 -->
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<gwt.version>2.8.2</gwt.version>
+		<gwt.version>2.9.0</gwt.version>
 		<gwt.plugin.version>1.0-rc-10</gwt.plugin.version>
 	</properties>
 
