@@ -1,11 +1,11 @@
 package com.baselet.gwt.client.jsinterop;
 
 import com.baselet.gwt.client.text.Font;
+import com.baselet.gwt.client.util.Base64;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.CanvasElement;
-import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Base64;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -73,7 +73,7 @@ public class PdfContext {
 		if (textFont.getFontStyle() == null) {
 			if (lastFontDataNormal == null || !lastFontDataNormal.equals(FontData.fontNormal)) {
 				lastFontDataNormal = FontData.fontNormal;
-				fontNormal = Buffer.from(getByteOfBase64(FontData.fontNormal));
+				fontNormal = Buffer.from(Base64.decode(FontData.fontNormal));
 			}
 
 			font(fontNormal, textFont.getFontSize());
@@ -83,37 +83,27 @@ public class PdfContext {
 				case BOLD:
 					if (lastFontDataBold == null || !lastFontDataBold.equals(FontData.fontBold)) {
 						lastFontDataBold = FontData.fontBold;
-						fontBold = Buffer.from(getByteOfBase64(FontData.fontBold));
+						fontBold = Buffer.from(Base64.decode(FontData.fontBold));
 					}
 					font(fontBold, textFont.getFontSize());
 					break;
 				case ITALIC:
 					if (lastFontDataItalic == null || !lastFontDataItalic.equals(FontData.fontItalic)) {
 						lastFontDataItalic = FontData.fontItalic;
-						fontItalic = Buffer.from(getByteOfBase64(FontData.fontItalic));
+						fontItalic = Buffer.from(Base64.decode(FontData.fontItalic));
 					}
 					font(fontItalic, textFont.getFontSize());
 					break;
 				default:
 					if (lastFontDataNormal == null || !lastFontDataNormal.equals(FontData.fontNormal)) {
 						lastFontDataNormal = FontData.fontNormal;
-						fontNormal = Buffer.from(getByteOfBase64(FontData.fontBold));
+						fontNormal = Buffer.from(Base64.decode(FontData.fontBold));
 					}
 					font(fontNormal, textFont.getFontSize());
 					break;
 			}
 		}
 		this.textFont.setFontName(FontData.fontName);
-	}
-
-	@JsOverlay
-	private int[] getByteOfBase64(String base64) {
-		byte[] data = Base64.decode(base64);
-		int[] uint8 = new int[data.length];
-		for (int i = 0; i < data.length; i++) {
-			uint8[i] = (data[i] & 0xFF);
-		}
-		return uint8;
 	}
 
 	@JsOverlay
@@ -164,20 +154,20 @@ public class PdfContext {
 					if (textFont.getFontStyle() != null) {
 						switch (textFont.getFontStyle()) {
 							case ITALIC:
-								font = Buffer.from(getByteOfBase64(FontData.backupFontItalic));
+								font = Buffer.from(Base64.decode(FontData.backupFontItalic));
 								oldFont = fontItalic;
 								break;
 							case BOLD:
-								font = Buffer.from(getByteOfBase64(FontData.backupFontBold));
+								font = Buffer.from(Base64.decode(FontData.backupFontBold));
 								oldFont = fontBold;
 								break;
 							default:
-								font = Buffer.from(getByteOfBase64(FontData.backupFontNormal));
+								font = Buffer.from(Base64.decode(FontData.backupFontNormal));
 								oldFont = fontNormal;
 						}
 					}
 					else {
-						font = Buffer.from(getByteOfBase64(FontData.backupFontNormal));
+						font = Buffer.from(Base64.decode(FontData.backupFontNormal));
 						oldFont = fontNormal;
 					}
 					font(font, textFont.getFontSize());
