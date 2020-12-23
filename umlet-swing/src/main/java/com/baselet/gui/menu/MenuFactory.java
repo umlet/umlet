@@ -41,6 +41,8 @@ import static com.baselet.control.constants.MenuConstants.UNDO;
 import static com.baselet.control.constants.MenuConstants.UNGROUP;
 import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -168,7 +170,12 @@ public class MenuFactory {
 					}
 				}
 				else if (menuItem.equals(PASTE) && actualHandler != null) {
-					actualHandler.getController().executeCommand(new Paste());
+					Point ctxMenuLocation = new Point(0, 0); // by default there is no ctxmenu displacement (x=0, y=0)
+					if (Boolean.TRUE.equals(arg_param)) { // if ctxmenu was used for the operation calculate and store the ctxMenuLocation
+						ctxMenuLocation = MouseInfo.getPointerInfo().getLocation();
+						SwingUtilities.convertPointFromScreen(ctxMenuLocation, actualHandler.getDrawPanel().getScrollPane().getViewport());
+					}
+					actualHandler.getController().executeCommand(new Paste(ctxMenuLocation));
 				}
 				else if (menuItem.equals(NEW_CE)) {
 					if (gui.getCurrentCustomHandler().closeEntity()) {

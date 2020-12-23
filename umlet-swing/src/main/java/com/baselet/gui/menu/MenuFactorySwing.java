@@ -228,8 +228,8 @@ public class MenuFactorySwing extends MenuFactory {
 		return createJMenuItem(false, COPY, KeyEvent.VK_C, true, null);
 	}
 
-	public JMenuItem createPaste() {
-		return createJMenuItem(false, PASTE, PASTE, KeyEvent.VK_P, KeyEvent.VK_V, true, null);
+	public JMenuItem createPaste(boolean usedRightClickContextMenu) {
+		return createJMenuItem(false, PASTE, PASTE, KeyEvent.VK_P, KeyEvent.VK_V, true, usedRightClickContextMenu);
 	}
 
 	public JMenuItem createNewCustomElement() {
