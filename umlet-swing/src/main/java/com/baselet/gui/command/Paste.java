@@ -1,21 +1,19 @@
 package com.baselet.gui.command;
 
-import java.awt.Point;
-import java.util.Vector;
-
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.Vector;
+
 public class Paste extends Command {
 
 	private Point origin;
 	private Vector<GridElement> entities;
-
-	private int viewpX = 0;
-	private int viewpY = 0;
 
 	@Override
 	public void execute(DiagramHandler handler) {
@@ -33,11 +31,6 @@ public class Paste extends Command {
 		// AB: first execution of paste
 		if (origin == null) {
 			origin = handler.getDrawPanel().getOriginAtDefaultZoom();
-
-			// AB: Include viewport position to paste on visible area
-			Point viewp = handler.getDrawPanel().getScrollPane().getViewport().getViewPosition();
-			viewpX = handler.realignToGrid(false, (int) viewp.getX()) / handler.getGridSize();
-			viewpY = handler.realignToGrid(false, (int) viewp.getY()) / handler.getGridSize();
 		}
 
 		if (entities.isEmpty()) {
@@ -54,10 +47,13 @@ public class Paste extends Command {
 			minY = Math.min(e.getRectangle().y, minY);
 		}
 
+		Point location = MouseInfo.getPointerInfo().getLocation();
+		SwingUtilities.convertPointFromScreen(location, handler.getDrawPanel());
+		int diffX = location.x - minX;
+		int diffY = location.y - minY;
+
 		for (GridElement e : entities) {
-			e.setLocationDifference(
-					viewpX * handler.getGridSize() - minX + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS,
-					viewpY * handler.getGridSize() - minY + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS);
+			e.setLocationDifference(diffX, diffY);
 		}
 
 		int offsetX = origin.x - handler.getDrawPanel().getOriginAtDefaultZoom().x;
