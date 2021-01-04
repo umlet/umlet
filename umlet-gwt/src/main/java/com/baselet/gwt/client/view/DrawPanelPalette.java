@@ -207,7 +207,11 @@ public class DrawPanelPalette extends DrawPanel {
 			}
 			else if (!selector.isLassoActive()) { // if != 1 elements are selected, move them
 				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
-				handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
+
+				// Only handle preview if selector has selected elements
+				if (!selector.getSelectedElements().isEmpty()) {
+					handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
+				}
 			}
 
 			// stop drag if element is dragged to properties panel
