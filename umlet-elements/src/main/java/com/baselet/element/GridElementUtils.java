@@ -2,6 +2,7 @@ package com.baselet.element;
 
 import java.util.Collection;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.element.interfaces.GridElement;
 
@@ -33,6 +34,10 @@ public class GridElementUtils {
 			y2 = Math.max((int) (ge.getRectangle().getY2() * scaling), y2);
 		}
 		return new Rectangle(x, y, x2 - x, y2 - y);
+	}
+
+	public static double realignTo(int val, int toVal) {
+		return SharedUtils.realignTo(false, val, false, toVal);
 	}
 
 }

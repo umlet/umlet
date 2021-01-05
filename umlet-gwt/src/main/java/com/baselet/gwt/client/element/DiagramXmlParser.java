@@ -80,13 +80,16 @@ public class DiagramXmlParser {
 				}
 			}
 
+			diagram = new DiagramGwt(helpText, new ArrayList<GridElement>());
+
 			float zoomScale = 1.0f;
 			Node zoomElement = messageDom.getElementsByTagName(ZOOM_LEVEL).item(0);
 			if (zoomElement != null) {
-				zoomScale = Float.valueOf(zoomElement.getFirstChild().getNodeValue()) / SharedConstants.DEFAULT_GRID_SIZE;
+				int zoomLevel = Integer.parseInt(zoomElement.getFirstChild().getNodeValue());
+				diagram.setZoomLevel(zoomLevel);
+				zoomScale = (float) zoomLevel / SharedConstants.DEFAULT_GRID_SIZE;
 			}
 
-			diagram = new DiagramGwt(helpText, new ArrayList<GridElement>());
 			NodeList elements = messageDom.getElementsByTagName(ELEMENT);
 			for (int i = 0; i < elements.getLength(); i++) {
 				Element element = (Element) elements.item(i);
@@ -136,7 +139,7 @@ public class DiagramXmlParser {
 		Element diagramElement = doc.createElement(DIAGRAM);
 		diagramElement.setAttribute(ATTR_PROGRAM, "umletino");
 		diagramElement.setAttribute(ATTR_VERSION, BuildInfoProperties.getVersion());
-		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode("10")));
+		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode(String.valueOf(diagram.getZoomLevel()))));
 		String helpText = diagram.getPanelAttributes();
 		if (helpText != null) {
 			diagramElement.appendChild(create(doc, HELP_TEXT, doc.createTextNode(helpText)));

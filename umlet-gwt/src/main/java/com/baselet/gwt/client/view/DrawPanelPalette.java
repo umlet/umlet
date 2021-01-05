@@ -9,9 +9,12 @@ import java.util.Map;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
+import com.baselet.control.basics.geom.Rectangle;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.element.NewGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;
@@ -88,6 +91,7 @@ public class DrawPanelPalette extends DrawPanel {
 			diagram = DiagramXmlParser.xmlToDiagram(res.getText());
 			paletteCache.put(res, diagram);
 		}
+		zoomEntities(SharedConstants.DEFAULT_GRID_SIZE, diagram.getZoomLevel(), diagram.getGridElements());
 		return diagram;
 	}
 
@@ -100,7 +104,7 @@ public class DrawPanelPalette extends DrawPanel {
 			commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
 			// Set Location as top left of currently visible area
 			DrawPanel.snapElementToVisibleTopLeft(e, otherDrawFocusPanel);
-			commandInvoker.addElements(otherDrawFocusPanel, Arrays.asList(e));
+			commandInvoker.addElements(otherDrawFocusPanel, Arrays.asList(e), getGridSize());
 		}
 	}
 
@@ -117,28 +121,24 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
-		// clear preview object
-		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
-			((DrawPanelDiagram) otherDrawFocusPanel).removeOldPreview();
-		}
+		List<GridElement> previewElements = ((DrawPanelDiagram) otherDrawFocusPanel).getPreviewElements();
 
 		if (lastPoint.getX() + -scrollPanel.getHorizontalScrollPosition() <= 0) { // mouse moved from palette to diagram -> insert elements to diagram
-			List<GridElement> elementsToMove = new ArrayList<GridElement>();
-			for (GridElement original : selector.getSelectedElements()) {
-				GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
-				int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
-				int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
-				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
-
-				copy.setRectangle(SharedUtils.realignToGrid(copy.getRectangle(), false)); // realign location to grid (width and height should not be changed)
-				elementsToMove.add(copy);
+			List<GridElement> elementsToMove = new ArrayList<>();
+			for (GridElement preview : previewElements) {
+				elementsToMove.add(ElementFactoryGwt.create(preview, otherDrawFocusPanel.getDiagram()));
 			}
 			Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
 			resetPalette();
-			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
+			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove, otherDrawFocusPanel.getDiagram().getZoomLevel());
 
 			// set focus to the diagram
 			EventHandlingUtils.getStorageInstance().setActivePanel(otherDrawFocusPanel);
+		}
+
+		// clear preview object
+		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
+			((DrawPanelDiagram) otherDrawFocusPanel).removeOldPreview();
 		}
 		draggedElements.clear();
 
@@ -147,7 +147,7 @@ public class DrawPanelPalette extends DrawPanel {
 
 	private void resetPalette() {
 		commandInvoker.removeSelectedElements(this);
-		commandInvoker.addElements(this, draggedElements);
+		commandInvoker.addElements(this, draggedElements, getGridSize());
 		draggedElements.clear();
 		selector.deselectAll();
 	}
@@ -161,9 +161,16 @@ public class DrawPanelPalette extends DrawPanel {
 		GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
 		int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
 		int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
-		copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
-
-		copy.setRectangle(SharedUtils.realignToGrid(copy.getRectangle(), false)); // realign location to grid (width and height should not be changed)
+		double differenceFactor = ((NewGridElement) original).getGridSize() / (((NewGridElement) copy).getGridSize() * 1.0);
+		Rectangle copyRect = copy.getRectangle();
+		int newX = (int) (copy.getRectangle().getX() + (otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff) * differenceFactor);
+		// Centering preview in other diagram
+		int newY = (int) (copy.getRectangle().getY() *	differenceFactor +
+							(paletteChooser.getOffsetHeight() + verticalScrollbarDiff) * differenceFactor +
+							(original.getRectangle().getHeight() / 2) * differenceFactor -
+							(copyRect.getHeight() / 2));
+		copyRect.setLocation(newX, newY);
+		copy.setRectangle(SharedUtils.realignToGrid(copyRect, false)); // realign location to grid (width and height should not be changed)
 		return copy;
 	}
 
@@ -203,7 +210,7 @@ public class DrawPanelPalette extends DrawPanel {
 				draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 				List<GridElement> draggedGridElementAsList = new ArrayList<>();
 				draggedGridElementAsList.add(draggedGridElement);
-				handlePreviewDisplayInstantiated(dragStart, diffX, diffY, isShiftKeyDown, firstDrag, draggedGridElementAsList);
+				handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 			}
 			else if (!selector.isLassoActive()) { // if != 1 elements are selected, move them
 				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
@@ -245,7 +252,7 @@ public class DrawPanelPalette extends DrawPanel {
 				for (GridElement e : elementsToPreview) {
 					elementsToMove.add(gridElementCopyInOtherDiagram(e));
 				}
-				otherDrawDiagramFocusPanel.setDisplayingPreviewElementInstantiated(elementsToMove);
+				otherDrawDiagramFocusPanel.setDisplayingPreviewElementInstantiated(elementsToMove, ((NewGridElement) elementsToPreview.get(0)).getGridSize());
 			}
 			else {
 				// if cursor is dragged back, preview must be removed
@@ -264,7 +271,7 @@ public class DrawPanelPalette extends DrawPanel {
 					for (GridElement e : selector.getSelectedElements()) {
 						elementsToMove.add(gridElementCopyInOtherDiagram(e));
 					}
-					otherDrawDiagramFocusPanel.initializeDisplayingPreviewElements(elementsToMove);
+					otherDrawDiagramFocusPanel.initializeDisplayingPreviewElements(elementsToMove, diagram.getZoomLevel());
 				}
 				else {
 					otherDrawDiagramFocusPanel.updateDisplayingPreviewElements(diffX, diffY, firstDrag);
