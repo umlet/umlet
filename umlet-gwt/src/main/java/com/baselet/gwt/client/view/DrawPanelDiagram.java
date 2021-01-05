@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.GridElementUtils;
+import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.DiagramXmlParser;
@@ -34,19 +34,19 @@ public class DrawPanelDiagram extends DrawPanel {
 		if (ge != null) {
 			GridElement e = ElementFactoryGwt.create(ge, getDiagram());
 			e.setProperty(GroupFacet.KEY, null);
-			e.setLocationDifference(SharedConstants.DEFAULT_GRID_SIZE, SharedConstants.DEFAULT_GRID_SIZE);
-			commandInvoker.addElements(this, Arrays.asList(e));
+			e.setLocationDifference(getGridSize(), getGridSize());
+			commandInvoker.addElements(this, Arrays.asList(e), ((NewGridElement)ge).getGridSize());
 		}
 	}
 
-	public void initializeDisplayingPreviewElements(List<GridElement> previewElements) {
+	public void initializeDisplayingPreviewElements(List<GridElement> previewElements, int oldZoomLevel) {
 		if (currentPreviewElements == null) {
 			if (previewElements != null) {
-				commandInvoker.addElementsDontNotifyUpdate(this, previewElements);
+				commandInvoker.addElementsDontNotifyUpdate(this, previewElements, oldZoomLevel);
 			}
 			currentPreviewElements = previewElements;
 		}
-		this.redraw(false);
+		this.redraw(true);
 	}
 
 	@Override
@@ -90,10 +90,10 @@ public class DrawPanelDiagram extends DrawPanel {
 	}
 
 	/* displays a preview object by newly creating a copy. destroys and overrides old copy preview object if one was available. a preview will stay visible until this method is called with (null) as argument or RemoveOldPreview() is called should not be used for multiple objects, due to performance */
-	public void setDisplayingPreviewElementInstantiated(List<GridElement> previewElements) {
+	public void setDisplayingPreviewElementInstantiated(List<GridElement> previewElements, int oldZoomLevel) {
 		removeOldPreview();
-		if (previewElements != null) {
-			addGridElementsDontNotifyUpdate(previewElements);
+		if (previewElements != null && previewElements.size() > 0) {
+			addGridElementsDontNotifyUpdate(previewElements, oldZoomLevel);
 		}
 		currentPreviewElementsInstantiated = previewElements;
 	}
@@ -143,6 +143,10 @@ public class DrawPanelDiagram extends DrawPanel {
 		redraw();
 	}
 
+	public List<GridElement> getPreviewElements() {
+		return currentPreviewElements;
+	}
+
 	/* removes old previews for both instantiated and regular preview variants */
 	public void removeOldPreview() {
 		// regular
@@ -169,13 +173,13 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	// Whenever elements are updated (added, moved/deformed, removed, edited in the properties panel), visual studio code must be informed and update with the newest file
 	@Override
-	public void addGridElements(List<GridElement> elements) {
-		super.addGridElements(elements);
+	public void addGridElements(List<GridElement> elements, int oldZoomLevel) {
+		super.addGridElements(elements, oldZoomLevel);
 		handleFileUpdate();
 	}
 
-	public void addGridElementsDontNotifyUpdate(List<GridElement> elements) {
-		super.addGridElements(elements);
+	public void addGridElementsDontNotifyUpdate(List<GridElement> elements, int oldZoomLevel) {
+		super.addGridElements(elements, oldZoomLevel);
 	}
 
 	@Override

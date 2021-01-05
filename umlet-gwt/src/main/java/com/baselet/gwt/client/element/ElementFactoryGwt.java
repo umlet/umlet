@@ -21,7 +21,12 @@ public class ElementFactoryGwt extends ElementFactory {
 
 			@Override
 			public int getGridSize() {
-				return SharedConstants.DEFAULT_GRID_SIZE; // GWT doesnt use own zoom implementation but relies on browser zoom
+				if (diagram != null) {
+					return diagram.getZoomLevel();
+				}
+				else {
+					return SharedConstants.DEFAULT_GRID_SIZE;
+				}
 			}
 
 			@Override

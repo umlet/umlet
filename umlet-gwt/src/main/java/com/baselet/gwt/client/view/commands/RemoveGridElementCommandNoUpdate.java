@@ -30,7 +30,7 @@ public class RemoveGridElementCommandNoUpdate extends RemoveGridElementCommand {
 	public void undo() {
 		if (target instanceof DrawPanelDiagram) {
 			DrawPanelDiagram targetAsDPD = (DrawPanelDiagram) target;
-			targetAsDPD.addGridElementsDontNotifyUpdate(elements);
+			targetAsDPD.addGridElementsDontNotifyUpdate(elements, target.getDiagram().getZoomLevel());
 		}
 		else {
 			super.undo();

@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.baselet.control.config.SharedConfig;
+import com.baselet.control.constants.SharedConstants;
+import com.baselet.element.NewGridElement;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.relation.Relation;
@@ -34,6 +36,7 @@ public class DiagramGwt implements Diagram {
 
 	private String helpText;
 	private final List<GridElement> gridElements;
+	private int zoomLevel;
 
 	public DiagramGwt(List<GridElement> gridElements) {
 		this(null, gridElements);
@@ -43,6 +46,7 @@ public class DiagramGwt implements Diagram {
 		super();
 		this.helpText = helpText;
 		this.gridElements = gridElements;
+		this.zoomLevel = gridElements.size() > 0 ? ((NewGridElement) gridElements.get(0)).getGridSize() : SharedConstants.DEFAULT_GRID_SIZE;
 	}
 
 	@Override
@@ -94,6 +98,16 @@ public class DiagramGwt implements Diagram {
 			Collections.sort(list, LAYER_COMPARATOR_DESCENDING);
 		}
 		return list;
+	}
+
+	@Override
+	public int getZoomLevel() {
+		return zoomLevel;
+	}
+
+	@Override
+	public void setZoomLevel(int zoomLevel) {
+		this.zoomLevel = zoomLevel;
 	}
 
 	@Override

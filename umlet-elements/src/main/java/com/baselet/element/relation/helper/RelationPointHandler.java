@@ -192,6 +192,10 @@ public class RelationPointHandler implements ResizableObject {
 		}
 	}
 
+	public List<RelationPoint> getRelationPoints() {
+		return points.getPointHolders();
+	}
+
 	@Override
 	public void setPointMinSize(int index, Rectangle size) {
 		size = SharedUtils.realignToGrid(size, true);

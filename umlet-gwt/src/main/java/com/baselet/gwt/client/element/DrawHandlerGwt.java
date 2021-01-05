@@ -3,6 +3,7 @@ package com.baselet.gwt.client.element;
 import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
@@ -32,6 +33,8 @@ public class DrawHandlerGwt extends DrawHandler {
 
 	private double scalingFactor;
 	private boolean scalingIsSet;
+
+	private double zoomFactor = SharedConstants.DEFAULT_GRID_SIZE / 10.0;
 
 	public DrawHandlerGwt(Context2dWrapper context2d, double scaling) {
 		ctx = context2d;
@@ -76,13 +79,13 @@ public class DrawHandlerGwt extends DrawHandler {
 				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
 
-				double centerX = (int) (x + width / 2) + HALF_PX;
-				double centerY = (int) (y + height / 2) + HALF_PX;
+				double centerX = (int) (x * zoomFactor + width * zoomFactor / 2) + HALF_PX;
+				double centerY = (int) (y * zoomFactor + height * zoomFactor / 2) + HALF_PX;
 
 				ctx.save();
 				// translate the arc and don't use the center parameters because they are affected by scaling
 				ctx.translate(centerX, centerY);
-				ctx.scale(1, height / width);
+				ctx.scale(1, (height * zoomFactor) / (width * zoomFactor));
 				if (ctx instanceof Context2dGwtWrapper) { // PDF resets sub-paths on moveTo, therefore we need to draw closed arcs ourselves
 					if (open) { // if arc should be open, move before the path begins
 						ctx.beginPath();
@@ -91,7 +94,7 @@ public class DrawHandlerGwt extends DrawHandler {
 						ctx.beginPath();
 						ctx.moveTo(0, 0);
 					}
-					ctx.arc(0, 0, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+					ctx.arc(0, 0, width * zoomFactor / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
 					if (!open) { // close path only if arc is not open and not PDF
 						ctx.closePath();
 					}
@@ -101,11 +104,11 @@ public class DrawHandlerGwt extends DrawHandler {
 				}
 				else {
 					if (open) {
-						ctx.arc(0, 0, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+						ctx.arc(0, 0, width * zoomFactor / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
 					}
 					else {
 						ctx.moveTo(0, 0);
-						ctx.arc(0, 0, width / 2, -Math.toRadians(start), -(Math.toRadians(start + extent)), true);
+						ctx.arc(0, 0, width * zoomFactor / 2, -Math.toRadians(start), -(Math.toRadians(start + extent)), true);
 						ctx.lineTo(0, 0);
 						ctx.closePath();
 					}
@@ -126,7 +129,7 @@ public class DrawHandlerGwt extends DrawHandler {
 				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
 				ctx.beginPath();
-				ctx.arc((int) x + HALF_PX, (int) y + HALF_PX, radius, 0, 2 * Math.PI);
+				ctx.arc((int) x * zoomFactor + HALF_PX, (int) y * zoomFactor + HALF_PX, radius * zoomFactor, 0, 2 * Math.PI);
 				fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
 			}
 		});
@@ -140,7 +143,7 @@ public class DrawHandlerGwt extends DrawHandler {
 			public void run() {
 				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
-				drawEllipseHelper(ctx, styleAtDrawingCall.getLineWidth() > 0, (int) x + HALF_PX, (int) y + HALF_PX, width, height);
+				drawEllipseHelper(ctx, styleAtDrawingCall.getLineWidth() > 0, (int) x * zoomFactor + HALF_PX, (int) y * zoomFactor + HALF_PX, width * zoomFactor, height * zoomFactor);
 			}
 		});
 	}
@@ -152,9 +155,16 @@ public class DrawHandlerGwt extends DrawHandler {
 			addDrawable(new DrawFunction() {
 				@Override
 				public void run() {
+					PointDouble[] pointsCopy = new PointDouble[points.length];
+					for (int i = 0; i < points.length; i++) {
+						PointDouble point = points[i].copy();
+						point.x = point.getX() * zoomFactor;
+						point.y = point.getY() * zoomFactor;
+						pointsCopy[i] = point;
+					}
 					setScalingOnce();
 					setStyle(ctx, styleAtDrawingCall);
-					drawLineHelper(styleAtDrawingCall.getLineWidth() > 0, points);
+					drawLineHelper(styleAtDrawingCall.getLineWidth() > 0, pointsCopy);
 				}
 			});
 		}
@@ -169,7 +179,7 @@ public class DrawHandlerGwt extends DrawHandler {
 				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
 				ctx.beginPath();
-				ctx.rect((int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height);
+				ctx.rect((int) x * zoomFactor + HALF_PX, (int) y * zoomFactor + HALF_PX, (int) (width * zoomFactor), (int) (height * zoomFactor));
 				fill(ctx, styleAtDrawingCall.getLineWidth() > 0);
 			}
 		});
@@ -183,7 +193,7 @@ public class DrawHandlerGwt extends DrawHandler {
 			public void run() {
 				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
-				drawRoundRectHelper(ctx, styleAtDrawingCall.getLineWidth() > 0, (int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height, radius);
+				drawRoundRectHelper(ctx, styleAtDrawingCall.getLineWidth() > 0, (int) x * zoomFactor + HALF_PX, (int) y * zoomFactor + HALF_PX, (int) width * zoomFactor, (int) height * zoomFactor, radius * zoomFactor);
 			}
 		});
 	}
@@ -195,11 +205,13 @@ public class DrawHandlerGwt extends DrawHandler {
 			@Override
 			public void run() {
 				setScalingOnce();
-				PointDouble pToDraw = point;
+				PointDouble pToDraw = point.copy();
+				pToDraw.x = pToDraw.getX() * zoomFactor;
+				pToDraw.y = pToDraw.getY() * zoomFactor;
 				ColorOwn fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : styleAtDrawingCall.getForegroundColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
 				for (StringStyle line : text) {
-					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
+					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize() * zoomFactor);
 					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY() + textHeightMax());
 				}
 			}
@@ -226,7 +238,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		if (line.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
-			double textWidth = textWidth(line);
+			double textWidth = textWidth(line) * zoomFactor;
 			int vDist = 1;
 			switch (align) {
 				case LEFT:
@@ -370,5 +382,13 @@ public class DrawHandlerGwt extends DrawHandler {
 				ctx.stroke();
 			}
 		}
+	}
+
+	public double getZoomFactor() {
+		return zoomFactor;
+	}
+
+	public void setZoomFactor(double zoomFactor) {
+		this.zoomFactor = zoomFactor;
 	}
 }

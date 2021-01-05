@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.baselet.command.CommandTarget;
+import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.SharedConfig;
@@ -30,8 +31,11 @@ import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.clipboard.ClipboardShortcutWrapper;
 import com.baselet.gwt.client.element.DiagramGwt;
+import com.baselet.gwt.client.element.DrawHandlerGwt;
 import com.baselet.gwt.client.file.FileChangeNotifier;
 import com.baselet.gwt.client.keyboard.Shortcut;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
 import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
@@ -51,10 +55,13 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget, ThemeChangeListener {
+
+	private static final CustomLogger log = CustomLoggerFactory.getLogger(DrawPanel.class);
 
 	protected Diagram diagram = new DiagramGwt(new ArrayList<GridElement>());
 
@@ -110,7 +117,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	/* Changes the coordinates of GridElement e so that it is in the top left of targetPanel */
 	public static void snapElementToVisibleTopLeft(GridElement e, DrawPanel targetPanel) {
-		snapElementToVisibleTopLeft(e, targetPanel, SharedConstants.DEFAULT_GRID_SIZE, SharedConstants.DEFAULT_GRID_SIZE);
+		int gridSize = targetPanel.getDiagram().getZoomLevel();
+		snapElementToVisibleTopLeft(e, targetPanel, gridSize, gridSize);
 	}
 
 	/* Changes the coordinates of GridElement e so that it is in the top left of targetPanel, with offset */
@@ -124,7 +132,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		int xOffset = targetPanel.getVisibleBounds().x + targetPanel.getAbsoluteLeft();
 		int yOffset = targetPanel.getVisibleBounds().y + targetPanel.getAbsoluteTop();
 
-		snapElementsToPointPosition(elementList, targetPanel, new Point(xOffset + SharedConstants.DEFAULT_GRID_SIZE, yOffset + SharedConstants.DEFAULT_GRID_SIZE));
+		int gridSize = targetPanel.getDiagram().getZoomLevel();
+
+		snapElementsToPointPosition(elementList, targetPanel, new Point(xOffset + gridSize, yOffset + gridSize));
 	}
 
 	/* Changes the coordinates of GridElement in the elementList so that they match a point point coordinates must be absolute, not in draw panel coordinates, but the method accounts for a scrolled drawPanel */
@@ -150,11 +160,12 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			}
 		}
 
+		int gridSize = targetPanel.getDiagram().getZoomLevel();
 		// Snap paste position to grid
-		int remX = point.getX() % SharedConstants.DEFAULT_GRID_SIZE;
-		int remY = point.getY() % SharedConstants.DEFAULT_GRID_SIZE;
-		point.setX(remX >= SharedConstants.DEFAULT_GRID_SIZE / 2 ? point.getX() - remX + SharedConstants.DEFAULT_GRID_SIZE : point.getX() - remX);
-		point.setY(remY >= SharedConstants.DEFAULT_GRID_SIZE / 2 ? point.getY() - remY + SharedConstants.DEFAULT_GRID_SIZE : point.getY() - remY);
+		int remX = point.getX() % gridSize;
+		int remY = point.getY() % gridSize;
+		point.setX(remX >= gridSize / 2 ? point.getX() - remX + gridSize : point.getX() - remX);
+		point.setY(remY >= gridSize / 2 ? point.getY() - remY + gridSize : point.getY() - remY);
 
 		// snap all elements to point, but relative to the pivot
 		for (GridElement e : elementList) {
@@ -252,6 +263,71 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		dragEndAndRedraw(gridElements);
 
 		// redraw(true, true);
+	}
+
+	public void setGridAndZoom(int factor, boolean manualZoom, Point position) {
+		Diagram diagram = getDiagram();
+		int oldGridSize = diagram.getZoomLevel();
+
+		if (factor < 1 || factor > 20) {
+			return; // Only zoom between 10% and 200% is allowed
+		}
+		if (factor == oldGridSize) {
+			return; // Only zoom if gridsize has changed
+		}
+
+		diagram.setZoomLevel(factor);
+
+		/**
+		 * Zoom entities to the new gridsize
+		 */
+		zoomEntities(oldGridSize, factor, getDiagram().getGridElements());
+
+		/**
+		 * The zoomed diagram will shrink to the upper left corner and grow to the lower right
+		 * corner but we want to have the zoom center in the middle of the actual visible drawpanel
+		 * so we have to change the coordinates of the entities again
+		 */
+		if (manualZoom) {
+			float x = position.x;
+			float y = position.y;
+
+			float diffx, diffy;
+			diffx = x - x * factor / oldGridSize;
+			diffy = y - y * factor / oldGridSize;
+
+			for (GridElement e : getDiagram().getGridElements()) {
+				e.setLocationDifference(realignToGrid(diffx), realignToGrid(diffy));
+			}
+
+			/* BaseGUI gui = CurrentGui.getInstance().getGui(); if (gui != null) { gui.setValueOfZoomDisplay(factor); } float zoomFactor = CurrentDiagram.getInstance().getDiagramHandler().getZoomFactor() * 100; String zoomtext; if (CurrentDiagram.getInstance().getDiagramHandler() instanceof PaletteHandler) { zoomtext = "Palette zoomed to " + Integer.toString((int) zoomFactor) + "%"; } else { zoomtext = "Diagram zoomed to " + Integer.toString((int) zoomFactor) + "%"; } Notifier.getInstance().showInfo(zoomtext); */
+		}
+		redraw(true);
+	}
+
+	private int realignToGrid(float diff) {
+		return SharedUtils.realignTo(false, diff, false, getDiagram().getZoomLevel());
+	}
+
+	public static void zoomEntities(int fromFactor, int toFactor, List<GridElement> selectedEntities) {
+
+		/**
+		 * The entities must be resized to the new factor
+		 */
+		for (GridElement entity : selectedEntities) {
+			Rectangle oldRect = entity.getRectangle();
+			int newX = oldRect.getX() * toFactor / fromFactor;
+			int newY = oldRect.getY() * toFactor / fromFactor;
+			int newW = oldRect.getWidth() * toFactor / fromFactor;
+			int newH = oldRect.getHeight() * toFactor / fromFactor;
+			oldRect.setBounds((int) GridElementUtils.realignTo(newX, toFactor), (int) GridElementUtils.realignTo(newY, toFactor), (int) GridElementUtils.realignTo(newW, toFactor), (int) GridElementUtils.realignTo(newH, toFactor));
+			entity.setRectangle(oldRect);
+
+			((DrawHandlerGwt) entity.getComponent().getDrawHandler()).setZoomFactor(toFactor / (double) SharedConstants.DEFAULT_GRID_SIZE);
+			((DrawHandlerGwt) entity.getComponent().getMetaDrawHandler()).setZoomFactor(toFactor / (double) SharedConstants.DEFAULT_GRID_SIZE);
+
+			entity.updateModelFromText();
+		}
 	}
 
 	void moveElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements) {
@@ -364,9 +440,11 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	@Override
-	public void addGridElements(List<GridElement> elements) {
+	public void addGridElements(List<GridElement> elements, int oldZoomLevel) {
+		zoomEntities(oldZoomLevel, getGridSize(), elements);
 		diagram.getGridElements().addAll(elements);
 		selector.selectOnly(elements);
+		redraw(true);
 	}
 
 	@Override
@@ -545,22 +623,31 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			mainView.getSaveCommand().execute();
 		}
 		else if (Shortcut.MOVE_UP.matches(event)) {
-			keyboardMoveSelectedElements(0, -SharedConstants.DEFAULT_GRID_SIZE);
+			keyboardMoveSelectedElements(0, -diagram.getZoomLevel());
 		}
 		else if (Shortcut.MOVE_DOWN.matches(event)) {
-			keyboardMoveSelectedElements(0, SharedConstants.DEFAULT_GRID_SIZE);
+			keyboardMoveSelectedElements(0, diagram.getZoomLevel());
 		}
 		else if (Shortcut.MOVE_LEFT.matches(event)) {
-			keyboardMoveSelectedElements(-SharedConstants.DEFAULT_GRID_SIZE, 0);
+			keyboardMoveSelectedElements(-diagram.getZoomLevel(), 0);
 		}
 		else if (Shortcut.MOVE_RIGHT.matches(event)) {
-			keyboardMoveSelectedElements(SharedConstants.DEFAULT_GRID_SIZE, 0);
+			keyboardMoveSelectedElements(diagram.getZoomLevel(), 0);
 		}
 		else if (Shortcut.DISABLE_STICKING.matches(event)) {
 			SharedConfig.getInstance().setStickingEnabled(false);
 		}
-		else if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB) {
+		else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB) {
 			// Don't do anything on TAB key down
+		}
+		else if (Shortcut.ZOOM_IN.matches(event)) {
+			setGridAndZoom(getDiagram().getZoomLevel() + 1, true, new Point());
+		}
+		else if (Shortcut.ZOOM_OUT.matches(event)) {
+			setGridAndZoom(getDiagram().getZoomLevel() - 1, true, new Point());
+		}
+		else if (Shortcut.ZOOM_RESET.matches(event)) {
+			setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, true, new Point());
 		}
 		else {
 			avoidBrowserDefault = false;
@@ -572,13 +659,22 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 	}
 
-    public static native void clearSelection() /*-{
-        if (window.getSelection) {
-            window.getSelection().removeAllRanges();
-        } else if (document.selection) {
-            document.selection.empty();
-        }
-    }-*/;
+	@Override
+	public void onMouseWheelZoom(MouseWheelEvent event) {
+		if (event.isControlKeyDown()) {
+			event.stopPropagation();
+			event.preventDefault();
+			setGridAndZoom(event.isNorth() ? getDiagram().getZoomLevel() + 1 : getDiagram().getZoomLevel() - 1, true, new Point(event.getX(), event.getY()));
+		}
+	}
+
+	public static native void clearSelection() /*-{
+		if (window.getSelection) {
+			window.getSelection().removeAllRanges();
+		} else if (document.selection) {
+			document.selection.empty();
+		}
+	}-*/;
 
 	@Override
 	public void handleKeyUp(KeyUpEvent event) {
@@ -620,5 +716,10 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		elementItems.addAll(getStandardAdditionalElementMenuItems());
 		diagramContextMenu = new MenuPopup(diagramItems);
 		elementContextMenu = new MenuPopup(elementItems);
+	}
+
+	@Override
+	public int getGridSize() {
+		return diagram.getZoomLevel();
 	}
 }

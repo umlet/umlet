@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.WebStorage;
 import com.google.gwt.core.client.Scheduler;
@@ -31,6 +30,8 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchEvent;
@@ -68,6 +69,8 @@ public class EventHandlingUtils {
 
 		void onShowMenu(Point p);
 
+		void onMouseWheelZoom(MouseWheelEvent event);
+
 		Rectangle getVisibleBounds();
 
 		int getAbsoluteLeft();
@@ -79,6 +82,8 @@ public class EventHandlingUtils {
 		GridElement getGridElementOnPosition(Point p);
 
 		Element getElement();
+
+		int getGridSize();
 
 	}
 
@@ -265,6 +270,13 @@ public class EventHandlingUtils {
 			}
 		}));
 
+		storage.nonTouchHandlers.add(handlerTarget.addMouseWheelHandler(new MouseWheelHandler() {
+			@Override
+			public void onMouseWheel(MouseWheelEvent event) {
+				storage.activePanel.onMouseWheelZoom(event);
+			}
+		}));
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -307,8 +319,19 @@ public class EventHandlingUtils {
 			Point p = getPoint(storage.activePanel, event);
 			int diffX = p.x - storage.moveStart.getX();
 			int diffY = p.y - storage.moveStart.getY();
-			diffX -= diffX % SharedConstants.DEFAULT_GRID_SIZE;
-			diffY -= diffY % SharedConstants.DEFAULT_GRID_SIZE;
+
+			if (panel instanceof DrawPanelPalette) {
+				DrawPanelPalette currentPanel = ((DrawPanelPalette) panel);
+				// If preview is displayed we need to use the correct grid size for calculating the diffs
+				if (((DrawPanelDiagram) currentPanel.otherDrawFocusPanel).currentlyDisplayingPreview()) {
+					diffX -= diffX % ((DrawPanelPalette) panel).otherDrawFocusPanel.getGridSize();
+					diffY -= diffY % ((DrawPanelPalette) panel).otherDrawFocusPanel.getGridSize();
+				}
+			}
+			else {
+				diffX -= diffX % panel.getGridSize();
+				diffY -= diffY % panel.getGridSize();
+			}
 			if (diffX != 0 || diffY != 0) {
 				panel.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), storage.dragging == DragStatus.FIRST);
 				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS

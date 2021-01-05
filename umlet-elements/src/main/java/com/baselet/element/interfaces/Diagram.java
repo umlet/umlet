@@ -8,14 +8,18 @@ import com.baselet.element.sticking.StickableMap;
 
 public interface Diagram extends HasPanelAttributes, HasGridElements {
 
-	public abstract List<Stickable> getStickables();
+	List<Stickable> getStickables();
 
-	public abstract StickableMap getStickables(GridElement draggedElement);
+	StickableMap getStickables(GridElement draggedElement);
 
-	public abstract StickableMap getStickables(GridElement draggedElement, Collection<GridElement> excludeList);
+	StickableMap getStickables(GridElement draggedElement, Collection<GridElement> excludeList);
 
-	public abstract List<GridElement> getGridElementsByLayerLowestToHighest();
+	List<GridElement> getGridElementsByLayerLowestToHighest();
 
-	public abstract List<GridElement> getGridElementsByLayer(boolean ascending);
+	List<GridElement> getGridElementsByLayer(boolean ascending);
+
+	int getZoomLevel();
+
+	void setZoomLevel(int zoomLevel);
 
 }

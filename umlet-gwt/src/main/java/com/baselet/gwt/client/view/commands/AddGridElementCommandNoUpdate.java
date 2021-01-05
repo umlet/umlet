@@ -10,15 +10,15 @@ import com.baselet.gwt.client.view.DrawPanelDiagram;
 // Update Command which will not trigger that the diagram was updated for vscode
 // supposed to be used with DrawPanelDiagram
 public class AddGridElementCommandNoUpdate extends AddGridElementCommand {
-	public AddGridElementCommandNoUpdate(CommandTarget target, List<GridElement> elements) {
-		super(target, elements);
+	public AddGridElementCommandNoUpdate(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
+		super(target, elements, oldZoomLevel);
 	}
 
 	@Override
 	public void execute() {
 		if (target instanceof DrawPanelDiagram) {
 			DrawPanelDiagram targetAsDPD = (DrawPanelDiagram) target;
-			targetAsDPD.addGridElementsDontNotifyUpdate(elements);
+			targetAsDPD.addGridElementsDontNotifyUpdate(elements, oldZoomLevel);
 		}
 		else {
 			super.execute();

@@ -12,6 +12,7 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.GridElementUtils;
+import com.baselet.element.NewGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
@@ -33,25 +34,25 @@ public class CommandInvoker extends Controller {
 		super();
 	}
 
-	void addElements(CommandTarget target, List<GridElement> elements) {
-		executeCommand(new AddGridElementCommand(target, elements));
+	void addElements(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
+		executeCommand(new AddGridElementCommand(target, elements, oldZoomLevel));
 	}
 
 	// adds elements but does not notify vs code that anything is changed
-	void addElementsDontNotifyUpdate(CommandTarget target, List<GridElement> elements) {
-		executeCommand(new AddGridElementCommandDontNotifyUpdate(target, elements));
+	void addElementsDontNotifyUpdate(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
+		executeCommand(new AddGridElementCommandDontNotifyUpdate(target, elements, oldZoomLevel));
 	}
 
 	private static class AddGridElementCommandDontNotifyUpdate extends AddGridElementCommand {
 
-		public AddGridElementCommandDontNotifyUpdate(CommandTarget target, List<GridElement> elements) {
-			super(target, elements);
+		public AddGridElementCommandDontNotifyUpdate(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
+			super(target, elements, oldZoomLevel);
 		}
 
 		@Override
 		public void execute() {
 			if (target instanceof DrawPanelDiagram) {
-				((DrawPanelDiagram) target).addGridElementsDontNotifyUpdate(elements);
+				((DrawPanelDiagram) target).addGridElementsDontNotifyUpdate(elements, oldZoomLevel);
 			}
 			else {
 				super.execute();
@@ -77,8 +78,8 @@ public class CommandInvoker extends Controller {
 	 used to add an element without triggering VSCode being notified about the diagram change
 	 used to add preview Elements
 	 */
-	void addElementsNoUpdate(CommandTarget target, List<GridElement> elements) {
-		executeCommand(new AddGridElementCommandNoUpdate(target, elements));
+	void addElementsNoUpdate(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
+		executeCommand(new AddGridElementCommandNoUpdate(target, elements, oldZoomLevel));
 	}
 
 	/*
@@ -119,7 +120,8 @@ public class CommandInvoker extends Controller {
 			DrawPanel.snapElementsToVisibleTopLeft(copyOfElements, targetDrawPanel);
 		}
 
-		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
+		int oldZoomLevel = copyOfElements.size() > 0 ? ((NewGridElement) copyOfElements.get(0)).getGridSize() : SharedConstants.DEFAULT_GRID_SIZE;
+		addElements(target, copyOfElements, oldZoomLevel); // copy here to make sure it can be pasted multiple times
 	}
 
 	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements, Diagram targetDiagram) {
@@ -135,7 +137,7 @@ public class CommandInvoker extends Controller {
 		Rectangle rect = GridElementUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {
-			ge.getRectangle().move(visible.getX() - rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY() - rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);
+			ge.getRectangle().move(visible.getX() - rect.getX() + target.getDiagram().getZoomLevel(), visible.getY() - rect.getY() + target.getDiagram().getZoomLevel());
 		}
 	}
 
