@@ -1,2 +1,0 @@
-The palettes are copied from umlet-res during the maven build.
-Therefore the uxf files in this package should not be changed!
