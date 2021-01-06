@@ -11,6 +11,7 @@ pipeline {
       steps {
         sh 'echo aaaa'
         sh 'java -version'
+        sh 'mvn -v'
         sh 'mvn -B -DskipTests clean package'
       }
     }
