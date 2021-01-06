@@ -1,0 +1,11 @@
+Double-click on an element to add it to the diagram (or use drag&drop)
+
+<Import> uxf Files using the Menu or simply drag them into the diagram
+<Export> diagrams to Standalone-UMLet-compatible uxf or png
+<Save> diagrams to persistent browser storage
+
+Only new elements work in standalone and web umlet
+
+Please report bugs at https://github.com/umlet/umlet/
+
+halign=center

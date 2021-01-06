@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <type>com.umlet.element.SequenceDiagram</type>
+    <coordinates>
+      <x>16</x>
+      <y>16</y>
+      <w>304</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>title: sample
+_alpha:A~id1_|_beta:B~id2_|_gamma:G~id3_
+id1-&gt;&gt;id2:id1,id2
+id2-/&gt;id1:async Msg.
+id3-&gt;&gt;&gt;id1:id1,id3
+id1.&gt;id3:id1,id3:async return Msg
+id1-&gt;id1:id1:self
+iframe{:interaction frame
+id2-&gt;id3:id1,id3:async Msg.
+iframe}</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
