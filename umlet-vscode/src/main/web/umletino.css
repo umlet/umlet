@@ -131,3 +131,19 @@
     border: 2px solid #bbb !important;
     border-radius: 5px !important;
 }
+
+.gwt-PopupPanel {
+    border: 2px solid #bbb !important;
+    border-radius: 5px !important;
+    padding: 5px !important;
+}
+
+.notificationPopup.light {
+    background-color: white !important;
+    color: black !important;
+}
+
+.notificationPopup.dark {
+    background-color: #555 !important;
+    color: white !important;
+}
