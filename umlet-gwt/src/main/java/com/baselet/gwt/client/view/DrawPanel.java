@@ -28,14 +28,13 @@ import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.base.Converter;
+import com.baselet.gwt.client.base.NotificationPopup;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.clipboard.ClipboardShortcutWrapper;
 import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.element.DrawHandlerGwt;
 import com.baselet.gwt.client.file.FileChangeNotifier;
 import com.baselet.gwt.client.keyboard.Shortcut;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
 import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
@@ -60,8 +59,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget, ThemeChangeListener {
-
-	private static final CustomLogger log = CustomLoggerFactory.getLogger(DrawPanel.class);
 
 	protected Diagram diagram = new DiagramGwt(new ArrayList<GridElement>());
 
@@ -97,6 +94,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	private Boolean focus = false;
 
 	protected final FileChangeNotifier fileChangeNotifier;
+
+	private final NotificationPopup notificationPopup;
 
 	@Override
 	public void setFocus(boolean focus) {
@@ -197,6 +196,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		fileChangeNotifier = GWT.create(FileChangeNotifier.class);
 
 		ThemeFactory.addListener(this);
+		notificationPopup = new NotificationPopup();
 	}
 
 	protected List<MenuPopupItem> getStandardAdditionalElementMenuItems() {
@@ -283,11 +283,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		 */
 		zoomEntities(oldGridSize, factor, getDiagram().getGridElements());
 
-		/**
-		 * The zoomed diagram will shrink to the upper left corner and grow to the lower right
-		 * corner but we want to have the zoom center in the middle of the actual visible drawpanel
-		 * so we have to change the coordinates of the entities again
-		 */
+		// Zoom to mouse position if available
 		if (manualZoom) {
 			float x = position.x;
 			float y = position.y;
@@ -299,8 +295,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			for (GridElement e : getDiagram().getGridElements()) {
 				e.setLocationDifference(realignToGrid(diffx), realignToGrid(diffy));
 			}
-
-			/* BaseGUI gui = CurrentGui.getInstance().getGui(); if (gui != null) { gui.setValueOfZoomDisplay(factor); } float zoomFactor = CurrentDiagram.getInstance().getDiagramHandler().getZoomFactor() * 100; String zoomtext; if (CurrentDiagram.getInstance().getDiagramHandler() instanceof PaletteHandler) { zoomtext = "Palette zoomed to " + Integer.toString((int) zoomFactor) + "%"; } else { zoomtext = "Diagram zoomed to " + Integer.toString((int) zoomFactor) + "%"; } Notifier.getInstance().showInfo(zoomtext); */
+			notificationPopup.hide();
+			notificationPopup.show("Diagram zoomed to " + factor * 10 + "%", this);
 		}
 		redraw(true);
 	}
