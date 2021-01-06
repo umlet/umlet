@@ -41,13 +41,6 @@
 		<module>umlet-res</module>
 		<module>umlet-swing</module>
 		<module>umlet-standalone</module>
-		<module>umlet-eclipse-plugin-deps</module>
-		<module>umlet-eclipse-plugin</module>
-		<module>umlet-eclipse-feature</module>
-		<module>umlet-eclipse-p2</module>
-		<module>umlet-gwt</module>
-		<module>umlet-web</module>
-		<module>umlet-vscode</module>
 	</modules>
 
 	<dependencies>
@@ -276,50 +269,6 @@
 			<id>checks</id>
 			<build>
 				<plugins>
-					<!-- use SpotBugs to detect potential errors -->
-					<plugin>
-						<groupId>com.github.spotbugs</groupId>
-						<artifactId>spotbugs-maven-plugin</artifactId>
-						<version>3.1.8</version>
-						<executions>
-							<!-- Ensures that FindBugs inspects source code when project is compiled. -->
-							<execution>
-								<id>analyze-compile</id>
-								<phase>compile</phase>
-								<goals>
-									<goal>check</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<excludeFilterFile>${basedir}/src/main/findbugs/findbugs-exclude.xml</excludeFilterFile>
-						</configuration>
-					</plugin>
-					<!-- use animal sniffer plugin to verify that only Java APIs up to a specific version are used -->
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>animal-sniffer-maven-plugin</artifactId>
-						<version>1.16</version>
-						<executions>
-							<execution>
-								<id>check-java-api</id>
-								<phase>test</phase>
-								<goals>
-									<goal>check</goal>
-								</goals>
-								<configuration>
-									<signature>
-										<groupId>org.codehaus.mojo.signature</groupId>
-										<artifactId>${animal.sniffer.java.api}</artifactId>
-										<version>1.1</version>
-									</signature>
-<!-- 									<excludeDependencies> -->
-<!-- 										<excludeDependency>org.eclipse.jdt:ecj:*</excludeDependency> -->
-<!-- 									</excludeDependencies> -->
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 					<!-- use https://github.com/google/error-prone compiler -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -344,26 +293,6 @@
 		</profile>
 		<profile>
 			<id>release</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.10.1</version>
-						<configuration>
-							<excludePackageNames>com.baselet.element.facet.customdrawings.gen:com.baselet.element.facet.specific.sequence_aio.gen</excludePackageNames>
-						</configuration>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 		<profile>
 			<id>jdk8</id>
