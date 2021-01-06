@@ -7,14 +7,11 @@ pipeline {
 
   }
   stages {
-    stage('Build') {
-      steps {
-        sh 'echo aaaa'
-        sh 'java -version'
-        sh 'mvn -v'
-        sh 'mvn -B -DskipTests clean package'
-      }
+    stage('Build and test'){
+        bat 'mvn clean install'
     }
-
+    stage('Generate report'){
+        cucumber failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, fileIncludePattern: '**/*.json', jsonReportDirectory: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+    }
   }
 }
