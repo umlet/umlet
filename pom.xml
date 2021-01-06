@@ -38,6 +38,7 @@
 
 	<modules>
 		<module>umlet-elements</module>
+		<module>umlet-res</module>
 		<module>umlet-swing</module>
 		<module>umlet-standalone</module>
 	</modules>
