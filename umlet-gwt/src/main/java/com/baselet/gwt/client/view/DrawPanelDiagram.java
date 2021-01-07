@@ -12,8 +12,6 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 
@@ -22,8 +20,6 @@ public class DrawPanelDiagram extends DrawPanel {
 	private List<GridElement> currentPreviewElements; // previewed elements that will be displayed while dragging from palette into actual canvas
 
 	private boolean tempInvalid;
-
-	private static final CustomLogger log = CustomLoggerFactory.getLogger(DiagramXmlParser.class);
 
 	public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
 		super(mainView, propertiesPanel);
