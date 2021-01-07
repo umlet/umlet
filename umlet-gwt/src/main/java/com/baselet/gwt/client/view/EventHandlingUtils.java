@@ -332,6 +332,9 @@ public class EventHandlingUtils {
 				if (((DrawPanelDiagram) currentPanel.otherDrawFocusPanel).currentlyDisplayingPreview()) {
 					diffX -= diffX % ((DrawPanelPalette) panel).otherDrawFocusPanel.getGridSize();
 					diffY -= diffY % ((DrawPanelPalette) panel).otherDrawFocusPanel.getGridSize();
+				} else {
+					diffX -= diffX % panel.getGridSize();
+					diffY -= diffY % panel.getGridSize();
 				}
 			}
 			else {
