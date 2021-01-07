@@ -62,9 +62,9 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 				parent.outputUxfUrl = null;
 				parent.outputPngUrl = null;
 				parent.outputPdfUrl = null;
+				DiagramXmlParser.diagramToXml(true, true, diagram, parent, DownloadType.UXF);
 				int oldZoom = diagram.getZoomLevel();
 				drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
-				DiagramXmlParser.diagramToXml(true, true, diagram, parent, DownloadType.UXF);
 				CanvasUtils.createPngCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PNG);
 				CanvasUtils.createPdfCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PDF);
 				drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
