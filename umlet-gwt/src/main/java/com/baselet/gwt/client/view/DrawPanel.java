@@ -21,7 +21,6 @@ import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.GridElementUtils;
-import com.baselet.element.NewGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.CursorOwn;
