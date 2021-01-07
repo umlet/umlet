@@ -1,10 +1,9 @@
 package com.web.gwt.client.view.widgets;
 
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Program;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.element.DiagramXmlParser;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.CanvasUtils;
 import com.baselet.gwt.client.view.widgets.*;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -63,9 +62,12 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 				parent.outputUxfUrl = null;
 				parent.outputPngUrl = null;
 				parent.outputPdfUrl = null;
+				int oldZoom = diagram.getZoomLevel();
+				drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
 				DiagramXmlParser.diagramToXml(true, true, diagram, parent, DownloadType.UXF);
 				CanvasUtils.createPngCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PNG);
 				CanvasUtils.createPdfCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PDF);
+				drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
 			}
 		};
 		timer.schedule(10);
@@ -87,8 +89,11 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 						WebDownloadPopupPanel parent = WebDownloadPopupPanel.this;
 						parent.outputPngUrl = null;
 						parent.outputPdfUrl = null;
+						int oldZoom = diagram.getZoomLevel();
+						drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
 						CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling(), parent, DownloadType.PNG);
 						CanvasUtils.createPdfCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PDF);
+						drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
 					}
 				};
 				timer.schedule(2000);
@@ -111,7 +116,10 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 							filenameAndScaleHolder.setScaling(scalingValue);
 							WebDownloadPopupPanel parent = WebDownloadPopupPanel.this;
 							parent.outputPngUrl = null;
+							int oldZoom = diagram.getZoomLevel();
+							drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
 							CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling(), parent, DownloadType.PNG);
+							drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
 						}
 					};
 					timer.schedule(2000);

@@ -1,5 +1,6 @@
 package com.vscode.gwt.client.view.widgets;
 
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.logging.CustomLogger;
@@ -100,11 +101,17 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 
 	private void handleExportPng(String size) {
 		double scalingValue = Double.parseDouble(size);
+		int oldZoom = VsCodeDownloadPopupPanel.this.drawPanelDiagram.getDiagram().getZoomLevel();
+		drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
 		CanvasUtils.createPngCanvasDataUrl(drawPanelDiagram.getDiagram(), scalingValue, VsCodeDownloadPopupPanel.this, DownloadType.PNG);
+		drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
 	}
 
 	private void handleExportPdf() {
+		int oldZoom = drawPanelDiagram.getDiagram().getZoomLevel();
+		drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
 		CanvasUtils.createPdfCanvasDataUrl(drawPanelDiagram.getDiagram(), VsCodeDownloadPopupPanel.this, DownloadType.PDF);
+		drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
 	}
 
 	private native void initListener() /*-{
