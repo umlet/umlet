@@ -273,7 +273,13 @@ public class EventHandlingUtils {
 		storage.nonTouchHandlers.add(handlerTarget.addMouseWheelHandler(new MouseWheelHandler() {
 			@Override
 			public void onMouseWheel(MouseWheelEvent event) {
-				storage.activePanel.onMouseWheelZoom(event);
+				if (storage.activePanel != null) {
+					storage.activePanel.onMouseWheelZoom(event);
+				}
+				else {
+					event.preventDefault();
+					event.stopPropagation();
+				}
 			}
 		}));
 
