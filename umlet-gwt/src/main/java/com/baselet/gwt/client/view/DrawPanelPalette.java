@@ -82,6 +82,7 @@ public class DrawPanelPalette extends DrawPanel {
 			}
 		});
 		onThemeChange();
+		redraw(true);
 		ThemeFactory.addListener(this);
 	}
 
@@ -91,7 +92,6 @@ public class DrawPanelPalette extends DrawPanel {
 			diagram = DiagramXmlParser.xmlToDiagram(res.getText());
 			paletteCache.put(res, diagram);
 		}
-		zoomEntities(SharedConstants.DEFAULT_GRID_SIZE, diagram.getZoomLevel(), diagram.getGridElements());
 		return diagram;
 	}
 

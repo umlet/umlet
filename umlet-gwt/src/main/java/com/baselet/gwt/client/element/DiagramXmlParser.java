@@ -82,12 +82,10 @@ public class DiagramXmlParser {
 
 			diagram = new DiagramGwt(helpText, new ArrayList<GridElement>());
 
-			float zoomScale = 1.0f;
 			Node zoomElement = messageDom.getElementsByTagName(ZOOM_LEVEL).item(0);
 			if (zoomElement != null) {
 				int zoomLevel = Integer.parseInt(zoomElement.getFirstChild().getNodeValue());
 				diagram.setZoomLevel(zoomLevel);
-				zoomScale = (float) zoomLevel / SharedConstants.DEFAULT_GRID_SIZE;
 			}
 
 			NodeList elements = messageDom.getElementsByTagName(ELEMENT);
@@ -109,13 +107,10 @@ public class DiagramXmlParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					if (zoomScale != 1.0f) {
-						rect.setX((int) (rect.getX() / zoomScale));
-						rect.setY((int) (rect.getY() / zoomScale));
-						rect.setWidth((int) (rect.getWidth() / zoomScale));
-						rect.setHeight((int) (rect.getHeight() / zoomScale));
-					}
 					GridElement gridElement = ElementFactoryGwt.create(id, rect, panelAttributes, additionalPanelAttributes, diagram);
+					double zoomFactor = diagram.getZoomLevel() / (double) SharedConstants.DEFAULT_GRID_SIZE;
+					((DrawHandlerGwt) gridElement.getComponent().getDrawHandler()).setZoomFactor(zoomFactor);
+					((DrawHandlerGwt) gridElement.getComponent().getMetaDrawHandler()).setZoomFactor(zoomFactor);
 					diagram.getGridElements().add(gridElement);
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);

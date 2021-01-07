@@ -21,6 +21,7 @@ import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.GridElementUtils;
+import com.baselet.element.NewGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.CursorOwn;
@@ -319,8 +320,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			oldRect.setBounds((int) GridElementUtils.realignTo(newX, toFactor), (int) GridElementUtils.realignTo(newY, toFactor), (int) GridElementUtils.realignTo(newW, toFactor), (int) GridElementUtils.realignTo(newH, toFactor));
 			entity.setRectangle(oldRect);
 
-			((DrawHandlerGwt) entity.getComponent().getDrawHandler()).setZoomFactor(toFactor / (double) SharedConstants.DEFAULT_GRID_SIZE);
-			((DrawHandlerGwt) entity.getComponent().getMetaDrawHandler()).setZoomFactor(toFactor / (double) SharedConstants.DEFAULT_GRID_SIZE);
+			double zoomFactor = toFactor / (double) SharedConstants.DEFAULT_GRID_SIZE;
+			((DrawHandlerGwt) entity.getComponent().getDrawHandler()).setZoomFactor(zoomFactor);
+			((DrawHandlerGwt) entity.getComponent().getMetaDrawHandler()).setZoomFactor(zoomFactor);
 
 			entity.updateModelFromText();
 		}
@@ -432,7 +434,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		this.diagram = diagram;
 		selector.setGridElementProvider(diagram);
 		selector.deselectAll(); // necessary to trigger setting helptext to properties
-		redraw();
+		redraw(true);
 	}
 
 	@Override
