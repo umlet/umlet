@@ -1,11 +1,11 @@
 package com.baselet.gwt.client.base;
 
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.gwt.client.view.DrawPanel;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.UIObject;
 
 public class NotificationPopup extends PopupPanel {
 	private static final int spaceRight = 20;
@@ -16,7 +16,7 @@ public class NotificationPopup extends PopupPanel {
 		getElement().addClassName("notificationPopup");
 	}
 
-	public void show(String text, UIObject obj) {
+	public void show(String text, DrawPanel drawPanel) {
 		hide();
 		setWidget(new Label(text));
 		Element popupElement = getElement();
@@ -33,7 +33,7 @@ public class NotificationPopup extends PopupPanel {
 
 		setPopupPositionAndShow((offsetWidth, offsetTop) -> {
 			// Retrieving container of panel:
-			Element container = obj.getElement().getParentElement().getParentElement().getParentElement();
+			Element container = drawPanel.getElement().getParentElement().getParentElement().getParentElement();
 			int aboluteLeft = container.getAbsoluteLeft();
 			int clientWidth = container.getClientWidth();
 			NotificationPopup.this.setPopupPosition(aboluteLeft + clientWidth - offsetWidth - spaceRight, spaceTop);
