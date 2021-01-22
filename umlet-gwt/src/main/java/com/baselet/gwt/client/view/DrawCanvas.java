@@ -12,7 +12,6 @@ import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.resources.HelptextFactory;
 import com.baselet.gwt.client.resources.HelptextResources;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -20,36 +19,6 @@ import com.google.gwt.user.client.ui.FocusWidget;
 public class DrawCanvas {
 
 	private final Canvas canvas = Canvas.createIfSupported();
-
-	public FocusWidget getWidget() {
-		return canvas;
-	}
-
-	public Context2d getContext2d() {
-		return canvas.getContext2d();
-	}
-
-	public void clearAndSetSize(int width, int height) {
-		// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
-		canvas.setCoordinateSpaceWidth(width);
-		canvas.setCoordinateSpaceHeight(height);
-	}
-
-	public int getWidth() {
-		return canvas.getCoordinateSpaceWidth();
-	}
-
-	public int getHeight() {
-		return canvas.getCoordinateSpaceHeight();
-	}
-
-	public CanvasElement getCanvasElement() {
-		return canvas.getCanvasElement();
-	}
-
-	public String toDataUrl(String type) {
-		return canvas.toDataUrl(type);
-	}
 
 	/*
 		setScaling can be used to set the size the canvas for the next time draw() is used
@@ -67,13 +36,11 @@ public class DrawCanvas {
 	}
 
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector, boolean forceRedraw) {
-
 		if (SharedConfig.getInstance().isDev_mode()) {
 			CanvasUtils.drawGridOn(getContext2d());
 		}
-
 		if (drawEmptyInfo && gridElements.isEmpty()) {
-			drawEmptyInfoText(scaling);
+			drawEmptyInfoText(getScaling());
 		}
 		else {
 			// if (tryOptimizedDrawing()) return;
@@ -81,22 +48,51 @@ public class DrawCanvas {
 				if (forceRedraw) {
 					((ComponentGwt) ge.getComponent()).afterModelUpdate();
 				}
-				((ComponentGwt) ge.getComponent()).drawOn(canvas.getContext2d(), selector.isSelected(ge), scaling);
+				((ComponentGwt) ge.getComponent()).drawOn(getContext2d(), selector.isSelected(ge), getScaling());
 			}
+		}
+		if (selector instanceof SelectorNew && ((SelectorNew) selector).isLassoActive()) {
+			((SelectorNew) selector).drawLasso(getContext2d());
 		}
 	}
 
-	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
-		if (scaleHasChangedSinceLastDraw) {
+	public void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
+		if (isScaleHasChangedSinceLastDraw()) {
 			draw(drawEmptyInfo, gridElements, selector, true);
-			scaleHasChangedSinceLastDraw = false;
+			setScaleHasChangedSinceLastDraw(false);
 		}
 		else {
 			draw(drawEmptyInfo, gridElements, selector, false);
 		}
 	}
 
-	private void drawEmptyInfoText(double scaling) {
+	public double getScaling() {
+		return scaling;
+	}
+
+	public boolean isScaleHasChangedSinceLastDraw() {
+		return scaleHasChangedSinceLastDraw;
+	}
+
+	public void setScaleHasChangedSinceLastDraw(boolean scaleHasChangedSinceLastDraw) {
+		this.scaleHasChangedSinceLastDraw = scaleHasChangedSinceLastDraw;
+	}
+
+	public Context2dWrapper getContext2d() {
+		return new Context2dGwtWrapper(canvas.getContext2d());
+	}
+
+	public void clearAndSetSize(int width, int height) {
+		// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
+		canvas.setCoordinateSpaceWidth(width);
+		canvas.setCoordinateSpaceHeight(height);
+	}
+
+	public String toDataUrl(String type) {
+		return canvas.toDataUrl(type);
+	}
+
+	public void drawEmptyInfoText(double scaling) {
 		double elWidth = 440;
 		double elHeight = 246;
 		double elXPos = getWidth() / 2.0 - elWidth / 2;
@@ -105,10 +101,10 @@ public class DrawCanvas {
 		HelptextResources resources = factory.getInstance();
 		String helptext = resources.helpText().getText();
 		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), helptext, "", null);
-		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
+		((ComponentGwt) emptyElement.getComponent()).drawOn(getContext2d(), false, scaling);
 	}
 
-	/* used to diaply temporal invalid if vs code passes a wrong uxf */
+	/* used to display temporal invalid if vs code passes a wrong uxf */
 	void drawInvalidDiagramInfo() {
 		double elWidth = 440;
 		double elHeight = 246;
@@ -119,7 +115,23 @@ public class DrawCanvas {
 									".uxf file is currently invalid and can't be displayed.\n" +
 									"Please revert changes or load a valid file";
 		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), invalidDiagramText, "", null);
-		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
+		((ComponentGwt) emptyElement.getComponent()).drawOn(getContext2d(), false, getScaling());
+	}
+
+	public int getWidth() {
+		return canvas.getCoordinateSpaceWidth();
+	}
+
+	public int getHeight() {
+		return canvas.getCoordinateSpaceHeight();
+	}
+
+	public CanvasElement getCanvasElement() {
+		return canvas.getCanvasElement();
+	}
+
+	public FocusWidget getWidget() {
+		return canvas;
 	}
 
 	// TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn

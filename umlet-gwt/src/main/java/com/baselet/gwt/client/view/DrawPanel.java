@@ -41,6 +41,7 @@ import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -49,6 +50,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -283,7 +285,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		redraw(true);
 	}
 
-	void redraw(boolean recalcSize) {
+	public void redraw(boolean recalcSize) {
 		List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
 		if (recalcSize) {
 			if (scrollPanel == null) {
@@ -309,6 +311,19 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			// now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
 			int width = Math.max(visibleRect.getX2(), diagramRect.getX2()) - xTranslate;
 			int height = Math.max(visibleRect.getY2(), diagramRect.getY2()) - yTranslate;
+
+			// finally set height and width depending on diagram and panel dimensions to only show scroll bars if necessary
+			int elementHeight = Document.get().getScrollHeight();
+			int elementWidth = getOffsetWidth();
+			if (height > elementHeight) {
+				// Less space due to visible vertical scrollbar
+				width -= (scrollPanel.getScrollbarSize()[1]);
+			}
+			if (width > elementWidth) {
+				// Less space due to visible horizontal scrollbar
+				height -= (scrollPanel.getScrollbarSize()[0]);
+			}
+
 			canvas.clearAndSetSize(width, height);
 		}
 		else {
@@ -388,6 +403,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			stickablesToMove.remove(ge);
 			ge.dragEnd();
 		}
+		if (selector.isLassoActive()) {
+			selector.selectElementsInsideLasso(this.getDiagram().getGridElements());
+		}
 		redraw(true);
 	}
 
@@ -447,8 +465,11 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
-		if (isCtrlKeyDown) {
-			return; // TODO implement Lasso
+		if (isCtrlKeyDown && !selector.isLassoActive()) {
+			selector.startSelection(dragStart);
+		}
+		if (selector.isLassoActive()) {
+			selector.updateLasso(diffX, diffY);
 		}
 		else if (!resizeDirections.isEmpty()) {
 			draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
@@ -457,7 +478,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		else if (selector.getSelectedElements().size() == 1) {
 			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
-		else { // if != 1 elements are selected, move them
+		else if (!selector.isLassoActive()) { // if != 1 elements are selected, move them
 			moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
 		}
 		redraw(false);
@@ -538,6 +559,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		else if (Shortcut.DISABLE_STICKING.matches(event)) {
 			SharedConfig.getInstance().setStickingEnabled(false);
 		}
+		else if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB) {
+			// Don't do anything on TAB key down
+		}
 		else {
 			avoidBrowserDefault = false;
 		}
@@ -575,15 +599,19 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	@Override
 	public void onThemeChange() {
-		List<GridElement> gridElements = diagram.getGridElements();
-		for (GridElement gridElement : gridElements) {
-			gridElement.updateModelFromText();
-		}
+		updateGridElements();
 		redraw(false);
 
 		elementContextMenu.getElement().getStyle().setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value());
 		diagramContextMenu.getElement().getStyle().setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value());
 		createMenuPopups();
+	}
+
+	public void updateGridElements() {
+		List<GridElement> gridElements = diagram.getGridElements();
+		for (GridElement gridElement : gridElements) {
+			gridElement.updateModelFromText();
+		}
 	}
 
 	private void createMenuPopups() {

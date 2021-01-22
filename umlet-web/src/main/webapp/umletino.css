@@ -62,6 +62,14 @@
 }
 
 /* We can't color these using Java-code, therefore we have to rely on CSS */
+.com-baselet-gwt-client-view-MainView_MainViewUiBinderImpl_GenCss_style-menuItem.light:hover {
+    background: #E3E8F3 !important;
+}
+
+.com-baselet-gwt-client-view-MainView_MainViewUiBinderImpl_GenCss_style-menuItem.dark:hover {
+    background: #808080 !important;
+}
+
 .gwt-MenuItem.gwt-MenuItem-selected.light {
     background: #E3E8F3 !important;
 }

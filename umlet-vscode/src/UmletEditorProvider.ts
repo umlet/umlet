@@ -32,6 +32,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     private static outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel('UMLet');
     private static debugLevel: number | undefined = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
     private static theme: string | undefined = UmletEditorProvider.getConfiguration().get<string>('theme');
+    private static fonts: string[] = UmletEditorProvider.getFontSettingsData();
 
     constructor(
         private readonly context: vscode.ExtensionContext
@@ -70,9 +71,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         this.context.subscriptions.push(changeDocumentSubscription);
 
         this.prepareActivePanel(webviewPanel, document);
-
         // Extracting version from POM
-        // It might be better to extract it from package.json once we've synchronized all version numbers
+        // It might be better to extract it from package.json once we've synchronized all version numbers   
         const pomString = fs.readFileSync(this.context.extensionPath + '/pom.xml').toString();
         const pom = parser.parse(pomString);
         const buildFolder = pom.project['artifactId'] + '-' + pom.project.parent['version'];
@@ -93,7 +93,11 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                     return;
                 case 'exportPng':
                     var actual_data = message.text.replace("data:image/png;base64,", "");
-                    this.saveFileDecode(actual_data);
+                    this.saveFileDecodePng(actual_data);
+                    return;
+                case 'exportPdf':
+                    var actual_data = message.text.replace("data:application/pdf;base64,", "");
+                    this.saveFileDecodePdf(actual_data);
                     return;
                 case 'postLog':
                     UmletEditorProvider.postLog(DebugLevel.STANDARD, message.text);
@@ -155,7 +159,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             UmletEditorProvider.theme = 'VS Code setting';
         }
 
-        webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString(), UmletEditorProvider.theme);
+        webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString(), UmletEditorProvider.theme, UmletEditorProvider.fonts);
     }
 
     prepareActivePanel(webviewPanel: vscode.WebviewPanel, document: vscode.TextDocument) {
@@ -182,7 +186,11 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             command: 'debugLevel',
             text: UmletEditorProvider.debugLevel
         });
+        this.updateTheme();
+        this.updateFonts();
+    }
 
+    updateTheme() {
         let themeSetting = UmletEditorProvider.getConfiguration().get<string>('theme');
         if (UmletEditorProvider.theme === themeSetting) {
             return;
@@ -195,21 +203,93 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             command: 'themeSetting',
             text: themeSetting
         });
-        return;
+    }
+
+    updateFonts() {
+        let fonts = UmletEditorProvider.getFontSettingsData();
+        currentlyActivePanel?.webview.postMessage({
+            command: 'changeFont',
+            text: fonts.join()
+        });
+        UmletEditorProvider.fonts = fonts;
+    }
+
+    static getFontSettingsData(): string[] {
+        let fontNormalSetting = UmletEditorProvider.getConfiguration().get<string>('fontNormal');
+        let fontItalicSetting = UmletEditorProvider.getConfiguration().get<string>('fontItalic');
+        let fontBoldSetting = UmletEditorProvider.getConfiguration().get<string>('fontBold');
+
+        let fonts: string[] = [];
+
+        if (fontNormalSetting !== undefined && fontNormalSetting !== '') {
+            fonts.push('normal@' + UmletEditorProvider.readFileAsBase64(fontNormalSetting, 'normal'));
+        } else {
+            fonts.push('normal@');
+        }
+        if (fontItalicSetting !== undefined && fontItalicSetting !== '') {
+            fonts.push('italic@' + UmletEditorProvider.readFileAsBase64(fontItalicSetting, 'italic'));
+        } else {
+            fonts.push('italic@');
+        }
+        if (fontBoldSetting !== undefined && fontBoldSetting !== '') {
+            fonts.push('bold@' + UmletEditorProvider.readFileAsBase64(fontBoldSetting, 'bold'));
+        } else {
+            fonts.push('bold@');
+        }
+        return fonts;
+    }
+
+    static readFileAsBase64(fileLocation: string, fontType: string): string {
+        try {
+            let fontFile = fs.readFileSync(fileLocation);
+            if (UmletEditorProvider.isFontFileTtf(fontFile)) {
+                return 'ttf@' + fontFile.toString('base64');
+            }
+            if (UmletEditorProvider.isFontFileOtf(fontFile)) {
+                return 'otf@' + fontFile.toString('base64');
+            }
+        } catch (error) {
+            // Is a directory or non existent file
+        }
+        UmletEditorProvider.postLog(DebugLevel.STANDARD, 'Provided ' + fontType + ' font file is neither a TTF nor a OTF file!');
+        return '';
+    }
+
+    static isFontFileTtf(file: Buffer): boolean {
+        let ttf_signature: number[] = [0, 1, 0, 0, 0];
+        for (let i = 0; i < 5; i++) {
+            if (file.readUInt8(i) !== ttf_signature[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static isFontFileOtf(file: Buffer): boolean {
+        let otf_signature: number[] = [79, 84, 84, 79, 0];
+        for (let i = 0; i < 5; i++) {
+            if (file.readUInt8(i) !== otf_signature[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     //gets the updated filedata from the webview if anything has changed
     updateCurrentFile(fileContent: string, document: vscode.TextDocument) {
-        lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
-        UmletEditorProvider.postLog(DebugLevel.DETAILED, 'lastChangeTriggeredByUri set to: ' + lastChangeTriggeredByUri);
-        const edit = new vscode.WorkspaceEdit();
+        // Only update file state if there actually has been a change
+        if (document.getText() !== fileContent) {
+            lastChangeTriggeredByUri = document.uri.toString(); //used to avoid ressetting the webview if a change was triggered by the webview anyway
+            UmletEditorProvider.postLog(DebugLevel.DETAILED, 'lastChangeTriggeredByUri set to: ' + lastChangeTriggeredByUri);
+            const edit = new vscode.WorkspaceEdit();
 
-        edit.replace(
-            document.uri,
-            new vscode.Range(0, 0, document.lineCount, 0),
-            fileContent);
+            edit.replace(
+                document.uri,
+                new vscode.Range(0, 0, document.lineCount, 0),
+                fileContent);
 
-        return vscode.workspace.applyEdit(edit);
+            vscode.workspace.applyEdit(edit);
+        }
     }
 
     //shows popup savefile dialog for uxf files
@@ -231,7 +311,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     }
 
     //shows popup savefile dialog for png files
-    saveFileDecode(fileContent: string) {
+    saveFileDecodePng(fileContent: string) {
         vscode.window.showSaveDialog({
             filters: {
                 'Image': ['png']
@@ -248,8 +328,26 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             });
     }
 
+    //shows popup savefile dialog for PDF files
+    saveFileDecodePdf(fileContent: string) {
+        vscode.window.showSaveDialog({
+            filters: {
+                'PDF': ['pdf']
+            }
+        })
+            .then(fileInfos => {
+                if (fileInfos !== undefined) {
+                    fs.writeFile(fileInfos.fsPath, fileContent, {encoding: 'base64'}, function (err) {
+                        if (err) {
+                            return console.log(err);
+                        }
+                    });
+                }
+            });
+    }
+
     public static postLog(level: DebugLevel, message: string) {
-        if (UmletEditorProvider.debugLevel != undefined) {
+        if (UmletEditorProvider.debugLevel !== undefined) {
             if (level.valueOf() <= UmletEditorProvider.debugLevel) {
                 UmletEditorProvider.outputChannel.appendLine(message);
             }
@@ -268,7 +366,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     Select all for webviews is also intercepted so it can be disabled in umlet since it would select the property panel
     */
     public static overrideVsCodeCommands(context: vscode.ExtensionContext) {
-
         UmletEditorProvider.postLog(DebugLevel.STANDARD, "Overriding commands....");
         //COPY
         //override the editor.action.clipboardCopyAction with our own
@@ -426,7 +523,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
      * @param diagramData XML data of a diagram which should be loaded on start
      * @param themeSetting preference which theme should be used
      */
-    getUmletWebviewPage(localUmletFolder: string, diagramData: string, themeSetting: string) {
+    getUmletWebviewPage(localUmletFolder: string, diagramData: string, themeSetting: string, fonts: string[]) {
         let encodedDiagramData = encodeURIComponent(diagramData); //encode diagramData to prevent special characters to escape the string quotes which could lead to arbitrary javascript or html
         return `<!DOCTYPE html>
   <html>
@@ -438,6 +535,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       <link rel="icon" type="image/x-icon" href="favicon.ico">
       <title>UMLetino - Free Online UML Tool for Fast UML Diagrams</title>
       <script type="text/javascript" src="umletvscode/umletvscode.nocache.js?2020-03-15_09-48-08"></script>
+      <script src="buffer@6.0.2.js"></script>
+      <script type="text/javascript" src="pdfkit.standalone.js"></script>
+      <script type="text/javascript" src="blob-stream.js"></script>
     </head>
     <body>
 
@@ -457,6 +557,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       var vscode = acquireVsCodeApi();
       
       var themeSetting = \`${themeSetting}\`;
+
+      // Array parameter becomes a string separated by ','
+      var fonts = \`${fonts}\`.split(',');
       
       window.addEventListener('message', function (event) {
           const message = event.data;

@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "es6",
-		"outDir": "target/out",
+		"outDir": "${workspaceFolder}/target/dist",
 		"moduleResolution": "node",
 		"lib": [
 			"es6",

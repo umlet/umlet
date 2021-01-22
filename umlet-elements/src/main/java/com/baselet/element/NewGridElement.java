@@ -307,6 +307,14 @@ public abstract class NewGridElement implements GridElement {
 		component.repaintComponent();
 	}
 
+	public void setComponent(Component component) {
+		this.component = component;
+		drawer = component.getDrawHandler();
+		metaDrawer = component.getMetaDrawHandler();
+		state.setDrawer(drawer);
+		updateModelFromText();
+	}
+
 	/**
 	 * @see com.baselet.element.interfaces.GridElement#getRealSize()
 	 */

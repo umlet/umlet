@@ -36,8 +36,7 @@ public class LineDescriptionFacet extends FirstRunFacet {
 
 	public static final LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
-	private LineDescriptionFacet() {
-	}
+	private LineDescriptionFacet() {}
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {

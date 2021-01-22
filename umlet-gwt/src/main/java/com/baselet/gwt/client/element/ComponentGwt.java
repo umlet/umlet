@@ -4,8 +4,9 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.gwt.client.view.Context2dGwtWrapper;
+import com.baselet.gwt.client.view.Context2dWrapper;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class ComponentGwt implements Component {
@@ -26,8 +27,15 @@ public class ComponentGwt implements Component {
 
 	public ComponentGwt(GridElement element, double scaling) {
 		this.element = element;
-		drawer = new DrawHandlerGwt(canvas, scaling);
-		metadrawer = new DrawHandlerGwt(canvas, scaling);
+		Context2dWrapper context2dWrapper = new Context2dGwtWrapper(canvas.getContext2d());
+		drawer = new DrawHandlerGwt(context2dWrapper, scaling);
+		metadrawer = new DrawHandlerGwt(context2dWrapper, scaling);
+	}
+
+	public ComponentGwt(GridElement element, double scaling, Context2dWrapper context2dWrapper) {
+		this.element = element;
+		drawer = new DrawHandlerGwt(context2dWrapper, scaling);
+		metadrawer = new DrawHandlerGwt(context2dWrapper, scaling);
 	}
 
 	@Override
@@ -67,11 +75,11 @@ public class ComponentGwt implements Component {
 
 	private boolean lastSelected = false;
 
-	public void drawOn(Context2d context, boolean isSelected) {
+	public void drawOn(Context2dWrapper context, boolean isSelected) {
 		drawOn(context, isSelected, 1d);
 	}
 
-	public void drawOn(Context2d context, boolean isSelected, double scaling) {
+	public void drawOn(Context2dWrapper context, boolean isSelected, double scaling) {
 		drawer.setNewScaling(scaling);
 		metadrawer.setNewScaling(scaling);
 		if (redrawNecessary || lastSelected != isSelected) {
@@ -87,6 +95,12 @@ public class ComponentGwt implements Component {
 		}
 		lastSelected = isSelected;
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX() * scaling, element.getRectangle().getY() * scaling);
+	}
+
+	public void drawPdf(Context2dWrapper context) {
+		context.translate(element.getRectangle().getX(), element.getRectangle().getY());
+		drawer.drawAll();
+		context.translate(-element.getRectangle().getX(), -element.getRectangle().getY());
 	}
 
 }

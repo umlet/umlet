@@ -28,4 +28,8 @@
     <replace-with class="com.web.gwt.client.view.theme.ThemeFactoryWeb">
         <when-type-is class="com.baselet.diagram.draw.helper.theme.ThemeFactory"/>
     </replace-with>
+
+    <replace-with class="com.web.gwt.client.view.commands.WebSaveCommand">
+        <when-type-is class="com.baselet.gwt.client.view.commands.SaveCommand"/>
+    </replace-with>
 </module>

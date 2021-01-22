@@ -16,4 +16,6 @@ public abstract class DownloadPopupPanel extends MyPopupPanel {
 
 	public abstract void prepare(final FilenameAndScaleHolder filenameAndScaleHolder);
 
+	public abstract void onData(String data, DownloadType downloadType);
+
 }

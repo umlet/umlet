@@ -50,7 +50,7 @@ public class DrawPanelDiagram extends DrawPanel {
 	}
 
 	@Override
-	void redraw(boolean recalcSize) {
+	public void redraw(boolean recalcSize) {
 		if (tempInvalid) {
 			List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
 			if (recalcSize) {
@@ -193,9 +193,6 @@ public class DrawPanelDiagram extends DrawPanel {
 		super.onMouseDragEnd(gridElement, lastPoint);
 		if (cursorWasMovedDuringDrag) {
 			handleFileUpdate();
-		}
-		if (gridElement != null) {
-			selector.select(gridElement);
 		}
 	}
 

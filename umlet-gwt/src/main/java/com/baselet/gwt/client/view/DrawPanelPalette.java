@@ -53,6 +53,11 @@ public class DrawPanelPalette extends DrawPanel {
 
 	private final ListBox paletteChooser;
 
+	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
+	private boolean draggingDisabled; // to disable dragging when element was dragged to properties panel
+
+	private GridElement lastDraggedGridElement;
+
 	public DrawPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser) {
 		super(mainView, propertiesPanel);
 		setDiagram(parsePalette(PALETTELIST.get(0)));
@@ -99,14 +104,10 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
-	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
-	private boolean draggingDisabled; // to disable dragging when element was dragged to properties panel
-
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
 		super.onMouseDown(element, isControlKeyDown);
 		otherDrawFocusPanel.selector.deselectAll(); // prevents selecting elements in both the diagram panel and palette
-		propertiesPanel.setGridElement(element, this); // grid element would be set by by super.onMouseDown, but is set to null by deselect all, therefore the reset here
 		for (GridElement original : selector.getSelectedElements()) {
 			draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
 		}
@@ -133,9 +134,7 @@ public class DrawPanelPalette extends DrawPanel {
 				elementsToMove.add(copy);
 			}
 			Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
-			commandInvoker.removeSelectedElements(this);
-			commandInvoker.addElements(this, draggedElements);
-			selector.deselectAll();
+			resetPalette();
 			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
 
 			// set focus to the diagram
@@ -144,7 +143,13 @@ public class DrawPanelPalette extends DrawPanel {
 		draggedElements.clear();
 
 		super.onMouseDragEnd(gridElement, lastPoint);
+	}
 
+	private void resetPalette() {
+		commandInvoker.removeSelectedElements(this);
+		commandInvoker.addElements(this, draggedElements);
+		draggedElements.clear();
+		selector.deselectAll();
 	}
 
 	@Override
@@ -172,8 +177,6 @@ public class DrawPanelPalette extends DrawPanel {
 		});
 	}
 
-	private GridElement lastDraggedGridElement;
-
 	@Override
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
 		lastDraggedGridElement = draggedGridElement;
@@ -184,8 +187,11 @@ public class DrawPanelPalette extends DrawPanel {
 			if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 				stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 			}
-			if (isCtrlKeyDown) {
-				return; // TODO implement Lasso
+			if (isCtrlKeyDown && !selector.isLassoActive()) {
+				selector.startSelection(dragStart);
+			}
+			if (selector.isLassoActive()) {
+				selector.updateLasso(diffX, diffY);
 			}
 			else if (!resizeDirections.isEmpty()) {
 				draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
@@ -199,7 +205,7 @@ public class DrawPanelPalette extends DrawPanel {
 				draggedGridElementAsList.add(draggedGridElement);
 				handlePreviewDisplayInstantiated(dragStart, diffX, diffY, isShiftKeyDown, firstDrag, draggedGridElementAsList);
 			}
-			else { // if != 1 elements are selected, move them
+			else if (!selector.isLassoActive()) { // if != 1 elements are selected, move them
 				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
 				handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 			}
@@ -212,14 +218,13 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
-	public void cancelDragNoDuplicate() // Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
-	{
+	public void cancelDragNoDuplicate() { // Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
 		if (!draggingDisabled && lastDraggedGridElement != null) {
 			List<GridElement> lastDraggedGridElementAsList;
 			lastDraggedGridElementAsList = new ArrayList();
 			lastDraggedGridElementAsList.add(lastDraggedGridElement);
 			removeGridElements(lastDraggedGridElementAsList);
-			cancelDrag(new Point(0, 0), 0, 0, lastDraggedGridElement);
+			resetPalette();
 		}
 	}
 

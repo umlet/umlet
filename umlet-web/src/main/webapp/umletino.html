@@ -1,67 +1,99 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  	<meta name="viewport" content="user-scalable=no" />
+<head>
+    <meta name="viewport" content="user-scalable=no"/>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link type="text/css" rel="stylesheet" href="umletino.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>UMLetino - Free Online UML Tool for Fast UML Diagrams</title>
     <script type="text/javascript" src="umletweb/umletweb.nocache.js?${build.time.urlsafe}"></script>
-  </head>
-  <body>
-    <!-- the following line is necessary for history support -->
-    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
+</head>
+<body>
+<!-- the following line is necessary for history support -->
+<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1'
+        style="position:absolute;width:0;height:0;border:0"></iframe>
 
-    <!-- the website will not work without JavaScript -->
-    <noscript>
-    	<div style="width: 25em; position: absolute; left: 50%; margin-left: -11em; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
-	    	You must enable JavaScript to use this web application.
-		</div>
-    </noscript>
+<!-- the website will not work without JavaScript -->
+<noscript>
+    <div style="width: 25em; position: absolute; left: 50%; margin-left: -11em; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        You must enable JavaScript to use this web application.
+    </div>
+</noscript>
 
-    <script>
-        function getTheme() {
-            // If browser does not support this feature, choose light theme
-            if (window.matchMedia('(prefers-color-scheme)').media === 'not all') {
-                return "LIGHT";
-            }
+<script>
+    var theme;
+    let isIE = false;
 
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                return "DARK";
-            } else {
-                return "LIGHT";
-            }
+    if ((navigator.userAgent.indexOf("MSIE") !== -1) || (!!document.documentMode === true)) {
+        isIE = true;
+    }
+
+    function getTheme() {
+        // If browser does not support this feature, choose light theme
+        if (window.matchMedia('(prefers-color-scheme)').media === 'not all') {
+            return "LIGHT";
         }
 
-        function switchBodyColor(theme) {
-            switch(theme) {
-                case 'DARK':
-                    document.body.style.backgroundColor = 'black';
-                    break;
-                case 'LIGHT':
-                    document.body.style.backgroundColor = '';
-                    break;
-                default:
-                    document.body.style.backgroundColor = '';
-            }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return "DARK";
+        } else {
+            return "LIGHT";
         }
+    }
 
-        // Observing theme changes
-        const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        darkModeMediaQuery.addEventListener("change", function (e) {
-            const darkMode = e.matches;
-            if (darkMode) {
-                window.changeTheme('DARK');
-                switchBodyColor('DARK')
-            } else {
-                window.changeTheme('LIGHT');
-                switchBodyColor('LIGHT')
-            }
-        });
+    function switchBodyColor(theme) {
+        switch (theme) {
+            case 'DARK':
+                document.body.style.backgroundColor = 'black';
+                break;
+            case 'LIGHT':
+                document.body.style.backgroundColor = '';
+                break;
+            default:
+                document.body.style.backgroundColor = '';
+        }
+    }
 
-        var theme = getTheme();
+    function initializeMediaQuery() {
+        theme = getTheme();
         switchBodyColor(theme);
-    </script>
-    <div align="left" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
-  </body>
+        // Observing theme changes (IE does not support this)
+        if (!isIE) {
+            const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            darkModeMediaQuery.addEventListener("change", function (e) {
+                const darkMode = e.matches;
+                if (darkMode) {
+                    window.changeTheme('DARK');
+                    switchBodyColor('DARK')
+                } else {
+                    window.changeTheme('LIGHT');
+                    switchBodyColor('LIGHT')
+                }
+            });
+        }
+    }
+
+    if (isIE) {
+        // IE does not support URLSearchParams
+        const search = window.location.search;
+        if (search.indexOf('theme=') !== -1) {
+            theme = search.substring(search.indexOf("=") + 1).toUpperCase();
+            switchBodyColor(themeParam.toUpperCase());
+        } else {
+            initializeMediaQuery();
+        }
+    } else {
+        const urlParams = new URLSearchParams(window.location.search);
+        const themeParam = urlParams.get('theme');
+        if (themeParam !== null) {
+            theme = themeParam.toUpperCase();
+            switchBodyColor(themeParam.toUpperCase());
+        } else {
+            initializeMediaQuery();
+        }
+    }
+</script>
+<div align="left" id="featurewarning"
+     style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
+</body>
 </html>

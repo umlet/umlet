@@ -63,7 +63,7 @@ public class MySuggestBox extends SuggestBox {
 		return lastRequestLine;
 	}
 
-	private String getCursorLine() {
+	protected String getCursorLine() {
 		String returnText = "";
 		String wholeText = super.getText();
 		if (!wholeText.contains("\n")) {
@@ -83,7 +83,7 @@ public class MySuggestBox extends SuggestBox {
 		return returnText;
 	}
 
-	private String replaceTextOfCurrentLine(String newText) {
+	protected String replaceTextOfCurrentLine(String newText) {
 		StringBuilder sb = new StringBuilder("");
 		String wholeText = super.getText();
 		if (!wholeText.contains("\n")) {

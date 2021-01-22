@@ -36,4 +36,8 @@
     <replace-with class="com.vscode.gwt.client.view.theme.ThemeFactoryVsCode">
         <when-type-is class="com.baselet.diagram.draw.helper.theme.ThemeFactory"/>
     </replace-with>
+
+    <replace-with class="com.vscode.gwt.client.view.panel.wrapper.VsCodeAutoResizeScrollDropPanel">
+        <when-type-is class="com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel"/>
+    </replace-with>
 </module>
