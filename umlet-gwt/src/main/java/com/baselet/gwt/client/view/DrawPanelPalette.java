@@ -14,6 +14,7 @@ import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.element.GridElementUtils;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
@@ -23,9 +24,12 @@ import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dev.util.collect.Lists;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -157,21 +161,38 @@ public class DrawPanelPalette extends DrawPanel {
 		super.onShowMenu(point);
 	}
 
-	private GridElement gridElementCopyInOtherDiagram(GridElement original) {
-		GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
+	private List<GridElement> gridElementCopyInOtherDiagram(List<GridElement> originals, int diffY) {
 		int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
 		int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
-		double differenceFactor = ((NewGridElement) original).getGridSize() / (((NewGridElement) copy).getGridSize() * 1.0);
-		Rectangle copyRect = copy.getRectangle();
-		int newX = (int) (copy.getRectangle().getX() + (otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff) * differenceFactor);
-		// Centering preview in other diagram
-		int newY = (int) (copy.getRectangle().getY() *	differenceFactor +
-							(paletteChooser.getOffsetHeight() + verticalScrollbarDiff) * differenceFactor +
-							(original.getRectangle().getHeight() / 2) * differenceFactor -
-							(copyRect.getHeight() / 2));
-		copyRect.setLocation(newX, newY);
-		copy.setRectangle(SharedUtils.realignToGrid(copyRect, false)); // realign location to grid (width and height should not be changed)
-		return copy;
+		int oldZoomPalette = getGridSize();
+		int oldZoomDiagram = otherDrawFocusPanel.getGridSize();
+
+		List<GridElement> copies = new ArrayList<>();
+
+		otherDrawFocusPanel.getDiagram().setZoomLevel(SharedConstants.DEFAULT_GRID_SIZE);
+		zoomEntities(oldZoomPalette, SharedConstants.DEFAULT_GRID_SIZE, originals);
+
+		for (GridElement original : originals) {
+			GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
+			copies.add(copy);
+			Rectangle copyRect = copy.getRectangle();
+			int newX = copyRect.getX() + horizontalScrollbarDiff;
+			// Centering preview in other diagram
+			int newY = copyRect.getY() + (paletteChooser.getOffsetHeight() + verticalScrollbarDiff) - lastDraggedGridElement.getRectangle().getY() - lastDraggedGridElement.getRectangle().getHeight() / 2;
+			copy.setLocation(newX, newY);
+		}
+		otherDrawFocusPanel.getDiagram().setZoomLevel(oldZoomDiagram);
+		zoomEntities(SharedConstants.DEFAULT_GRID_SIZE, oldZoomPalette, originals);
+
+		// Elements are being zoomed again once they are added to the diagram. We therefore need to adjust the position
+		// to display the dragged elements from the palette correctly by taking the future zoom level into account
+		double factor = SharedConstants.DEFAULT_GRID_SIZE * 1.0d / otherDrawFocusPanel.getGridSize();
+		for (GridElement copy : copies) {
+			int newX = (int) (copy.getRectangle().getX() + otherDrawFocusPanel.getVisibleBounds().width * factor);
+			int newY = (int) (copy.getRectangle().getY() + diffY * factor);
+			copy.setLocation(newX, newY);
+		}
+		return copies;
 	}
 
 	@Override
@@ -248,11 +269,8 @@ public class DrawPanelPalette extends DrawPanel {
 		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
 			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
 			if (dragStart.getX() + diffX + -scrollPanel.getHorizontalScrollPosition() <= 0) {
-				List<GridElement> elementsToMove = new ArrayList<GridElement>();
-				for (GridElement e : elementsToPreview) {
-					elementsToMove.add(gridElementCopyInOtherDiagram(e));
-				}
-				otherDrawDiagramFocusPanel.setDisplayingPreviewElementInstantiated(elementsToMove, ((NewGridElement) elementsToPreview.get(0)).getGridSize());
+				List<GridElement> elementsToMove = new ArrayList<>(gridElementCopyInOtherDiagram(elementsToPreview, dragStart.y + diffY));
+				otherDrawDiagramFocusPanel.setDisplayingPreviewElementInstantiated(elementsToMove, SharedConstants.DEFAULT_GRID_SIZE);
 			}
 			else {
 				// if cursor is dragged back, preview must be removed
@@ -267,11 +285,8 @@ public class DrawPanelPalette extends DrawPanel {
 			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
 			if (dragStart.getX() + diffX + -scrollPanel.getHorizontalScrollPosition() <= 0) {
 				if (!otherDrawDiagramFocusPanel.currentlyDisplayingPreview()) {
-					List<GridElement> elementsToMove = new ArrayList<GridElement>();
-					for (GridElement e : selector.getSelectedElements()) {
-						elementsToMove.add(gridElementCopyInOtherDiagram(e));
-					}
-					otherDrawDiagramFocusPanel.initializeDisplayingPreviewElements(elementsToMove, diagram.getZoomLevel());
+					List<GridElement> elementsToMove = new ArrayList<>(gridElementCopyInOtherDiagram(selector.getSelectedElements(), dragStart.y + diffY));
+					otherDrawDiagramFocusPanel.initializeDisplayingPreviewElements(elementsToMove, SharedConstants.DEFAULT_GRID_SIZE);
 				}
 				else {
 					otherDrawDiagramFocusPanel.updateDisplayingPreviewElements(diffX, diffY, firstDrag);
