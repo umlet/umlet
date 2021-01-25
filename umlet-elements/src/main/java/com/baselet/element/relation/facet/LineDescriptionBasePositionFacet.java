@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
-import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.LineDescriptionBasePositionEnum;
 
@@ -16,10 +15,15 @@ public class LineDescriptionBasePositionFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		List<ValueInfo> cs = new ArrayList<KeyValueFacet.ValueInfo>();
-		for (LineDescriptionBasePositionEnum c : LineDescriptionBasePositionEnum.values()) {
-			cs.add(new ValueInfo(c.getKey(), "base position of middle text"));
-		}
+		List<ValueInfo> cs = new ArrayList<ValueInfo>();
+		cs.add(new ValueInfo("l", "middle text is positioned left to the line"));
+		cs.add(new ValueInfo("r", "middle text is positioned right to the line"));
+		cs.add(new ValueInfo("u", "middle text is positioned up the line"));
+		cs.add(new ValueInfo("d", "middle text is positioned down the line"));
+		cs.add(new ValueInfo("ru", "middle text is positioned right and up the line"));
+		cs.add(new ValueInfo("rd", "middle text is positioned right and down the line"));
+		cs.add(new ValueInfo("lu", "middle text is positioned left and up the line"));
+		cs.add(new ValueInfo("ld", "middle text is positioned left and down the line"));
 		return new KeyValue("cbase", cs);
 	}
 
