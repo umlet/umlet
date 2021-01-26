@@ -1,13 +1,16 @@
 package com.web.gwt.client.view.widgets;
 
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.control.enums.Program;
-import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.CanvasUtils;
 import com.baselet.gwt.client.view.widgets.*;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
@@ -18,18 +21,9 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 
 	private static DateTimeFormat DTF = DateTimeFormat.getFormat("yyyy-MM-dd HH-mm-ss");
 
-	private HTML downloadLinkHtml;
 	private FilenameAndScaleHolder filenameAndScaleHolder;
 
 	private Timer timer;
-
-	private String standardPngUrl;
-	private String standardPdfUrl;
-	private String standardUxfUrl;
-
-	private String outputPngUrl;
-	private String outputPdfUrl;
-	private String outputUxfUrl;
 
 	@Override
 	public void prepare(FilenameAndScaleHolder filenameAndScaleHolder) {
@@ -51,139 +45,98 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 		filenameAndScaleHolder.setScaling(1d);
 
 		textBox.setValue(filenameAndScaleHolder.getFilename());
-
-		Diagram diagram = drawPanelDiagram.getDiagram();
-		downloadLinkHtml = new HTML();
-
-		timer = new Timer() {
-			@Override
-			public void run() {
-				WebDownloadPopupPanel parent = WebDownloadPopupPanel.this;
-				parent.outputUxfUrl = null;
-				parent.outputPngUrl = null;
-				parent.outputPdfUrl = null;
-				DiagramXmlParser.diagramToXml(true, true, diagram, parent, DownloadType.UXF);
-				int oldZoom = diagram.getZoomLevel();
-				drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
-				CanvasUtils.createPngCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PNG);
-				CanvasUtils.createPdfCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PDF);
-				drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
-			}
-		};
-		timer.schedule(10);
-
-		panel.add(downloadLinkHtml);
-		panel.add(new HTML("<div style=\"color:gray;\">To change the target directory</div><div style=\"color:gray;\">use \"Right click -&gt; Save as\"</div>"));
+		Button bFile = new Button("Save Diagram File", buttonClickHandler(DownloadType.UXF));
+		Button bPNG = new Button("Save PNG File", buttonClickHandler(DownloadType.PNG));
+		Button bPDF = new Button("Save PDF File", buttonClickHandler(DownloadType.PDF));
+		setButtonStyle(bFile.getElement().getStyle());
+		setButtonStyle(bPNG.getElement().getStyle());
+		setButtonStyle(bPDF.getElement().getStyle());
+		panel.add(bFile);
+		panel.add(bPNG);
+		panel.add(bPDF);
 		setWidget(panel);
 		// listen to all input events from the browser (http://stackoverflow.com/a/43089693)
 		textBox.addDomHandler(new InputHandler() {
 			@Override
 			public void onInput(InputEvent event) {
-				cancelTimer();
-				downloadLinkHtml.setHTML("");
-
-				timer = new Timer() {
-					@Override
-					public void run() {
-						filenameAndScaleHolder.setFilename(textBox.getText());
-						WebDownloadPopupPanel parent = WebDownloadPopupPanel.this;
-						parent.outputPngUrl = null;
-						parent.outputPdfUrl = null;
-						int oldZoom = diagram.getZoomLevel();
-						drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
-						CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling(), parent, DownloadType.PNG);
-						CanvasUtils.createPdfCanvasDataUrl(diagram, WebDownloadPopupPanel.this, DownloadType.PDF);
-						drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
-					}
-				};
-				timer.schedule(2000);
+				filenameAndScaleHolder.setFilename(textBox.getText());
 			}
 		}, InputEvent.getType());
-		// renew download links when scaling is changed
 		scaleBox.addDomHandler(new InputHandler() {
 			@Override
 			public void onInput(InputEvent event) {
 				try {
-					cancelTimer();
-					downloadLinkHtml.setHTML("");
 					double scalingValue = Double.parseDouble(scaleBox.getValue());
 					if (scalingValue <= 0)
 						throw new Exception();
-
-					timer = new Timer() {
-						@Override
-						public void run() {
-							filenameAndScaleHolder.setScaling(scalingValue);
-							WebDownloadPopupPanel parent = WebDownloadPopupPanel.this;
-							parent.outputPngUrl = null;
-							int oldZoom = diagram.getZoomLevel();
-							drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
-							CanvasUtils.createPngCanvasDataUrl(diagram, filenameAndScaleHolder.getScaling(), parent, DownloadType.PNG);
-							drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
-						}
-					};
-					timer.schedule(2000);
+					filenameAndScaleHolder.setScaling(scalingValue);
 				} catch (Exception e) {
-					cancelTimer();
-					downloadLinkHtml.setHTML("");
 					// wrong scaling value, just default to standard
-					timer = new Timer() {
-						@Override
-						public void run() {
-							filenameAndScaleHolder.setFilename(textBox.getText());
-							filenameAndScaleHolder.setScaling(1.0d);
-							downloadLinkHtml.setHTML(createDownloadLinks(standardUxfUrl, standardPngUrl, standardPdfUrl, filenameAndScaleHolder.getFilename()));
-						}
-					};
-					timer.schedule(2000);
+					filenameAndScaleHolder.setScaling(1.0d);
 				}
 			}
 		}, InputEvent.getType());
 	}
 
-	@Override
-	public void onData(String data, DownloadType downloadType) {
-		switch (downloadType) {
-			case PDF:
-				if (this.standardPdfUrl == null) {
-					this.standardPdfUrl = data;
-				}
-				this.outputPdfUrl = data;
-				break;
-			case PNG:
-				if (this.standardPngUrl == null) {
-					this.standardPngUrl = data;
-				}
-				this.outputPngUrl = data;
-				break;
-			case UXF:
-				if (this.standardUxfUrl == null) {
-					this.standardUxfUrl = "data:text/xml;charset=utf-8," + data;
-				}
-				this.outputUxfUrl = "data:text/xml;charset=utf-8," + data;
-				break;
-		}
-
-		if (this.outputPdfUrl != null && this.outputPngUrl != null && this.outputUxfUrl != null) {
-			downloadLinkHtml.setHTML(createDownloadLinks(outputUxfUrl, outputPngUrl, outputPdfUrl, filenameAndScaleHolder.getFilename()));
-		}
-
+	private void setButtonStyle(Style style) {
+		style.setWidth(100, Style.Unit.PCT);
+		style.setDisplay(Style.Display.BLOCK);
+		style.setMarginTop(5, Style.Unit.PX);
 	}
 
-	private String createDownloadLinks(String uxfUrl, String pngUrl, String pdfUrl, String filename) {
+	@Override
+	public void onData(String data, DownloadType downloadType) {
+		if (downloadType == DownloadType.UXF) {
+			data = "data:text/xml;charset=utf-8," + data;
+		}
+
+		String filename = filenameAndScaleHolder.getFilename();
 		if (filename.isEmpty()) {
 			filename = "Diagram " + DTF.format(new Date());
 		}
-		return "<p class=\"exportLink\">" + link(uxfUrl, filename + "." + Program.getInstance().getExtension()) + "Save Diagram File</a></p>" + "<p class=\"exportLink\">" + link(pngUrl, filename + ".png") + "Save PNG File</a></p>" + "<p class=\"exportLink\">" + link(pdfUrl, filename + ".pdf") + "Save PDF File</a></p>";
+
+		Element element = Document.get().createElement("a");
+		element.setAttribute("download", filename);
+		element.setAttribute("href", data);
+		Document.get().getBody().appendChild(element);
+		clickElement(element);
+		element.removeFromParent();
 	}
 
-	private String link(String uxfUrl, String filename) {
-		return "<a download=\"" + filename + "\" href='" + uxfUrl.replace("'", "&apos;") + "'>"; // apostrophes in datauris must be escaped because it's the closing sign fore the href
+	private ClickHandler buttonClickHandler(DownloadType downloadType) {
+		return clickEvent -> {
+			if (timer != null) {
+				timer.cancel();
+			}
+			timer = new Timer() {
+				@Override
+				public void run() {
+					int oldZoom = drawPanelDiagram.getGridSize();
+					switch (downloadType) {
+						case UXF:
+							DiagramXmlParser.diagramToXml(true, true, drawPanelDiagram.getDiagram(), WebDownloadPopupPanel.this, DownloadType.UXF);
+							break;
+						case PNG:
+							double scalingValue = filenameAndScaleHolder.getScaling();
+							drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
+							CanvasUtils.createPngCanvasDataUrl(drawPanelDiagram.getDiagram(), scalingValue, WebDownloadPopupPanel.this, DownloadType.PNG);
+							drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
+							break;
+						case PDF:
+							drawPanelDiagram.setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, false, null);
+							CanvasUtils.createPdfCanvasDataUrl(drawPanelDiagram.getDiagram(), WebDownloadPopupPanel.this, DownloadType.PDF);
+							drawPanelDiagram.setGridAndZoom(oldZoom, false, null);
+							break;
+					}
+				}
+			};
+			timer.schedule(0);
+		};
 	}
 
-	private void cancelTimer() {
-		if (timer != null) {
-			timer.cancel();
-		}
-	}
+	// Neither GWT nor elemental2 currently seem to support firing of click-events
+	// (see: https://github.com/google/elemental2/issues/152)
+	public static native void clickElement(Element elem) /*-{
+		elem.click();
+	}-*/;
 }
