@@ -229,8 +229,6 @@ public class DrawPanelPalette extends DrawPanel {
 			} // if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 			else if (selector.getSelectedElements().size() == 1) {
 				draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
-				List<GridElement> draggedGridElementAsList = new ArrayList<>();
-				draggedGridElementAsList.add(draggedGridElement);
 				handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 			}
 			else if (!selector.isLassoActive()) { // if != 1 elements are selected, move them
