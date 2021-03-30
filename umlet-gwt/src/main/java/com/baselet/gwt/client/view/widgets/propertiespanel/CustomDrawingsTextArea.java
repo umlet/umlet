@@ -7,14 +7,14 @@ import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.google.gwt.uibinder.client.UiConstructor;
 
-public class PropertiesTextArea extends TextArea {
+public class CustomDrawingsTextArea extends TextArea {
 
 	@UiConstructor
-	public PropertiesTextArea() {
+	public CustomDrawingsTextArea() {
 		super();
 	}
 
-	public PropertiesTextArea(final MySuggestOracle oracle, OwnTextArea textArea) {
+	public CustomDrawingsTextArea(final MySuggestOracle oracle, OwnTextArea textArea) {
 		super(oracle, textArea);
 	}
 
@@ -29,17 +29,17 @@ public class PropertiesTextArea extends TextArea {
 
 	@Override
 	public String getGridElementAttributes(HasPanelAttributes panelAttributeProvider) {
-		return panelAttributeProvider.getPanelAttributes();
+		return panelAttributeProvider.getCustomDrawingsCode();
 	}
 
 	@Override
 	public void setGridElementAttributes() {
-		gridElement.setPanelAttributes(getValue());
+		gridElement.setCustomDrawingsCode(getValue());
 	}
 
 	@Override
 	protected List<AutocompletionText> getAutoCompletionList(HasPanelAttributes panelAttributeProvider) {
-		return panelAttributeProvider.getAutocompletionList();
+		return panelAttributeProvider.getCustomDrawingsAutocompletionList();
 	}
 
 }
