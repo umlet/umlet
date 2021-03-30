@@ -254,9 +254,9 @@ public class DrawPanelPalette extends DrawPanel {
 			else {
 				// if cursor is dragged back, preview must be removed
 				otherDrawDiagramFocusPanel.removeOldPreview();
+				realignElementsToGrid(selector.getSelectedElements());
 			}
 		}
-
 	}
 
 	private void handlePreviewDisplay(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
@@ -274,9 +274,15 @@ public class DrawPanelPalette extends DrawPanel {
 			else {
 				// if cursor is dragged back, preview must be removed
 				otherDrawDiagramFocusPanel.removeOldPreview();
+				realignElementsToGrid(selector.getSelectedElements());
 			}
 		}
+	}
 
+	private void realignElementsToGrid(List<GridElement> elements) {
+		for (GridElement element : elements) {
+			element.setLocation(realignToGrid(element.getRectangle().getX()), realignToGrid(element.getRectangle().getY()));
+		}
 	}
 
 	@Override
