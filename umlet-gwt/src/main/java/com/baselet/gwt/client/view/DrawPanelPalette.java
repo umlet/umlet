@@ -7,15 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
-import com.baselet.element.GridElementUtils;
-import com.baselet.element.NewGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;
@@ -24,12 +21,10 @@ import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
-import com.baselet.gwt.client.logging.CustomLogger;
-import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.element.GridElementZoomUtil;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dev.util.collect.Lists;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -170,7 +165,7 @@ public class DrawPanelPalette extends DrawPanel {
 		List<GridElement> copies = new ArrayList<>();
 
 		otherDrawFocusPanel.getDiagram().setZoomLevel(SharedConstants.DEFAULT_GRID_SIZE);
-		zoomEntities(oldZoomPalette, SharedConstants.DEFAULT_GRID_SIZE, originals);
+		GridElementZoomUtil.zoomEntities(oldZoomPalette, SharedConstants.DEFAULT_GRID_SIZE, originals);
 
 		for (GridElement original : originals) {
 			GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
@@ -182,7 +177,7 @@ public class DrawPanelPalette extends DrawPanel {
 			copy.setLocation(newX, newY);
 		}
 		otherDrawFocusPanel.getDiagram().setZoomLevel(oldZoomDiagram);
-		zoomEntities(SharedConstants.DEFAULT_GRID_SIZE, oldZoomPalette, originals);
+		GridElementZoomUtil.zoomEntities(SharedConstants.DEFAULT_GRID_SIZE, oldZoomPalette, originals);
 
 		// Elements are being zoomed again once they are added to the diagram. We therefore need to adjust the position
 		// to display the dragged elements from the palette correctly by taking the future zoom level into account

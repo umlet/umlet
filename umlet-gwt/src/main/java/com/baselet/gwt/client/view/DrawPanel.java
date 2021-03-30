@@ -32,7 +32,7 @@ import com.baselet.gwt.client.base.NotificationPopup;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.clipboard.ClipboardShortcutWrapper;
 import com.baselet.gwt.client.element.DiagramGwt;
-import com.baselet.gwt.client.element.DrawHandlerGwt;
+import com.baselet.gwt.client.element.GridElementZoomUtil;
 import com.baselet.gwt.client.file.FileChangeNotifier;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
@@ -281,7 +281,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		/**
 		 * Zoom entities to the new gridsize
 		 */
-		zoomEntities(oldGridSize, factor, getDiagram().getGridElements());
+		GridElementZoomUtil.zoomEntities(oldGridSize, factor, getDiagram().getGridElements());
 
 		// Zoom to mouse position if available
 		if (manualZoom) {
@@ -303,28 +303,6 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	private int realignToGrid(float diff) {
 		return SharedUtils.realignTo(false, diff, false, getDiagram().getZoomLevel());
-	}
-
-	public static void zoomEntities(int fromFactor, int toFactor, List<GridElement> selectedEntities) {
-
-		/**
-		 * The entities must be resized to the new factor
-		 */
-		for (GridElement entity : selectedEntities) {
-			Rectangle oldRect = entity.getRectangle();
-			int newX = oldRect.getX() * toFactor / fromFactor;
-			int newY = oldRect.getY() * toFactor / fromFactor;
-			int newW = oldRect.getWidth() * toFactor / fromFactor;
-			int newH = oldRect.getHeight() * toFactor / fromFactor;
-			oldRect.setBounds((int) GridElementUtils.realignTo(newX, toFactor), (int) GridElementUtils.realignTo(newY, toFactor), (int) GridElementUtils.realignTo(newW, toFactor), (int) GridElementUtils.realignTo(newH, toFactor));
-			entity.setRectangle(oldRect);
-
-			double zoomFactor = toFactor / (double) SharedConstants.DEFAULT_GRID_SIZE;
-			((DrawHandlerGwt) entity.getComponent().getDrawHandler()).setZoomFactor(zoomFactor);
-			((DrawHandlerGwt) entity.getComponent().getMetaDrawHandler()).setZoomFactor(zoomFactor);
-
-			entity.updateModelFromText();
-		}
 	}
 
 	void moveElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements) {
@@ -438,7 +416,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	@Override
 	public void addGridElements(List<GridElement> elements, int oldZoomLevel) {
-		zoomEntities(oldZoomLevel, getGridSize(), elements);
+		GridElementZoomUtil.zoomEntities(oldZoomLevel, getGridSize(), elements);
 		diagram.getGridElements().addAll(elements);
 		selector.selectOnly(elements);
 		redraw(true);

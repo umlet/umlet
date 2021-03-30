@@ -18,6 +18,7 @@ import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.element.GridElementZoomUtil;
 import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
 import com.baselet.gwt.client.view.commands.RemoveGridElementCommandNoUpdate;
@@ -95,7 +96,10 @@ public class CommandInvoker extends Controller {
 	}
 
 	public void copySelectedElements(CommandTarget target) {
-		WebStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
+		Diagram targetDiagram = target.getDiagram();
+		List<GridElement> elements = copyElementsInList(target.getSelector().getSelectedElements(), targetDiagram); // must be copied here to ensure location etc. will not be changed
+		GridElementZoomUtil.zoomEntities(targetDiagram.getZoomLevel(), SharedConstants.DEFAULT_GRID_SIZE, elements);
+		WebStorage.setClipboard(elements);
 	}
 
 	public void cutSelectedElements(CommandTarget target) {
@@ -109,6 +113,7 @@ public class CommandInvoker extends Controller {
 
 	public void executePaste(CommandTarget target, String content, Point pasteTargetPosition) {
 		List<GridElement> copyOfElements = copyElementsInList(DiagramXmlParser.xmlToGridElements(content), target.getDiagram());
+		GridElementZoomUtil.zoomEntities(SharedConstants.DEFAULT_GRID_SIZE, target.getDiagram().getZoomLevel(), copyOfElements);
 		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
 		// if there is a context menu currently opened, place it at the cursor position, otherwise at the top left
 		realignElementsToVisibleRect(target, copyOfElements);
