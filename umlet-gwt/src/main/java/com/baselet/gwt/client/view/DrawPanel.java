@@ -301,7 +301,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		redraw(true);
 	}
 
-	private int realignToGrid(float diff) {
+	protected int realignToGrid(float diff) {
 		return SharedUtils.realignTo(false, diff, false, getDiagram().getZoomLevel());
 	}
 
