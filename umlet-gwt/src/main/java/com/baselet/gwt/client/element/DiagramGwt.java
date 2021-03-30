@@ -116,12 +116,27 @@ public class DiagramGwt implements Diagram {
 	}
 
 	@Override
+	public String getCustomDrawingsCode() {
+		return null;
+	}
+
+	@Override
+	public void setCustomDrawingsCode(String customDrawingsCode) {
+
+	}
+
+	@Override
 	public String getPanelAttributes() {
 		return helpText;
 	}
 
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
+		return Collections.<AutocompletionText> emptyList();
+	}
+
+	@Override
+	public List<AutocompletionText> getCustomDrawingsAutocompletionList() {
 		return Collections.<AutocompletionText> emptyList();
 	}
 

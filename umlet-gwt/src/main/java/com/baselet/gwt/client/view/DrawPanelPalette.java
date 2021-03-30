@@ -21,6 +21,7 @@ import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.palettes.Resources;
+import com.baselet.gwt.client.view.widgets.propertiespanel.CustomDrawingsTextArea;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
@@ -58,8 +59,8 @@ public class DrawPanelPalette extends DrawPanel {
 
 	private GridElement lastDraggedGridElement;
 
-	public DrawPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser) {
-		super(mainView, propertiesPanel);
+	public DrawPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, CustomDrawingsTextArea customDrawingsPanel, final ListBox paletteChooser) {
+		super(mainView, propertiesPanel, customDrawingsPanel);
 		setDiagram(parsePalette(PALETTELIST.get(0)));
 		this.paletteChooser = paletteChooser;
 		for (TextResource r : PALETTELIST) {

@@ -27,7 +27,8 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.pane.OwnSyntaxPane;
+import com.baselet.gui.pane.CustomDrawingsSyntaxPane;
+import com.baselet.gui.pane.PropertiesSyntaxPane;
 import com.baselet.plugin.gui.Contributor.ActionName;
 
 public class EclipseGUI extends BaseGUI {
@@ -116,7 +117,8 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
-	protected void init() {}
+	protected void init() {
+	}
 
 	@Override
 	public void open(DiagramHandler diagram) {
@@ -220,9 +222,19 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
-	public OwnSyntaxPane getPropertyPane() {
+	public PropertiesSyntaxPane getPropertyPane() {
 		if (editor != null) {
 			return editor.getPropertyPane();
+		}
+		else {
+			return null;
+		}
+	}
+
+	@Override
+	public CustomDrawingsSyntaxPane getCustomDrawingsPane() {
+		if (editor != null) {
+			return editor.getCustomDrawingsPane();
 		}
 		else {
 			return null;

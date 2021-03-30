@@ -12,6 +12,7 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
+import com.baselet.gwt.client.view.widgets.propertiespanel.CustomDrawingsTextArea;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 
@@ -21,8 +22,8 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	private boolean tempInvalid;
 
-	public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
-		super(mainView, propertiesPanel);
+	public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel, CustomDrawingsTextArea customDrawingsPanel) {
+		super(mainView, propertiesPanel, customDrawingsPanel);
 	}
 
 	@Override
@@ -108,6 +109,7 @@ public class DrawPanelDiagram extends DrawPanel {
 		// CancelDragOfPalette(); //Should not be needed anymore since selecting elements only works with left click now
 		if (!isControlKeyDown || selector.getSelectedElements().size() > 0) {
 			propertiesPanel.setEnabled(true);
+			customDrawingsPanel.setEnabled(true);
 		}
 		removeOldPreview();
 

@@ -97,6 +97,12 @@
 							<o:PropertiesTextArea ui:field="propertiesPanel" height="100%" width="100%" addStyleNames="{style.propPanel}" />
 						</g:FlowPanel>
 					</g:center>
+					<g:south size='200'>
+						<g:FlowPanel>
+							<g:HTML><div ui:field="customDrawingsDiv" class='{style.propertiesTitle}'>Code</div></g:HTML>
+							<o:CustomDrawingsTextArea ui:field="customDrawingsPanel" height="100%" width="100%" addStyleNames="{style.propPanel}" />
+						</g:FlowPanel>
+					</g:south>
 				</g:SplitLayoutPanel>
 			</g:east>
 		</g:SplitLayoutPanel>
