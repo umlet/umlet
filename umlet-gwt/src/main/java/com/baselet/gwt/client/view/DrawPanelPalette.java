@@ -99,9 +99,10 @@ public class DrawPanelPalette extends DrawPanel {
 			GridElement e = ElementFactoryGwt.create(ge, otherDrawFocusPanel.getDiagram());
 			e.setProperty(GroupFacet.KEY, null);
 			commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
+			commandInvoker.addElements(otherDrawFocusPanel, Arrays.asList(e), getGridSize());
 			// Set Location as top left of currently visible area
 			DrawPanel.snapElementToVisibleTopLeft(e, otherDrawFocusPanel);
-			commandInvoker.addElements(otherDrawFocusPanel, Arrays.asList(e), getGridSize());
+			otherDrawFocusPanel.redraw(true);
 		}
 	}
 
