@@ -17,7 +17,7 @@ public class LineWidthFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
-		state.getDrawer().setLineWidth(Float.valueOf(value));
+		state.getDrawer().setLineWidth(Float.parseFloat(value));
 	}
 
 }

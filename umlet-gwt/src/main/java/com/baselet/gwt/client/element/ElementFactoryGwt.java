@@ -12,7 +12,7 @@ import com.baselet.element.sticking.StickableMap;
 
 public class ElementFactoryGwt extends ElementFactory {
 
-	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes, String additionalPanelAttributes, final Diagram diagram) {
+	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes, String additionalPanelAttributes, String customDrawingsCode, final Diagram diagram) {
 		final NewGridElement element = createAssociatedGridElement(id);
 
 		DrawHandlerInterface handler = new DrawHandlerInterface() {
@@ -42,11 +42,18 @@ public class ElementFactoryGwt extends ElementFactory {
 
 		element.init(rect, panelAttributes, additionalPanelAttributes, new ComponentGwt(element), handler);
 		element.setPanelAttributes(panelAttributes);
+		if (customDrawingsCode != null && !customDrawingsCode.isEmpty()) {
+			element.setCustomDrawingsCode(customDrawingsCode);
+		}
 		return element;
 	}
 
+	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes, String additionalPanelAttributes, final Diagram diagram) {
+		return create(id, rect, panelAttributes, additionalPanelAttributes, "", diagram);
+	}
+
 	public static GridElement create(GridElement src, final Diagram targetDiagram) {
-		return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), targetDiagram);
+		return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), src.getCustomDrawingsCode(), targetDiagram);
 	}
 
 }

@@ -41,25 +41,27 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 
 	protected void updateGridElement() {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
-		String s = CurrentGui.getInstance().getGui().getPropertyPane().getText();
+		String newPannelAttributes = CurrentGui.getInstance().getGui().getPropertyPane().getText();
+		String newCustomDrawingAttribtues = CurrentGui.getInstance().getGui().getCustomDrawingsPane().getText();
 		DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
 
 		if (gridElement != null) {
 			// only create command if changes were made
-			if (!s.equals(gridElement.getPanelAttributes())) {
+			if (!newPannelAttributes.equals(gridElement.getPanelAttributes()) || !newCustomDrawingAttribtues.equals(gridElement.getCustomDrawingsCode())) {
 				int newCaretPos = CurrentGui.getInstance().getGui().getPropertyPane().getTextComponent().getCaretPosition();
-				int oldCaretPos = newCaretPos - (s.length() - gridElement.getPanelAttributes().length());
+				int oldCaretPos = newCaretPos - (newPannelAttributes.length() - gridElement.getPanelAttributes().length());
 
 				if (HandlerElementMap.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
-					HandlerElementMap.getHandlerForElement(gridElement).getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+					HandlerElementMap.getHandlerForElement(gridElement).getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), newPannelAttributes, oldCaretPos, newCaretPos));
 				}
 				else {
-					HandlerElementMap.getHandlerForElement(gridElement).getController().executeCommand(new ChangePanelAttributes(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+					HandlerElementMap.getHandlerForElement(gridElement).getController().executeCommand(
+							new ChangePanelAttributes(gridElement, gridElement.getPanelAttributes(), newPannelAttributes, gridElement.getCustomDrawingsCode(), newCustomDrawingAttribtues, oldCaretPos, newCaretPos));
 				}
 			}
 		}
-		else if (handler != null && !s.equals(handler.getHelpText())) { // help panel has been edited
-			handler.getController().executeCommand(new HelpPanelChanged(s));
+		else if (handler != null && !newPannelAttributes.equals(handler.getHelpText())) { // help panel has been edited
+			handler.getController().executeCommand(new HelpPanelChanged(newPannelAttributes));
 		}
 
 		// Scrollbars must be updated cause some entities can grow out of screen border by typing text inside (eg: autoresize custom elements)
@@ -69,14 +71,18 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {
+	}
 
 	@Override
-	public void insertUpdate(DocumentEvent e) {}
+	public void insertUpdate(DocumentEvent e) {
+	}
 
 	@Override
-	public void removeUpdate(DocumentEvent e) {}
+	public void removeUpdate(DocumentEvent e) {
+	}
 }
