@@ -6,8 +6,8 @@ package com.baselet.control.basics.geom;
  */
 public class PointDouble {
 
-	public Double x;
-	public Double y;
+	public final Double x;
+	public final Double y;
 
 	public PointDouble(double x, double y) {
 		super();

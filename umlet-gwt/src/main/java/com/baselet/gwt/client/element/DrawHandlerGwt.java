@@ -157,9 +157,7 @@ public class DrawHandlerGwt extends DrawHandler {
 				public void run() {
 					PointDouble[] pointsCopy = new PointDouble[points.length];
 					for (int i = 0; i < points.length; i++) {
-						PointDouble point = points[i].copy();
-						point.x = point.getX() * zoomFactor;
-						point.y = point.getY() * zoomFactor;
+						PointDouble point = new PointDouble(points[i].getX() * zoomFactor, points[i].getY() * zoomFactor);
 						pointsCopy[i] = point;
 					}
 					setScalingOnce();
@@ -205,9 +203,7 @@ public class DrawHandlerGwt extends DrawHandler {
 			@Override
 			public void run() {
 				setScalingOnce();
-				PointDouble pToDraw = point.copy();
-				pToDraw.x = pToDraw.getX() * zoomFactor;
-				pToDraw.y = pToDraw.getY() * zoomFactor;
+				PointDouble pToDraw = new PointDouble(point.getX() * zoomFactor, point.getY() * zoomFactor);
 				ColorOwn fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : styleAtDrawingCall.getForegroundColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
 				for (StringStyle line : text) {
