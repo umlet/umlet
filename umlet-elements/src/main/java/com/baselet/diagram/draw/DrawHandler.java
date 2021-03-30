@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.Line;
@@ -21,14 +24,14 @@ import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class DrawHandler {
 
 	private static final Logger log = LoggerFactory.getLogger(DrawHandler.class);
 
 	protected static final double HALF_PX = 0.5f;
+
+	public JavascriptCodeParser javascriptCodeParser;
 
 	protected Style style = new Style();
 	private final Style overlay = new Style();
@@ -363,4 +366,8 @@ public abstract class DrawHandler {
 	 * @param align the horizontal alignment
 	 */
 	public abstract void printHelper(StringStyle[] lines, PointDouble point, AlignHorizontal align);
+
+	public JavascriptCodeParser getJavascriptCodeParser() {
+		return javascriptCodeParser;
+	}
 }

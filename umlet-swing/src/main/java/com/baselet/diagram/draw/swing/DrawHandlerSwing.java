@@ -36,6 +36,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	public DrawHandlerSwing(GridElement gridElement) {
 		super();
 		this.gridElement = gridElement;
+		javascriptCodeParser = new JavascriptParserSwing(this);
 	}
 
 	/**
