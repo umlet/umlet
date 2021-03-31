@@ -36,24 +36,26 @@ public class CommandInvoker extends Controller {
 	}
 
 	void addElements(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
-		executeCommand(new AddGridElementCommand(target, elements, oldZoomLevel));
+		GridElementZoomUtil.zoomEntities(oldZoomLevel, target.getDiagram().getZoomLevel(), elements);
+		executeCommand(new AddGridElementCommand(target, elements));
 	}
 
 	// adds elements but does not notify vs code that anything is changed
 	void addElementsDontNotifyUpdate(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
-		executeCommand(new AddGridElementCommandDontNotifyUpdate(target, elements, oldZoomLevel));
+		GridElementZoomUtil.zoomEntities(oldZoomLevel, target.getDiagram().getZoomLevel(), elements);
+		executeCommand(new AddGridElementCommandDontNotifyUpdate(target, elements));
 	}
 
 	private static class AddGridElementCommandDontNotifyUpdate extends AddGridElementCommand {
 
-		public AddGridElementCommandDontNotifyUpdate(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
-			super(target, elements, oldZoomLevel);
+		public AddGridElementCommandDontNotifyUpdate(CommandTarget target, List<GridElement> elements) {
+			super(target, elements);
 		}
 
 		@Override
 		public void execute() {
 			if (target instanceof DrawPanelDiagram) {
-				((DrawPanelDiagram) target).addGridElementsDontNotifyUpdate(elements, oldZoomLevel);
+				((DrawPanelDiagram) target).addGridElementsDontNotifyUpdate(elements);
 			}
 			else {
 				super.execute();
@@ -79,8 +81,8 @@ public class CommandInvoker extends Controller {
 	 used to add an element without triggering VSCode being notified about the diagram change
 	 used to add preview Elements
 	 */
-	void addElementsNoUpdate(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
-		executeCommand(new AddGridElementCommandNoUpdate(target, elements, oldZoomLevel));
+	void addElementsNoUpdate(CommandTarget target, List<GridElement> elements) {
+		executeCommand(new AddGridElementCommandNoUpdate(target, elements));
 	}
 
 	/*

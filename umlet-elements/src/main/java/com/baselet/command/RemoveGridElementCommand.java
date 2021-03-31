@@ -21,7 +21,7 @@ public class RemoveGridElementCommand extends Command {
 
 	@Override
 	public void undo() {
-		target.addGridElements(elements, target.getDiagram().getZoomLevel());
+		target.addGridElements(elements);
 	}
 
 }

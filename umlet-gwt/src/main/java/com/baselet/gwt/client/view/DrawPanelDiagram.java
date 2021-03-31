@@ -86,10 +86,10 @@ public class DrawPanelDiagram extends DrawPanel {
 	}
 
 	/* displays a preview object by newly creating a copy. destroys and overrides old copy preview object if one was available. a preview will stay visible until this method is called with (null) as argument or RemoveOldPreview() is called should not be used for multiple objects, due to performance */
-	public void setDisplayingPreviewElementInstantiated(List<GridElement> previewElements, int oldZoomLevel) {
+	public void setDisplayingPreviewElementInstantiated(List<GridElement> previewElements) {
 		removeOldPreview();
 		if (previewElements != null && previewElements.size() > 0) {
-			addGridElementsDontNotifyUpdate(previewElements, oldZoomLevel);
+			addGridElementsDontNotifyUpdate(previewElements);
 		}
 		currentPreviewElementsInstantiated = previewElements;
 	}
@@ -169,13 +169,13 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	// Whenever elements are updated (added, moved/deformed, removed, edited in the properties panel), visual studio code must be informed and update with the newest file
 	@Override
-	public void addGridElements(List<GridElement> elements, int oldZoomLevel) {
-		super.addGridElements(elements, oldZoomLevel);
+	public void addGridElements(List<GridElement> elements) {
+		super.addGridElements(elements);
 		handleFileUpdate();
 	}
 
-	public void addGridElementsDontNotifyUpdate(List<GridElement> elements, int oldZoomLevel) {
-		super.addGridElements(elements, oldZoomLevel);
+	public void addGridElementsDontNotifyUpdate(List<GridElement> elements) {
+		super.addGridElements(elements);
 	}
 
 	@Override

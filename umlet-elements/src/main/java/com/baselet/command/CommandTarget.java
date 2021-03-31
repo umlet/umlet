@@ -8,7 +8,7 @@ import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 
 public interface CommandTarget {
-	void addGridElements(List<GridElement> element, int oldZoomLevel);
+	void addGridElements(List<GridElement> element);
 
 	void removeGridElements(List<GridElement> element);
 
