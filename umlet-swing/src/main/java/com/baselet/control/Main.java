@@ -29,7 +29,8 @@ import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.pane.OwnSyntaxPane;
+import com.baselet.gui.pane.CustomDrawingsSyntaxPane;
+import com.baselet.gui.pane.PropertiesSyntaxPane;
 
 public class Main implements CanCloseProgram, CanOpenDiagram {
 
@@ -64,14 +65,18 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 
 	private void setPropertyPanelToGridElementHelper(GridElement e) {
 		editedGridElement = e;
-		OwnSyntaxPane propertyPane = CurrentGui.getInstance().getGui().getPropertyPane();
+		PropertiesSyntaxPane propertyPane = CurrentGui.getInstance().getGui().getPropertyPane();
+		CustomDrawingsSyntaxPane paneCustomDrawings = CurrentGui.getInstance().getGui().getCustomDrawingsPane();
+
 		if (e != null) {
 			propertyPane.switchToElement(e);
+			paneCustomDrawings.switchToElement(e);
 		}
 		else {
 			DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
 			if (handler == null) {
 				propertyPane.switchToNonElement("");
+				paneCustomDrawings.switchToNonElement("");
 			}
 			else {
 				propertyPane.switchToNonElement(handler.getHelpText());

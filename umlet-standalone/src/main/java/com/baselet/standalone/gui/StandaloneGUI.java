@@ -27,7 +27,8 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.BaseGUI;
-import com.baselet.gui.pane.OwnSyntaxPane;
+import com.baselet.gui.pane.CustomDrawingsSyntaxPane;
+import com.baselet.gui.pane.PropertiesSyntaxPane;
 
 public class StandaloneGUI extends BaseGUI {
 
@@ -246,8 +247,13 @@ public class StandaloneGUI extends BaseGUI {
 	}
 
 	@Override
-	public OwnSyntaxPane getPropertyPane() {
+	public PropertiesSyntaxPane getPropertyPane() {
 		return guiBuilder.getPropertyTextPane();
+	}
+
+	@Override
+	public CustomDrawingsSyntaxPane getCustomDrawingsPane() {
+		return guiBuilder.getCustomDrawingsPane();
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.facet.common.LayerFacet;
+import com.baselet.element.facet.customdrawings.CustomDrawingParserImpl;
 import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.CursorOwn;
 import com.baselet.element.interfaces.DrawHandlerInterface;
@@ -60,6 +61,8 @@ public abstract class NewGridElement implements GridElement {
 	private DrawHandlerInterface handler;
 
 	private List<String> panelAttributes;
+
+	private String customDrawingsCode;
 
 	protected PropertiesParserState state;
 
@@ -92,6 +95,21 @@ public abstract class NewGridElement implements GridElement {
 		updateModelFromText();
 	}
 
+	@Override
+	public void setCustomDrawingsCode(String customDrawingsCode) {
+		setCustomDrawingsCodeHelper(customDrawingsCode);
+		updateModelFromText();
+	}
+
+	public void setCustomDrawingsCodeHelper(String customDrawingsCode) {
+		this.customDrawingsCode = customDrawingsCode;
+	}
+
+	@Override
+	public String getCustomDrawingsCode() {
+		return customDrawingsCode;
+	}
+
 	public void setPanelAttributesHelper(String panelAttributes) {
 		this.panelAttributes = Arrays.asList(panelAttributes.split("\n", -1)); // split with -1 to retain empty lines at the end
 	}
@@ -110,8 +128,9 @@ public abstract class NewGridElement implements GridElement {
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
 			PropertiesParser.parsePropertiesAndHandleFacets(this, state);
+			parseCustomDrawings();
 		} catch (Exception e) {
-			log.info("Cannot parse Properties Text", e);
+			log.info("Cannot parse", e);
 			drawer.resetStyle();
 			String localizedMessage = e.getLocalizedMessage();
 			if (localizedMessage == null) {
@@ -122,6 +141,12 @@ public abstract class NewGridElement implements GridElement {
 		autoresizePossiblyInProgress = false;
 
 		component.afterModelUpdate();
+	}
+
+	private void parseCustomDrawings() {
+		if (customDrawingsCode != null && !customDrawingsCode.isEmpty()) {
+			drawer.getJavascriptCodeParser().parse(customDrawingsCode);
+		}
 	}
 
 	protected void drawError(DrawHandler drawer, String errorText) {

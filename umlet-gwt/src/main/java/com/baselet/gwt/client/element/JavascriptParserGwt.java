@@ -28,6 +28,9 @@ public class JavascriptParserGwt extends JavascriptCodeParser {
 	private String formatDrawFunctions(String line) {
 		line = line.replace("drawCircle", "$wnd.drawCircle");
 		line = line.replace("drawRectangle", "$wnd.drawRectangle");
+		line = line.replace("drawRectangleRound", "$wnd.drawRectangleRound");
+		line = line.replace("drawEllipse", "$wnd.drawEllipse");
+		line = line.replace("drawArc", "$wnd.drawArc");
 		line = line.replace("drawLine", "$wnd.drawLine");
 		return line;
 	}
@@ -41,6 +44,15 @@ public class JavascriptParserGwt extends JavascriptCodeParser {
 																});
 																$wnd.drawLine = $entry(function(x1,y1,x2,y2) {
 																drawer.@com.baselet.gwt.client.element.DrawHandlerGwt::drawLine(DDDD)(x1,y1,x2,y2);
+																});
+																$wnd.drawRectangleRound = $entry(function(x,y,width,height,radius) {
+																drawer.@com.baselet.gwt.client.element.DrawHandlerGwt::drawRectangleRound(DDDDD)(x,y,width,height,radius);
+																});
+																$wnd.drawEllipse = $entry(function(x,y,width,height) {
+																drawer.@com.baselet.gwt.client.element.DrawHandlerGwt::drawEllipse(DDDD)(x,y,width,height);
+																});
+																$wnd.drawArc = $entry(function(x,y,width,height,start,extent,open) {
+																drawer.@com.baselet.gwt.client.element.DrawHandlerGwt::drawArc(DDDDDDZ)(x,y,width,height,start,extent,open);
 																});
 																}-*/;
 

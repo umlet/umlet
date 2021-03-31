@@ -24,6 +24,18 @@ public class DrawerScriptable extends ScriptableObject {
 		drawer.drawLine(x1, y1, x2, y2);
 	}
 
+	public void drawArc(double x, double y, double width, double height, double start, double extent, boolean open) {
+		drawer.drawArc(x, y, width, height, start, extent, open);
+	}
+
+	public void drawEllipse(double x, double y, double width, double height) {
+		drawer.drawEllipse(x, y, width, height);
+	}
+
+	public void drawRectangleRound(double x, double y, double width, double height, double radius) {
+		drawer.drawRectangleRound(x, y, width, height, radius);
+	}
+
 	@Override
 	public String getClassName() {
 		return getClass().getName();
