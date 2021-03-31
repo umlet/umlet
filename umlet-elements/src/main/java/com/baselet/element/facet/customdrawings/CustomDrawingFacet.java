@@ -44,7 +44,7 @@ public class CustomDrawingFacet extends Facet {
 			state.setFacetResponse(CustomDrawingFacet.class, true);
 		}
 		else {
-			state.getDrawer().getJavascriptCodeParser().parse(line);
+			CustomDrawingParserImpl.parse(line, state.getGridElementSize().getWidth(), state.getGridElementSize().getHeight(), state.getDrawer());
 		}
 	}
 

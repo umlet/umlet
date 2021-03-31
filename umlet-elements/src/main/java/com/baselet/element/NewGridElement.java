@@ -36,7 +36,6 @@ import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.facet.common.LayerFacet;
-import com.baselet.element.facet.customdrawings.CustomDrawingParserImpl;
 import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.CursorOwn;
 import com.baselet.element.interfaces.DrawHandlerInterface;
