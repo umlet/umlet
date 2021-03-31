@@ -1,6 +1,7 @@
 package com.web.gwt.client.view.widgets;
 
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.enums.Program;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.CanvasUtils;
 import com.baselet.gwt.client.view.widgets.*;
@@ -88,11 +89,16 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 	public void onData(String data, DownloadType downloadType) {
 		if (downloadType == DownloadType.UXF) {
 			data = "data:text/xml;charset=utf-8," + data;
+			data = data.replace("\"", "&quot;");
 		}
 
 		String filename = filenameAndScaleHolder.getFilename();
 		if (filename.isEmpty()) {
 			filename = "Diagram " + DTF.format(new Date());
+		}
+
+		if (downloadType == DownloadType.UXF) {
+			filename += "." + Program.getInstance().getExtension();
 		}
 
 		Element element = Document.get().createElement("a");
@@ -114,7 +120,7 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 					int oldZoom = drawPanelDiagram.getGridSize();
 					switch (downloadType) {
 						case UXF:
-							DiagramXmlParser.diagramToXml(true, true, drawPanelDiagram.getDiagram(), WebDownloadPopupPanel.this, DownloadType.UXF);
+							DiagramXmlParser.diagramToXml(true, false, drawPanelDiagram.getDiagram(), WebDownloadPopupPanel.this, DownloadType.UXF);
 							break;
 						case PNG:
 							double scalingValue = filenameAndScaleHolder.getScaling();
