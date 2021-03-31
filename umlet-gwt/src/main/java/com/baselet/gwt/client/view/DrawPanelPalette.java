@@ -119,24 +119,25 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
+		List<GridElement> elementsToMove = new ArrayList<>();
 		List<GridElement> previewElements = ((DrawPanelDiagram) otherDrawFocusPanel).getPreviewElements();
+		if (previewElements != null) {
+			for (GridElement previewElement : ((DrawPanelDiagram) otherDrawFocusPanel).getPreviewElements()) {
+				elementsToMove.add(ElementFactoryGwt.create(previewElement, otherDrawFocusPanel.getDiagram()));
+			}
+		}
+		// clear preview object
+		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
+			((DrawPanelDiagram) otherDrawFocusPanel).removeOldPreview();
+		}
 
 		if (lastPoint.getX() + -scrollPanel.getHorizontalScrollPosition() <= 0) { // mouse moved from palette to diagram -> insert elements to diagram
-			List<GridElement> elementsToMove = new ArrayList<>();
-			for (GridElement preview : previewElements) {
-				elementsToMove.add(ElementFactoryGwt.create(preview, otherDrawFocusPanel.getDiagram()));
-			}
 			Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
 			resetPalette();
 			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove, otherDrawFocusPanel.getDiagram().getZoomLevel());
 
 			// set focus to the diagram
 			EventHandlingUtils.getStorageInstance().setActivePanel(otherDrawFocusPanel);
-		}
-
-		// clear preview object
-		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
-			((DrawPanelDiagram) otherDrawFocusPanel).removeOldPreview();
 		}
 		draggedElements.clear();
 
@@ -204,9 +205,6 @@ public class DrawPanelPalette extends DrawPanel {
 			}
 			else if (!resizeDirections.isEmpty()) {
 				draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
-				List<GridElement> draggedGridElementAsList = new ArrayList<>();
-				draggedGridElementAsList.add(draggedGridElement);
-				handlePreviewDisplayInstantiated(dragStart, diffX, diffY, isShiftKeyDown, firstDrag, draggedGridElementAsList);
 			} // if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 			else if (selector.getSelectedElements().size() == 1) {
 				draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
@@ -242,21 +240,6 @@ public class DrawPanelPalette extends DrawPanel {
 	private void cancelDrag(Point dragStart, int diffX, int diffY, GridElement draggedGridElement) {
 		onMouseDragEnd(draggedGridElement, new Point(dragStart.getX() + diffX, dragStart.getY() + diffY));
 		draggingDisabled = true;
-	}
-
-	private void handlePreviewDisplayInstantiated(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag, List<GridElement> elementsToPreview) {
-		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
-			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-			if (dragStart.getX() + diffX + -scrollPanel.getHorizontalScrollPosition() <= 0) {
-				List<GridElement> elementsToMove = new ArrayList<>(gridElementCopyInOtherDiagram(elementsToPreview, dragStart.y + diffY));
-				otherDrawDiagramFocusPanel.setDisplayingPreviewElementInstantiated(elementsToMove, getGridSize());
-			}
-			else {
-				// if cursor is dragged back, preview must be removed
-				otherDrawDiagramFocusPanel.removeOldPreview();
-				realignElementsToGrid(selector.getSelectedElements());
-			}
-		}
 	}
 
 	private void handlePreviewDisplay(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
