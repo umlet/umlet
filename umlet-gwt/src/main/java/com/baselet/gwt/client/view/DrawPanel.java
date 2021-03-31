@@ -415,8 +415,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	@Override
-	public void addGridElements(List<GridElement> elements, int oldZoomLevel) {
-		GridElementZoomUtil.zoomEntities(oldZoomLevel, getGridSize(), elements);
+	public void addGridElements(List<GridElement> elements) {
 		diagram.getGridElements().addAll(elements);
 		selector.selectOnly(elements);
 		redraw(true);

@@ -8,17 +8,15 @@ public class AddGridElementCommand extends Command {
 
 	protected CommandTarget target;
 	protected List<GridElement> elements;
-	protected int oldZoomLevel;
 
-	public AddGridElementCommand(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
+	public AddGridElementCommand(CommandTarget target, List<GridElement> elements) {
 		this.target = target;
 		this.elements = elements;
-		this.oldZoomLevel = oldZoomLevel;
 	}
 
 	@Override
 	public void execute() {
-		target.addGridElements(elements, oldZoomLevel);
+		target.addGridElements(elements);
 	}
 
 	@Override
