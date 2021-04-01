@@ -10,6 +10,10 @@ public interface HasPanelAttributes {
 
 	void setPanelAttributes(String panelAttributes);
 
+	String getCustomDrawingsCode();
+
+	void setCustomDrawingsCode(String customDrawingsCode);
+
 	List<AutocompletionText> getAutocompletionList();
 
 }
