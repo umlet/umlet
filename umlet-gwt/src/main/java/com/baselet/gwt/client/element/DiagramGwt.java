@@ -137,7 +137,7 @@ public class DiagramGwt implements Diagram {
 
 	@Override
 	public List<AutocompletionText> getCustomDrawingsAutocompletionList() {
-		return null;
+		return Collections.<AutocompletionText> emptyList();
 	}
 
 }

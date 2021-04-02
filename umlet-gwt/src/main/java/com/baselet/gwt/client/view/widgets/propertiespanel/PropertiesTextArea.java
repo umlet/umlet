@@ -1,6 +1,9 @@
 package com.baselet.gwt.client.view.widgets.propertiespanel;
 
+import java.util.List;
+
 import com.baselet.element.interfaces.HasPanelAttributes;
+import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.google.gwt.uibinder.client.UiConstructor;
 
@@ -32,6 +35,11 @@ public class PropertiesTextArea extends TextArea {
 	@Override
 	public void setGridElementAttributes() {
 		gridElement.setPanelAttributes(getValue());
+	}
+
+	@Override
+	protected List<AutocompletionText> getAutoCompletionList(HasPanelAttributes panelAttributeProvider) {
+		return panelAttributeProvider.getAutocompletionList();
 	}
 
 }

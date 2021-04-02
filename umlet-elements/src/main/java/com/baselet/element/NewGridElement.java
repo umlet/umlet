@@ -1,6 +1,14 @@
 package com.baselet.element;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -363,8 +371,9 @@ public abstract class NewGridElement implements GridElement {
 		return returnList;
 	}
 
+	@Override
 	public List<AutocompletionText> getCustomDrawingsAutocompletionList() {
-		List<AutocompletionText> autocompletionList = new LinkedList<>();
+		List<AutocompletionText> autocompletionList = new LinkedList<AutocompletionText>();
 
 		autocompletionList.add(new AutocompletionText("drawLine(20, 10, 50, 20)",
 				"Draws a line from (x1, y1) to (x2, y2). Supports fg, lt and lw option after the last bracket."));

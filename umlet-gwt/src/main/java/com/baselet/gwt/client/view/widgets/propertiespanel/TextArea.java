@@ -82,12 +82,14 @@ public abstract class TextArea extends MySuggestBox {
 		textArea.setValue(panelAttributes);
 		oldText = panelAttributes;
 		List<AutocompletionTextGwt> autocompletionTextList = new ArrayList<>();
-		for (AutocompletionText oldText : panelAttributeProvider.getAutocompletionList()) {
+		for (AutocompletionText oldText : getAutoCompletionList(panelAttributeProvider)) {
 			AutocompletionTextGwt newText = new AutocompletionTextGwt(oldText.getText(), oldText.getInfo(), oldText.getBase64Img());
 			autocompletionTextList.add(newText);
 		}
 		oracle.setAutocompletionList(autocompletionTextList);
 	}
+
+	protected abstract List<AutocompletionText> getAutoCompletionList(HasPanelAttributes panelAttributeProvider);
 
 	private int getCursorPositionInLine() {
 		String wholeText = textArea.getText();
