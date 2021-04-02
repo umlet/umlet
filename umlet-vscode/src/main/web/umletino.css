@@ -132,7 +132,7 @@
     border-radius: 5px !important;
 }
 
-.gwt-PopupPanel {
+.gwt-PopupPanel.notificationPopup {
     border: 2px solid #bbb !important;
     border-radius: 5px !important;
     padding: 5px !important;
