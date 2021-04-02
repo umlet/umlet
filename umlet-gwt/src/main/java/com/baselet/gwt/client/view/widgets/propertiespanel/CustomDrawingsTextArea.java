@@ -1,10 +1,6 @@
 package com.baselet.gwt.client.view.widgets.propertiespanel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.baselet.element.interfaces.HasPanelAttributes;
-import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.google.gwt.uibinder.client.UiConstructor;
 
@@ -38,13 +34,4 @@ public class CustomDrawingsTextArea extends TextArea {
 		gridElement.setCustomDrawingsCode(getValue());
 	}
 
-	@Override
-	public void setAutocompletionList(HasPanelAttributes panelAttributeProvider) {
-		List<AutocompletionTextGwt> autocompletionTextList = new ArrayList<>();
-		for (AutocompletionText oldText : panelAttributeProvider.getCustomDrawingsAutocompletionList()) {
-			AutocompletionTextGwt newText = new AutocompletionTextGwt(oldText.getText(), oldText.getInfo(), oldText.getBase64Img());
-			autocompletionTextList.add(newText);
-		}
-		oracle.setAutocompletionList(autocompletionTextList);
-	}
 }
