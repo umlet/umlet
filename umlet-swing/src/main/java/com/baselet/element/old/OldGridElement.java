@@ -159,6 +159,18 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
+	public String getCustomDrawingsCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCustomDrawingsCode(String customDrawingsCode) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = Arrays.asList(panelAttributes.split("\n", -1)); // split with -1 to retain empty lines at the end
 	}
