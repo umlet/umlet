@@ -1,10 +1,6 @@
 package com.baselet.gwt.client.view.widgets.propertiespanel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.baselet.element.interfaces.HasPanelAttributes;
-import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.DrawPanelDiagram;
 import com.baselet.gwt.client.view.interfaces.Redrawable;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
@@ -84,14 +80,7 @@ public abstract class TextArea extends MySuggestBox {
 		setAutocompletionList(panelAttributeProvider);
 	}
 
-	public void setAutocompletionList(HasPanelAttributes panelAttributeProvider) {
-		List<AutocompletionTextGwt> autocompletionTextList = new ArrayList<>();
-		for (AutocompletionText oldText : panelAttributeProvider.getAutocompletionList()) {
-			AutocompletionTextGwt newText = new AutocompletionTextGwt(oldText.getText(), oldText.getInfo(), oldText.getBase64Img());
-			autocompletionTextList.add(newText);
-		}
-		oracle.setAutocompletionList(autocompletionTextList);
-	}
+	public abstract void setAutocompletionList(HasPanelAttributes panelAttributeProvider);
 
 	private int getCursorPositionInLine() {
 		String wholeText = textArea.getText();
