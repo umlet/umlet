@@ -13,4 +13,10 @@ public class CustomDrawingsSyntaxPane extends AbstractSyntaxPane {
 		return e.getCustomDrawingsCode();
 	}
 
+	@Override
+	public void switchToElement(GridElement e) {
+		words = e.getCustomDrawingsAutocompletionList();
+		setText(getPanelAttributes(e));
+	}
+
 }

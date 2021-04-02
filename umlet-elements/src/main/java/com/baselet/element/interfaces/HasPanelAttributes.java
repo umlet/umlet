@@ -16,4 +16,5 @@ public interface HasPanelAttributes {
 
 	List<AutocompletionText> getAutocompletionList();
 
+	List<AutocompletionText> getCustomDrawingsAutocompletionList();
 }

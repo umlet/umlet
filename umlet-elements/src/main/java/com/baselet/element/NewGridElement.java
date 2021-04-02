@@ -1,13 +1,6 @@
 package com.baselet.element;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -368,6 +361,33 @@ public abstract class NewGridElement implements GridElement {
 		addAutocompletionTexts(returnList, state.getSettings().getFacetsForFirstRun());
 		addAutocompletionTexts(returnList, state.getSettings().getFacetsForSecondRun());
 		return returnList;
+	}
+
+	public List<AutocompletionText> getCustomDrawingsAutocompletionList() {
+		List<AutocompletionText> autocompletionList = new LinkedList<>();
+
+		autocompletionList.add(new AutocompletionText("drawLine(20, 10, 50, 20)",
+				"Draws a line from (x1, y1) to (x2, y2). Supports fg, lt and lw option after the last bracket."));
+
+		autocompletionList.add(new AutocompletionText("drawRectangle(5,5,40,20)",
+				"Draws a rectangle with the top left corner at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
+
+		autocompletionList.add(new AutocompletionText("drawRectangleRound(5,5,40,20,5)",
+				"Draws a rectangle with round corners with the top left corner at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
+
+		autocompletionList.add(new AutocompletionText("drawCircle(20,20,20)",
+				"Draws a circle with the center at (x, y) and the given radius. Supports fg, bg, lt and lw option after the last bracket."));
+
+		autocompletionList.add(new AutocompletionText("drawEllipse(0,0,40,20)",
+				"Draws an ellipse where the top left corner of the surrounding rectangle is at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
+
+		autocompletionList.add(new AutocompletionText("drawArc(0,0,60,30,0,270,false)",
+				"Draws an elliptical arc where the top left corner of the surrounding rectangle is at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
+
+		autocompletionList.add(new AutocompletionText("drawText(\"This is text!\", width/2, height/2, center)",
+				"Draws the text at (x, y) with the given horizontal alignment. Supports fg option after the last bracket."));
+
+		return autocompletionList;
 	}
 
 	private void addAutocompletionTexts(List<AutocompletionText> returnList, List<? extends Facet> facets) {

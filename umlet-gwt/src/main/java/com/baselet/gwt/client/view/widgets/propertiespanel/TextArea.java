@@ -81,6 +81,10 @@ public abstract class TextArea extends MySuggestBox {
 		}
 		textArea.setValue(panelAttributes);
 		oldText = panelAttributes;
+		setAutocompletionList(panelAttributeProvider);
+	}
+
+	public void setAutocompletionList(HasPanelAttributes panelAttributeProvider) {
 		List<AutocompletionTextGwt> autocompletionTextList = new ArrayList<>();
 		for (AutocompletionText oldText : panelAttributeProvider.getAutocompletionList()) {
 			AutocompletionTextGwt newText = new AutocompletionTextGwt(oldText.getText(), oldText.getInfo(), oldText.getBase64Img());
