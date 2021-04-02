@@ -11,6 +11,8 @@ import com.baselet.diagram.draw.JavascriptCodeParser;
 
 public class JavascriptParserSwing extends JavascriptCodeParser {
 
+	private final static String DRAWMETHODS_PREFIX = "draw";
+
 	private final DrawerScriptable drawerScriptable;
 
 	public JavascriptParserSwing(DrawHandler drawer) {
@@ -19,18 +21,18 @@ public class JavascriptParserSwing extends JavascriptCodeParser {
 	}
 
 	@Override
-	public void parse(String line) {
+	public void parse(String line, int width, int height) {
 
 		Context cx = Context.enter();
 
 		Scriptable scope = cx.initStandardObjects();
-		
+
 		// Create an instance of the class whose instance methods is to be made available in javascript as a global function.
 		Scriptable scriptable = drawerScriptable;
 		scriptable.setParentScope(scope);
 
 		for (Method method : DrawerScriptable.class.getMethods()) {
-			if (method.getName().startsWith("draw")) {
+			if (method.getName().startsWith(DRAWMETHODS_PREFIX)) {
 				// Create the FunctionObject that binds the above function name to the instance method.
 				FunctionObject scriptableInstanceMethodBoundJavascriptFunction = new CustomFunctionObject(method.getName(), method, scriptable);
 				// Make it accessible within the scriptExecutionScope.
@@ -38,6 +40,12 @@ public class JavascriptParserSwing extends JavascriptCodeParser {
 			}
 		}
 
-		cx.evaluateString(scope, line, "custom drawings js script", 1, null);
+		scope.put("width", scope, width);
+		scope.put("height", scope, height);
+		scope.put("center", scope, "center");
+		scope.put("left", scope, "left");
+		scope.put("right", scope, "right");
+
+		cx.evaluateString(scope, line, "JS", 1, null);
 	}
 }

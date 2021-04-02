@@ -2,7 +2,9 @@ package com.baselet.diagram.draw.swing.javascriptparser;
 
 import org.mozilla.javascript.ScriptableObject;
 
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.helper.StyleException;
 
 @SuppressWarnings("serial")
 public class DrawerScriptable extends ScriptableObject {
@@ -34,6 +36,20 @@ public class DrawerScriptable extends ScriptableObject {
 
 	public void drawRectangleRound(double x, double y, double width, double height, double radius) {
 		drawer.drawRectangleRound(x, y, width, height, radius);
+	}
+
+	public void drawText(String multiLineWithMarkup, double x, double y, String align) {
+		AlignHorizontal alignHorizontal = getAlignHorizontalEnumFromString(align);
+		drawer.print(multiLineWithMarkup, x, y, alignHorizontal);
+	}
+
+	private AlignHorizontal getAlignHorizontalEnumFromString(String align) {
+		for (AlignHorizontal alignHorizontal : AlignHorizontal.values()) {
+			if (alignHorizontal.toString().equalsIgnoreCase(align)) {
+				return alignHorizontal;
+			}
+		}
+		throw new StyleException("Allowed values for AlignHorizontal: center, left, right");
 	}
 
 	@Override

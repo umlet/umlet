@@ -46,7 +46,7 @@ public abstract class BaseGUIBuilder {
 		initTextPanes();
 
 		palettePanel = newPalettePanel();
-		rightSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), customDrawingsTextPane.getPanel(), 3, Config.getInstance().getRight_split_position(), true);
+		rightSplit = newThreeComponentGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), customDrawingsTextPane.getPanel(), 2, 200, 600, true);
 		rightPanel = newRightPanel();
 
 		mainSplit = newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainComponent, rightPanel, 2, mainDividerLoc, true);
@@ -122,13 +122,13 @@ public abstract class BaseGUIBuilder {
 		return palettePanel;
 	}
 
-	public JSplitPane newGenericSplitPane(int newOrientation, Component newLeftComponent, Component newRightComponent, Component thirdComponent, int dividerSize, int dividerLocation, boolean visible) {
+	public JSplitPane newThreeComponentGenericSplitPane(int newOrientation, Component newLeftComponent, Component newRightComponent, Component thirdComponent, int dividerSize, int dividerLocation1, int dividerLocation2, boolean visible) {
 		JSplitPane firstPane = new JSplitPane(newOrientation, newLeftComponent, newRightComponent);
 		firstPane.setDividerSize(dividerSize);
-		firstPane.setDividerLocation(dividerLocation);
+		firstPane.setDividerLocation(dividerLocation1);
 		JSplitPane secondPane = new JSplitPane(newOrientation, firstPane, thirdComponent);
 		secondPane.setDividerSize(dividerSize);
-		secondPane.setDividerLocation(dividerLocation + 300);
+		secondPane.setDividerLocation(dividerLocation2);
 		secondPane.setResizeWeight(1);
 		secondPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
 		secondPane.setAlignmentX(Component.RIGHT_ALIGNMENT);

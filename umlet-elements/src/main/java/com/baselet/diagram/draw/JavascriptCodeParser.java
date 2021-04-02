@@ -3,5 +3,5 @@ package com.baselet.diagram.draw;
 public abstract class JavascriptCodeParser {
 	public DrawHandler drawer;
 
-	public abstract void parse(String line);
+	public abstract void parse(String line, int width, int height);
 }

@@ -127,7 +127,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
 			PropertiesParser.parsePropertiesAndHandleFacets(this, state);
-			parseCustomDrawings();
+			parseCustomDrawings(state);
 		} catch (Exception e) {
 			log.info("Cannot parse", e);
 			drawer.resetStyle();
@@ -142,9 +142,9 @@ public abstract class NewGridElement implements GridElement {
 		component.afterModelUpdate();
 	}
 
-	private void parseCustomDrawings() {
+	private void parseCustomDrawings(PropertiesParserState state) {
 		if (customDrawingsCode != null && !customDrawingsCode.isEmpty()) {
-			drawer.getJavascriptCodeParser().parse(customDrawingsCode);
+			drawer.getJavascriptCodeParser().parse(customDrawingsCode, state.getGridElementSize().getWidth(), state.getGridElementSize().getHeight());
 		}
 	}
 
