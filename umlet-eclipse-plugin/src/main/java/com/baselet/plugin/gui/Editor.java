@@ -46,7 +46,8 @@ import com.baselet.diagram.PaletteHandler;
 import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.listener.UmletWindowFocusListener;
-import com.baselet.gui.pane.OwnSyntaxPane;
+import com.baselet.gui.pane.CustomDrawingsSyntaxPane;
+import com.baselet.gui.pane.PropertiesSyntaxPane;
 
 public class Editor extends EditorPart {
 
@@ -348,8 +349,12 @@ public class Editor extends EditorPart {
 		embeddedPanel.setCursor(cursor);
 	}
 
-	public OwnSyntaxPane getPropertyPane() {
+	public PropertiesSyntaxPane getPropertyPane() {
 		return guiComponents.getPropertyTextPane();
+	}
+
+	public CustomDrawingsSyntaxPane getCustomDrawingsPane() {
+		return guiComponents.getCustomDrawingsPane();
 	}
 
 	public JTextComponent getCustomPane() {
