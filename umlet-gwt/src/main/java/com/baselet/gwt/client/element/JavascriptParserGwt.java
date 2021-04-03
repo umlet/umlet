@@ -6,17 +6,14 @@ import com.baselet.diagram.draw.JavascriptCodeParser;
 
 public class JavascriptParserGwt extends JavascriptCodeParser {
 
-	private final DrawHandler drawer;
-
 	public JavascriptParserGwt(DrawHandler drawer) {
-		this.drawer = drawer;
+		setDrawer(drawer);
 	}
-
 	@Override
 	public void parse(String line, int width, int height) {
 		exportWidthAndHeight(width, height);
 		exportAlignHorizontalEnumValues(AlignHorizontal.CENTER, AlignHorizontal.LEFT, AlignHorizontal.RIGHT);
-		exportDrawFunctions(drawer);
+		exportDrawFunctions(getDrawer());
 
 		parseJavascript(line);
 	}

@@ -16,7 +16,6 @@ public class JavascriptParserSwing extends JavascriptCodeParser {
 	private final DrawerScriptable drawerScriptable;
 
 	public JavascriptParserSwing(DrawHandler drawer) {
-		this.drawer = drawer;
 		drawerScriptable = new DrawerScriptable(drawer);
 	}
 
