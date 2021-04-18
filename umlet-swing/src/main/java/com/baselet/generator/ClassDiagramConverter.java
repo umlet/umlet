@@ -102,7 +102,7 @@ public class ClassDiagramConverter {
 		String propertiesText = getElementProperties(parsedClass);
 		List<String> propList = Arrays.asList(propertiesText.split("\n"));
 		Rectangle initialSize = adjustSize(propList);
-		GridElement clazz = ElementFactorySwing.create(ElementId.UMLClass, initialSize, propertiesText, null, CurrentDiagram.getInstance().getDiagramHandler());
+		GridElement clazz = ElementFactorySwing.create(ElementId.UMLClass, initialSize, propertiesText, null, "", CurrentDiagram.getInstance().getDiagramHandler());
 		return new SortableElement(clazz, parsedClass);
 	}
 
