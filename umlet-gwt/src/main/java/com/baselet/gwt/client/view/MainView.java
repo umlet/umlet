@@ -518,6 +518,8 @@ public class MainView extends Composite implements ThemeChangeListener {
 		// Splitter between palette chooser and textarea
 		palettePropertiesSplitter.getWidget(1).getElement().getStyle().setBackgroundColor(splitterColor);
 
+		palettePropertiesSplitter.getWidget(3).getElement().getStyle().setBackgroundColor(splitterColor);
+
 		propertiesDiv.getStyle().setBackgroundColor(splitterColor);
 		propertiesDiv.getStyle().setColor(foregroundColor);
 		propertiesPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
