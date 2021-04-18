@@ -47,7 +47,7 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 
 		if (gridElement != null) {
 			// only create command if changes were made
-			if (!newPannelAttributes.equals(gridElement.getPanelAttributes()) || !newCustomDrawingAttribtues.equals(gridElement.getCustomDrawingsCode())) {
+			if (!newPannelAttributes.equals(gridElement.getPanelAttributes()) || !newCustomDrawingAttribtues.equals(gridElement.getCustomDrawingsCode() == null ? "" : gridElement.getCustomDrawingsCode())) {
 				int newCaretPos = CurrentGui.getInstance().getGui().getPropertyPane().getTextComponent().getCaretPosition();
 				int oldCaretPos = newCaretPos - (newPannelAttributes.length() - gridElement.getPanelAttributes().length());
 

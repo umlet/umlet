@@ -73,7 +73,7 @@ public class PackageLayout extends Layout {
 	}
 
 	private SortableElement createPackageElement(String packageName) {
-		NewGridElement pack = ElementFactorySwing.create(ElementId.UMLPackage, new Rectangle(10, 10, 10, 10), packageName + "\nbg=orange", "", CurrentDiagram.getInstance().getDiagramHandler());
+		NewGridElement pack = ElementFactorySwing.create(ElementId.UMLPackage, new Rectangle(10, 10, 10, 10), packageName + "\nbg=orange", "", "", CurrentDiagram.getInstance().getDiagramHandler());
 		return new SortableElement(pack, packageName);
 	}
 }

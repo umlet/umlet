@@ -68,11 +68,12 @@ public abstract class NewGridElement implements GridElement {
 
 	protected final UndoHistory undoStack = new UndoHistory();
 
-	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
+	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, String customDrawingsCode, DrawHandlerInterface handler) {
 		this.component = component;
 		drawer = component.getDrawHandler();
 		metaDrawer = component.getMetaDrawHandler();
 		setPanelAttributesHelper(panelAttributes);
+		setCustomDrawingsCodeHelper(customDrawingsCode);
 		setRectangle(bounds);
 		this.handler = handler;
 		state = new PropertiesParserState(createSettings(), drawer);

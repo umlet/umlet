@@ -43,6 +43,7 @@ public class InputHandler extends DefaultHandler {
 	private String entityname;
 	private String code;
 	private String panel_attributes;
+	private String customdrawings_attributes;
 	private String additional_attributes;
 
 	private String currentGroup;
@@ -66,6 +67,7 @@ public class InputHandler extends DefaultHandler {
 		elementtext = "";
 		if (qName.equals("element")) {
 			panel_attributes = "";
+			customdrawings_attributes = "";
 			additional_attributes = "";
 			code = null;
 		}
@@ -98,7 +100,7 @@ public class InputHandler extends DefaultHandler {
 		else if (elementname.equals("element")) {
 			if (id != null) {
 				try {
-					NewGridElement e = ElementFactorySwing.create(ElementId.valueOf(id), new Rectangle(x, y, w, h), panel_attributes, additional_attributes, handler);
+					NewGridElement e = ElementFactorySwing.create(ElementId.valueOf(id), new Rectangle(x, y, w, h), panel_attributes, additional_attributes, customdrawings_attributes, handler);
 					if (currentGroup != null) {
 						e.setProperty(GroupFacet.KEY, currentGroup);
 					}
@@ -125,6 +127,7 @@ public class InputHandler extends DefaultHandler {
 				}
 				e.setRectangle(new Rectangle(x, y, w, h));
 				e.setPanelAttributes(panel_attributes);
+				e.setCustomDrawingsCode(customdrawings_attributes);
 				e.setAdditionalAttributes(additional_attributes);
 				handler.setHandlerAndInitListeners(e);
 
@@ -161,6 +164,9 @@ public class InputHandler extends DefaultHandler {
 		}
 		else if (elementname.equals("additional_attributes")) {
 			additional_attributes = elementtext;
+		}
+		else if (elementname.equals("customdrawings_attributes")) {
+			customdrawings_attributes = elementtext;
 		}
 		else if (elementname.equals("custom_code")) {
 			code = elementtext;

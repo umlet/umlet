@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private boolean enabled;
 	private boolean autoresizeandmanualresizeenabled;
 	private List<String> panelAttributes = new ArrayList<String>();
+	private String customDrawingsCode;
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
 	/**
@@ -160,20 +162,17 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public String getCustomDrawingsCode() {
-		// TODO Auto-generated method stub
-		return null;
+		return customDrawingsCode;
 	}
 
 	@Override
 	public void setCustomDrawingsCode(String customDrawingsCode) {
-		// TODO Auto-generated method stub
-
+		this.customDrawingsCode = customDrawingsCode;
 	}
 
 	@Override
 	public List<AutocompletionText> getCustomDrawingsAutocompletionList() {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.<AutocompletionText> emptyList();
 	}
 
 	@Override

@@ -40,7 +40,7 @@ public class ElementFactoryGwt extends ElementFactory {
 			}
 		};
 
-		element.init(rect, panelAttributes, additionalPanelAttributes, new ComponentGwt(element), handler);
+		element.init(rect, panelAttributes, additionalPanelAttributes, new ComponentGwt(element), customDrawingsCode, handler);
 		element.setPanelAttributes(panelAttributes);
 		if (customDrawingsCode != null && !customDrawingsCode.isEmpty()) {
 			element.setCustomDrawingsCode(customDrawingsCode);

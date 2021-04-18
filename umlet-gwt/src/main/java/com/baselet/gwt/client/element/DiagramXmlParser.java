@@ -47,6 +47,7 @@ public class DiagramXmlParser {
 	private static final String W = "w";
 	private static final String H = "h";
 	private static final String PANEL_ATTRIBUTES = "panel_attributes";
+	private static final String CUSTOM_DRAWINGS_ATTRIBUTES = "customdrawings_attributes";
 	private static final String ADDITIONAL_ATTRIBUTES = "additional_attributes";
 	private static final String ATTR_PROGRAM = "program";
 	private static final String ATTR_VERSION = "version";
@@ -107,7 +108,14 @@ public class DiagramXmlParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					GridElement gridElement = ElementFactoryGwt.create(id, rect, panelAttributes, additionalPanelAttributes, diagram);
+
+					String customDrawingsAttributes = "";
+					Node customDrawingAttrNode = element.getElementsByTagName(CUSTOM_DRAWINGS_ATTRIBUTES).item(0).getFirstChild();
+					if (customDrawingAttrNode != null) {
+						customDrawingsAttributes = customDrawingAttrNode.getNodeValue();
+					}
+
+					GridElement gridElement = ElementFactoryGwt.create(id, rect, panelAttributes, additionalPanelAttributes, customDrawingsAttributes, diagram);
 					double zoomFactor = diagram.getZoomLevel() / (double) SharedConstants.DEFAULT_GRID_SIZE;
 					((DrawHandlerGwt) gridElement.getComponent().getDrawHandler()).setZoomFactor(zoomFactor);
 					((DrawHandlerGwt) gridElement.getComponent().getMetaDrawHandler()).setZoomFactor(zoomFactor);

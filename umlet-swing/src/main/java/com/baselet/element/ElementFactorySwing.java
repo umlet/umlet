@@ -10,6 +10,7 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.elementnew.ElementFactory;
+import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.DrawHandlerInterface;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.OldGridElement;
@@ -22,10 +23,10 @@ public class ElementFactorySwing extends ElementFactory {
 	/**
 	 * uses no reflection, to avoid complications with GWT
 	 */
-	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, String additionalAttributes, DiagramHandler handler) {
+	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, String additionalAttributes, String customDrawingsCode, DiagramHandler handler) {
 		final NewGridElement returnObj = createAssociatedGridElement(id);
-
-		ComponentSwing component = new ComponentSwing(returnObj);
+		
+		Component component = new ComponentSwing(returnObj);
 
 		DrawHandlerInterface panel = new DrawHandlerInterface() {
 			@Override
@@ -51,7 +52,7 @@ public class ElementFactorySwing extends ElementFactory {
 			}
 		};
 
-		returnObj.init(bounds, panelAttributes, additionalAttributes, component, panel);
+		returnObj.init(bounds, panelAttributes, additionalAttributes, component, customDrawingsCode != null ? customDrawingsCode : "", panel);
 		handler.setHandlerAndInitListeners(returnObj);
 		return returnObj;
 	}
@@ -61,7 +62,7 @@ public class ElementFactorySwing extends ElementFactory {
 			return ((OldGridElement) src).cloneFromMe();
 		}
 		else {
-			return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), HandlerElementMap.getHandlerForElement(src));
+			return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), src.getCustomDrawingsCode(), HandlerElementMap.getHandlerForElement(src));
 		}
 	}
 
