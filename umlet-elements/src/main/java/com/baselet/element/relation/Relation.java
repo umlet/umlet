@@ -72,7 +72,7 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 		RelationPointList pointList = new RelationPointList();
 		String[] split = additionalAttributes.split(";");
 		for (int i = 0; i < split.length; i += 2) {
-			pointList.add(Double.parseDouble(split[i]), Double.parseDouble(split[i + 1]));
+			pointList.add(Double.valueOf(split[i]), Double.valueOf(split[i + 1]));
 		}
 		relationPoints = new RelationPointHandler(this, pointList);
 		if (getHandler().isInitialized()) {

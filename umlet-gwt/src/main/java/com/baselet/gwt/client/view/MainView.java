@@ -28,7 +28,6 @@ import com.baselet.gwt.client.view.widgets.FilenameAndScaleHolder;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
 import com.baselet.gwt.client.view.widgets.ShortcutDialogBox;
-import com.baselet.gwt.client.view.widgets.propertiespanel.CustomDrawingsTextArea;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -36,7 +35,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -98,9 +96,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 	DivElement propertiesDiv;
 
 	@UiField
-	DivElement customDrawingsDiv;
-
-	@UiField
 	FlowPanel restoreMenuPanel;
 
 	@UiField(provided = true)
@@ -123,9 +118,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 	@UiField
 	PropertiesTextArea propertiesPanel;
-
-	@UiField
-	CustomDrawingsTextArea customDrawingsPanel;
 
 	@UiField
 	SimpleLayoutPanel palettePanelWrapper;
@@ -191,8 +183,8 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramPaletteSplitter.setWidgetSnapClosedSize(menuPanel, 25);
 		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
-		diagramPanel = new DrawPanelDiagram(this, propertiesPanel, customDrawingsPanel);
-		palettePanel = new DrawPanelPalette(this, propertiesPanel, customDrawingsPanel, paletteChooser);
+		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
+		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
 		diagramPanel.setOtherDrawFocusPanel(palettePanel);
 		palettePanel.setOtherDrawFocusPanel(diagramPanel);
 		AutoResizeScrollDropPanel autoResizeScrollDropPanelDiagram = GWT.create(AutoResizeScrollDropPanel.class);
@@ -523,12 +515,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 		propertiesPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		propertiesPanel.getElement().getStyle().setColor(foregroundColor);
 		propertiesPanel.getElement().getStyle().setBorderColor(backgroundColor);
-
-		customDrawingsDiv.getStyle().setBackgroundColor(splitterColor);
-		customDrawingsDiv.getStyle().setColor(foregroundColor);
-		customDrawingsPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
-		customDrawingsPanel.getElement().getStyle().setColor(foregroundColor);
-		customDrawingsPanel.getElement().getStyle().setBorderColor(backgroundColor);
 
 		mainPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		mainPanel.getElement().getStyle().setColor(foregroundColor);

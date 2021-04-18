@@ -30,7 +30,7 @@ import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.AutocompletionText;
 
-public abstract class AbstractSyntaxPane {
+public class OwnSyntaxPane {
 
 	private static final String SEPARATOR = "    ";
 
@@ -47,7 +47,7 @@ public abstract class AbstractSyntaxPane {
 	RSyntaxTextArea textArea;
 	RTextScrollPane scrollPane;
 
-	public AbstractSyntaxPane(String name) {
+	public OwnSyntaxPane() {
 
 		panel = new JPanel(new FlowLayout());
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -79,7 +79,7 @@ public abstract class AbstractSyntaxPane {
 		// ac.setShowDescWindow(true);
 		ac.install(textArea);
 
-		JLabel propertyLabel = new JLabel(" " + name);
+		JLabel propertyLabel = new JLabel(" Properties");
 		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		propertyLabel.setFont(DerivedConfig.getPanelHeaderFont());
 		panel.add(propertyLabel);
@@ -145,7 +145,7 @@ public abstract class AbstractSyntaxPane {
 
 	public void switchToElement(GridElement e) {
 		words = e.getAutocompletionList();
-		setText(getPanelAttributes(e));
+		setText(e.getPanelAttributes());
 	}
 
 	public void switchToNonElement(String text) {
@@ -154,7 +154,7 @@ public abstract class AbstractSyntaxPane {
 
 	}
 
-	public void setText(String text) {
+	private void setText(String text) {
 		if (!textArea.getText().equals(text)) {
 			textArea.setText(text); // Always set text even if they are equal to trigger correct syntax highlighting (if words to highlight have changed but text not)
 			textArea.setCaretPosition(0);
@@ -163,7 +163,5 @@ public abstract class AbstractSyntaxPane {
 		createHightLightMap();
 		createAutocompletionCompletionProvider();
 	}
-
-	public abstract String getPanelAttributes(GridElement e);
 
 }

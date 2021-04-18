@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,8 +61,6 @@ public abstract class NewGridElement implements GridElement {
 
 	private List<String> panelAttributes;
 
-	private String customDrawingsCode;
-
 	protected PropertiesParserState state;
 
 	protected final UndoHistory undoStack = new UndoHistory();
@@ -95,21 +92,6 @@ public abstract class NewGridElement implements GridElement {
 		updateModelFromText();
 	}
 
-	@Override
-	public void setCustomDrawingsCode(String customDrawingsCode) {
-		setCustomDrawingsCodeHelper(customDrawingsCode);
-		updateModelFromText();
-	}
-
-	public void setCustomDrawingsCodeHelper(String customDrawingsCode) {
-		this.customDrawingsCode = customDrawingsCode;
-	}
-
-	@Override
-	public String getCustomDrawingsCode() {
-		return customDrawingsCode;
-	}
-
 	public void setPanelAttributesHelper(String panelAttributes) {
 		this.panelAttributes = Arrays.asList(panelAttributes.split("\n", -1)); // split with -1 to retain empty lines at the end
 	}
@@ -128,9 +110,8 @@ public abstract class NewGridElement implements GridElement {
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
 			PropertiesParser.parsePropertiesAndHandleFacets(this, state);
-			parseCustomDrawings(state);
 		} catch (Exception e) {
-			log.info("Cannot parse", e);
+			log.info("Cannot parse Properties Text", e);
 			drawer.resetStyle();
 			String localizedMessage = e.getLocalizedMessage();
 			if (localizedMessage == null) {
@@ -141,12 +122,6 @@ public abstract class NewGridElement implements GridElement {
 		autoresizePossiblyInProgress = false;
 
 		component.afterModelUpdate();
-	}
-
-	private void parseCustomDrawings(PropertiesParserState state) {
-		if (customDrawingsCode != null && !customDrawingsCode.isEmpty()) {
-			drawer.getJavascriptCodeParser().parse(customDrawingsCode, state.getGridElementSize().getWidth(), state.getGridElementSize().getHeight());
-		}
 	}
 
 	protected void drawError(DrawHandler drawer, String errorText) {
@@ -369,34 +344,6 @@ public abstract class NewGridElement implements GridElement {
 		addAutocompletionTexts(returnList, state.getSettings().getFacetsForFirstRun());
 		addAutocompletionTexts(returnList, state.getSettings().getFacetsForSecondRun());
 		return returnList;
-	}
-
-	@Override
-	public List<AutocompletionText> getCustomDrawingsAutocompletionList() {
-		List<AutocompletionText> autocompletionList = new LinkedList<AutocompletionText>();
-
-		autocompletionList.add(new AutocompletionText("drawLine(20, 10, 50, 20)",
-				"Draws a line from (x1, y1) to (x2, y2). Supports fg, lt and lw option after the last bracket."));
-
-		autocompletionList.add(new AutocompletionText("drawRectangle(5,5,40,20)",
-				"Draws a rectangle with the top left corner at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
-
-		autocompletionList.add(new AutocompletionText("drawRectangleRound(5,5,40,20,5)",
-				"Draws a rectangle with round corners with the top left corner at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
-
-		autocompletionList.add(new AutocompletionText("drawCircle(20,20,20)",
-				"Draws a circle with the center at (x, y) and the given radius. Supports fg, bg, lt and lw option after the last bracket."));
-
-		autocompletionList.add(new AutocompletionText("drawEllipse(0,0,40,20)",
-				"Draws an ellipse where the top left corner of the surrounding rectangle is at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
-
-		autocompletionList.add(new AutocompletionText("drawArc(0,0,60,30,0,270,false)",
-				"Draws an elliptical arc where the top left corner of the surrounding rectangle is at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
-
-		autocompletionList.add(new AutocompletionText("drawText(\"This is text!\", width/2, height/2, center)",
-				"Draws the text at (x, y) with the given horizontal alignment. Supports fg option after the last bracket."));
-
-		return autocompletionList;
 	}
 
 	private void addAutocompletionTexts(List<AutocompletionText> returnList, List<? extends Facet> facets) {

@@ -21,7 +21,6 @@ import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
-import com.baselet.diagram.draw.swing.javascriptparser.JavascriptParserSwing;
 import com.baselet.element.interfaces.GridElement;
 
 public class DrawHandlerSwing extends DrawHandler {
@@ -37,7 +36,6 @@ public class DrawHandlerSwing extends DrawHandler {
 	public DrawHandlerSwing(GridElement gridElement) {
 		super();
 		this.gridElement = gridElement;
-		javascriptCodeParser = new JavascriptParserSwing(this);
 	}
 
 	/**

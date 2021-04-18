@@ -22,9 +22,7 @@ import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.baselet.gui.listener.PropertyPanelListener;
-import com.baselet.gui.pane.AbstractSyntaxPane;
-import com.baselet.gui.pane.CustomDrawingsSyntaxPane;
-import com.baselet.gui.pane.PropertiesSyntaxPane;
+import com.baselet.gui.pane.OwnSyntaxPane;
 
 public abstract class BaseGUIBuilder {
 
@@ -39,14 +37,12 @@ public abstract class BaseGUIBuilder {
 	private JSplitPane customSplit;
 	private JSplitPane mailSplit;
 	private JPanel rightPanel;
-	private PropertiesSyntaxPane propertyTextPane;
-	private CustomDrawingsSyntaxPane customDrawingsTextPane;
+	private OwnSyntaxPane propertyTextPane;
 
 	protected JSplitPane initBase(Component mainComponent, final int mainDividerLoc) {
-		initTextPanes();
-
+		propertyTextPane = createPropertyTextPane(); // must be initialized before palettePanel because it could be accessed during palette initialization (eg in case of different default fontsize)
 		palettePanel = newPalettePanel();
-		rightSplit = newThreeComponentGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), customDrawingsTextPane.getPanel(), 2, 200, 600, true);
+		rightSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), 2, Config.getInstance().getRight_split_position(), true);
 		rightPanel = newRightPanel();
 
 		mainSplit = newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainComponent, rightPanel, 2, mainDividerLoc, true);
@@ -67,13 +63,6 @@ public abstract class BaseGUIBuilder {
 		mailPanel.setVisible(false);
 		mailSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit, 0, 0, true);
 		return mailSplit;
-	}
-
-	private void initTextPanes() {
-		propertyTextPane = new PropertiesSyntaxPane("Properties"); // must be initialized before palettePanel because it could be accessed during palette initialization (eg in case of different default fontsize)
-		addTextPaneListener(propertyTextPane);
-		customDrawingsTextPane = new CustomDrawingsSyntaxPane("Code"); // must be initialized before palettePanel because it could be accessed during palette initialization (eg in case of different default fontsize)
-		addTextPaneListener(customDrawingsTextPane);
 	}
 
 	public JSplitPane getMailSplit() {
@@ -120,20 +109,6 @@ public abstract class BaseGUIBuilder {
 			palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
 		}
 		return palettePanel;
-	}
-
-	public JSplitPane newThreeComponentGenericSplitPane(int newOrientation, Component newLeftComponent, Component newRightComponent, Component thirdComponent, int dividerSize, int dividerLocation1, int dividerLocation2, boolean visible) {
-		JSplitPane firstPane = new JSplitPane(newOrientation, newLeftComponent, newRightComponent);
-		firstPane.setDividerSize(dividerSize);
-		firstPane.setDividerLocation(dividerLocation1);
-		JSplitPane secondPane = new JSplitPane(newOrientation, firstPane, thirdComponent);
-		secondPane.setDividerSize(dividerSize);
-		secondPane.setDividerLocation(dividerLocation2);
-		secondPane.setResizeWeight(1);
-		secondPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-		secondPane.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		secondPane.setVisible(visible);
-		return secondPane;
 	}
 
 	public JSplitPane newGenericSplitPane(int newOrientation, Component newLeftComponent, Component newRightComponent, int dividerSize, int dividerLocation, boolean visible) {
@@ -183,18 +158,16 @@ public abstract class BaseGUIBuilder {
 		}
 	}
 
-	private void addTextPaneListener(AbstractSyntaxPane syntaxPane) {
+	private OwnSyntaxPane createPropertyTextPane() {
+		OwnSyntaxPane propertyTextPane = new OwnSyntaxPane();
 		PropertyPanelListener pListener = new PropertyPanelListener();
-		syntaxPane.getTextComponent().addKeyListener(pListener);
-		syntaxPane.getTextComponent().getDocument().addDocumentListener(pListener);
-	}
-
-	public PropertiesSyntaxPane getPropertyTextPane() {
+		propertyTextPane.getTextComponent().addKeyListener(pListener);
+		propertyTextPane.getTextComponent().getDocument().addDocumentListener(pListener);
 		return propertyTextPane;
 	}
 
-	public CustomDrawingsSyntaxPane getCustomDrawingsPane() {
-		return customDrawingsTextPane;
+	public OwnSyntaxPane getPropertyTextPane() {
+		return propertyTextPane;
 	}
 
 	public void setMailPanelEnabled(boolean enable) {

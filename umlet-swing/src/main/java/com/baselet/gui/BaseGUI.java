@@ -26,8 +26,7 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElement;
 import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.menu.MenuFactorySwing;
-import com.baselet.gui.pane.CustomDrawingsSyntaxPane;
-import com.baselet.gui.pane.PropertiesSyntaxPane;
+import com.baselet.gui.pane.OwnSyntaxPane;
 
 public abstract class BaseGUI {
 
@@ -169,9 +168,7 @@ public abstract class BaseGUI {
 
 	public abstract int getRightSplitPosition();
 
-	public abstract PropertiesSyntaxPane getPropertyPane();
-
-	public abstract CustomDrawingsSyntaxPane getCustomDrawingsPane();
+	public abstract OwnSyntaxPane getPropertyPane();
 
 	public abstract void setValueOfZoomDisplay(int i);
 

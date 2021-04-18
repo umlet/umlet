@@ -7,7 +7,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorOld;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.pane.AbstractSyntaxPane;
+import com.baselet.gui.pane.OwnSyntaxPane;
 
 public class CustomCodePropertyChanged extends Command {
 	// private GridElement _entity;
@@ -58,7 +58,7 @@ public class CustomCodePropertyChanged extends Command {
 		if (gridElement != null && HandlerElementMap.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_newState);
 
-			AbstractSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
+			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
 			pane.switchToElement(gridElement);
 
 			if (pane.getText().length() >= _newCaret) {
@@ -88,7 +88,7 @@ public class CustomCodePropertyChanged extends Command {
 		if (gridElement != null && HandlerElementMap.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_oldState);
 
-			AbstractSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
+			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
 			pane.switchToElement(gridElement);
 
 			if (pane.getText().length() >= _oldCaret) {

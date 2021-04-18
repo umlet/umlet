@@ -4,22 +4,19 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.pane.CustomDrawingsSyntaxPane;
-import com.baselet.gui.pane.PropertiesSyntaxPane;
+import com.baselet.gui.pane.OwnSyntaxPane;
 
 public class ChangePanelAttributes extends Command {
-	private final GridElement _entity;
+	private GridElement _entity;
 
 	public GridElement getEntity() {
 		return _entity;
 	}
 
-	private final String _newState;
-	private final String _oldState;
-	private final String _newStateCustomDrawing;
-	private final String _oldStateCustomDrawing;
-	private final int _oldCaret;
-	private final int _newCaret;
+	private String _newState;
+	private String _oldState;
+	private int _oldCaret;
+	private int _newCaret;
 
 	public String getNewState() {
 		return _newState;
@@ -27,14 +24,6 @@ public class ChangePanelAttributes extends Command {
 
 	public String getOldState() {
 		return _oldState;
-	}
-
-	public String getNewStateCustomDrawing() {
-		return _newStateCustomDrawing;
-	}
-
-	public String getOldStateCustomDrawing() {
-		return _oldStateCustomDrawing;
 	}
 
 	public int getOldCaret() {
@@ -45,30 +34,24 @@ public class ChangePanelAttributes extends Command {
 		return _newCaret;
 	}
 
-	public ChangePanelAttributes(GridElement e, String oldState, String newState, String oldStateCustomDrawing, String newStateCustomDrawing, int oldCaret, int newCaret) {
+	public ChangePanelAttributes(GridElement e, String oldState, String newState, int oldCaret, int newCaret) {
 		_entity = e;
 		_newState = newState;
 		_oldState = oldState;
 		_newCaret = newCaret;
 		_oldCaret = oldCaret;
-
-		_newStateCustomDrawing = newStateCustomDrawing;
-		_oldStateCustomDrawing = oldStateCustomDrawing;
 	}
 
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
 		_entity.setPanelAttributes(_newState);
-		_entity.setCustomDrawingsCode(_newStateCustomDrawing);
 		_entity.repaint();
 
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {
-			PropertiesSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
-			CustomDrawingsSyntaxPane paneCustomDrawings = CurrentGui.getInstance().getGui().getCustomDrawingsPane();
+			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
 			pane.switchToElement(gridElement);
-			paneCustomDrawings.switchToElement(gridElement);
 
 			if (pane.getText().length() >= _newCaret) {
 				pane.getTextComponent().setCaretPosition(_newCaret);
@@ -85,10 +68,8 @@ public class ChangePanelAttributes extends Command {
 
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {
-			PropertiesSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
-			CustomDrawingsSyntaxPane paneCustomDrawings = CurrentGui.getInstance().getGui().getCustomDrawingsPane();
+			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
 			pane.switchToElement(gridElement);
-			paneCustomDrawings.switchToElement(gridElement);
 
 			if (pane.getText().length() >= _oldCaret) {
 				pane.getTextComponent().setCaretPosition(_oldCaret);
@@ -105,7 +86,7 @@ public class ChangePanelAttributes extends Command {
 	@Override
 	public Command mergeTo(Command c) {
 		ChangePanelAttributes tmp = (ChangePanelAttributes) c;
-		ChangePanelAttributes ret = new ChangePanelAttributes(getEntity(), tmp.getOldState(), getNewState(), tmp.getOldStateCustomDrawing(), getNewStateCustomDrawing(), tmp.getOldCaret(), getNewCaret());
+		ChangePanelAttributes ret = new ChangePanelAttributes(getEntity(), tmp.getOldState(), getNewState(), tmp.getOldCaret(), getNewCaret());
 		return ret;
 	}
 
