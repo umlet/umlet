@@ -583,6 +583,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 		else if (Shortcut.SELECT_ALL.matches(event)) {
 			selector.select(diagram.getGridElements());
+			event.stopPropagation();
 		}
 		else if (Shortcut.COPY.matches(event)) {
 			clipboardShortcutWrapper.onCopy(DrawPanel.this);
