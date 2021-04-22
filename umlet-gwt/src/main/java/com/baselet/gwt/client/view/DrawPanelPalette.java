@@ -263,12 +263,6 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
-	private void realignElementsToGrid(List<GridElement> elements) {
-		for (GridElement element : elements) {
-			element.setLocation(realignToGrid(element.getRectangle().getX()), realignToGrid(element.getRectangle().getY()));
-		}
-	}
-
 	@Override
 	protected StickableMap getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
 		// Moves at the palette NEVER stick

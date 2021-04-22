@@ -301,6 +301,12 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		redraw(true);
 	}
 
+	protected void realignElementsToGrid(List<GridElement> elements) {
+		for (GridElement element : elements) {
+			element.setLocation(realignToGrid(element.getRectangle().getX()), realignToGrid(element.getRectangle().getY()));
+		}
+	}
+
 	protected int realignToGrid(float diff) {
 		return SharedUtils.realignTo(false, diff, false, getDiagram().getZoomLevel());
 	}
@@ -417,6 +423,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	@Override
 	public void addGridElements(List<GridElement> elements) {
 		diagram.getGridElements().addAll(elements);
+		realignElementsToGrid(diagram.getGridElements());
 		selector.selectOnly(elements);
 		redraw(true);
 	}
