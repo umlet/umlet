@@ -404,8 +404,10 @@ public class MainView extends Composite implements ThemeChangeListener {
 		label.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(WebStorage.getSavedDiagram(chosenName)));
-				Notification.showInfo("Diagram opened: " + chosenName);
+				if (Window.confirm("Load saved diagram " + chosenName)) {
+					diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(WebStorage.getSavedDiagram(chosenName)));
+					Notification.showInfo("Diagram opened: " + chosenName);
+				}
 			}
 		});
 		Image img = new Image("data:image/gif;base64,R0lGODlhCgAKAJEAAAAAAP////8AAP///yH5BAEAAAMALAAAAAAKAAoAAAIUnI8jgmvLlHtwnpqkpZh72UTZUQAAOw==");
