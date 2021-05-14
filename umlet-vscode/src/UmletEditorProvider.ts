@@ -3,8 +3,8 @@
 import * as vscode from 'vscode';
 import {WebviewPanel, workspace, WorkspaceConfiguration} from 'vscode';
 import * as path from 'path';
-import * as parser from 'fast-xml-parser';
 import * as fs from "fs";
+import * as parser from 'fast-xml-parser';
 import {DebugLevel} from "./main/typescript/DebugLevel";
 
 export var currentlyActivePanel: WebviewPanel | null = null;
@@ -148,10 +148,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
         }
 
-        // Get path to resource on disk
-        const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'target', buildFolder));
-        // And get the special URI to use with the webview
-        const localUmletFolder = webviewPanel.webview.asWebviewUri(onDiskPath);
+        // Web-based IRI for retrieving ressources
+        const webLocation = 'http://localhost:15548';
 
         let fileContents = document.getText().toString();
 
@@ -159,7 +157,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             UmletEditorProvider.theme = 'VS Code setting';
         }
 
-        webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString(), UmletEditorProvider.theme, UmletEditorProvider.fonts);
+        webviewPanel.webview.html = this.getUmletWebviewPage(webLocation, fileContents.toString(), UmletEditorProvider.theme);
     }
 
     prepareActivePanel(webviewPanel: vscode.WebviewPanel, document: vscode.TextDocument) {
@@ -523,7 +521,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
      * @param diagramData XML data of a diagram which should be loaded on start
      * @param themeSetting preference which theme should be used
      */
-    getUmletWebviewPage(localUmletFolder: string, diagramData: string, themeSetting: string, fonts: string[]) {
+    getUmletWebviewPage(localUmletFolder: string, diagramData: string, themeSetting: string) {
         let encodedDiagramData = encodeURIComponent(diagramData); //encode diagramData to prevent special characters to escape the string quotes which could lead to arbitrary javascript or html
         return `<!DOCTYPE html>
   <html>
@@ -534,10 +532,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       <link type="text/css" rel="stylesheet" href="umletino.css">
       <link rel="icon" type="image/x-icon" href="favicon.ico">
       <title>UMLetino - Free Online UML Tool for Fast UML Diagrams</title>
-      <script type="text/javascript" src="umletvscode/umletvscode.nocache.js?2020-03-15_09-48-08"></script>
-      <script src="buffer@6.0.2.js"></script>
-      <script type="text/javascript" src="pdfkit.standalone.js"></script>
-      <script type="text/javascript" src="blob-stream.js"></script>
+      <script type="text/javascript" src="umletvscode/umletvscode.nocache.js"></script>
     </head>
     <body>
 
@@ -557,9 +552,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       var vscode = acquireVsCodeApi();
       
       var themeSetting = \`${themeSetting}\`;
-
-      // Array parameter becomes a string separated by ','
-      var fonts = \`${fonts}\`.split(',');
       
       window.addEventListener('message', function (event) {
           const message = event.data;

@@ -135,10 +135,12 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@types/connect": "^3.4.34",
     "@types/file-saver": "^2.0.1",
     "@types/glob": "^7.1.3",
     "@types/mocha": "^7.0.1",
     "@types/node": "^12.12.54",
+    "@types/serve-static": "^1.13.9",
     "@types/vscode": "^1.47.0",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
@@ -158,6 +160,8 @@
     "fast-xml-parser": "^3.17.4",
     "file-saver": "^2.0.2",
     "sync-pom-version-to-package": "^1.5.0",
-    "vsce": "^1.78.0"
+    "vsce": "^1.78.0",
+    "connect": "^3.7.0",
+    "serve-static": "^1.14.1"
   }
 }

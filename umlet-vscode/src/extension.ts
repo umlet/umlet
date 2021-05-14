@@ -4,6 +4,9 @@ import * as vscode from 'vscode';
 import {Uri, workspace} from "vscode";
 import * as path from 'path';
 import * as fs from "fs";
+import * as parser from 'fast-xml-parser';
+import * as connecter from 'connect';
+import * as serveStatic from 'serve-static';
 import {UmletEditorProvider, lastCurrentlyActivePanelPurified, exportCurrentlyActivePanel} from './UmletEditorProvider';
 
 // this method is called when your extension is activated
@@ -11,6 +14,7 @@ import {UmletEditorProvider, lastCurrentlyActivePanelPurified, exportCurrentlyAc
 export function activate(context: vscode.ExtensionContext) {
 
     createUmletCommands(context);
+    startWebServer(context);
 
     console.log("activating umlet extension...");
     UmletEditorProvider.overrideVsCodeCommands(context);
@@ -21,6 +25,25 @@ export function activate(context: vscode.ExtensionContext) {
             webviewOptions: {retainContextWhenHidden: true}
         }
     ));
+}
+
+export function deactivate() {
+    stopWebServer();
+}
+
+function startWebServer(context: vscode.ExtensionContext) {
+    const pomString = fs.readFileSync(context.extensionPath + '/pom.xml').toString();
+    const pom = parser.parse(pomString);
+    const buildFolder = pom.project['artifactId'] + '-' + pom.project.parent['version'];
+    const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'target', buildFolder));
+
+    connecter()
+        .use(serveStatic(onDiskPath.path))
+        .listen(15548);
+}
+
+function stopWebServer() {
+    connecter().removeAllListeners();
 }
 
 function createUmletCommands(context: vscode.ExtensionContext) {
