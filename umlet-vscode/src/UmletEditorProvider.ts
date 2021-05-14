@@ -35,7 +35,8 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     private static fonts: string[] = UmletEditorProvider.getFontSettingsData();
 
     constructor(
-        private readonly context: vscode.ExtensionContext
+        private readonly context: vscode.ExtensionContext,
+        private readonly port: number
     ) {
     }
 
@@ -149,7 +150,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         }
 
         // Web-based IRI for retrieving ressources
-        const webLocation = 'http://localhost:15548';
+        const webLocation = 'http://localhost:' + this.port
 
         let fileContents = document.getText().toString();
 

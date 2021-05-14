@@ -14,32 +14,35 @@ import {UmletEditorProvider, lastCurrentlyActivePanelPurified, exportCurrentlyAc
 export function activate(context: vscode.ExtensionContext) {
 
     createUmletCommands(context);
-    startWebServer(context);
-
-    console.log("activating umlet extension...");
-    UmletEditorProvider.overrideVsCodeCommands(context);
-    context.subscriptions.push(vscode.window.registerCustomEditorProvider(
-        "uxfCustoms.umletEditor",
-        new UmletEditorProvider(context),
-        {
-            webviewOptions: {retainContextWhenHidden: true}
-        }
-    ));
+    const portPromise = startWebServer(context);
+    portPromise.then(port => {
+        console.log("activating umlet extension...");
+        UmletEditorProvider.overrideVsCodeCommands(context);
+        context.subscriptions.push(vscode.window.registerCustomEditorProvider(
+            "uxfCustoms.umletEditor",
+            new UmletEditorProvider(context, port),
+            {
+                webviewOptions: {retainContextWhenHidden: true}
+            }
+        ));
+    });
 }
 
 export function deactivate() {
     stopWebServer();
 }
 
-function startWebServer(context: vscode.ExtensionContext) {
+async function startWebServer(context: vscode.ExtensionContext): Promise<number> {
     const pomString = fs.readFileSync(context.extensionPath + '/pom.xml').toString();
     const pom = parser.parse(pomString);
     const buildFolder = pom.project['artifactId'] + '-' + pom.project.parent['version'];
-    const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'target', buildFolder));
+    const onDiskPath = path.join(context.extensionPath, 'target', buildFolder);
 
-    connecter()
-        .use(serveStatic(onDiskPath.path))
-        .listen(15548);
+    const server = connecter()
+        .use(serveStatic(onDiskPath.replace('\\', '/')))
+        .listen(0);
+    // @ts-ignore
+    return server.address()?.port;
 }
 
 function stopWebServer() {
