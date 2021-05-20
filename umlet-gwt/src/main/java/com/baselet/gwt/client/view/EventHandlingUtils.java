@@ -364,6 +364,10 @@ public class EventHandlingUtils {
 		EventHandlingTarget returnPanel = null;
 		for (EventHandlingTarget panel : panels) {
 			Rectangle visibleBounds = panel.getVisibleBounds();
+			// For some reason, MouseUpEvent does not always fire for same position as MouseDownEvent, therefore making
+			// check of point inside panel more narrow
+			visibleBounds.x += 1;
+			visibleBounds.width -= 2;
 			visibleBounds.move(panel.getAbsoluteLeft(), panel.getAbsoluteTop());
 			if (visibleBounds.contains(p)) {
 				panel.setFocus(true);
