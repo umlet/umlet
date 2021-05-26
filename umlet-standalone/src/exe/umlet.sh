@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # activate job monitoring
 # @see: http://www.linuxforums.org/forum/programming-scripting/139939-fg-no-job-control-script.html
 set -m
@@ -19,7 +19,7 @@ set -m
 # you must export the UMLET_HOME environment variable with the full qualified path of the UMLet installation directory.
 # export UMLET_HOME=/path/to/umlet
 
-_UMLET_HOME="$(cd $(dirname $0);pwd)"
+_UMLET_HOME="$(dirname $(readlink -f "${BASH_SOURCE[-1]}"))"
 
 # check and use programDir for backward compatibility
 if [ ! -z "${programDir}" ] ; then
