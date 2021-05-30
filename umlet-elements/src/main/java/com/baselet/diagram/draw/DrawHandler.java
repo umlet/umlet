@@ -443,4 +443,9 @@ public abstract class DrawHandler {
 	public JavascriptCodeParser getJavascriptCodeParser() {
 		return javascriptCodeParser;
 	}
+
+	public void setJavascriptCodeParser(JavascriptCodeParser javascriptCodeParser) {
+		this.javascriptCodeParser = javascriptCodeParser;
+	}
+
 }

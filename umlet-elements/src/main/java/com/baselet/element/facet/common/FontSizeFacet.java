@@ -18,7 +18,7 @@ public class FontSizeFacet extends FirstRunKeyValueFacet {
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
 		try {
-			state.getDrawer().setFontSize(Double.valueOf(value));
+			state.getDrawer().setFontSize(Double.parseDouble(value));
 		} catch (NumberFormatException e) {
 			throw new StyleException("value must be a decimal number");
 		}
