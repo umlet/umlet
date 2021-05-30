@@ -277,4 +277,10 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 		return String.format("drawText('%s', %.3f, %.3f, %s)", text, x, y, align) +
 				String.format(" fg='%s' ", fg);
 	}
+
+	@Override
+	public void drawCircle(double x, double y, double radius, String bgColor, String fgColor, String lineTypeString, Double lineWidth, Double transparency) {
+		// TODO Auto-generated method stub
+
+	}
 }

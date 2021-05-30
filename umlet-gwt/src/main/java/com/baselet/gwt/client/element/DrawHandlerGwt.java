@@ -40,6 +40,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		ctx = context2d;
 		scalingFactor = scaling;
 		scalingIsSet = false;
+		javascriptCodeParser = new JavascriptParserGwt(this);
 	}
 
 	public void setNewScaling(double scalingFactor) {
