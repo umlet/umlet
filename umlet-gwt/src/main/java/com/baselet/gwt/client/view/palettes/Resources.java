@@ -53,4 +53,7 @@ public interface Resources extends ClientBundle {
 	@Source("Custom Drawings.uxf")
 	TextResource Custom_Drawings();
 
+	@Source("Advanced Drawings.uxf")
+	TextResource Advanced_Drawings();
+
 }
