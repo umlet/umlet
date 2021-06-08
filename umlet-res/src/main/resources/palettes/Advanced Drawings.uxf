@@ -52,7 +52,7 @@ drawLine(50, 13, 50, 40)
 _umletcode=
 //cloud
 
-//DrawConfig Parameters (bg: bgColor?, fg: fgColor?, lt: lineType?, lw: lineWidth?, transprency: transparencyValue?)
+//DrawConfig Parameters (bg: bgColor?, fg: fgColor?, lt: lineType?, lw: lineWidth?, transparency: transparencyValue?)
 var cloudConfig = {fg: '#00BFFF', lt: '-', lw: 2}
 
 //Parameters (x, y, width, height, start, extent, open, drawConfig?)
@@ -60,7 +60,7 @@ drawArc(60,70,50,50,30,130,true, cloudConfig)
 drawArc(36,83,49,50,70,100,true, cloudConfig)
 drawArc(73,83,50,30,-100,180,true, cloudConfig)
 drawArc(36,84,60,40,180,180,true, cloudConfig)
-var innerCloudConfig= {fg: '#87CEFA', lt: '-', lw: 2, transpaenncy: 70}
+var innerCloudConfig= {fg: '#87CEFA', lt: '-', lw: 2}
 drawArc(45,87,40,30,170,180,true, innerCloudConfig)
 drawArc(75,79,20,20,30,130,true, innerCloudConfig)
 
@@ -89,7 +89,7 @@ drawCircle(170,125,5)
     </coordinates>
     <panel_attributes>Circle Examples
 _umletcode=
-//DrawConfig Parameters (bg: bgColor?, fg: fgColor?, lt: lineType?, lw: lineWidth?, transprency: transparencyValue?)
+//DrawConfig Parameters (bg: bgColor?, fg: fgColor?, lt: lineType?, lw: lineWidth?, transparency: transparencyValue?)
 var drawConfigBlue = {bg: blue}; 
 var config = { bg: blue, fg: '#8A2BE2', lt: '-', lw: 3}
 var configRedBlack = {bg: 'red', fg: 'black', lt:'=', lw: 3, transparency: 0}
