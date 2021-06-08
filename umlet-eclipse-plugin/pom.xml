@@ -12,8 +12,8 @@
 
 	<repositories>
 		<repository>
-			<id>eclipse-mars</id>
-			<url>http://download.eclipse.org/releases/mars</url>
+			<id>eclipse-photon</id>
+			<url>http://download.eclipse.org/releases/photon</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>
