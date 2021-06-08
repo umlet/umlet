@@ -27,7 +27,7 @@
 	</scm>
 
 	<properties>
-		<tycho.version>2.3.0</tycho.version>
+		<tycho.version>1.7.0</tycho.version> <!-- versions after 1.7.0 require Java11 for the build (not for execution of the plugin). so only update if necessary -->
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
