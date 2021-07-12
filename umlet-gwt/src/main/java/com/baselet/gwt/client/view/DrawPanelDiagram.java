@@ -36,13 +36,15 @@ public class DrawPanelDiagram extends DrawPanel {
 	}
 
 	public void initializeDisplayingPreviewElements(List<GridElement> previewElements, int oldZoomLevel) {
+		insertingPreview = true;
 		if (currentPreviewElements == null) {
 			if (previewElements != null) {
 				commandInvoker.addElementsDontNotifyUpdate(this, previewElements, oldZoomLevel);
 			}
 			currentPreviewElements = previewElements;
 		}
-		this.redraw(true);
+		this.redraw(false);
+		insertingPreview = false;
 	}
 
 	@Override
@@ -175,7 +177,7 @@ public class DrawPanelDiagram extends DrawPanel {
 	}
 
 	public void addGridElementsDontNotifyUpdate(List<GridElement> elements) {
-		super.addGridElements(elements);
+		super.addGridElements(elements, false);
 	}
 
 	@Override

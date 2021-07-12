@@ -10,6 +10,8 @@ import com.baselet.element.interfaces.GridElement;
 public interface CommandTarget {
 	void addGridElements(List<GridElement> element);
 
+	void addGridElements(List<GridElement> element, boolean recalcSize);
+
 	void removeGridElements(List<GridElement> element);
 
 	Selector getSelector();

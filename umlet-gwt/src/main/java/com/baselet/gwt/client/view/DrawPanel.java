@@ -101,6 +101,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	private boolean mightNeedToCorrectVerticalPos = false;
 	private boolean mightNeedToCorrectHorizontalPos = false;
 
+	protected boolean insertingPreview = false;
+
 	@Override
 	public void setFocus(boolean focus) {
 		if (this.focus == focus) {
@@ -259,7 +261,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		else {
 			propertiesPanel.setGridElement(diagram, DrawPanel.this);
 		}
-		redraw(true);
+		redraw(!insertingPreview);
 	}
 
 	void keyboardMoveSelectedElements(int diffX, int diffY) {
@@ -468,10 +470,15 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	@Override
 	public void addGridElements(List<GridElement> elements) {
+		addGridElements(elements, true);
+	}
+
+	@Override
+	public void addGridElements(List<GridElement> elements, boolean recalcSize) {
 		diagram.getGridElements().addAll(elements);
 		realignElementsToGrid(diagram.getGridElements());
 		selector.selectOnly(elements);
-		redraw(true);
+		redraw(recalcSize);
 	}
 
 	@Override
