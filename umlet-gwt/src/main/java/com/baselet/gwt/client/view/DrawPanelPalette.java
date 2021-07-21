@@ -143,6 +143,7 @@ public class DrawPanelPalette extends DrawPanel {
 		draggedElements.clear();
 
 		super.onMouseDragEnd(gridElement, lastPoint);
+		cursorWasMovedDuringDrag = false;
 	}
 
 	private void resetPalette() {

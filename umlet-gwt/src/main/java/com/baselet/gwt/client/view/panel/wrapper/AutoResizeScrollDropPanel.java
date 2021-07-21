@@ -10,6 +10,9 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import elemental2.dom.DOMRect;
+import elemental2.dom.Element;
+import jsinterop.base.Js;
 
 public class AutoResizeScrollDropPanel extends ScrollPanel implements HasScrollPanel {
 
@@ -84,6 +87,13 @@ public class AutoResizeScrollDropPanel extends ScrollPanel implements HasScrollP
 			scrollbarSize = new int[] { Integer.parseInt(split[0]), Integer.parseInt(split[1]) };
 		}
 		return SharedUtils.cloneArray(scrollbarSize);
+	}
+
+	@Override
+	public DOMRect getBoundedRectCoordinates() {
+		Element element = Js.cast(getElement());
+
+		return element.getBoundingClientRect();
 	}
 
 	private final native static String getScrollbarSizeHelper() /*-{

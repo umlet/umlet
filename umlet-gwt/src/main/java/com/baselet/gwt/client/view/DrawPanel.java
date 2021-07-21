@@ -44,7 +44,6 @@ import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -57,6 +56,8 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
+import elemental2.dom.Element;
+import jsinterop.base.Js;
 
 public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget, ThemeChangeListener {
 
@@ -96,6 +97,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	protected final FileChangeNotifier fileChangeNotifier;
 
 	private final NotificationPopup notificationPopup;
+
+	private boolean mightNeedToCorrectVerticalPos = false;
+	private boolean mightNeedToCorrectHorizontalPos = false;
 
 	@Override
 	public void setFocus(boolean focus) {
@@ -348,6 +352,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			if (scrollPanel == null) {
 				return;
 			}
+			Element canvasElement = Js.cast(canvas.getCanvasElement());
+			int[] canvasBoundedRectCoordinates = new int[] { (int) canvasElement.getBoundingClientRect().x, (int) canvasElement.getBoundingClientRect().y };
+			int[] panelBoundedRectCoordinates = new int[] { (int) scrollPanel.getBoundedRectCoordinates().x, (int) scrollPanel.getBoundedRectCoordinates().y };
 
 			Rectangle diagramRect = GridElementUtils.getGridElementsRectangle(gridElements);
 			Rectangle visibleRect = getVisibleBounds();
@@ -369,19 +376,57 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			int width = Math.max(visibleRect.getX2(), diagramRect.getX2()) - xTranslate;
 			int height = Math.max(visibleRect.getY2(), diagramRect.getY2()) - yTranslate;
 
-			// finally set height and width depending on diagram and panel dimensions to only show scroll bars if necessary
-			int elementHeight = Document.get().getScrollHeight();
-			int elementWidth = getOffsetWidth();
-			if (height > elementHeight) {
-				// Less space due to visible vertical scrollbar
-				width -= (scrollPanel.getScrollbarSize()[1]);
+			// depending on sizes of canvas and panel reduce canvas size by scrollbar dimensions. If x or y position of
+			// canvas becomes positive again and scrollbar is going to disappear move elements and redraw to compensate
+			// for canvas move due to increased panel size because of now missing scrollbar
+			int canvasHeight = height;
+			int canvasWidth = width;
+			if (canvasBoundedRectCoordinates[1] >= panelBoundedRectCoordinates[1]) {
+				mightNeedToCorrectVerticalPos = false;
 			}
-			if (width > elementWidth) {
-				// Less space due to visible horizontal scrollbar
-				height -= (scrollPanel.getScrollbarSize()[0]);
+			if (canvasBoundedRectCoordinates[0] >= panelBoundedRectCoordinates[0]) {
+				mightNeedToCorrectHorizontalPos = false;
+			}
+			if (width <= visibleRect.getWidth() && height <= visibleRect.getHeight()) {
+				mightNeedToCorrectVerticalPos = false;
+				mightNeedToCorrectHorizontalPos = false;
 			}
 
-			canvas.clearAndSetSize(width, height);
+			if (width > visibleRect.getWidth()) {
+				canvasHeight -= scrollPanel.getScrollbarSize()[1];
+				if (canvasBoundedRectCoordinates[1] < panelBoundedRectCoordinates[1]) {
+					mightNeedToCorrectVerticalPos = true;
+				}
+			}
+			else if (mightNeedToCorrectVerticalPos) {
+				mightNeedToCorrectVerticalPos = false;
+				if (!cursorWasMovedDuringDrag) {
+					for (GridElement ge : gridElements) {
+						ge.setLocationDifference(0, -scrollPanel.getScrollbarSize()[1]);
+					}
+				}
+				redraw();
+				return;
+			}
+
+			if (height > visibleRect.getHeight()) {
+				canvasWidth -= scrollPanel.getScrollbarSize()[0];
+				if (canvasBoundedRectCoordinates[0] < panelBoundedRectCoordinates[0]) {
+					mightNeedToCorrectHorizontalPos = true;
+				}
+			}
+			else if (mightNeedToCorrectHorizontalPos) {
+				mightNeedToCorrectHorizontalPos = false;
+				if (!cursorWasMovedDuringDrag) {
+					for (GridElement ge : gridElements) {
+						ge.setLocationDifference(-scrollPanel.getScrollbarSize()[0], 0);
+					}
+					redraw();
+					return;
+				}
+			}
+
+			canvas.clearAndSetSize(canvasWidth, canvasHeight);
 		}
 		else {
 			canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());

@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.view.interfaces;
 
 import com.baselet.control.basics.geom.Rectangle;
+import elemental2.dom.DOMRect;
 
 public interface HasScrollPanel {
 
@@ -15,4 +16,6 @@ public interface HasScrollPanel {
 	int getHorizontalScrollPosition();
 
 	int[] getScrollbarSize();
+
+	DOMRect getBoundedRectCoordinates();
 }

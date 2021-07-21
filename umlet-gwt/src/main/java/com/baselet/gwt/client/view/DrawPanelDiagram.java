@@ -194,6 +194,7 @@ public class DrawPanelDiagram extends DrawPanel {
 		if (cursorWasMovedDuringDrag) {
 			handleFileUpdate();
 		}
+		cursorWasMovedDuringDrag = false;
 	}
 
 	@Override
