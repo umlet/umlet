@@ -10,6 +10,7 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.WebStorage;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -315,7 +316,9 @@ public class EventHandlingUtils {
 
 		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move (problem is it also avoids scrolling with 2 fingers)
 		storage.moveStart = new Point(p.x, p.y);
-		storage.dragging = DragStatus.FIRST;
+		if (event.getNativeEvent().getButton() != NativeEvent.BUTTON_RIGHT) {
+			storage.dragging = DragStatus.FIRST;
+		}
 		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
 		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
 	}
@@ -333,7 +336,8 @@ public class EventHandlingUtils {
 				if (((DrawPanelDiagram) currentPanel.otherDrawFocusPanel).currentlyDisplayingPreview()) {
 					diffX -= diffX % ((DrawPanelPalette) panel).otherDrawFocusPanel.getGridSize();
 					diffY -= diffY % ((DrawPanelPalette) panel).otherDrawFocusPanel.getGridSize();
-				} else {
+				}
+				else {
 					diffX -= diffX % panel.getGridSize();
 					diffY -= diffY % panel.getGridSize();
 				}
