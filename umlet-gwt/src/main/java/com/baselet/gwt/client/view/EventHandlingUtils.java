@@ -105,6 +105,7 @@ public class EventHandlingUtils {
 
 		public void setActivePanel(EventHandlingTarget activePanel) {
 			this.activePanel = activePanel;
+			WebStorage.updateTargetPanel(activePanel);
 		}
 
 		/**

@@ -110,6 +110,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
 			otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
 			otherDrawFocusPanel.setFocus(false);
+			EventHandlingUtils.getStorageInstance().setActivePanel(this);
 		}
 		this.focus = focus;
 	}

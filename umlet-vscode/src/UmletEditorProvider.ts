@@ -32,7 +32,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     private static outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel('UMLet');
     private static debugLevel: number | undefined = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
     private static theme: string | undefined = UmletEditorProvider.getConfiguration().get<string>('theme');
-    private static fonts: string[] = UmletEditorProvider.getFontSettingsData();
+    private static isPropertyPanelFocus: boolean = false;
 
     constructor(
         private readonly context: vscode.ExtensionContext,
@@ -116,6 +116,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                         });
                     });
                     return;
+                case 'propertiesFocus':
+                    UmletEditorProvider.isPropertyPanelFocus = JSON.parse(message.text);
+                    return;
             }
         }, undefined, this.context.subscriptions);
 
@@ -150,7 +153,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         }
 
         // Web-based IRI for retrieving ressources
-        const webLocation = 'http://localhost:' + this.port
+        const webLocation = 'http://localhost:' + this.port;
 
         let fileContents = document.getText().toString();
 
@@ -210,7 +213,6 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             command: 'changeFont',
             text: fonts.join()
         });
-        UmletEditorProvider.fonts = fonts;
     }
 
     static getFontSettingsData(): string[] {
@@ -417,40 +419,53 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             //debug
             //Write to output.
             UmletEditorProvider.postLog(DebugLevel.DETAILED, "Paste registered");
-            //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
-            clipboardPasteDisposable.dispose();
+            let panel = currentlyActivePanel ? currentlyActivePanel : lastCurrentlyActivePanelPurified();
 
-            //execute the default editor.action.clipboardPasteAction to paste
-            vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
-
-                UmletEditorProvider.postLog(DebugLevel.DETAILED, "After Paste");
-                if (currentlyActivePanel !== null) {
-                    //TODO remove UMLET tag from paste if needed
-                    vscode.env.clipboard.readText().then((text) => {
-                        let clipboard_content = text;
-                        UmletEditorProvider.postLog(DebugLevel.DETAILED, "MESSAGE Paste, content is:" + clipboard_content);
-                        currentlyActivePanel?.webview.postMessage({
-                            command: 'paste',
-                            text: clipboard_content
+            if (!panel || !panel?.visible) {
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, "Paste executed outside of UMLet");
+                //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
+                clipboardPasteDisposable.dispose();
+                vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function() {
+                    //add the overridden editor.action.clipboardPasteAction back
+                    clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
+                    context.subscriptions.push(clipboardPasteDisposable);
+                });
+            }
+            else {
+                if (UmletEditorProvider.isPropertyPanelFocus) {
+                    //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
+                    clipboardPasteDisposable.dispose();
+                    // use command on the last active UMLet tab. this is to enable this command via context menu, as umlet looses focus when the edit menu is pressed on the now standard custom toolbar
+                    vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
+                        //TODO remove UMLET tag from paste if needed
+                        vscode.env.clipboard.readText().then((text) => {
+                            let clipboard_content = text;
+                            UmletEditorProvider.postLog(DebugLevel.DETAILED, "MESSAGE Paste, content is:" + clipboard_content);
+                            panel?.webview.postMessage({
+                                command: 'paste',
+                                text: clipboard_content
+                            });
                         });
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, "After paste into properties panel");
+                        //add the overridden editor.action.clipboardPasteAction back
+                        clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
+                        context.subscriptions.push(clipboardPasteDisposable);
                     });
-                } else if (lastCurrentlyActivePanelPurified() !== null) {
-                    //else use command on the last active UMLet tab. this is to enable this command via context menu, as umlet looses focus when the edit menu is pressed on the now standard custom toolbar
-                    vscode.env.clipboard.readText().then((text) => {
-                        //TODO check for and remove UMLET tag from paste
-                        let clipboard_content = text;
-                        UmletEditorProvider.postLog(DebugLevel.DETAILED, "MESSAGE Paste, content is:" + clipboard_content);
-                        lastCurrentlyActivePanelPurified()?.webview.postMessage({
-                            command: 'paste',
-                            text: clipboard_content
+                } else {
+                    if (panel) {
+                        // There exists a target panel and property panel is not in focus
+                        vscode.env.clipboard.readText().then((text) => {
+                            let clipboard_content = text;
+                            UmletEditorProvider.postLog(DebugLevel.DETAILED, "MESSAGE Paste, content is:" + clipboard_content);
+                            panel?.webview.postMessage({
+                                command: 'paste',
+                                text: clipboard_content
+                            });
                         });
-                    });
+                        UmletEditorProvider.postLog(DebugLevel.DETAILED, "After paste of UML element");
+                    }
                 }
-                //add the overridden editor.action.clipboardPasteAction back
-                clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
-
-                context.subscriptions.push(clipboardPasteDisposable);
-            });
+            }
         }
 
         //CUT

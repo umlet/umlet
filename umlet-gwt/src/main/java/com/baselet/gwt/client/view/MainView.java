@@ -116,8 +116,8 @@ public class MainView extends Composite implements ThemeChangeListener {
 	@UiField
 	ListBox paletteChooser;
 
-	@UiField
-	PropertiesTextArea propertiesPanel;
+	@UiField(provided = true)
+	PropertiesTextArea propertiesPanel = GWT.create(PropertiesTextArea.class);
 
 	@UiField
 	SimpleLayoutPanel palettePanelWrapper;

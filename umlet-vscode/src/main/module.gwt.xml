@@ -42,4 +42,8 @@
     <replace-with class="com.vscode.gwt.client.view.panel.wrapper.VsCodeAutoResizeScrollDropPanel">
         <when-type-is class="com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel"/>
     </replace-with>
+
+    <replace-with class="com.vscode.gwt.client.view.widgets.propertiespanel.VsCodePropertiesTextArea">
+        <when-type-is class="com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea"/>
+    </replace-with>
 </module>

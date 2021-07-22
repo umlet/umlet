@@ -5,8 +5,6 @@ import com.baselet.gwt.client.clipboard.ClipboardStorage;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.DrawPanel;
-import com.baselet.gwt.client.view.DrawPanelDiagram;
-import com.baselet.gwt.client.view.DrawPanelPalette;
 import com.baselet.gwt.client.view.EventHandlingUtils;
 
 import java.util.HashMap;
@@ -90,9 +88,8 @@ public class VsCodeClipboard extends ClipboardStorage {
 	}
 
 	private void pasteExternal(String data) {
-		// avoid paste when only focus is on properties panel
-		if (EventHandlingUtils.getStorageInstance().getActivePanel() instanceof DrawPanel) {
-			commandInvoker.executePaste((DrawPanel) EventHandlingUtils.getStorageInstance().getActivePanel(), data, pasteTargetPosition);
+		if (target.getFocus()) {
+			commandInvoker.executePaste(target, data, pasteTargetPosition);
 			pasteTargetPosition = null;
 		}
 	}
