@@ -425,13 +425,12 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                 UmletEditorProvider.postLog(DebugLevel.DETAILED, "Paste executed outside of UMLet");
                 //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
                 clipboardPasteDisposable.dispose();
-                vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function() {
+                vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
                     //add the overridden editor.action.clipboardPasteAction back
                     clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
                     context.subscriptions.push(clipboardPasteDisposable);
                 });
-            }
-            else {
+            } else {
                 if (UmletEditorProvider.isPropertyPanelFocus) {
                     //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
                     clipboardPasteDisposable.dispose();
@@ -527,6 +526,38 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
             selectAllDisposable = vscode.commands.registerCommand('editor.action.webvieweditor.selectAll', overriddenSelectAllAction);
             //set the subscription again so vscode can clean it up properly
             context.subscriptions.push(selectAllDisposable);
+        }
+
+        //ZOOM IN
+        //overwrite so that strg+"+" does not zoom in whole editor during UMLet use
+        var zoomInDisposable = vscode.commands.registerCommand('workbench.action.zoomIn', overriddenZoomInAction);
+        context.subscriptions.push(zoomInDisposable);
+
+        function overriddenZoomInAction() {
+            if (!currentlyActivePanel || !currentlyActivePanel.visible) {
+                zoomInDisposable.dispose();
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Zooming in outside');
+                vscode.commands.executeCommand('workbench.action.zoomIn').then(function () {
+                    zoomInDisposable = vscode.commands.registerCommand('workbench.action.zoomIn', overriddenZoomInAction);
+                    context.subscriptions.push(zoomInDisposable);
+                });
+            }
+        }
+
+        //ZOOM OUT
+        //overwrite so that strg+"-" does not zoom out whole editor during UMLet use
+        var zoomOutDisposable = vscode.commands.registerCommand('workbench.action.zoomOut', overriddenZoomOutAction);
+        context.subscriptions.push(zoomOutDisposable);
+
+        function overriddenZoomOutAction() {
+            if (!currentlyActivePanel || !currentlyActivePanel.visible) {
+                zoomOutDisposable.dispose();
+                UmletEditorProvider.postLog(DebugLevel.DETAILED, 'Zooming out outside');
+                vscode.commands.executeCommand('workbench.action.zoomOut').then(function () {
+                    zoomOutDisposable = vscode.commands.registerCommand('workbench.action.zoomOut', overriddenZoomOutAction);
+                    context.subscriptions.push(zoomOutDisposable);
+                });
+            }
         }
     }
 
