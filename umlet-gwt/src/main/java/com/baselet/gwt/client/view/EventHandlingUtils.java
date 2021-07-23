@@ -58,7 +58,7 @@ public class EventHandlingUtils {
 
 		void handleKeyUp(KeyUpEvent event);
 
-		void onMouseMoveDraggingScheduleDeferred(Point moveStart, int diffX, int diffY, GridElement elementToDrag, boolean shiftKeyDown, boolean controlKeyDown, boolean b);
+		void onMouseMoveDraggingScheduleDeferred(Point moveStart, int diffX, int diffY, GridElement elementToDrag, boolean shiftKeyDown, boolean controlKeyDown, boolean firstDrag, final boolean isMiddleMouseButton);
 
 		void onMouseMove(Point point);
 
@@ -99,6 +99,7 @@ public class EventHandlingUtils {
 		private EventHandlingTarget activePanel;
 		private EventHandlingTarget mouseContainingPanel;
 		private List<HandlerRegistration> nonTouchHandlers = new ArrayList<HandlerRegistration>();
+		private boolean isMiddleMouseButton;
 
 		public EventHandlingTarget getActivePanel() {
 			return activePanel;
@@ -316,10 +317,14 @@ public class EventHandlingUtils {
 
 		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move (problem is it also avoids scrolling with 2 fingers)
 		storage.moveStart = new Point(p.x, p.y);
-		if (event.getNativeEvent().getButton() != NativeEvent.BUTTON_RIGHT) {
+		int usedButton = event.getNativeEvent().getButton();
+		if (usedButton != NativeEvent.BUTTON_RIGHT) {
 			storage.dragging = DragStatus.FIRST;
 		}
-		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
+		storage.isMiddleMouseButton = usedButton == NativeEvent.BUTTON_MIDDLE;
+		if (!storage.isMiddleMouseButton) {
+			storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
+		}
 		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
 	}
 
@@ -347,7 +352,7 @@ public class EventHandlingUtils {
 				diffY -= diffY % panel.getGridSize();
 			}
 			if (diffX != 0 || diffY != 0) {
-				panel.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), storage.dragging == DragStatus.FIRST);
+				panel.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), storage.dragging == DragStatus.FIRST, storage.isMiddleMouseButton);
 				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
 				storage.moveStart = storage.moveStart.copy().move(diffX, diffY); // make copy because otherwise deferred action will act on wrong position
 			}

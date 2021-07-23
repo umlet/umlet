@@ -561,27 +561,30 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	@Override
-	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
+	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag, final boolean isMiddleMouseButton) {
 		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
 			@Override
 			public void execute() {
-				onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag);
+				onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag, isMiddleMouseButton);
 			}
 		});
 	}
 
-	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag, boolean isMiddleMouseButton) {
 		if (diffX != 0 || diffY != 0) {
 			cursorWasMovedDuringDrag = true;
 		}
-		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
+		if (firstDrag && draggedGridElement != null && !isMiddleMouseButton) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
-		if (isCtrlKeyDown && !selector.isLassoActive()) {
+		if (isCtrlKeyDown && !selector.isLassoActive() && !isMiddleMouseButton) {
 			selector.startSelection(dragStart);
 		}
 		if (selector.isLassoActive()) {
 			selector.updateLasso(diffX, diffY);
+		}
+		else if (isMiddleMouseButton) {
+			moveElements(diffX, diffY, firstDrag, new ArrayList<>());
 		}
 		else if (!resizeDirections.isEmpty()) {
 			draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);

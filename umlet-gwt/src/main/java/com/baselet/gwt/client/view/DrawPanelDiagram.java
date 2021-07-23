@@ -31,7 +31,7 @@ public class DrawPanelDiagram extends DrawPanel {
 			GridElement e = ElementFactoryGwt.create(ge, getDiagram());
 			e.setProperty(GroupFacet.KEY, null);
 			e.setLocationDifference(getGridSize(), getGridSize());
-			commandInvoker.addElements(this, Arrays.asList(e), ((NewGridElement)ge).getGridSize());
+			commandInvoker.addElements(this, Arrays.asList(e), ((NewGridElement) ge).getGridSize());
 		}
 	}
 
@@ -107,7 +107,7 @@ public class DrawPanelDiagram extends DrawPanel {
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
 		super.onMouseDown(element, isControlKeyDown);
-		// CancelDragOfPalette(); //Should not be needed anymore since selecting elements only works with left click now
+		cancelDragOfPalette();
 		if (!isControlKeyDown || selector.getSelectedElements().size() > 0) {
 			propertiesPanel.setEnabled(true);
 		}
@@ -119,12 +119,6 @@ public class DrawPanelDiagram extends DrawPanel {
 		if (otherDrawFocusPanel instanceof DrawPanelPalette) {
 			((DrawPanelPalette) otherDrawFocusPanel).cancelDragNoDuplicate();
 		}
-	}
-
-	@Override
-	public void onShowMenu(Point point) {
-		cancelDragOfPalette();
-		super.onShowMenu(point);
 	}
 
 	/* takes the current state of the diagram and forwards it (to vscode) */
