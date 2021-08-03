@@ -114,18 +114,20 @@ public class MainView extends Composite implements ThemeChangeListener {
 	SimpleLayoutPanel diagramPanelWrapper;
 
 	@UiField
+	protected
 	ListBox paletteChooser;
 
 	@UiField(provided = true)
+	protected
 	PropertiesTextArea propertiesPanel = GWT.create(PropertiesTextArea.class);
 
 	@UiField
 	SimpleLayoutPanel palettePanelWrapper;
 
-	protected final DrawPanel diagramPanel;
+	public DrawPanelDiagram diagramPanel;
 	private final AutoResizeScrollDropPanel diagramScrollPanel;
 
-	protected final DrawPanel palettePanel;
+	public DrawPanelPalette palettePanel;
 	private final AutoResizeScrollDropPanel paletteScrollPanel;
 
 	private final FileUploadExt hiddenUploadButton = new FileUploadExt();
@@ -183,8 +185,10 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramPaletteSplitter.setWidgetSnapClosedSize(menuPanel, 25);
 		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
-		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
-		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
+		diagramPanel = GWT.create(DrawPanelDiagram.class);
+		diagramPanel.init(this,propertiesPanel);
+		palettePanel = GWT.create(DrawPanelPalette.class);
+		palettePanel.init(this, propertiesPanel, paletteChooser);
 		diagramPanel.setOtherDrawFocusPanel(palettePanel);
 		palettePanel.setOtherDrawFocusPanel(diagramPanel);
 		AutoResizeScrollDropPanel autoResizeScrollDropPanelDiagram = GWT.create(AutoResizeScrollDropPanel.class);
