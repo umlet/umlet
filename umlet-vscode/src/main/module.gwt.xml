@@ -46,4 +46,12 @@
     <replace-with class="com.vscode.gwt.client.view.widgets.propertiespanel.VsCodePropertiesTextArea">
         <when-type-is class="com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea"/>
     </replace-with>
+
+    <replace-with class="com.vscode.gwt.client.view.VsCodeDrawPanelDiagram">
+        <when-type-is class="com.baselet.gwt.client.view.DrawPanelDiagram"/>
+    </replace-with>
+
+    <replace-with class="com.vscode.gwt.client.view.VsCodeDrawPanelPalette">
+        <when-type-is class="com.baselet.gwt.client.view.DrawPanelPalette"/>
+    </replace-with>
 </module>

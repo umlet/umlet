@@ -35,6 +35,7 @@ import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.element.GridElementZoomUtil;
 import com.baselet.gwt.client.file.FileChangeNotifier;
 import com.baselet.gwt.client.keyboard.Shortcut;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
 import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
@@ -60,6 +61,9 @@ import elemental2.dom.Element;
 import jsinterop.base.Js;
 
 public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget, ThemeChangeListener {
+	protected enum Zoom {
+		IN, OUT, RESET
+	}
 
 	protected Diagram diagram = new DiagramGwt(new ArrayList<GridElement>());
 
@@ -76,7 +80,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	HasScrollPanel scrollPanel;
 
-	protected final MainView mainView;
+	protected MainView mainView;
 
 	PropertiesTextArea propertiesPanel;
 
@@ -94,9 +98,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	private Boolean focus = false;
 
-	protected final FileChangeNotifier fileChangeNotifier;
+	protected FileChangeNotifier fileChangeNotifier;
 
-	private final NotificationPopup notificationPopup;
+	private NotificationPopup notificationPopup;
 
 	private boolean mightNeedToCorrectVerticalPos = false;
 	private boolean mightNeedToCorrectHorizontalPos = false;
@@ -182,7 +186,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 	}
 
-	public DrawPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
+	public DrawPanel() {}
+
+	public void init(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 		this.setStylePrimaryName("canvasFocusPanel");
 
 		this.mainView = mainView;
@@ -679,13 +685,13 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			// Don't do anything on TAB key down
 		}
 		else if (Shortcut.ZOOM_IN.matches(event)) {
-			setGridAndZoom(getDiagram().getZoomLevel() + 1, true, new Point());
+			zoom(Zoom.IN);
 		}
 		else if (Shortcut.ZOOM_OUT.matches(event)) {
-			setGridAndZoom(getDiagram().getZoomLevel() - 1, true, new Point());
+			zoom(Zoom.OUT);
 		}
 		else if (Shortcut.ZOOM_RESET.matches(event)) {
-			setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, true, new Point());
+			zoom(Zoom.RESET);
 		}
 		else {
 			avoidBrowserDefault = false;
@@ -697,22 +703,52 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 	}
 
+	protected void zoom(String zoomValue) {
+		CustomLoggerFactory.getLogger(DrawPanel.class).info("ZOOOOOOOOOOOOOOOOOOOOM!");
+		try {
+			zoom(Zoom.valueOf(zoomValue), new Point());
+		} catch (IllegalArgumentException e) {
+			CustomLoggerFactory.getLogger(DrawPanel.class).error("zoom() called with non-existing Zoom enum value!");
+		}
+	}
+
+	protected void zoom(Zoom zoom) {
+		zoom(zoom, new Point());
+	}
+
+	protected void zoom(Zoom zoom, Point point) {
+		if (this.focus) {
+			switch (zoom) {
+				case IN:
+					setGridAndZoom(getDiagram().getZoomLevel() + 1, true, point);
+					break;
+				case OUT:
+					setGridAndZoom(getDiagram().getZoomLevel() - 1, true, point);
+					break;
+				case RESET:
+					setGridAndZoom(SharedConstants.DEFAULT_GRID_SIZE, true, point);
+					break;
+			}
+		}
+	}
+
 	@Override
 	public void onMouseWheelZoom(MouseWheelEvent event) {
 		if (event.isControlKeyDown()) {
 			event.stopPropagation();
 			event.preventDefault();
-			setGridAndZoom(event.isNorth() ? getDiagram().getZoomLevel() + 1 : getDiagram().getZoomLevel() - 1, true, new Point(event.getX(), event.getY()));
+			Point zoomPoint = new Point(event.getX(), event.getY());
+			zoom(event.isNorth() ? Zoom.IN : Zoom.OUT, zoomPoint);
 		}
 	}
 
 	public static native void clearSelection() /*-{
-		if (window.getSelection) {
-			window.getSelection().removeAllRanges();
-		} else if (document.selection) {
-			document.selection.empty();
-		}
-	}-*/;
+												if (window.getSelection) {
+												window.getSelection().removeAllRanges();
+												} else if (document.selection) {
+												document.selection.empty();
+												}
+												}-*/;
 
 	@Override
 	public void handleKeyUp(KeyUpEvent event) {

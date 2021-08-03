@@ -41,6 +41,36 @@
       {
         "command": "umlet.createNewDiagram",
         "title": "UMLet: Create new diagram"
+      },
+      {
+        "command": "umlet.zoomIn",
+        "title": "UMLet: Zoom in"
+      },
+      {
+        "command": "umlet.zoomOut",
+        "title": "UMLet: Zoom out"
+      },
+      {
+        "command": "umlet.zoomReset",
+        "title": "UMLet: Reset zoom"
+      }
+    ],
+    "keybindings": [
+      
+      {
+        "key": "ctrl+alt+meta+-",
+        "mac": "ctrl+alt+cmd+-",
+        "command": "umlet.zoomOut"
+      },
+      {
+        "key": "ctrl+alt+meta+[BracketRight]",
+        "mac": "ctrl+alt+cmd+[BracketRight]",
+        "command": "umlet.zoomIn"
+      },
+      {
+        "key": "ctrl+alt+meta+0",
+        "mac": "ctrl+alt+cmd+0",
+        "command": "umlet.zoomReset"
       }
     ],
     "menus": {

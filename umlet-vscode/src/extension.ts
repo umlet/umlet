@@ -94,6 +94,27 @@ function createUmletCommands(context: vscode.ExtensionContext) {
     };
     context.subscriptions.push(vscode.commands.registerCommand('umlet.createNewDiagram', commandHandlerCreateNewDiagram));
 
+    const commandHandlerZoomIn = () => {
+        exportCurrentlyActivePanel?.webview.postMessage({
+            command: 'zoomIn'
+        });
+    };
+    context.subscriptions.push(vscode.commands.registerCommand('umlet.zoomIn', commandHandlerZoomIn));
+
+    const commandHandlerZoomOut = () => {
+        exportCurrentlyActivePanel?.webview.postMessage({
+            command: 'zoomOut'
+        });
+    };
+    context.subscriptions.push(vscode.commands.registerCommand('umlet.zoomOut', commandHandlerZoomOut));
+
+    const commandHandlerZoomReset = () => {
+        exportCurrentlyActivePanel?.webview.postMessage({
+            command: 'zoomReset'
+        });
+    };
+    context.subscriptions.push(vscode.commands.registerCommand('umlet.zoomReset', commandHandlerZoomReset));
+
     function getCurrentDateTimeString(): string {
         let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');

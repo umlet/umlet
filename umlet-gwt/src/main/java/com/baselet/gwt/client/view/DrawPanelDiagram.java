@@ -21,8 +21,7 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	private boolean tempInvalid;
 
-	public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
-		super(mainView, propertiesPanel);
+	public DrawPanelDiagram() {
 	}
 
 	@Override

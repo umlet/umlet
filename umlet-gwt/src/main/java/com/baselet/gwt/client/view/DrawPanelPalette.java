@@ -52,15 +52,18 @@ public class DrawPanelPalette extends DrawPanel {
 			Resources.INSTANCE.Plots());
 	private final Map<TextResource, Diagram> paletteCache = new HashMap<TextResource, Diagram>();
 
-	private final ListBox paletteChooser;
+	private ListBox paletteChooser;
 
 	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
 	private boolean draggingDisabled; // to disable dragging when element was dragged to properties panel
 
 	private GridElement lastDraggedGridElement;
 
-	public DrawPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser) {
-		super(mainView, propertiesPanel);
+	public DrawPanelPalette() {
+	}
+
+	public void init(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser)  {
+		super.init(mainView, propertiesPanel);
 		setDiagram(parsePalette(PALETTELIST.get(0)));
 		this.paletteChooser = paletteChooser;
 		for (TextResource r : PALETTELIST) {
