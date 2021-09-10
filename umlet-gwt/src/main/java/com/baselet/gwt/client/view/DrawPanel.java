@@ -410,7 +410,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			}
 			else if (mightNeedToCorrectVerticalPos) {
 				mightNeedToCorrectVerticalPos = false;
-				if (!cursorWasMovedDuringDrag) {
+				if (!cursorWasMovedDuringDrag && (scrollPanel.getVerticalScrollPosition() == 0 || scrollPanel.getVerticalScrollPosition() == scrollPanel.getMaximumVerticalScrollPosition())) {
 					for (GridElement ge : gridElements) {
 						ge.setLocationDifference(0, -scrollPanel.getScrollbarSize()[1]);
 					}
@@ -427,13 +427,13 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			}
 			else if (mightNeedToCorrectHorizontalPos) {
 				mightNeedToCorrectHorizontalPos = false;
-				if (!cursorWasMovedDuringDrag) {
+				if (!cursorWasMovedDuringDrag && (scrollPanel.getHorizontalScrollPosition() == 0 || scrollPanel.getHorizontalScrollPosition() == scrollPanel.getMaximumHorizontalScrollPosition())) {
 					for (GridElement ge : gridElements) {
 						ge.setLocationDifference(-scrollPanel.getScrollbarSize()[0], 0);
 					}
-					redraw();
-					return;
 				}
+				redraw();
+				return;
 			}
 
 			canvas.clearAndSetSize(canvasWidth, canvasHeight);

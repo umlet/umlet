@@ -13,7 +13,11 @@ public interface HasScrollPanel {
 
 	int getVerticalScrollPosition();
 
+	int getMaximumVerticalScrollPosition();
+
 	int getHorizontalScrollPosition();
+
+	int getMaximumHorizontalScrollPosition();
 
 	int[] getScrollbarSize();
 
