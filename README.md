@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/umlet/umlet.svg?branch=master)](https://travis-ci.org/umlet/umlet)
+[![Build Status](https://api.travis-ci.org/umlet/umlet.svg?branch=master)](https://travis-ci.org/umlet/umlet) [![Java CI with Maven](https://github.com/umlet/umlet/actions/workflows/maven.yml/badge.svg)](https://github.com/umlet/umlet/actions/workflows/maven.yml)
 # UMLet
 UMLet is an open-source UML tool with a simple user interface: draw UML diagrams fast, export diagrams to eps, pdf, jpg, svg, and clipboard, share diagrams using Eclipse, and create new, custom UML elements. 
 
