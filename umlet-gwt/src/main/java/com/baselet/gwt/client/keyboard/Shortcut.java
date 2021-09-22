@@ -11,69 +11,58 @@ public enum Shortcut {
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return code == KeyCodes.KEY_DELETE || code == KeyCodes.KEY_BACKSPACE;
 		}
-	}),
-	SELECT_ALL("Ctrl+A", "select all elements", Category.DIAGRAM, new Check() {
+	}), SELECT_ALL("Ctrl+A", "select all elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && code == 'A';
 		}
-	}),
-	DESELECT_ALL("Ctrl+Shift+A Ctrl+D", "deselect all elements", Category.DIAGRAM, new Check() {
+	}), DESELECT_ALL("Ctrl+Shift+A Ctrl+D", "deselect all elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
-			return event.isControlKeyDown() && code == 'D' ||
+			return event.isControlKeyDown() &&	code == 'D' ||
 					event.isControlKeyDown() && event.isShiftKeyDown() && code == 'A';
 		}
-	}),
-	COPY("Ctrl+C", "copy selected elements", Category.DIAGRAM, new Check() {
+	}), COPY("Ctrl+C", "copy selected elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && code == 'C';
 		}
-	}),
-	CUT("Ctrl+X", "cut selected elements", Category.DIAGRAM, new Check() {
+	}), CUT("Ctrl+X", "cut selected elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && code == 'X';
 		}
-	}),
-	PASTE("Ctrl+V", "paste cut or copied elements", Category.DIAGRAM, new Check() {
+	}), PASTE("Ctrl+V", "paste cut or copied elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && code == 'V';
 		}
-	}),
-	SAVE("Ctrl+S", "save current diagram in browser storage", Category.DIAGRAM, new Check() {
+	}), SAVE("Ctrl+S", "save current diagram in browser storage", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && code == 'S';
 		}
-	}),
-	DISABLE_STICKING("SHIFT", "hold to disable sticking of elements", Category.DIAGRAM, new Check() {
+	}), DISABLE_STICKING("SHIFT", "hold to disable sticking of elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return code == KeyCodes.KEY_SHIFT;
 		}
-	}),
-	MOVE_UP("Cursor ↑", "moves selected element(s) up", Category.DIAGRAM, new Check() {
+	}), MOVE_UP("Cursor ↑", "moves selected element(s) up", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return code == KeyCodes.KEY_UP;
 		}
-	}),
-	MOVE_DOWN("Cursor ↓", "moves selected element(s) down", Category.DIAGRAM, new Check() {
+	}), MOVE_DOWN("Cursor ↓", "moves selected element(s) down", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return code == KeyCodes.KEY_DOWN;
 		}
-	}),
-	MOVE_LEFT("Cursor ←", "moves selected element(s) left", Category.DIAGRAM, new Check() {
+	}), MOVE_LEFT("Cursor ←", "moves selected element(s) left", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return code == KeyCodes.KEY_LEFT;
 		}
-	}),
-	MOVE_RIGHT("Cursor →", "moves selected element(s) right", Category.DIAGRAM, new Check() {
+	}), MOVE_RIGHT("Cursor →", "moves selected element(s) right", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return code == KeyCodes.KEY_RIGHT;
@@ -86,20 +75,17 @@ public enum Shortcut {
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return KeyCodesExt.isSwitchToFullscreen(code);
 		}
-	}),
-	ZOOM_IN("Ctrl+PLUS", "zoom diagram in", Category.BROWSER, new Check() {
+	}), ZOOM_IN("Ctrl+PLUS", "zoom diagram in", Category.BROWSER, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && KeyCodesExt.isPlus(code);
 		}
-	}),
-	ZOOM_OUT("Ctrl+MINUS", "zoom diagram out", Category.BROWSER, new Check() {
+	}), ZOOM_OUT("Ctrl+MINUS", "zoom diagram out", Category.BROWSER, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && KeyCodesExt.isMinus(code);
 		}
-	}),
-	ZOOM_RESET("Ctrl+0", "reset diagram zoom", Category.BROWSER, new Check() {
+	}), ZOOM_RESET("Ctrl+0", "reset diagram zoom", Category.BROWSER, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && KeyCodesExt.isZero(code);
@@ -112,16 +98,14 @@ public enum Shortcut {
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && KeyCodesExt.isSpace(code);
 		}
-	}), ;
+	}),;
 
 	private static interface Check {
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event);
 	}
 
 	public enum Category {
-		DIAGRAM("DIAGRAM"),
-		BROWSER("BROWSER (only if browser supports them)"),
-		PROPERTIES("PROPERTIES PANEL");
+		DIAGRAM("DIAGRAM"), BROWSER("BROWSER (only if browser supports them)"), PROPERTIES("PROPERTIES PANEL");
 
 		private String header;
 

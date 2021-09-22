@@ -60,9 +60,7 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 		// adjust the width with the width converter
 		diagramWidth = widthConverter.convert(diagramWidth);
 
-		double lifelineHeadLeftStart = (diagramWidth
-				- (lifelineWidth * lifelineCount + lifelineXPadding * (lifelineCount - 1))
-				) / 2.0;
+		double lifelineHeadLeftStart = (diagramWidth - (lifelineWidth * lifelineCount + lifelineXPadding * (lifelineCount - 1))) / 2.0;
 
 		this.diagramWidth = diagramWidth;
 		for (int i = 0; i < horizontalDrawingInfos.length; i++) {
@@ -127,12 +125,10 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 	@Override
 	public double getSymmetricWidth(Lifeline ll1, Lifeline ll2, int tick) {
 		if (ll1.getIndex() <= ll2.getIndex()) {
-			return getHDrawingInfo(ll2).getSymmetricHorizontalEnd(tick)
-					- getHDrawingInfo(ll1).getSymmetricHorizontalStart(tick);
+			return getHDrawingInfo(ll2).getSymmetricHorizontalEnd(tick) - getHDrawingInfo(ll1).getSymmetricHorizontalStart(tick);
 		}
 		else {
-			return getHDrawingInfo(ll1).getSymmetricHorizontalEnd(tick)
-					- getHDrawingInfo(ll2).getSymmetricHorizontalStart(tick);
+			return getHDrawingInfo(ll1).getSymmetricHorizontalEnd(tick) - getHDrawingInfo(ll2).getSymmetricHorizontalStart(tick);
 		}
 	}
 

@@ -37,8 +37,9 @@ import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.ElementUtils;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoHistory;
@@ -73,14 +74,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	/**
 	 * contains the value of the fgColor of the element if not selected
 	 */
-	protected Color fgColorBase = Converter.convert(ColorOwn.BLACK);
+	protected Color fgColorBase = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.BLACK));
 	/**
 	 * contains the current fgColor of the element. Will be overwritten by selectioncolor if it's selected
 	 */
 	protected Color fgColor = fgColorBase;
 
 	private String fgColorString = "";
-	protected Color bgColor = Converter.convert(ColorOwn.WHITE);
+	protected Color bgColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.WHITE));
 	private String bgColorString = "";
 	protected float alphaFactor;
 
@@ -194,26 +195,26 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	public Composite[] colorize(Graphics2D g2) {
+		Theme currentTheme = ThemeFactory.getCurrentTheme();
 		bgColorString = "";
 		fgColorString = "";
 		bgColor = getDefaultBackgroundColor();
-		fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
+		fgColorBase = Converter.convert(currentTheme.getColor(Theme.ColorStyle.DEFAULT_FOREGROUND));
 		List<String> v = panelAttributes;
-		for (int i = 0; i < v.size(); i++) {
-			String line = v.get(i);
+		for (String line : v) {
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
 				// OldGridElements apply transparency for background explicitly, therefore don't apply it here
-				bgColor = Converter.convert(ColorOwn.forStringOrNull(bgColorString, Transparency.FOREGROUND));
+				bgColor = Converter.convert(currentTheme.forStringOrNull(bgColorString, Transparency.FOREGROUND));
 				if (bgColor == null) {
 					bgColor = getDefaultBackgroundColor();
 				}
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
-				fgColorBase = Converter.convert(ColorOwn.forStringOrNull(fgColorString, Transparency.FOREGROUND));
+				fgColorBase = Converter.convert(currentTheme.forStringOrNull(fgColorString, Transparency.FOREGROUND));
 				if (fgColorBase == null) {
-					fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
+					fgColorBase = Converter.convert(currentTheme.getColor(Theme.ColorStyle.DEFAULT_FOREGROUND));
 				}
 				if (!getDiagramHandler().getDrawPanel().getSelector().isSelected(this)) {
 					fgColor = fgColorBase;
@@ -233,7 +234,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	protected Color getDefaultBackgroundColor() {
-		return Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
+		return Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND));
 	}
 
 	@Override
@@ -335,7 +336,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (poly != null) {
 			Color c = g2.getColor();
 			Stroke s = g2.getStroke();
-			g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
+			g2.setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.SELECTION_FG)));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 			for (Line line : poly.getStickLines()) {
 				g2.drawLine(line.getStart().getX().intValue(), line.getStart().getY().intValue(), line.getEnd().getX().intValue(), line.getEnd().getY().intValue());
@@ -358,6 +359,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public final void paint(Graphics g) {
+		Theme currentTheme = ThemeFactory.getCurrentTheme();
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (translateForExport) {
@@ -368,21 +370,21 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (selected) {
 			if (SharedConfig.getInstance().isDev_mode()) {
 				Color oldColor = g2.getColor();
-				g2.setColor(Converter.convert(ColorOwn.BLACK));
+				g2.setColor(Converter.convert(currentTheme.getColor(Theme.PredefinedColors.BLACK)));
 				String text = "Type: " + getClass().getName();
 				g2.drawString(text, getWidth() - (int) getDiagramHandler().getFontHandler().getTextWidth(text), getHeight() - 5);
 				g2.setColor(oldColor);
 			}
 			if (isDeprecated()) {
 				Color oldColor = g2.getColor();
-				g2.setColor(Converter.convert(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND)));
+				g2.setColor(Converter.convert(currentTheme.getColor(Theme.PredefinedColors.RED).transparency(Transparency.SELECTION_BACKGROUND)));
 				g2.fillRect(0, 0, getWidth(), getHeight());
 				g2.setColor(oldColor);
-				g2.setColor(Converter.convert(ColorOwn.RED.transparency(Transparency.DEPRECATED_WARNING)));
+				g2.setColor(Converter.convert(currentTheme.getColor(Theme.PredefinedColors.RED).transparency(Transparency.DEPRECATED_WARNING)));
 				g2.drawString("DEPRECATED ELEMENT", 10, 15);
 				g2.drawString("WILL SOON BE REMOVED", 10, 30);
 			}
-			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
+			fgColor = Converter.convert(currentTheme.getColor(Theme.ColorStyle.SELECTION_FG));
 			if (SharedConfig.getInstance().isShow_stickingpolygon()) {
 				drawStickingPolygon(g2);
 			}
@@ -438,11 +440,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public Integer getGroup() {
-		try {
-			return Integer.valueOf(getSettingHelper(GroupFacet.KEY, null));
-		} catch (NumberFormatException e) {/* default value applies */}
-		return null;
+	public String getGroup() {
+		return getSettingHelper(GroupFacet.KEY, null);
 	}
 
 	@Override

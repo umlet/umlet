@@ -6,10 +6,11 @@ import java.util.List;
 
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.gwt.client.element.WebStorage;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -30,6 +31,8 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchEvent;
@@ -55,7 +58,7 @@ public class EventHandlingUtils {
 
 		void handleKeyUp(KeyUpEvent event);
 
-		void onMouseMoveDraggingScheduleDeferred(Point moveStart, int diffX, int diffY, GridElement elementToDrag, boolean shiftKeyDown, boolean controlKeyDown, boolean b);
+		void onMouseMoveDraggingScheduleDeferred(Point moveStart, int diffX, int diffY, GridElement elementToDrag, boolean shiftKeyDown, boolean controlKeyDown, boolean firstDrag, final boolean isMiddleMouseButton);
 
 		void onMouseMove(Point point);
 
@@ -66,6 +69,8 @@ public class EventHandlingUtils {
 		void onDoubleClick(GridElement gridElementOnPosition);
 
 		void onShowMenu(Point p);
+
+		void onMouseWheelZoom(MouseWheelEvent event);
 
 		Rectangle getVisibleBounds();
 
@@ -79,19 +84,32 @@ public class EventHandlingUtils {
 
 		Element getElement();
 
+		int getGridSize();
+
 	}
 
 	private static enum DragStatus {
 		FIRST, CONTINUOUS, NO
 	}
 
-	private static class DragCache {
+	public static class DragCache {
 		private DragStatus dragging = DragStatus.NO;
 		private Point moveStart;
 		private GridElement elementToDrag;
 		private EventHandlingTarget activePanel;
 		private EventHandlingTarget mouseContainingPanel;
 		private List<HandlerRegistration> nonTouchHandlers = new ArrayList<HandlerRegistration>();
+		private boolean isMiddleMouseButton;
+
+		public EventHandlingTarget getActivePanel() {
+			return activePanel;
+		}
+
+		public void setActivePanel(EventHandlingTarget activePanel) {
+			this.activePanel = activePanel;
+			WebStorage.updateTargetPanel(activePanel);
+		}
+
 		/**
 		 * doubleclicks are only handled if the mouse has moved into the canvas before
 		 * this is necessary to void unwanted propagation of suggestbox-selections via doubleclick
@@ -102,8 +120,23 @@ public class EventHandlingUtils {
 		// private Timer menuShowTimer; //TODO doesn't really work at the moment (because some move and end events are not processed, therefore it's shown even if not wanted)
 	}
 
+	private static DragCache storageInstance;
+
+	public static DragCache getStorageInstance() {
+		return storageInstance;
+	}
+
 	public static void addEventHandler(final FocusPanel handlerTarget, final EventHandlingTarget... panels) {
 		final DragCache storage = new DragCache();
+		storageInstance = storage;
+
+		// Initializing active panel to be diagram panel
+		for (EventHandlingTarget panel : panels) {
+			if (panel instanceof DrawPanelDiagram) {
+				storage.activePanel = panel;
+				WebStorage.updateTargetPanel(panel);
+			}
+		}
 
 		for (final EventHandlingTarget panel : panels) {
 			storage.nonTouchHandlers.add(panel.addMouseOutHandler(new MouseOutHandler() {
@@ -131,11 +164,7 @@ public class EventHandlingUtils {
 					storage.nonTouchHandlers = null;
 				}
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
-					final Point absolutePos = getPointAbsolute(event);
-					storage.activePanel = getPanelWhichContainsPoint(panels, absolutePos);
-					if (storage.activePanel != null) {
-						handleStart(panels, storage, handlerTarget, event, getPoint(storage.activePanel, event));
-					}
+					handleStart(panels, storage, handlerTarget, event);
 					// storage.menuShowTimer = new Timer() {
 					// @Override
 					// public void run() {
@@ -169,10 +198,7 @@ public class EventHandlingUtils {
 		storage.nonTouchHandlers.add(handlerTarget.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
-				if (storage.activePanel != null) {
-					handleStart(panels, storage, handlerTarget, event, getPoint(storage.activePanel, event));
-				}
+				handleStart(panels, storage, handlerTarget, event);
 			}
 		}));
 
@@ -247,6 +273,19 @@ public class EventHandlingUtils {
 			}
 		}));
 
+		storage.nonTouchHandlers.add(handlerTarget.addMouseWheelHandler(new MouseWheelHandler() {
+			@Override
+			public void onMouseWheel(MouseWheelEvent event) {
+				if (storage.activePanel != null) {
+					storage.activePanel.onMouseWheelZoom(event);
+				}
+				else {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}
+		}));
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -264,14 +303,28 @@ public class EventHandlingUtils {
 		storage.dragging = DragStatus.NO;
 	}
 
-	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event, Point p) {
+	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event) {
+		storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
+		if (storage.activePanel == null) {
+			return;
+		}
+
+		WebStorage.updateTargetPanel(storage.activePanel);
+
+		Point p = getPoint(storage.activePanel, event);
 		// Notification.showInfo("DOWN " + p.x);
 		handlerTarget.setFocus(true);
 
 		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move (problem is it also avoids scrolling with 2 fingers)
 		storage.moveStart = new Point(p.x, p.y);
-		storage.dragging = DragStatus.FIRST;
-		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
+		int usedButton = event.getNativeEvent().getButton();
+		if (usedButton != NativeEvent.BUTTON_RIGHT) {
+			storage.dragging = DragStatus.FIRST;
+		}
+		storage.isMiddleMouseButton = usedButton == NativeEvent.BUTTON_MIDDLE;
+		if (!storage.isMiddleMouseButton) {
+			storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
+		}
 		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
 	}
 
@@ -281,10 +334,25 @@ public class EventHandlingUtils {
 			Point p = getPoint(storage.activePanel, event);
 			int diffX = p.x - storage.moveStart.getX();
 			int diffY = p.y - storage.moveStart.getY();
-			diffX -= diffX % SharedConstants.DEFAULT_GRID_SIZE;
-			diffY -= diffY % SharedConstants.DEFAULT_GRID_SIZE;
+
+			if (panel instanceof DrawPanelPalette) {
+				DrawPanelPalette currentPanel = ((DrawPanelPalette) panel);
+				// If preview is displayed we need to use the correct grid size for calculating the diffs
+				if (((DrawPanelDiagram) currentPanel.otherDrawFocusPanel).currentlyDisplayingPreview()) {
+					diffX -= diffX % ((DrawPanelPalette) panel).otherDrawFocusPanel.getGridSize();
+					diffY -= diffY % ((DrawPanelPalette) panel).otherDrawFocusPanel.getGridSize();
+				}
+				else {
+					diffX -= diffX % panel.getGridSize();
+					diffY -= diffY % panel.getGridSize();
+				}
+			}
+			else {
+				diffX -= diffX % panel.getGridSize();
+				diffY -= diffY % panel.getGridSize();
+			}
 			if (diffX != 0 || diffY != 0) {
-				panel.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), storage.dragging == DragStatus.FIRST);
+				panel.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), storage.dragging == DragStatus.FIRST, storage.isMiddleMouseButton);
 				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
 				storage.moveStart = storage.moveStart.copy().move(diffX, diffY); // make copy because otherwise deferred action will act on wrong position
 			}
@@ -306,6 +374,10 @@ public class EventHandlingUtils {
 		EventHandlingTarget returnPanel = null;
 		for (EventHandlingTarget panel : panels) {
 			Rectangle visibleBounds = panel.getVisibleBounds();
+			// For some reason, MouseUpEvent does not always fire for same position as MouseDownEvent, therefore making
+			// check of point inside panel more narrow
+			visibleBounds.x += 1;
+			visibleBounds.width -= 2;
 			visibleBounds.move(panel.getAbsoluteLeft(), panel.getAbsoluteTop());
 			if (visibleBounds.contains(p)) {
 				panel.setFocus(true);

@@ -55,6 +55,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 	private final JComboBox ui_manager;
 	private final JComboBox default_fontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
 	private final JComboBox propertiesPanelFontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
+	private final JComboBox exportScale = new JComboBox(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8 });
 	private final JComboBox default_fontfamily = new JComboBox(Constants.fontFamilyList.toArray(new String[Constants.fontFamilyList.size()]));
 
 	private final Vector<String> uis_technicalNames = new Vector<String>();
@@ -87,6 +88,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(default_fontsize);
 		this.add(new JLabel("Properties panel fontsize (requires restart)"));
 		this.add(propertiesPanelFontsize);
+		this.add(new JLabel("Export Scale for image export"));
+		this.add(exportScale);
 		this.add(new JLabel("Default fontfamily"));
 		this.add(default_fontfamily);
 		this.add(new JLabel("Developer Mode (show extended Element Info)"));
@@ -138,6 +141,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
 		default_fontsize.setSelectedItem(Config.getInstance().getDefaultFontsize());
 		propertiesPanelFontsize.setSelectedItem(Config.getInstance().getPropertiesPanelFontsize());
+		exportScale.setSelectedItem(Config.getInstance().getExportScale());
 		default_fontfamily.setSelectedItem(Config.getInstance().getDefaultFontFamily());
 		pdfFont.setText(Config.getInstance().getPdfExportFont());
 		pdfFontBold.setText(Config.getInstance().getPdfExportFontBold());
@@ -188,6 +192,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 				d.getDrawPanel().repaint();
 			}
 			Config.getInstance().setPropertiesPanelFontsize((Integer) propertiesPanelFontsize.getSelectedItem());
+			Config.getInstance().setExportScale((Integer) exportScale.getSelectedItem());
 
 			String newfamily = (String) default_fontfamily.getSelectedItem();
 			Config.getInstance().setDefaultFontFamily(newfamily);

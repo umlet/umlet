@@ -11,6 +11,7 @@ import static com.baselet.control.constants.MenuConstants.DELETE;
 import static com.baselet.control.constants.MenuConstants.EDIT_CURRENT_PALETTE;
 import static com.baselet.control.constants.MenuConstants.EDIT_SELECTED;
 import static com.baselet.control.constants.MenuConstants.EXIT;
+import static com.baselet.control.constants.MenuConstants.EXPORT;
 import static com.baselet.control.constants.MenuConstants.EXPORT_AS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS_OPTIONS;
@@ -40,6 +41,8 @@ import static com.baselet.control.constants.MenuConstants.UNDO;
 import static com.baselet.control.constants.MenuConstants.UNGROUP;
 import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +67,7 @@ import com.baselet.generator.ClassDiagramConverter;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.BrowserLauncher;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.ExportHandler;
 import com.baselet.gui.OptionPanel;
 import com.baselet.gui.command.Align;
 import com.baselet.gui.command.ChangeElementSetting;
@@ -74,7 +78,8 @@ import com.baselet.gui.command.RemoveElement;
 
 public class MenuFactory {
 
-	public void doAction(final String menuItem, final Object param) {
+	public void doAction(final String menuItem, final Object arg_param) {
+		final String param = arg_param == null ? null : arg_param.toString();
 		// AB: Hopefully this will resolve threading issues and work for eclipse AND standalone
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -95,7 +100,7 @@ public class MenuFactory {
 					diagramHandler.doCloseAndAddNewIfNoLeft();
 				}
 				else if (menuItem.equals(RECENT_FILES)) {
-					main.doOpen((String) param);
+					main.doOpen(param);
 				}
 				else if (menuItem.equals(GENERATE_CLASS)) {
 					new ClassDiagramConverter().createClassDiagrams(ClassChooser.getFilesToOpen());
@@ -109,8 +114,14 @@ public class MenuFactory {
 				else if (menuItem.equals(SAVE_AS) && diagramHandler != null) {
 					diagramHandler.doSaveAs(Program.getInstance().getExtension());
 				}
+				else if (menuItem.equals(EXPORT) && diagramHandler != null) {
+					ExportHandler.getInstance().export();
+				}
 				else if (menuItem.equals(EXPORT_AS) && diagramHandler != null) {
-					diagramHandler.doSaveAs((String) param);
+					String exportedDiagramFilePath = diagramHandler.doSaveAs(param);
+					if (exportedDiagramFilePath != null && !exportedDiagramFilePath.isEmpty()) {
+						ExportHandler.getInstance().setExportedFilePath(exportedDiagramFilePath);
+					}
 				}
 				else if (menuItem.equals(MAIL_TO)) {
 					gui.setMailPanelEnabled(!gui.isMailPanelVisible());
@@ -159,7 +170,12 @@ public class MenuFactory {
 					}
 				}
 				else if (menuItem.equals(PASTE) && actualHandler != null) {
-					actualHandler.getController().executeCommand(new Paste());
+					Point ctxMenuLocation = new Point(0, 0); // by default there is no ctxmenu displacement (x=0, y=0)
+					if (Boolean.TRUE.equals(arg_param)) { // if ctxmenu was used for the operation calculate and store the ctxMenuLocation
+						ctxMenuLocation = MouseInfo.getPointerInfo().getLocation();
+						SwingUtilities.convertPointFromScreen(ctxMenuLocation, actualHandler.getDrawPanel().getScrollPane().getViewport());
+					}
+					actualHandler.getController().executeCommand(new Paste(ctxMenuLocation));
 				}
 				else if (menuItem.equals(NEW_CE)) {
 					if (gui.getCurrentCustomHandler().closeEntity()) {
@@ -172,7 +188,7 @@ public class MenuFactory {
 					if (gui.getCurrentCustomHandler().closeEntity()) {
 						gui.setCustomPanelEnabled(true);
 						gui.getCurrentCustomHandler().getPanel().setCustomElementIsNew(true);
-						gui.getCurrentCustomHandler().newEntity((String) param);
+						gui.getCurrentCustomHandler().newEntity(param);
 					}
 				}
 				else if (menuItem.equals(EDIT_SELECTED)) {
@@ -207,19 +223,19 @@ public class MenuFactory {
 					AboutDialog.show();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && actualHandler != null && actualSelector != null) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(FacetConstants.FOREGROUND_COLOR_KEY, (String) param, actualSelector.getSelectedElements()));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(FacetConstants.FOREGROUND_COLOR_KEY, param, actualSelector.getSelectedElements()));
 				}
 				else if (menuItem.equals(SET_BACKGROUND_COLOR) && actualHandler != null && actualSelector != null) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(FacetConstants.BACKGROUND_COLOR_KEY, (String) param, actualSelector.getSelectedElements()));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(FacetConstants.BACKGROUND_COLOR_KEY, param, actualSelector.getSelectedElements()));
 				}
 				else if (menuItem.equals(ALIGN) && actualHandler != null && actualSelector != null) {
 					List<GridElement> v = actualSelector.getSelectedElements();
 					if (v.size() > 0) {
-						actualHandler.getController().executeCommand(new Align(v, actualSelector.getDominantEntity(), (String) param));
+						actualHandler.getController().executeCommand(new Align(v, actualSelector.getDominantEntity(), param));
 					}
 				}
 				else if (menuItem.equals(LAYER) && actualHandler != null && actualSelector != null) {
-					int change = param.equals(LAYER_DOWN) ? -1 : +1;
+					int change = LAYER_DOWN.equals(param) ? -1 : +1;
 					Map<GridElement, String> valueMap = new HashMap<GridElement, String>();
 					for (GridElement e : actualSelector.getSelectedElements()) {
 						valueMap.put(e, Integer.toString(e.getLayer() + change));

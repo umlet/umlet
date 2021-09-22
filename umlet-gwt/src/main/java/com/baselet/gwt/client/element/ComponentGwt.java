@@ -4,8 +4,9 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.gwt.client.view.Context2dGwtWrapper;
+import com.baselet.gwt.client.view.Context2dWrapper;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class ComponentGwt implements Component {
@@ -13,15 +14,28 @@ public class ComponentGwt implements Component {
 	boolean redrawNecessary = true;
 
 	private final Canvas canvas = Canvas.createIfSupported();
-	private final DrawHandlerGwt drawer = new DrawHandlerGwt(canvas);
-	private final DrawHandlerGwt metadrawer = new DrawHandlerGwt(canvas);
+	private final DrawHandlerGwt drawer;
+	private final DrawHandlerGwt metadrawer;
 
 	private final GridElement element;
 
 	private Rectangle rect;
 
 	public ComponentGwt(GridElement element) {
+		this(element, 1d);
+	}
+
+	public ComponentGwt(GridElement element, double scaling) {
 		this.element = element;
+		Context2dWrapper context2dWrapper = new Context2dGwtWrapper(canvas.getContext2d());
+		drawer = new DrawHandlerGwt(context2dWrapper, scaling);
+		metadrawer = new DrawHandlerGwt(context2dWrapper, scaling);
+	}
+
+	public ComponentGwt(GridElement element, double scaling, Context2dWrapper context2dWrapper) {
+		this.element = element;
+		drawer = new DrawHandlerGwt(context2dWrapper, scaling);
+		metadrawer = new DrawHandlerGwt(context2dWrapper, scaling);
 	}
 
 	@Override
@@ -61,19 +75,32 @@ public class ComponentGwt implements Component {
 
 	private boolean lastSelected = false;
 
-	public void drawOn(Context2d context, boolean isSelected) {
+	public void drawOn(Context2dWrapper context, boolean isSelected) {
+		drawOn(context, isSelected, 1d);
+	}
+
+	public void drawOn(Context2dWrapper context, boolean isSelected, double scaling) {
+		drawer.setNewScaling(scaling);
+		metadrawer.setNewScaling(scaling);
 		if (redrawNecessary || lastSelected != isSelected) {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();
-			canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getHeight());
-			canvas.getCanvasElement().setWidth(rect.getWidth() + 1); // canvas size is +1px to make sure a rectangle with width pixels is still visible (in Swing the bound-checking happens in BaseDrawHandlerSwing because you cannot extend the clipping area)
-			canvas.getCanvasElement().setHeight(rect.getHeight() + 1);
+			canvas.getContext2d().clearRect(0, 0, el.getWidth() * scaling, el.getHeight() * scaling);
+			canvas.getCanvasElement().setWidth((int) (rect.getWidth() * scaling) + (int) Math.ceil(1d * scaling)); // canvas size is +1px to make sure a rectangle with width pixels is still visible (in Swing the bound-checking happens in BaseDrawHandlerSwing because you cannot extend the clipping area)
+			canvas.getCanvasElement().setHeight((int) (rect.getHeight() * scaling) + (int) Math.ceil(1d * scaling));
 			drawer.drawAll(isSelected);
 			if (isSelected) {
 				metadrawer.drawAll();
 			}
 		}
 		lastSelected = isSelected;
-		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
+		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX() * scaling, element.getRectangle().getY() * scaling);
 	}
+
+	public void drawPdf(Context2dWrapper context) {
+		context.translate(element.getRectangle().getX(), element.getRectangle().getY());
+		drawer.drawAll();
+		context.translate(-element.getRectangle().getX(), -element.getRectangle().getY());
+	}
+
 }

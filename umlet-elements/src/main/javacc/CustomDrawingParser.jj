@@ -297,7 +297,7 @@ void drawText() :
 RecRunnable fg(RecRunnable inner) :
 { final String newColor;}
 {
-	<FG> newColor = colorOwn() {return new RecRunnable(inner) {
+	<FG> newColor = ColorOwn() {return new RecRunnable(inner) {
 		public void run(){
 			ColorOwn oldColor = getDrawHandler().getForegroundColor();
 			getDrawHandler().setForegroundColor(newColor);
@@ -313,7 +313,7 @@ RecRunnable fg(RecRunnable inner) :
 RecRunnable bg(RecRunnable inner) :
 { final String newColor;}
 {
-	<BG> newColor = colorOwn() {return new RecRunnable(inner) {
+	<BG> newColor = ColorOwn() {return new RecRunnable(inner) {
 		public void run(){
 			ColorOwn oldColor = getDrawHandler().getBackgroundColor();
 			getDrawHandler().setBackgroundColorAndKeepTransparency(newColor);
@@ -330,7 +330,7 @@ RecRunnable bg(RecRunnable inner) :
  * containing exactly 6 hexadecimal digits
  * (eg."#CAFFEE")
  */
-String colorOwn() :
+String ColorOwn() :
 {}
 {
 	(

@@ -122,14 +122,12 @@ public class VerticalDrawingInfoImpl implements VerticalDrawingInfo {
 
 	@Override
 	public double getVerticalStart(int tick) {
-		return startingTickTopY + tick * (defaultTickHeight + tickVerticalPadding) + accumulativeAddiontalHeightOffsets[tick]
-				+ topPadding[tick];
+		return startingTickTopY + tick * (defaultTickHeight + tickVerticalPadding) + accumulativeAddiontalHeightOffsets[tick] + topPadding[tick];
 	}
 
 	@Override
 	public double getVerticalEnd(int tick) {
-		return startingTickTopY + tick * (defaultTickHeight + tickVerticalPadding) + defaultTickHeight
-				+ accumulativeAddiontalHeightOffsets[tick + 1] - bottomPadding[tick];
+		return startingTickTopY + tick * (defaultTickHeight + tickVerticalPadding) + defaultTickHeight + accumulativeAddiontalHeightOffsets[tick + 1] - bottomPadding[tick];
 	}
 
 	@Override
@@ -173,8 +171,7 @@ public class VerticalDrawingInfoImpl implements VerticalDrawingInfo {
 	public double getVerticalEnd(Container container) {
 		// this is tricky because the end ticks can overlap
 		int tick = container.getEndTick();
-		return startingTickTopY + tick * (defaultTickHeight + tickVerticalPadding) + defaultTickHeight
-				+ accumulativeAddiontalHeightOffsets[tick + 1] - containerBottomPadding.get(container);
+		return startingTickTopY + tick * (defaultTickHeight + tickVerticalPadding) + defaultTickHeight + accumulativeAddiontalHeightOffsets[tick + 1] - containerBottomPadding.get(container);
 	}
 
 }

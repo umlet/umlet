@@ -19,10 +19,14 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.StyleException;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 
 public abstract class DrawHandler {
 
 	protected static final double HALF_PX = 0.5f;
+
+	public JavascriptCodeParser javascriptCodeParser;
 
 	protected Style style = new Style();
 	private final Style overlay = new Style();
@@ -68,7 +72,7 @@ public abstract class DrawHandler {
 
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
-			overlay.setForegroundColor(ColorOwn.SELECTION_FG);
+			overlay.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.SELECTION_FG));
 		}
 		else {
 			overlay.setForegroundColor(null);
@@ -132,16 +136,16 @@ public abstract class DrawHandler {
 
 	public final void setForegroundColor(String color) {
 		if (color.equals(FacetConstants.FOREGROUND_COLOR_KEY)) {
-			setForegroundColor(ColorOwn.DEFAULT_FOREGROUND);
+			setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND));
 		}
 		else {
-			setForegroundColor(ColorOwn.forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
+			setForegroundColor(ThemeFactory.getCurrentTheme().forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
 		}
 	}
 
 	public final void setForegroundColor(ColorOwn color) {
 		if (color == null) {
-			style.setForegroundColor(ColorOwn.DEFAULT_FOREGROUND);
+			style.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND));
 		}
 		else {
 			style.setForegroundColor(color);
@@ -150,23 +154,34 @@ public abstract class DrawHandler {
 
 	public final void setBackgroundColorAndKeepTransparency(String color) {
 		if (color.equals(FacetConstants.BACKGROUND_COLOR_KEY)) {
-			setBackgroundColor(ColorOwn.DEFAULT_BACKGROUND);
+			setBackgroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND));
 		}
 		else {
 			// #295: if bg is the default, use background transparency, but if bg has been set reuse its transparency (otherwise transparency= would only work if the line comes after bg=)
+			Theme currentTheme = ThemeFactory.getCurrentTheme();
 			ColorOwn oldBg = getBackgroundColor();
-			int newAlpha = oldBg == ColorOwn.DEFAULT_BACKGROUND ? Transparency.BACKGROUND.getAlpha() : oldBg.getAlpha();
-			setBackgroundColor(ColorOwn.forString(color, newAlpha));
+			ColorOwn defaultBg = currentTheme.getColor(Theme.ColorStyle.DEFAULT_BACKGROUND);
+			int newAlpha = oldBg == defaultBg ? Transparency.BACKGROUND.getAlpha() : oldBg.getAlpha();
+			setBackgroundColor(currentTheme.forString(color, newAlpha));
 		}
 	}
 
 	public final void setBackgroundColor(ColorOwn color) {
 		if (color == null) {
-			style.setBackgroundColor(ColorOwn.DEFAULT_BACKGROUND);
+			style.setBackgroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND));
 		}
 		else {
 			style.setBackgroundColor(color);
 		}
+	}
+
+	public final void setTransparency(double transparencyVal) {
+		if (transparencyVal < 0 || transparencyVal > 100) {
+			throw new StyleException("The transparency value must be between 0 and 100");
+		}
+		double colorTransparencyValue = 255 - transparencyVal * 2.55; /* ColorOwn has 0 for full transparency and 255 for no transparency */
+		ColorOwn bgColor = getBackgroundColor();
+		setBackgroundColor(bgColor.transparency((int) colorTransparencyValue));
 	}
 
 	public ColorOwn getForegroundColor() {
@@ -197,6 +212,11 @@ public abstract class DrawHandler {
 
 	public final void setLineType(LineType type) {
 		style.setLineType(type);
+	}
+
+	public final void setLineType(String lineTypeString) {
+		LineType lineType = LineType.fromString(lineTypeString);
+		style.setLineType(lineType);
 	}
 
 	public LineType getLineType() {
@@ -338,15 +358,79 @@ public abstract class DrawHandler {
 	 */
 	public abstract void drawArc(double x, double y, double width, double height, double start, double extent, boolean open);
 
+	public void drawArc(final double x, final double y, final double width, final double height, final double start, final double extent, final boolean open,
+			String bgColor, String fgColor, String lineTypeString, Double lineWidth, Double transparency) {
+		setExtraDrawValues(bgColor, fgColor, lineTypeString, lineWidth, transparency);
+		drawArc(x, y, width, height, start, extent, open);
+	}
+
 	public abstract void drawCircle(double x, double y, double radius);
 
+	public void drawCircle(double x, double y, double radius, String bgColor, String fgColor, String lineTypeString, Double lineWidth, Double transparency) {
+		setExtraDrawValues(bgColor, fgColor, lineTypeString, lineWidth, transparency);
+		drawCircle(x, y, radius);
+	}
+
 	public abstract void drawEllipse(double x, double y, double width, double height);
+
+	public void drawEllipse(final double x, final double y, final double width, final double height, String bgColor, String fgColor, String lineTypeString, Double lineWidth, Double transparency) {
+		setExtraDrawValues(bgColor, fgColor, lineTypeString, lineWidth, transparency);
+		drawEllipse(x, y, width, height);
+	}
 
 	public abstract void drawLines(PointDouble... points);
 
 	public abstract void drawRectangle(double x, double y, double width, double height);
 
+	public void drawRectangle(final double x, final double y, final double width, final double height, String bgColor, String fgColor, String lineTypeString, Double lineWidth, Double transparency) {
+		setExtraDrawValues(bgColor, fgColor, lineTypeString, lineWidth, transparency);
+		drawRectangle(x, y, width, height);
+	}
+
 	public abstract void drawRectangleRound(double x, double y, double width, double height, double radius);
+
+	public void drawRectangleRound(final double x, final double y, final double width, final double height, final double radius, String bgColor, String fgColor, String lineTypeString, Double lineWidth, Double transparency) {
+		setExtraDrawValues(bgColor, fgColor, lineTypeString, lineWidth, transparency);
+		drawRectangleRound(x, y, width, height, radius);
+	}
+
+	public void drawLine(double x1, double y1, double x2, double y2, String fgColor, String lineTypeString, Double lineWidth) {
+		if (lineWidth != null) {
+			setLineWidth(lineWidth);
+		}
+		if (lineTypeString != null) {
+			setLineType(lineTypeString);
+		}
+		if (fgColor != null) {
+			setForegroundColor(fgColor);
+		}
+		drawLine(x1, y1, x2, y2);
+	}
+
+	public void print(String multiLineWithMarkup, double x, double y, AlignHorizontal align, String fgColor) {
+		if (fgColor != null) {
+			setForegroundColor(fgColor);
+		}
+		print(multiLineWithMarkup, x, y, align);
+	}
+
+	private void setExtraDrawValues(String bgColor, String fgColor, String lineTypeString, Double lineWidth, Double transparency) {
+		if (lineWidth != null) {
+			setLineWidth(lineWidth);
+		}
+		if (lineTypeString != null) {
+			setLineType(lineTypeString);
+		}
+		if (fgColor != null) {
+			setForegroundColor(fgColor);
+		}
+		if (bgColor != null) {
+			setBackgroundColorAndKeepTransparency(bgColor);
+		}
+		if (transparency != null) {
+			setTransparency(transparency);
+		}
+	}
 
 	/**
 	 * @param lines each element is a single line (no \n), no further processing of the String takes place.
@@ -355,4 +439,13 @@ public abstract class DrawHandler {
 	 * @param align the horizontal alignment
 	 */
 	public abstract void printHelper(StringStyle[] lines, PointDouble point, AlignHorizontal align);
+
+	public JavascriptCodeParser getJavascriptCodeParser() {
+		return javascriptCodeParser;
+	}
+
+	public void setJavascriptCodeParser(JavascriptCodeParser javascriptCodeParser) {
+		this.javascriptCodeParser = javascriptCodeParser;
+	}
+
 }

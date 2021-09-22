@@ -26,9 +26,11 @@ import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.ComponentSwing;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.custom.CustomElement;
 import com.baselet.element.old.element.Relation;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.ExportHandler;
 import com.baselet.gui.command.Controller;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
@@ -153,7 +155,9 @@ public class DiagramHandler {
 		try {
 			fileHandler.doSave();
 			reloadPalettes();
-			CurrentGui.getInstance().getGui().afterSaving();
+			if (CurrentGui.getInstance().getGui() != null) { // in batchmode, there is no GUI instance
+				CurrentGui.getInstance().getGui().afterSaving();
+			}
 			return true;
 		} catch (IOException e) {
 			log.error(ErrorMessages.ERROR_SAVING_FILE, e);
@@ -162,25 +166,33 @@ public class DiagramHandler {
 		}
 	}
 
-	public void doSaveAs(String extension) {
+	public String doSaveAs(String filePath, String extension) {
 		if (drawpanel.getGridElements().isEmpty()) {
 			displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
+			return null;
 		}
 		else {
 			try {
-				fileHandler.doSaveAs(extension);
+				String savedFilePath = fileHandler.doSaveAs(filePath, extension);
 				reloadPalettes();
 				CurrentGui.getInstance().getGui().afterSaving();
+				return savedFilePath;
 			} catch (IOException e) {
 				log.error(ErrorMessages.ERROR_SAVING_FILE, e);
 				displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
+				return null;
 			}
 		}
+	}
+
+	public String doSaveAs(String extension) {
+		return doSaveAs(null, extension);
 	}
 
 	public void doPrint() {
 		PrinterJob printJob = PrinterJob.getPrinterJob();
 		printJob.setPrintable(getDrawPanel());
+		printJob.setJobName(getName());
 		if (printJob.printDialog()) {
 			try {
 				printJob.print();
@@ -209,6 +221,7 @@ public class DiagramHandler {
 
 	public void doClose() {
 		if (askSaveIfDirty()) {
+			ExportHandler.getInstance().diagramTabIsClosed();
 			Main.getInstance().getDiagrams().remove(this); // remove this DiagramHandler from the list of managed diagrams
 			drawpanel.getSelector().deselectAll(); // deselect all elements of the drawpanel (must be done BEFORE closing the tab, because otherwise it resets this DrawHandler again as the current DrawHandler
 			CurrentGui.getInstance().getGui().close(this); // close the GUI (tab, ...) and set the next active tab as the CurrentDiagram
@@ -340,7 +353,12 @@ public class DiagramHandler {
 			int newH = entity.getRectangle().height * toFactor / fromFactor;
 			entity.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));
 			// Normally there should be no realign here but relations and custom elements sometimes must be realigned therefore we don't log it as an error
-			entity.setSize(realignTo(newW, toFactor), realignTo(newH, toFactor));
+			if (entity instanceof CustomElement) {
+				entity.setSize(newW, newH); // #478: do not realign width and height for custom elements, because this would mess up the CustomElement.changeSizeIfNoBugfix() call
+			}
+			else {
+				entity.setSize(realignTo(newW, toFactor), realignTo(newH, toFactor));
+			}
 
 			// Resize the coordinates of the points of the relations
 			if (entity instanceof Relation) {

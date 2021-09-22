@@ -35,6 +35,10 @@
 	<!-- Slf4J for GWT Client side -->
 	<inherits name="ru.finam.slf4jgwt.logging.gwt.Logging" />
 
+	<inherits name="elemental2.core.Core"/>
+
+	<inherits name="elemental2.dom.Dom"/>
+
 	<!-- Logger configuration -->
 	<set-property name="gwt.logging.logLevel" value="INFO" />
 	<!-- <set-property name="gwt.logging.logLevel" value="ALL" /> -->
@@ -45,7 +49,6 @@
 	<set-property name="gwt.logging.systemHandler" value="ENABLED" />
 	<set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
 
-	<!-- Specify the app entry point class. -->
 	<entry-point class='com.baselet.gwt.client.BaseletGWT' />
 
 	<!-- Specify the paths for translatable code -->

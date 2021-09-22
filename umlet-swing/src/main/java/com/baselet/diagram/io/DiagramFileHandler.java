@@ -18,6 +18,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
@@ -93,11 +94,26 @@ public class DiagramFileHandler {
 		return new DiagramFileHandler(diagramHandler, file);
 	}
 
-	private JFileChooser createSaveFileChooser(boolean exportCall) {
-		JFileChooser fileChooser = new JFileChooser(calcInitialDir(exportCall));
+	private JFileChooser createSaveFileChooser(boolean exportCall, String filePath) {
+		File initialDirectory;
+		if (filePath != null && !filePath.isEmpty()) {
+			initialDirectory = new File(directory(filePath));
+		}
+		else {
+			initialDirectory = calcInitialDir(exportCall);
+		}
+
+		JFileChooser fileChooser = new JFileChooser(initialDirectory);
 		fileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
 		// The input field should show the diagram name as preset
-		fileChooser.setSelectedFile(new File(CurrentDiagram.getInstance().getDiagramHandler().getName()));
+		File selectedFile;
+		if (filePath != null && !filePath.isEmpty()) {
+			selectedFile = new File(filename(filePath));
+		}
+		else {
+			selectedFile = new File(CurrentDiagram.getInstance().getDiagramHandler().getName());
+		}
+		fileChooser.setSelectedFile(selectedFile);
 		return fileChooser;
 	}
 
@@ -246,32 +262,40 @@ public class DiagramFileHandler {
 
 	public void doOpen() {
 		try {
-			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			if (Config.getInstance().isSecureXmlProcessing()) {
+				// use secure xml processing (see https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Prevention_Cheat_Sheet#JAXP_DocumentBuilderFactory.2C_SAXParserFactory_and_DOM4J)
+				spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+				spf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+				spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+				spf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			}
+			SAXParser parser = spf.newSAXParser();
 			FileInputStream input = new FileInputStream(file);
 			InputHandler xmlhandler = new InputHandler(handler);
 			parser.parse(input, xmlhandler);
 			input.close();
 		} catch (Exception e) {
 			log.error("Cannot open the file: " + file.getAbsolutePath(), e);
-
 		}
 	}
 
-	public void doSaveAs(String fileextension) throws IOException {
-		boolean ownXmlFormat = fileextension.equals(Program.getInstance().getExtension());
-		JFileChooser fileChooser = createSaveFileChooser(!ownXmlFormat);
-		String fileName = chooseFileName(ownXmlFormat, filters.get(fileextension), fileChooser);
-		String extension = fileextensions.get(fileChooser.getFileFilter());
-		if (fileName == null) {
-			return; // If the filechooser has been closed without saving
+	public String doSaveAs(String filePath, String extension) throws IOException {
+		boolean ownXmlFormat = extension.equals(Program.getInstance().getExtension());
+		JFileChooser fileChooser = createSaveFileChooser(!ownXmlFormat, filePath);
+
+		String chosenFileName = chooseFileName(ownXmlFormat, filters.get(extension), fileChooser);
+		String chosenExtension = fileextensions.get(fileChooser.getFileFilter());
+		if (chosenFileName == null) {
+			return null; // If the filechooser has been closed without saving
 		}
-		if (!fileName.endsWith("." + extension)) {
-			fileName += "." + extension;
+		if (!chosenFileName.endsWith("." + chosenExtension)) {
+			chosenFileName += "." + chosenExtension;
 		}
 
-		File fileToSave = new File(fileName);
+		File fileToSave = new File(chosenFileName);
 		Config.getInstance().setSaveFileHome(fileToSave.getParent());
-		if (extension.equals(Program.getInstance().getExtension())) {
+		if (chosenExtension.equals(Program.getInstance().getExtension())) {
 			file = fileToSave;
 			setFileName(file.getName());
 			save();
@@ -280,6 +304,12 @@ public class DiagramFileHandler {
 			lastExportFile = fileToSave;
 			doExportAs(extension, fileToSave);
 		}
+
+		return fileToSave.getAbsolutePath();
+	}
+
+	public String doSaveAs(String fileextension) throws IOException {
+		return doSaveAs(null, fileextension);
 	}
 
 	public File doSaveTempDiagram(String filename, String fileextension) throws IOException {
@@ -349,6 +379,26 @@ public class DiagramFileHandler {
 			fileName = selectedFileWithExt.getAbsolutePath();
 		}
 		return fileName;
+	}
+
+	private String directory(String filePath) {
+		File fileObject = new File(filePath);
+		File fileObjectAbsolute = new File(fileObject.getAbsolutePath());
+		return fileObjectAbsolute.getParent();
+	}
+
+	private String filename(String filePath) {
+		File fileObject = new File(filePath);
+		String filename = fileObject.getName();
+		int extensionPos = filename.lastIndexOf(".");
+
+		if (extensionPos > 0) {
+			String filenameWithoutExtension = filename.substring(0, extensionPos);
+			return filenameWithoutExtension;
+		}
+		else {
+			return filename;
+		}
 	}
 
 	/**

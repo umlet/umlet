@@ -8,14 +8,20 @@ import com.baselet.command.AddGridElementCommand;
 import com.baselet.command.CommandTarget;
 import com.baselet.command.Controller;
 import com.baselet.command.RemoveGridElementCommand;
+import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.GridElementUtils;
+import com.baselet.element.NewGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.gwt.client.element.BrowserStorage;
+import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.element.GridElementZoomUtil;
+import com.baselet.gwt.client.element.WebStorage;
+import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
+import com.baselet.gwt.client.view.commands.RemoveGridElementCommandNoUpdate;
 
 public class CommandInvoker extends Controller {
 
@@ -29,34 +35,100 @@ public class CommandInvoker extends Controller {
 		super();
 	}
 
-	void addElements(CommandTarget target, List<GridElement> elements) {
+	void addElements(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
+		GridElementZoomUtil.zoomEntities(oldZoomLevel, target.getDiagram().getZoomLevel(), elements);
 		executeCommand(new AddGridElementCommand(target, elements));
+	}
+
+	// adds elements but does not notify vs code that anything is changed
+	void addElementsDontNotifyUpdate(CommandTarget target, List<GridElement> elements, int oldZoomLevel) {
+		GridElementZoomUtil.zoomEntities(oldZoomLevel, target.getDiagram().getZoomLevel(), elements);
+		executeCommand(new AddGridElementCommandDontNotifyUpdate(target, elements));
+	}
+
+	private static class AddGridElementCommandDontNotifyUpdate extends AddGridElementCommand {
+
+		public AddGridElementCommandDontNotifyUpdate(CommandTarget target, List<GridElement> elements) {
+			super(target, elements);
+		}
+
+		@Override
+		public void execute() {
+			if (target instanceof DrawPanelDiagram) {
+				((DrawPanelDiagram) target).addGridElementsDontNotifyUpdate(elements);
+			}
+			else {
+				super.execute();
+			}
+		}
+
+		@Override
+		public void undo() {
+			if (target instanceof DrawPanelDiagram) {
+				((DrawPanelDiagram) target).removeGridElementsDontNotifyUpdate(elements);
+			}
+			else {
+				super.undo();
+			}
+		}
 	}
 
 	void removeElements(CommandTarget target, List<GridElement> elements) {
 		executeCommand(new RemoveGridElementCommand(target, elements));
 	}
 
+	/*
+	 used to add an element without triggering VSCode being notified about the diagram change
+	 used to add preview Elements
+	 */
+	void addElementsNoUpdate(CommandTarget target, List<GridElement> elements) {
+		executeCommand(new AddGridElementCommandNoUpdate(target, elements));
+	}
+
+	/*
+	 used to remove an element without triggering VSCode being notified about the diagram change
+	 used to remove preview Elements
+	 */
+	void removeElementsNoUpdate(CommandTarget target, List<GridElement> elements) {
+		executeCommand(new RemoveGridElementCommandNoUpdate(target, elements));
+	}
+
 	void removeSelectedElements(CommandTarget target) {
 		removeElements(target, target.getSelector().getSelectedElements());
 	}
 
-	// TODO implement copy & paste as commands
-
-	void copySelectedElements(CommandTarget target) {
-		BrowserStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
+	public void copySelectedElements(CommandTarget target) {
+		Diagram targetDiagram = target.getDiagram();
+		List<GridElement> elements = copyElementsInList(target.getSelector().getSelectedElements(), targetDiagram); // must be copied here to ensure location etc. will not be changed
+		GridElementZoomUtil.zoomEntities(targetDiagram.getZoomLevel(), SharedConstants.DEFAULT_GRID_SIZE, elements);
+		WebStorage.setClipboard(elements);
 	}
 
-	void cutSelectedElements(CommandTarget target) {
+	public void cutSelectedElements(CommandTarget target) {
 		copySelectedElements(target);
 		removeSelectedElements(target);
 	}
 
-	void pasteElements(CommandTarget target) {
-		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard(), target.getDiagram());
+	public void pasteElements() {
+		WebStorage.getClipboardAsync();
+	}
+
+	public void executePaste(CommandTarget target, String content, Point pasteTargetPosition) {
+		List<GridElement> copyOfElements = copyElementsInList(DiagramXmlParser.xmlToGridElements(content), target.getDiagram());
+		GridElementZoomUtil.zoomEntities(SharedConstants.DEFAULT_GRID_SIZE, target.getDiagram().getZoomLevel(), copyOfElements);
 		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
+		// if there is a context menu currently opened, place it at the cursor position, otherwise at the top left
 		realignElementsToVisibleRect(target, copyOfElements);
-		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
+		DrawPanel targetDrawPanel = (DrawPanel) target;
+		if (pasteTargetPosition != null) {
+			DrawPanel.snapElementsToPointPosition(copyOfElements, targetDrawPanel, pasteTargetPosition);
+		}
+		else {
+			DrawPanel.snapElementsToVisibleTopLeft(copyOfElements, targetDrawPanel);
+		}
+
+		int oldZoomLevel = copyOfElements.size() > 0 ? ((NewGridElement) copyOfElements.get(0)).getGridSize() : SharedConstants.DEFAULT_GRID_SIZE;
+		addElements(target, copyOfElements, oldZoomLevel); // copy here to make sure it can be pasted multiple times
 	}
 
 	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements, Diagram targetDiagram) {
@@ -72,13 +144,17 @@ public class CommandInvoker extends Controller {
 		Rectangle rect = GridElementUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {
-			ge.getRectangle().move(visible.getX() - rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY() - rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);
+			ge.getRectangle().move(visible.getX() - rect.getX() + target.getDiagram().getZoomLevel(), visible.getY() - rect.getY() + target.getDiagram().getZoomLevel());
 		}
 	}
 
 	public void updateSelectedElementsProperty(CommandTarget target, String key, Object value) {
 		for (GridElement e : target.getSelector().getSelectedElements()) {
 			e.setProperty(key, value);
+		}
+		// Notify updates to vscode
+		if (target instanceof DrawPanelDiagram) {
+			((DrawPanelDiagram) target).handleFileUpdate();
 		}
 		target.updatePropertiesPanelWithSelectedElement();
 	}

@@ -1,5 +1,7 @@
 package com.baselet.control.config.handler;
 
+import static com.baselet.control.constants.Constants.exportFormatList;
+
 import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
@@ -27,6 +29,8 @@ public class ConfigHandler {
 
 	private static final String PROGRAM_VERSION = "program_version";
 	private static final String PROPERTIES_PANEL_FONTSIZE = "properties_panel_fontsize";
+	private static final String EXPORT_SCALE = "export_scale"; // #510: scales exported images by this factor (default=1, e.g. 2 doubles the amount of pixels)
+	private static final String EXPORT_DPI = "export_dpi"; // #510: if set, and the image format supports it (e.g. png), this dpi value is stored in the img metadata (default=null which means no dpi value is stored)
 	private static final String DEFAULT_FONTSIZE = "default_fontsize";
 	private static final String DEFAULT_FONTFAMILY = "default_fontfamily";
 	private static final String SHOW_STICKINGPOLYGON = "show_stickingpolygon";
@@ -38,7 +42,9 @@ public class ConfigHandler {
 	private static final String PDF_EXPORT_FONT_BOLD = "pdf_export_font_bold";
 	private static final String PDF_EXPORT_FONT_ITALIC = "pdf_export_font_italic";
 	private static final String PDF_EXPORT_FONT_BOLDITALIC = "pdf_export_font_bolditalic";
+	private static final String LAST_EXPORT_FORMAT = "last_export_format";
 	private static final String CHECK_FOR_UPDATES = "check_for_updates";
+	private static final String SECURE_XML_PROCESSING = "secure_xml_processing";
 	private static final String OPEN_FILE_HOME = "open_file_home";
 	private static final String SAVE_FILE_HOME = "save_file_home";
 	private static final String DEV_MODE = "dev_mode";
@@ -82,6 +88,8 @@ public class ConfigHandler {
 		cfg.setProgramVersion(getStringProperty(props, PROGRAM_VERSION, Program.getInstance().getVersion()));
 		cfg.setDefaultFontsize(getIntProperty(props, DEFAULT_FONTSIZE, cfg.getDefaultFontsize()));
 		cfg.setPropertiesPanelFontsize(getIntProperty(props, PROPERTIES_PANEL_FONTSIZE, cfg.getPropertiesPanelFontsize()));
+		cfg.setExportScale(getIntProperty(props, EXPORT_SCALE, cfg.getExportScale()));
+		cfg.setExportDpi(getIntProperty(props, EXPORT_DPI, cfg.getExportDpi()));
 		cfg.setDefaultFontFamily(getStringProperty(props, DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily()));
 		SharedConfig.getInstance().setShow_stickingpolygon(getBoolProperty(props, SHOW_STICKINGPOLYGON, SharedConfig.getInstance().isShow_stickingpolygon()));
 		cfg.setShow_grid(getBoolProperty(props, SHOW_GRID, cfg.isShow_grid()));
@@ -93,6 +101,7 @@ public class ConfigHandler {
 		cfg.setPdfExportFontItalic(getStringProperty(props, PDF_EXPORT_FONT_ITALIC, cfg.getPdfExportFontItalic()));
 		cfg.setPdfExportFontBoldItalic(getStringProperty(props, PDF_EXPORT_FONT_BOLDITALIC, cfg.getPdfExportFontBoldItalic()));
 		cfg.setCheckForUpdates(getBoolProperty(props, CHECK_FOR_UPDATES, cfg.isCheckForUpdates()));
+		cfg.setSecureXmlProcessing(getBoolProperty(props, SECURE_XML_PROCESSING, cfg.isSecureXmlProcessing()));
 		cfg.setOpenFileHome(getStringProperty(props, OPEN_FILE_HOME, cfg.getOpenFileHome()));
 		cfg.setSaveFileHome(getStringProperty(props, SAVE_FILE_HOME, cfg.getSaveFileHome()));
 		SharedConfig.getInstance().setDev_mode(getBoolProperty(props, DEV_MODE, SharedConfig.getInstance().isDev_mode()));
@@ -101,6 +110,11 @@ public class ConfigHandler {
 		cfg.setRight_split_position(getIntProperty(props, RIGHT_SPLIT_POSITION, cfg.getRight_split_position()));
 		cfg.setMail_split_position(getIntProperty(props, MAIL_SPLIT_POSITION, cfg.getMail_split_position()));
 		cfg.setStart_maximized(getBoolProperty(props, START_MAXIMIZED, cfg.isStart_maximized()));
+
+		String lastExportFormatProp = getStringProperty(props, LAST_EXPORT_FORMAT, cfg.getLastExportFormat());
+		if (lastExportFormatProp != null && !lastExportFormatProp.isEmpty() && exportFormatList.contains(lastExportFormatProp.toLowerCase())) {
+			cfg.setLastExportFormat(getStringProperty(props, LAST_EXPORT_FORMAT, cfg.getLastExportFormat()));
+		}
 
 		// In case of start_maximized=true we don't store any size or location information
 		if (!cfg.isStart_maximized()) {
@@ -151,6 +165,10 @@ public class ConfigHandler {
 			props.setProperty(PROGRAM_VERSION, Program.getInstance().getVersion());
 			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(cfg.getDefaultFontsize()));
 			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(cfg.getPropertiesPanelFontsize()));
+			props.setProperty(EXPORT_SCALE, Integer.toString(cfg.getExportScale()));
+			if (cfg.getExportDpi() != null) {
+				props.setProperty(EXPORT_DPI, Integer.toString(cfg.getExportDpi()));
+			}
 			props.setProperty(DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily());
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(SharedConfig.getInstance().isShow_stickingpolygon()));
 			props.setProperty(SHOW_GRID, Boolean.toString(cfg.isShow_grid()));
@@ -161,7 +179,9 @@ public class ConfigHandler {
 			props.setProperty(PDF_EXPORT_FONT_BOLD, cfg.getPdfExportFontBold());
 			props.setProperty(PDF_EXPORT_FONT_ITALIC, cfg.getPdfExportFontItalic());
 			props.setProperty(PDF_EXPORT_FONT_BOLDITALIC, cfg.getPdfExportFontBoldItalic());
+			props.setProperty(LAST_EXPORT_FORMAT, cfg.getLastExportFormat());
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(cfg.isCheckForUpdates()));
+			props.setProperty(SECURE_XML_PROCESSING, Boolean.toString(cfg.isSecureXmlProcessing()));
 			props.setProperty(OPEN_FILE_HOME, cfg.getOpenFileHome());
 			props.setProperty(SAVE_FILE_HOME, cfg.getSaveFileHome());
 			props.setProperty(DEV_MODE, Boolean.toString(SharedConfig.getInstance().isDev_mode()));
@@ -269,7 +289,7 @@ public class ConfigHandler {
 		return result;
 	}
 
-	private static int getIntProperty(Properties props, String key, int defaultValue) {
+	private static Integer getIntProperty(Properties props, String key, Integer defaultValue) {
 		String result = props.getProperty(key);
 		if (result != null) {
 			try {

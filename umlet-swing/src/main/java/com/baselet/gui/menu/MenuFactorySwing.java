@@ -10,6 +10,7 @@ import static com.baselet.control.constants.MenuConstants.DELETE;
 import static com.baselet.control.constants.MenuConstants.EDIT_CURRENT_PALETTE;
 import static com.baselet.control.constants.MenuConstants.EDIT_SELECTED;
 import static com.baselet.control.constants.MenuConstants.EXIT;
+import static com.baselet.control.constants.MenuConstants.EXPORT;
 import static com.baselet.control.constants.MenuConstants.EXPORT_AS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS_OPTIONS;
@@ -43,6 +44,8 @@ import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
@@ -58,7 +61,8 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
 import com.baselet.control.util.RecentlyUsedFilesList;
-import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.gui.helper.PlainColorIcon;
 
 public class MenuFactorySwing extends MenuFactory {
@@ -81,12 +85,13 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createClose() {
-		return createJMenuItem(false, CLOSE, KeyEvent.VK_W, true, null);
+		return createJMenuItem(false, CLOSE, CLOSE, KeyEvent.VK_C, KeyEvent.VK_W, true, null);
 	}
 
 	public JMenu createRecentFiles() {
 		final JMenu recentFiles = new JMenu();
 		recentFiles.setText(RECENT_FILES);
+		recentFiles.setMnemonic(KeyEvent.VK_R);
 		recentFiles.addMenuListener(new MenuListener() {
 			@Override
 			public void menuDeselected(MenuEvent e) {}
@@ -97,8 +102,12 @@ public class MenuFactorySwing extends MenuFactory {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				recentFiles.removeAll();
+				Iterator<Integer> mnemonicsIter = Arrays.asList(KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_7, KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_0).iterator();
+				Iterator<Integer> prefixIter = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0).iterator();
 				for (String file : RecentlyUsedFilesList.getInstance()) {
-					recentFiles.add(createJMenuItem(false, file, RECENT_FILES, file));
+					Integer mnemonic = mnemonicsIter.hasNext() ? mnemonicsIter.next() : null;
+					String prefix = prefixIter.hasNext() ? prefixIter.next().toString() : "";
+					recentFiles.add(createJMenuItem(false, prefix + " " + file, RECENT_FILES, mnemonic, null, file));
 				}
 			}
 		});
@@ -106,11 +115,11 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createGenerate() {
-		return createJMenuItem(false, GENERATE_CLASS, null);
+		return createJMenuItemNoShortcut(false, GENERATE_CLASS, KeyEvent.VK_G);
 	}
 
 	public JMenuItem createGenerateOptions() {
-		return createJMenuItem(false, GENERATE_CLASS_OPTIONS, null);
+		return createJMenuItemNoShortcut(false, GENERATE_CLASS_OPTIONS, KeyEvent.VK_I);
 	}
 
 	public JMenuItem createSave() {
@@ -118,17 +127,47 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createSaveAs() {
-		return createJMenuItem(true, SAVE_AS, null);
+		return createJMenuItemNoShortcut(true, SAVE_AS, KeyEvent.VK_V);
+	}
+
+	public JMenuItem createExport() {
+		return createJMenuItem(true, EXPORT, KeyEvent.VK_E, true, null);
 	}
 
 	public JMenu createExportAs() {
 		final JMenu export = new JMenu();
 		export.setText(EXPORT_AS);
+		export.setMnemonic(KeyEvent.VK_A);
 		diagramDependendComponents.add(export);
 		for (final String format : Constants.exportFormatList) {
-			export.add(createJMenuItem(true, format.toUpperCase(Locale.ENGLISH) + "...", EXPORT_AS, format));
+			export.add(createJMenuItem(true, format.toUpperCase(Locale.ENGLISH) + "...", EXPORT_AS, exportMnemonic(format), null, format));
 		}
 		return export;
+	}
+
+	private Integer exportMnemonic(String format) {
+		if ("bmp".equals(format)) {
+			return KeyEvent.VK_B;
+		}
+		if ("eps".equals(format)) {
+			return KeyEvent.VK_E;
+		}
+		if ("gif".equals(format)) {
+			return KeyEvent.VK_G;
+		}
+		if ("jpg".equals(format)) {
+			return KeyEvent.VK_J;
+		}
+		if ("pdf".equals(format)) {
+			return KeyEvent.VK_P;
+		}
+		if ("png".equals(format)) {
+			return KeyEvent.VK_N;
+		}
+		if ("svg".equals(format)) {
+			return KeyEvent.VK_S;
+		}
+		return null;
 	}
 
 	public JMenuItem createMailTo() {
@@ -136,11 +175,11 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createEditCurrentPalette() {
-		return createJMenuItem(false, EDIT_CURRENT_PALETTE, null);
+		return createJMenuItemNoShortcut(false, EDIT_CURRENT_PALETTE, KeyEvent.VK_D);
 	}
 
 	public JMenuItem createOptions() {
-		return createJMenuItem(false, OPTIONS, null);
+		return createJMenuItemNoShortcut(false, OPTIONS, KeyEvent.VK_T);
 	}
 
 	public JMenuItem createPrint() {
@@ -148,24 +187,24 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createExit() {
-		return createJMenuItem(false, EXIT, null);
+		return createJMenuItemNoShortcut(false, EXIT, KeyEvent.VK_X);
 	}
 
 	public JMenuItem createUndo() {
-		return createJMenuItem(false, UNDO, KeyEvent.VK_Z, true, null);
+		return createJMenuItem(false, UNDO, UNDO, KeyEvent.VK_U, KeyEvent.VK_Z, true, null);
 	}
 
 	public JMenuItem createRedo() {
-		return createJMenuItem(false, REDO, KeyEvent.VK_Y, true, null);
+		return createJMenuItem(false, REDO, REDO, KeyEvent.VK_R, KeyEvent.VK_Y, true, null);
 	}
 
 	public JMenuItem createDelete() {
 		int[] keys = new int[] { KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE }; // backspace AND delete both work for deleting elements
 		if (SystemInfo.OS == Os.MAC) { // MacOS shows the backspace key mapping because it's the only one working - see http://stackoverflow.com/questions/4881262/java-keystroke-for-delete/4881606#4881606
-			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_BACK_SPACE);
+			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_D, KeyEvent.VK_BACK_SPACE);
 		}
 		else {
-			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_DELETE);
+			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_D, KeyEvent.VK_DELETE);
 		}
 	}
 
@@ -178,75 +217,80 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createUngroup() {
-		return createJMenuItem(false, UNGROUP, KeyEvent.VK_U, true, null);
+		return createJMenuItem(false, UNGROUP, UNGROUP, KeyEvent.VK_N, KeyEvent.VK_U, true, null);
 	}
 
 	public JMenuItem createCut() {
-		return createJMenuItem(false, CUT, KeyEvent.VK_X, true, null);
+		return createJMenuItem(false, CUT, CUT, KeyEvent.VK_T, KeyEvent.VK_X, true, null);
 	}
 
 	public JMenuItem createCopy() {
 		return createJMenuItem(false, COPY, KeyEvent.VK_C, true, null);
 	}
 
-	public JMenuItem createPaste() {
-		return createJMenuItem(false, PASTE, KeyEvent.VK_V, true, null);
+	public JMenuItem createPaste(boolean usedRightClickContextMenu) {
+		return createJMenuItem(false, PASTE, PASTE, KeyEvent.VK_P, KeyEvent.VK_V, true, usedRightClickContextMenu);
 	}
 
 	public JMenuItem createNewCustomElement() {
-		return createJMenuItem(false, NEW_CE, null);
+		return createJMenuItemNoShortcut(false, NEW_CE, KeyEvent.VK_N);
 	}
 
 	public JMenu createNewCustomElementFromTemplate() {
 		JMenu menu = new JMenu(NEW_FROM_TEMPLATE);
+		menu.setMnemonic(KeyEvent.VK_E);
+		Iterator<Integer> mnemonicsIter = Arrays.asList(KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_7, KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_0).iterator();
+		Iterator<Integer> prefixIter = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0).iterator();
 		for (String template : Main.getInstance().getTemplateNames()) {
-			menu.add(createJMenuItem(false, template, NEW_FROM_TEMPLATE, template));
+			Integer mnemonic = mnemonicsIter.hasNext() ? mnemonicsIter.next() : null;
+			String prefix = prefixIter.hasNext() ? prefixIter.next().toString() : "";
+			menu.add(createJMenuItem(false, prefix + " " + template, NEW_FROM_TEMPLATE, mnemonic, null, null, template));
 		}
 		return menu;
 	}
 
 	public JMenuItem createEditSelected() {
-		return createJMenuItem(false, EDIT_SELECTED, null);
+		return createJMenuItemNoShortcut(false, EDIT_SELECTED, KeyEvent.VK_D);
 	}
 
 	public JMenuItem createCustomElementTutorial() {
-		return createJMenuItem(false, CUSTOM_ELEMENTS_TUTORIAL, null);
+		return createJMenuItemNoShortcut(false, CUSTOM_ELEMENTS_TUTORIAL, KeyEvent.VK_T);
 	}
 
 	public JMenuItem createOnlineHelp() {
-		return createJMenuItem(false, ONLINE_HELP, null);
+		return createJMenuItemNoShortcut(false, ONLINE_HELP, KeyEvent.VK_H);
 	}
 
 	public JMenuItem createOnlineSampleDiagrams() {
-		return createJMenuItem(false, ONLINE_SAMPLE_DIAGRAMS, null);
+		return createJMenuItemNoShortcut(false, ONLINE_SAMPLE_DIAGRAMS, KeyEvent.VK_S);
 	}
 
 	public JMenuItem createVideoTutorials() {
-		return createJMenuItem(false, VIDEO_TUTORIAL, null);
+		return createJMenuItemNoShortcut(false, VIDEO_TUTORIAL, KeyEvent.VK_T);
 	}
 
 	public JMenuItem createProgramHomepage() {
-		return createJMenuItem(false, PROGRAM_HOMEPAGE, null);
+		return createJMenuItemNoShortcut(false, PROGRAM_HOMEPAGE, KeyEvent.VK_U);
 	}
 
 	public JMenuItem createRateProgram() {
-		return createJMenuItem(false, RATE_PROGRAM, null);
+		return createJMenuItemNoShortcut(false, RATE_PROGRAM, KeyEvent.VK_R);
 	}
 
 	public JMenu createSetColor(boolean fg) {
 		String name = fg ? SET_FOREGROUND_COLOR : SET_BACKGROUND_COLOR;
 		JMenu menu = new JMenu(name);
 		menu.add(createJMenuItem(false, "default", name, null));
-		for (String color : ColorOwn.COLOR_MAP.keySet()) {
-			JMenuItem item = createJMenuItem(false, color, name, color);
+		for (Theme.PredefinedColors color : ThemeFactory.getCurrentTheme().getColorMap().keySet()) {
+			JMenuItem item = createJMenuItem(false, color.name(), name, color.name());
 			menu.add(item);
-			item.setIcon(new PlainColorIcon(color));
+			item.setIcon(new PlainColorIcon(color.name()));
 		}
 		return menu;
 	}
 
 	public JMenuItem createAboutProgram() {
-		return createJMenuItem(false, ABOUT_PROGRAM, null);
+		return createJMenuItemNoShortcut(false, ABOUT_PROGRAM, KeyEvent.VK_A);
 	}
 
 	public JMenu createAlign() {
@@ -265,8 +309,8 @@ public class MenuFactorySwing extends MenuFactory {
 		return alignMenu;
 	}
 
-	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String name, Object param) {
-		return createJMenuItem(grayWithoutDiagram, name, name, null, null, param);
+	private JMenuItem createJMenuItemNoShortcut(boolean grayWithoutDiagram, final String name, Integer mnemonic) {
+		return createJMenuItem(grayWithoutDiagram, name, mnemonic, null, null); // because meta is null, no shortcut is created (only the mnemonic)
 	}
 
 	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String name, Integer mnemonic, Boolean meta, Object param) {
@@ -278,10 +322,16 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String menuName, final String actionName, Integer mnemonic, Boolean meta, final Object param) {
+		return createJMenuItem(grayWithoutDiagram, menuName, actionName, mnemonic, mnemonic, meta, param);
+	}
+
+	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String menuName, final String actionName, Integer mnemonic, Integer shortcut, Boolean meta, final Object param) {
 		JMenuItem menuItem = new JMenuItem(menuName);
 		if (mnemonic != null) {
 			menuItem.setMnemonic(mnemonic);
-			menuItem.setAccelerator(KeyStroke.getKeyStroke(mnemonic, !meta ? 0 : SystemInfo.META_KEY.getMask()));
+			if (meta != null && shortcut != null) {
+				menuItem.setAccelerator(KeyStroke.getKeyStroke(shortcut, !meta ? 0 : SystemInfo.META_KEY.getMask()));
+			}
 		}
 		menuItem.addActionListener(new ActionListener() {
 			@Override
@@ -299,15 +349,15 @@ public class MenuFactorySwing extends MenuFactory {
 	 * Create a JMenuItem with multiple key bindings (only one mnemonic can be set at any time).
 	 * @see "http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html"
 	 */
-	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String name, int[] keyEvents, int preferredMnemonic) {
+	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String name, int[] keyEvents, int mnemonic, int shortcut) {
 		JMenuItem menuItem = new JMenuItem(name);
-
-		MultipleKeyBindingsAction action = new MultipleKeyBindingsAction(name, preferredMnemonic);
+		MultipleKeyBindingsAction action = new MultipleKeyBindingsAction(name, shortcut);
 		for (int keyEvent : keyEvents) {
 			addKeyBinding(menuItem, keyEvent, name);
 		}
 		menuItem.getActionMap().put(name, action);
 		menuItem.setAction(action);
+		menuItem.setMnemonic(mnemonic);
 
 		if (grayWithoutDiagram) {
 			diagramDependendComponents.add(menuItem);
@@ -322,9 +372,9 @@ public class MenuFactorySwing extends MenuFactory {
 	@SuppressWarnings("serial")
 	private class MultipleKeyBindingsAction extends AbstractAction {
 
-		public MultipleKeyBindingsAction(String menuName, int preferredMnemonic) {
+		public MultipleKeyBindingsAction(String menuName, int shortcut) {
 			super(menuName);
-			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(preferredMnemonic, 0));
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(shortcut, 0));
 		}
 
 		@Override

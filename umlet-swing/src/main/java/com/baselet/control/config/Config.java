@@ -37,6 +37,7 @@ public class Config {
 	private String pdfExportFontBold = "";
 	private String pdfExportFontItalic = "";
 	private String pdfExportFontBoldItalic = "";
+	private String lastExportFormat = "";
 	private boolean checkForUpdates = true;
 	private int printPadding = 20;
 	private Point program_location = new Point(5, 5);
@@ -47,9 +48,12 @@ public class Config {
 	private boolean enable_custom_elements = true;
 	private boolean show_grid = false;
 	private boolean start_maximized = false;
+	private boolean secureXmlProcessing = true;
 	private String defaultFontFamily = Font.SANS_SERIF;
 	private Integer defaultFontsize = 14;
 	private Integer propertiesPanelFontsize = 11;
+	private Integer exportScale = 1;
+	private Integer exportDpi = null;
 
 	public Config() {
 		if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) { // batchmode shouldn't access UIManager.class
@@ -155,12 +159,28 @@ public class Config {
 		this.pdfExportFontBoldItalic = pdfExportFontBoldItalic;
 	}
 
+	public String getLastExportFormat() {
+		return lastExportFormat;
+	}
+
+	public void setLastExportFormat(String lastExportFormat) {
+		this.lastExportFormat = lastExportFormat;
+	}
+
 	public boolean isCheckForUpdates() {
 		return checkForUpdates;
 	}
 
 	public void setCheckForUpdates(boolean checkForUpdates) {
 		this.checkForUpdates = checkForUpdates;
+	}
+
+	public boolean isSecureXmlProcessing() {
+		return secureXmlProcessing;
+	}
+
+	public void setSecureXmlProcessing(boolean secureXmlProcessing) {
+		this.secureXmlProcessing = secureXmlProcessing;
 	}
 
 	public int getPrintPadding() {
@@ -257,5 +277,21 @@ public class Config {
 
 	public void setPropertiesPanelFontsize(Integer propertiesPanelFontsize) {
 		this.propertiesPanelFontsize = propertiesPanelFontsize;
+	}
+
+	public Integer getExportScale() {
+		return exportScale;
+	}
+
+	public void setExportScale(Integer exportScale) {
+		this.exportScale = exportScale;
+	}
+
+	public Integer getExportDpi() {
+		return exportDpi;
+	}
+
+	public void setExportDpi(Integer exportDpi) {
+		this.exportDpi = exportDpi;
 	}
 }

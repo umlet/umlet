@@ -5,9 +5,9 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class MySuggestion implements Suggestion {
 
-	private AutocompletionText autoCompletionText;
+	private AutocompletionTextGwt autoCompletionText;
 
-	public MySuggestion(AutocompletionText autoCompletionText) {
+	public MySuggestion(AutocompletionTextGwt autoCompletionText) {
 		this.autoCompletionText = autoCompletionText;
 	}
 

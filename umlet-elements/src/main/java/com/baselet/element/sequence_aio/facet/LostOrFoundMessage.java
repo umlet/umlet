@@ -111,15 +111,13 @@ public class LostOrFoundMessage implements LifelineOccurrence {
 
 	@Override
 	public double getMinWidth(DrawHandler drawHandler) {
-		return (TextSplitter.getTextMinWidth(textLines, drawHandler)
-				+ LIFELINE_TEXT_PADDING * 2 + Math.abs(getCenterXOffset())) * 2;
+		return (TextSplitter.getTextMinWidth(textLines, drawHandler) + LIFELINE_TEXT_PADDING * 2 + Math.abs(getCenterXOffset())) * 2;
 	}
 
 	@Override
 	public double getAdditionalYHeight(DrawHandler drawHandler, PointDouble size) {
 		return TextSplitter.getSplitStringHeight(textLines,
-				size.x / 2 - LIFELINE_TEXT_PADDING * 2 - Math.abs(getCenterXOffset()), drawHandler
-				) * 2 - size.y;
+				size.x / 2 - LIFELINE_TEXT_PADDING * 2 - Math.abs(getCenterXOffset()), drawHandler) * 2 - size.y;
 	}
 
 	public OccurrenceSpecification sendOccurrenceSpecification() {

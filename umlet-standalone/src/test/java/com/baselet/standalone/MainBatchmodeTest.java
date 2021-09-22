@@ -10,6 +10,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -58,7 +60,7 @@ public class MainBatchmodeTest {
 		File copy = copyInputToTmp("in_newCustomElement.uxf");
 		String wildcard = copy.getParent().toString() + "/*";
 		MainStandalone.main(new String[] { "-action=convert", "-format=png", "-filename=" + wildcard });
-		assertImageEqual(new File(TEST_FILE_LOCATION + "out_newCustomElement.png"), new File(copy + "." + "png"));
+		assertImageEqual(new File(copy + "." + "png"), new File(TEST_FILE_LOCATION + "out_newCustomElement.png"), new File(TEST_FILE_LOCATION + "out_newCustomElement2.png"), new File(TEST_FILE_LOCATION + "out_newCustomElement3.png"));
 	}
 
 	@Test
@@ -69,19 +71,28 @@ public class MainBatchmodeTest {
 		assertFilesEqual(outWithoutCreated, output);
 	}
 
-	private void assertImageEqual(File expected, File actual) throws IOException {
-		BufferedImage expectedPicture = ImageIO.read(expected);
-		BufferedImage actualPicture = ImageIO.read(actual);
+	private void assertImageEqual(File actual, File... expecteds) throws IOException {
+		List<BufferedImage> images = new ArrayList<BufferedImage>();
+		for (File expected : expecteds) {
+			images.add(ImageIO.read(expected));
+		}
+		Integer expectedHeight = images.get(0).getHeight();
+		Integer expectedWidth = images.get(0).getWidth();
 
-		int expectedHeight = expectedPicture.getHeight();
-		int expectedWidth = expectedPicture.getWidth();
+		// 1. check image size
+		BufferedImage actualPicture = ImageIO.read(actual);
 		String expSize = Integer.toString(expectedWidth) + "x" + Integer.toString(expectedHeight);
 		String actSize = Integer.toString(actualPicture.getWidth()) + "x" + Integer.toString(actualPicture.getHeight());
-		assertTrue("The size of the images " + expected + " and " + actual + " must match. Expected: " + expSize + ", Actual: " + actSize, expSize.equals(actSize));
+		assertTrue("The size of the images " + expecteds[0] + " and " + actual + " must match. Expected: " + expSize + ", Actual: " + actSize, expSize.equals(actSize));
 
+		// 2. check each pixel
 		for (int y = 0; y < expectedHeight; y++) {
 			for (int x = 0; x < expectedWidth; x++) {
-				assertTrue("The images " + expected + " and " + actual + " don't match in the pixel (" + x + "/" + y + ")", expectedPicture.getRGB(x, y) == actualPicture.getRGB(x, y));
+				List<Integer> okPixels = new ArrayList<Integer>();
+				for (BufferedImage img : images) {
+					okPixels.add(img.getRGB(x, y));
+				}
+				assertTrue("The image " + actual + " don't match in the pixel (" + x + "/" + y + ") with any expected image", okPixels.contains(actualPicture.getRGB(x, y)));
 			}
 		}
 	}

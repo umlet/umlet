@@ -9,9 +9,12 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 
 public class StyleOptionsTest {
 	private DummyDrawHandler drawHandler;
+	private final Theme theme = ThemeFactory.getCurrentTheme();
 
 	@Before
 	public void before() {
@@ -22,8 +25,8 @@ public class StyleOptionsTest {
 	public void drawArcParameters() {
 		new CustomDrawingParserImpl("drawArc(width / 2 , height * 0.5  , 3 + 2 , 4 *3 , 5 - 1 , 1 + 6 * 2  , false  ) lt=- lw=25 bg=black fg=pink", 100, 200, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawArcToString(50, 100, 5, 12, 4, 13, false,
-				ColorOwn.forString("pink", Transparency.FOREGROUND),
-				ColorOwn.forString("black", Transparency.BACKGROUND),
+				theme.forString("pink", Transparency.FOREGROUND),
+				theme.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
@@ -32,8 +35,8 @@ public class StyleOptionsTest {
 	public void drawCircleParameters() {
 		new CustomDrawingParserImpl("drawCircle(width/2, height * 0.5, 10) lt=- lw=25 bg=black fg=pink", 100, 200, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawCircleToString(50, 100, 10,
-				ColorOwn.forString("pink", Transparency.FOREGROUND),
-				ColorOwn.forString("black", Transparency.BACKGROUND),
+				theme.forString("pink", Transparency.FOREGROUND),
+				theme.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
@@ -42,8 +45,8 @@ public class StyleOptionsTest {
 	public void drawEllipseParametersLtOrder() {
 		new CustomDrawingParserImpl("drawEllipse(1,2,3,4) lt=: bg=black lt=- lw=25 lt=. fg=pink lt=..", 30, 40, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawEllipseToString(1, 2, 3, 4,
-				ColorOwn.forString("pink", Transparency.FOREGROUND),
-				ColorOwn.forString("black", Transparency.BACKGROUND),
+				theme.forString("pink", Transparency.FOREGROUND),
+				theme.forString("black", Transparency.BACKGROUND),
 				LineType.DOUBLE_DASHED, 25.0), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
@@ -52,7 +55,7 @@ public class StyleOptionsTest {
 	public void drawLineParametersLwOrder() {
 		new CustomDrawingParserImpl("drawLine(1,2,3,4) lw=25 lw=35 lt=- lw=5 fg=pink lw=1", 30, 40, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawLineToString(1, 2, 3, 4,
-				ColorOwn.forString("pink", Transparency.FOREGROUND),
+				theme.forString("pink", Transparency.FOREGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
@@ -66,8 +69,8 @@ public class StyleOptionsTest {
 	public void drawRectangleParameters() {
 		new CustomDrawingParserImpl("drawRectangle(0,0,width,height) lt=- lw=25 bg=black fg=pink", 30, 40, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawRectangleToString(0, 0, 30, 40,
-				ColorOwn.forString("pink", Transparency.FOREGROUND),
-				ColorOwn.forString("black", Transparency.BACKGROUND),
+				theme.forString("pink", Transparency.FOREGROUND),
+				theme.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
@@ -77,8 +80,8 @@ public class StyleOptionsTest {
 	 */
 	@Test
 	public void drawRectangleParametersNoDefaultUsed() {
-		ColorOwn fg = ColorOwn.ORANGE;
-		ColorOwn bg = ColorOwn.DARK_GRAY.transparency(Transparency.BACKGROUND);
+		ColorOwn fg = theme.getColor(Theme.PredefinedColors.ORANGE);
+		ColorOwn bg = theme.getColor(Theme.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
 		LineType lt = LineType.DOUBLE_DOTTED;
 		double lw = 10;
 		drawHandler.setForegroundColor(fg);
@@ -103,8 +106,8 @@ public class StyleOptionsTest {
 	 */
 	@Test
 	public void drawRectangleParametersNoDefaultOverrideReset() {
-		ColorOwn fg = ColorOwn.ORANGE;
-		ColorOwn bg = ColorOwn.DARK_GRAY.transparency(Transparency.BACKGROUND);
+		ColorOwn fg = theme.getColor(Theme.PredefinedColors.ORANGE);
+		ColorOwn bg = theme.getColor(Theme.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
 		LineType lt = LineType.DOUBLE_DOTTED;
 		double lw = 10;
 		drawHandler.setForegroundColor(fg);
@@ -114,8 +117,8 @@ public class StyleOptionsTest {
 
 		new CustomDrawingParserImpl("drawRectangle(0,0,width,height) lt=- lw=25 bg=black fg=pink", 30, 40, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawRectangleToString(0, 0, 30, 40,
-				ColorOwn.forString("pink", Transparency.FOREGROUND),
-				ColorOwn.forString("black", Transparency.BACKGROUND),
+				theme.forString("pink", Transparency.FOREGROUND),
+				theme.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
 
 		assertEquals(fg, drawHandler.getForegroundColor());
@@ -128,8 +131,8 @@ public class StyleOptionsTest {
 	public void drawRectangleParametersBgOrder() {
 		new CustomDrawingParserImpl("drawRectangle(0,0,width,height) bg=black lt=- bg=red lw=25 bg=blue fg=pink bg=#AAFFBB", 30, 40, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawRectangleToString(0, 0, 30, 40,
-				ColorOwn.forString("pink", Transparency.FOREGROUND),
-				ColorOwn.forString("black", Transparency.BACKGROUND),
+				theme.forString("pink", Transparency.FOREGROUND),
+				theme.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
@@ -138,8 +141,8 @@ public class StyleOptionsTest {
 	public void drawRectangleRoundParameters() {
 		new CustomDrawingParserImpl("drawRectangleRound(0,0,width,height,2) bg=#FF10A0 fg=#040506 lt=. lw=2.5", 30, 40, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawRectangleRoundToString(0, 0, 30, 40, 2,
-				ColorOwn.forString("#040506", Transparency.FOREGROUND),
-				ColorOwn.forString("#FF10A0", Transparency.BACKGROUND),
+				theme.forString("#040506", Transparency.FOREGROUND),
+				theme.forString("#FF10A0", Transparency.BACKGROUND),
 				LineType.DASHED, 2.5), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
@@ -147,14 +150,16 @@ public class StyleOptionsTest {
 	@Test
 	public void drawTextParameterFg() {
 		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=red", 0, 0, drawHandler).parse();
-		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, ColorOwn.RED), drawHandler.getLastDrawCall());
+		ColorOwn red = theme.getColor(Theme.PredefinedColors.RED);
+		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, red), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
 
 	@Test
 	public void drawTextParameterFgFg() {
+		ColorOwn pink = theme.getColor(Theme.PredefinedColors.PINK);
 		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=pink fg=blue", 0, 0, drawHandler).parse();
-		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, ColorOwn.PINK), drawHandler.getLastDrawCall());
+		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, pink), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
 

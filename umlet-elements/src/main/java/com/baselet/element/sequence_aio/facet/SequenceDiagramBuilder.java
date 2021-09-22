@@ -120,8 +120,7 @@ public class SequenceDiagramBuilder {
 		Lifeline newLifeline = dia.addLiveline(headText, headType, createdOnStart, execSpecFromStart);
 		if (id != null) {
 			if (ids.containsKey(id)) {
-				throw new SequenceDiagramException("There is already a lifeline which is associated with the id '" +id +
-													"', please choose another identifier.");
+				throw new SequenceDiagramException("There is already a lifeline which is associated with the id '" + id + "', please choose another identifier.");
 			}
 			ids.put(id, newLifeline);
 		}
@@ -292,8 +291,7 @@ public class SequenceDiagramBuilder {
 		Lifeline to = getLifelineException(toId);
 		if (!to.isCreatedOnStart()) {
 			if (to.getCreated() == null || to.getCreated() >= currentTick) {
-				throw new SequenceDiagramException("The lifeline " +toId +
-													" was not yet created, therefore it is not possible to send a found message to it.");
+				throw new SequenceDiagramException("The lifeline " + toId + " was not yet created, therefore it is not possible to send a found message to it.");
 			}
 		}
 		LostOrFoundMessage msg = new LostOrFoundMessage(to, true, currentTick, text, arrowType, lineType);

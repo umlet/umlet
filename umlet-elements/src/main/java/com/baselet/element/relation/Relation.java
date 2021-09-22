@@ -13,8 +13,9 @@ import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoInformation;
 import com.baselet.element.facet.PropertiesParserState;
@@ -49,18 +50,19 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 
 	@Override
 	protected void resetAndDrawMetaDrawerContent(DrawHandler drawer) {
+		Theme currentTheme = ThemeFactory.getCurrentTheme();
 		drawer.clearCache();
-		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
+		drawer.setBackgroundColor(currentTheme.getColor(Theme.ColorStyle.SELECTION_BG));
 
 		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
 		if (SharedConfig.getInstance().isDev_mode()) {
-			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+			drawer.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.TRANSPARENT));
 			drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
-			drawer.setBackgroundColor(ColorOwn.GREEN.transparency(Transparency.BACKGROUND));
+			drawer.setBackgroundColor(currentTheme.getColor(Theme.PredefinedColors.GREEN).transparency(Transparency.BACKGROUND));
 			relationPoints.drawSelectionSpace(drawer);
 		}
 
-		drawer.setForegroundColor(ColorOwn.SELECTION_FG);
+		drawer.setForegroundColor(currentTheme.getColor(Theme.ColorStyle.SELECTION_FG));
 		relationPoints.drawCirclesAndDragBox(drawer);
 	}
 
@@ -70,7 +72,7 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 		RelationPointList pointList = new RelationPointList();
 		String[] split = additionalAttributes.split(";");
 		for (int i = 0; i < split.length; i += 2) {
-			pointList.add(Double.valueOf(split[i]), Double.valueOf(split[i + 1]));
+			pointList.add(Double.parseDouble(split[i]), Double.parseDouble(split[i + 1]));
 		}
 		relationPoints = new RelationPointHandler(this, pointList);
 		if (getHandler().isInitialized()) {

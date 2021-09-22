@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 
 import javax.imageio.ImageIO;
@@ -24,8 +27,10 @@ import com.baselet.control.util.Path;
 import com.baselet.control.util.RunningFileChecker;
 import com.baselet.control.util.Utils;
 import com.baselet.control.util.Utils.BuildInfo;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.UpdateCheckTimerTask;
+import com.baselet.generator.ClassDiagramConverter;
 import com.baselet.standalone.gui.StandaloneGUI;
 
 public class MainStandalone {
@@ -37,40 +42,44 @@ public class MainStandalone {
 		System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");
 
 		if (args.length != 0) {
-			String action = null;
-			String format = null;
-			String filename = null;
-			String output = null;
+			String actionArg = null;
+			String formatArg = null;
+			String filenameArg = null;
+			String outputArg = null;
 			for (String arg : args) {
-				if (arg.startsWith("-action=")) {
-					action = arg.substring(8);
+				if (arg.equals("-help") || arg.equals("-usage")) {
+					initAndPrintUsage();
+					return;
+				}
+				else if (arg.startsWith("-action=")) {
+					actionArg = arg.substring(8);
 				}
 				else if (arg.startsWith("-format=")) {
-					format = arg.substring(8);
+					formatArg = arg.substring(8);
 				}
 				else if (arg.startsWith("-filename=")) {
-					filename = arg.substring(10);
+					filenameArg = arg.substring(10);
 				}
 				else if (arg.startsWith("-output=")) {
-					output = arg.substring(8);
+					outputArg = arg.substring(8);
 				}
 			}
 			// Program started by double-click on diagram file (either diagram filename is passed without prefix or with -filename=... prefix)
-			if (action == null && format == null && (filename != null || args.length == 1)) {
-				if (filename == null) {
-					filename = args[0];
+			if (actionArg == null && formatArg == null && (filenameArg != null || args.length == 1)) {
+				if (filenameArg == null) {
+					filenameArg = args[0];
 				}
 				initAll(RuntimeType.STANDALONE);
-				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
-					startStandalone(filename);
+				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filenameArg)) {
+					startStandalone(filenameArg);
 				}
 			}
-			else if (action != null && format != null && filename != null) {
-				if (action.equals("convert")) {
+			else if (actionArg != null && formatArg != null && filenameArg != null) {
+				if (actionArg.equals("convert")) {
 					initAll(RuntimeType.BATCH);
-					String[] splitFilename = filename.split("(/|\\\\)");
+					String[] splitFilename = filenameArg.split("(/|\\\\)");
 					String localName = splitFilename[splitFilename.length - 1];
-					String dir = filename.substring(0, filename.length() - localName.length());
+					String dir = filenameArg.substring(0, filenameArg.length() - localName.length());
 					if (dir.isEmpty()) {
 						dir = ".";
 					}
@@ -79,16 +88,58 @@ public class MainStandalone {
 					if (files != null) {
 						for (File file : files) {
 							log.info("Converting file " + file.getAbsolutePath());
-							doConvert(file, format, output);
+							doConvert(file, formatArg, outputArg);
 						}
 					}
 				}
 				else {
-					printUsage();
+					initAndPrintUsage();
+				}
+			}
+			else if (actionArg != null && filenameArg != null && outputArg != null) {
+				if (actionArg.equals("generate")) {
+					initAll(RuntimeType.BATCH);
+
+					String[] outputPathNameSplitted = outputArg.split("(/|\\\\)");
+					String outputFileName = outputPathNameSplitted[outputPathNameSplitted.length - 1];
+					String outputDirName = outputArg.substring(0, outputArg.length() - outputFileName.length());
+
+					File outputPath = new File(outputDirName + '\\' + outputFileName);
+					File outputDir = new File(outputDirName);
+					if (!outputDir.exists()) {
+						if (outputDir.mkdirs()) {
+							log.debug("created output dir");
+						}
+					}
+
+					List<File> inputPaths = new ArrayList<File>();
+					String[] inputPathNames = filenameArg.split(",");
+					for (String inputpathName : inputPathNames) {
+
+						String[] inputpathNameSplitted = inputpathName.split("(/|\\\\)");
+						String inputFileName = inputpathNameSplitted[inputpathNameSplitted.length - 1];
+						String inputDirName = inputpathName.substring(0, inputpathName.length() - inputFileName.length());
+						if (inputDirName.isEmpty()) {
+							inputDirName = ".";
+						}
+
+						FileFilter fileFilter = new WildcardFileFilter(inputFileName);
+						File[] subInputPaths = new File(inputDirName).listFiles(fileFilter);
+						if (subInputPaths != null) {
+							for (File subInputPath : subInputPaths) {
+								inputPaths.add(subInputPath);
+							}
+						}
+					}
+
+					doGenerate(inputPaths, outputPath);
+				}
+				else {
+					initAndPrintUsage();
 				}
 			}
 			else {
-				printUsage();
+				initAndPrintUsage();
 			}
 		}
 		else { // no arguments specified
@@ -96,6 +147,11 @@ public class MainStandalone {
 			alreadyRunningChecker(true); // start checker
 			startStandalone(null);
 		}
+	}
+
+	private static void initAndPrintUsage() {
+		readBuildInfoAndInitVersion(RuntimeType.BATCH);
+		printUsage();
 	}
 
 	private static void initAll(RuntimeType runtime) {
@@ -130,7 +186,47 @@ public class MainStandalone {
 			handler.getFileHandler().doExportAs(outputFormat, new File(outputFileName));
 			printToConsole("Conversion finished: \"" + inputFile.getAbsolutePath() + "\" to \"" + outputFileName + "\"");
 		} catch (Exception e) {
-			printToConsole(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	static void doGenerate(List<File> inputFiles, File outputFile) {
+		List<String> validInputFileNames = new ArrayList<String>();
+		for (File inputFile : inputFiles) {
+			if (!inputFile.exists()) {
+				printToConsole("File '" + inputFile.getAbsolutePath() + "' not found.");
+			}
+			else {
+				validInputFileNames.add(inputFile.getAbsolutePath());
+			}
+		}
+
+		try {
+			FileOutputStream fos = null;
+			try {
+				String program = Program.getInstance().getProgramName().toLowerCase();
+				String version = String.valueOf(Program.getInstance().getVersion());
+				String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><diagram program=\"" + program + "\" version=\"" + version + "\"></diagram>";
+
+				fos = new FileOutputStream(outputFile);
+				fos.write(content.getBytes("UTF-8"));
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				if (fos != null) {
+					fos.close();
+				}
+				return;
+			}
+
+			DiagramHandler handler = new DiagramHandler(outputFile);
+			CurrentDiagram.getInstance().setCurrentDiagramHandler(handler);
+			new ClassDiagramConverter().createClassDiagrams(validInputFileNames);
+			handler.doSave();
+
+			printToConsole("Generation finished: \"" + validInputFileNames + "\" to \"" + outputFile.getAbsolutePath() + "\"");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -208,7 +304,8 @@ public class MainStandalone {
 	}
 
 	private static File tmpFile() {
-		return new File(Path.temp() + Program.getInstance().getProgramName().toLowerCase() + ".tmp");
+		String userPart = System.getProperty("user.name").replaceAll("[^a-zA-Z0-9\\._]+", "_"); // #535: append username to file for multiuser systems (but strip out invalid filename chars)
+		return new File(Path.temp() + Program.getInstance().getProgramName().toLowerCase() + "-" + userPart + ".tmp");
 	}
 
 	public static void readBuildInfoAndInitVersion(RuntimeType runtime) {
@@ -221,7 +318,8 @@ public class MainStandalone {
 		for (String format : ImageIO.getWriterFileSuffixes()) {
 			formatBuilder.append("|").append(format);
 		}
-		printToConsole("USAGE: -action=convert -format=(" + formatBuilder.toString() + ") -filename=inputfile." + Program.getInstance().getExtension() + " [-output=outputfile[.extension]]");
+		printToConsole("USAGE FOR CONVERTING: -action=convert -format=(" + formatBuilder.toString() + ") -filename=inputfile." + Program.getInstance().getExtension() + " [-output=outputfile[.extension]]");
+		printToConsole("USAGE FOR GENERATING: -action=generate -filename=inputfile.java[,*.java] -output=outputfile." + Program.getInstance().getExtension());
 	}
 
 }

@@ -50,8 +50,7 @@ public class ClassChooser {
 			Config.getInstance().setOpenFileHome(selectedFiles[0].getAbsoluteFile().getParent());
 			if (fileNames.size() > TOO_MANY_FILES) {
 				returnVal = JOptionPane.showConfirmDialog(CurrentGui.getInstance().getGui().getMainFrame(),
-						"Your selection contains " + fileNames.size() + " files which may " +
-						"clutter up your diagram. Continue?",
+						"Your selection contains " + fileNames.size() + " files which may " + "clutter up your diagram. Continue?",
 						"Confirm selection", JOptionPane.OK_CANCEL_OPTION);
 				if (returnVal == JOptionPane.CANCEL_OPTION) {
 					fileNames.clear();

@@ -1,0 +1,10 @@
+Add a UML element to the diagram with double-click or drag&drop
+
+Edit an element in its markup on the lower right
+
+Export a diagram and more via the UMLet command palette
+
+
+umlet.com -- info@umlet.com -- patreon.com/umlet
+
+halign=center

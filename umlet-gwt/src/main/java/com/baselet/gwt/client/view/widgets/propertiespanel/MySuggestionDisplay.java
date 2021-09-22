@@ -1,7 +1,12 @@
 package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import java.util.Collection;
+import java.util.List;
 
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
@@ -28,6 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  * limits are exceeded scrollbars will appear and it will auto scroll to the selected element.
  */
 public class MySuggestionDisplay extends DefaultSuggestionDisplay {
+	CustomLogger log = CustomLoggerFactory.getLogger(MySuggestionDisplay.class);
 
 	/**
 	 * padding from the browser frame to the top of the display box.
@@ -57,10 +63,28 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 
 	@Override
 	protected void showSuggestions(SuggestBox suggestBox, Collection<? extends Suggestion> suggestions, boolean isDisplayStringHTML, boolean isAutoSelectEnabled, SuggestionCallback callback) {
+		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
 		getPopupPanel().getWidget().setWidth(suggestBox.getElement().getScrollWidth() + Unit.PX.getType());
 		getPopupPanel().getWidget().getElement().getStyle().setProperty("maxHeight",
 				Math.max(DISPLAY_BOX_MIN_HEIGHT, suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
-		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
+		getPopupPanel().getWidget().getElement().getStyle().setBackgroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_DOCUMENT_BACKGROUND).toString());
+		getPopupPanel().getWidget().getElement().getStyle().setColor(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND).toString());
+		NodeList<Element> list = getPopupPanel().getElement().getElementsByTagName("*");
+		for (int i = 0; i < list.getLength(); i++) {
+			Element item = list.getItem(i);
+			if (item.getClassName().contains("suggestPopup") || item.hasClassName("suggestPopupContent") || item.getClassName().contains("item")) {
+				item.removeClassName("dark");
+				item.removeClassName("light");
+				switch (ThemeFactory.getActiveThemeEnum()) {
+					case DARK:
+						item.addClassName("dark");
+						break;
+					case LIGHT:
+					default:
+						item.addClassName("light");
+				}
+			}
+		}
 		if (isSuggestionListShowing()) {
 			popupHideTimer.cancel();
 			paletteShouldIgnoreMouseClicks = true;

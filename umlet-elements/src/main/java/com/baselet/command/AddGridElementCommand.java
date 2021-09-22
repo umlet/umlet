@@ -6,8 +6,8 @@ import com.baselet.element.interfaces.GridElement;
 
 public class AddGridElementCommand extends Command {
 
-	private CommandTarget target;
-	private List<GridElement> elements;
+	protected CommandTarget target;
+	protected List<GridElement> elements;
 
 	public AddGridElementCommand(CommandTarget target, List<GridElement> elements) {
 		this.target = target;

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.baselet.diagram.draw.helper.StyleException;
+
 public enum LineType implements RegexValueHolder {
 	SOLID("-"), DASHED("."), DOTTED(".."), DOUBLE("="), DOUBLE_DASHED(":"), DOUBLE_DOTTED("::");
 
@@ -17,6 +19,15 @@ public enum LineType implements RegexValueHolder {
 
 	public String getValue() {
 		return value;
+	}
+
+	public static LineType fromString(String text) {
+		for (LineType lineType : LineType.values()) {
+			if (lineType.getValue().equalsIgnoreCase(text)) {
+				return lineType;
+			}
+		}
+		throw new StyleException("Allowed values for LineType: -, ., .., =, :, ::");
 	}
 
 	public String getReadableText() {

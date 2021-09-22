@@ -29,8 +29,9 @@ import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
 import com.baselet.custom.CustomFunction;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.OldGridElement;
 
@@ -115,16 +116,18 @@ public abstract class CustomElement extends OldGridElement {
 		g2.setComposite(composites[0]);
 		g2.setColor(fgColor);
 
+		Theme currentTheme = ThemeFactory.getCurrentTheme();
+
 		for (StyleShape s : shapes) {
 			specialLine = s.getLineType() != LineType.SOLID || s.getLineThickness() != FacetConstants.LINE_WIDTH_DEFAULT;
-			specialFgColor = !s.getFgColor().equals(Converter.convert(ColorOwn.DEFAULT_FOREGROUND));
+			specialFgColor = !s.getFgColor().equals(Converter.convert(currentTheme.getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)));
 
 			if (specialLine) {
 				g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			}
 			if (specialFgColor) {
 				if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
-					g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
+					g2.setColor(Converter.convert(currentTheme.getColor(Theme.ColorStyle.SELECTION_FG)));
 				}
 				else {
 					g2.setColor(s.getFgColor());
@@ -199,6 +202,10 @@ public abstract class CustomElement extends OldGridElement {
 
 		drawShapes();
 
+		changeSizeIfNoBugfix();
+	}
+
+	private void changeSizeIfNoBugfix() {
 		// Resize elements if manual resize is not set
 		// if (!this.allowResize || (this.autoResizeandManualResizeEnabled() && !this.isManualResized())) {
 		// CHANGED: Resize every custom object by +1px to get consistent height and width
@@ -447,7 +454,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "foregroundColor")
 	protected final void setForegroundColor(String fgColorString) {
-		tmpFgColor = Converter.convert(ColorOwn.forStringOrNull(fgColorString, Transparency.FOREGROUND));
+		tmpFgColor = Converter.convert(ThemeFactory.getCurrentTheme().forStringOrNull(fgColorString, Transparency.FOREGROUND));
 		if (tmpFgColor == null) {
 			tmpFgColor = fgColor; // unknown colors resolve to default color
 		}
@@ -456,7 +463,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
 		// OldGridElements apply transparency for background explicitly, therefore don't apply it here
-		tmpBgColor = Converter.convert(ColorOwn.forStringOrNull(bgColorString, Transparency.FOREGROUND));
+		tmpBgColor = Converter.convert(ThemeFactory.getCurrentTheme().forStringOrNull(bgColorString, Transparency.FOREGROUND));
 		if (tmpBgColor == null) {
 			tmpBgColor = bgColor; // unknown colors resolve to default color
 		}

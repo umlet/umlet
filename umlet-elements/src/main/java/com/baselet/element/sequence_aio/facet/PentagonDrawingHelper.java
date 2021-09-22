@@ -31,9 +31,7 @@ public class PentagonDrawingHelper {
 	 * @return how much space must be added to the text width.
 	 */
 	private static double getStaticWidthPadding() {
-		return HEADER_TEXT_X_PADDING * 2
-				+ HEADER_PENTAGON_SLOPE_WIDTH
-				+ HEADER_MIN_RIGHT_BORDER_GAP;
+		return HEADER_TEXT_X_PADDING * 2 + HEADER_PENTAGON_SLOPE_WIDTH + HEADER_MIN_RIGHT_BORDER_GAP;
 	}
 
 	/**
@@ -50,8 +48,7 @@ public class PentagonDrawingHelper {
 	 * @return the minimum width of the whole element, i.e. the minimum width of the diagram or combined fragment
 	 */
 	public static double getMinimumWidth(DrawHandler drawHandler, String[] textLines) {
-		return TextSplitter.getTextMinWidth(textLines, drawHandler)
-				+ getStaticWidthPadding();
+		return TextSplitter.getTextMinWidth(textLines, drawHandler) + getStaticWidthPadding();
 	}
 
 	/**
@@ -61,8 +58,7 @@ public class PentagonDrawingHelper {
 	 * @return the minimum width of the whole element, i.e. the minimum width of the diagram or combined fragment
 	 */
 	public static double getPentagonMinimumWidth(DrawHandler drawHandler, String[] textLines) {
-		return TextSplitter.getTextMinWidth(textLines, drawHandler)
-				+ getStaticWidthPadding() - HEADER_MIN_RIGHT_BORDER_GAP;
+		return TextSplitter.getTextMinWidth(textLines, drawHandler) + getStaticWidthPadding() - HEADER_MIN_RIGHT_BORDER_GAP;
 	}
 
 	/**

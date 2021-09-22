@@ -3,7 +3,7 @@
 
 	<groupId>com.umlet</groupId>
 	<artifactId>umlet-parent</artifactId>
-	<version>14.3.0-SNAPSHOT</version>
+	<version>14.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<url>http://www.umlet.com/</url>
 
@@ -27,7 +27,7 @@
 	</scm>
 
 	<properties>
-		<tycho.version>0.26.0</tycho.version>
+		<tycho.version>1.7.0</tycho.version> <!-- versions after 1.7.0 require Java11 for the build (not for execution of the plugin). so only update if necessary -->
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -46,6 +46,8 @@
 		<module>umlet-eclipse-feature</module>
 		<module>umlet-eclipse-p2</module>
 		<module>umlet-gwt</module>
+		<module>umlet-web</module>
+		<module>umlet-vscode</module>
 	</modules>
 
 	<dependencies>
@@ -58,7 +60,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.13.1</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- better assertions than junit and hamcrest; update to v2.3.0 if Umlet switches to Java7 -->
@@ -250,20 +252,6 @@
 								</pluginExecution>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-compiler-plugin</artifactId>
-										<versionRange>[3.1,)</versionRange>
-										<goals>
-											<goal>testCompile</goal>
-											<goal>compile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
 										<groupId>org.reficio</groupId>
 										<artifactId>p2-maven-plugin</artifactId>
 										<versionRange>[1.1.1,)</versionRange>
@@ -288,34 +276,11 @@
 			<id>checks</id>
 			<build>
 				<plugins>
-					<!-- use https://github.com/google/error-prone compiler -->
+					<!-- use SpotBugs to detect potential errors -->
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>3.1</version>
-						<configuration>
-							<compilerId>javac-with-errorprone</compilerId>
-							<forceJavacCompilerUse>true</forceJavacCompilerUse>
-						</configuration>
-						<dependencies>
-							<dependency>
-								<groupId>org.codehaus.plexus</groupId>
-								<artifactId>plexus-compiler-javac-errorprone</artifactId>
-								<version>2.5</version>
-							</dependency>
-							<!-- override plexus-compiler-javac-errorprone's dependency on Error Prone with the latest version -->
-							<dependency>
-								<groupId>com.google.errorprone</groupId>
-								<artifactId>error_prone_core</artifactId>
-								<version>2.0.8</version>
-							</dependency>
-						</dependencies>
-					</plugin>
-					<!-- use FindBugs to detect potential errors -->
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>findbugs-maven-plugin</artifactId>
-						<version>3.0.3</version>
+						<groupId>com.github.spotbugs</groupId>
+						<artifactId>spotbugs-maven-plugin</artifactId>
+						<version>3.1.8</version>
 						<executions>
 							<!-- Ensures that FindBugs inspects source code when project is compiled. -->
 							<execution>
@@ -334,7 +299,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>animal-sniffer-maven-plugin</artifactId>
-						<version>1.7</version>
+						<version>1.16</version>
 						<executions>
 							<execution>
 								<id>check-java-api</id>
@@ -348,9 +313,31 @@
 										<artifactId>${animal.sniffer.java.api}</artifactId>
 										<version>1.1</version>
 									</signature>
+<!-- 									<excludeDependencies> -->
+<!-- 										<excludeDependency>org.eclipse.jdt:ecj:*</excludeDependency> -->
+<!-- 									</excludeDependencies> -->
 								</configuration>
 							</execution>
 						</executions>
+					</plugin>
+					<!-- use https://github.com/google/error-prone compiler -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.8.0</version>
+						<configuration>
+							<compilerArgs>
+								<arg>-XDcompilePolicy=simple</arg>
+								<arg>-Xplugin:ErrorProne</arg>
+							</compilerArgs>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>com.google.errorprone</groupId>
+									<artifactId>error_prone_core</artifactId>
+									<version>2.4.0</version>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -374,6 +361,38 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>jdk8</id>
+			<activation>
+				<jdk>1.8</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.8.0</version>
+						<configuration>
+							<compilerId>javac-with-errorprone</compilerId>
+							<forceJavacCompilerUse>true</forceJavacCompilerUse>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>org.codehaus.plexus</groupId>
+								<artifactId>plexus-compiler-javac-errorprone</artifactId>
+								<version>2.8.5</version>
+							</dependency>
+							<!-- override plexus-compiler-javac-errorprone's dependency on Error Prone with the latest version -->
+							<dependency>
+								<groupId>com.google.errorprone</groupId>
+								<artifactId>error_prone_core</artifactId>
+								<version>2.3.2</version>
+							</dependency>
+						</dependencies>
 					</plugin>
 				</plugins>
 			</build>

@@ -1,2 +1,22 @@
 <FindBugsFilter>
+    <Match>
+        <!-- fields are used in native JS code -->
+        <Class name="com.baselet.gwt.client.jsinterop.PdfContext$PdfOptions"/>
+        <Bug pattern="URF_UNREAD_FIELD"/>
+    </Match>
+    <Match>
+        <!-- fields are used in native JS code -->
+        <Class name="com.baselet.gwt.client.jsinterop.PdfContext$Option"/>
+        <Bug pattern="URF_UNREAD_FIELD"/>
+    </Match>
+    <Match>
+        <!-- fields are used in native JS code -->
+        <Class name="com.baselet.gwt.client.jsinterop.PdfContext$PdfOptions$Margins"/>
+        <Bug pattern="URF_UNREAD_FIELD"/>
+    </Match>
+    <Match>
+        <Class name="com.baselet.gwt.client.jsinterop.FontData"/>
+        <!-- static variables are supposed to be changed by other classes -->
+        <Bug pattern="MS_CANNOT_BE_FINAL"/>
+    </Match>
 </FindBugsFilter>

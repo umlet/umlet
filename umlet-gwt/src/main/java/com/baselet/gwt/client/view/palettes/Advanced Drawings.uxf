@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+<element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>0</y>
+      <w>170</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>//Controll over the text of the whole element..
+_umletcode=
+var className = "Book"; 
+var members = ["-title: String", "-authors: String[]", "+getTitle(): String", "+getAuthors(): String[]", "+addAuthor(name)"];
+
+var publicAttributesDrawConfig = {fg: '#006400'}
+var privateAttributesDrawConfig = {fg: '#8b0000'}
+
+drawText(className, width/2, 40, center);
+drawLine(0, 50, width, 50);
+var membersHeight=75;
+for (var i=0;i&lt;members.length;i++) {
+   if(members[i][0]=='+'){	
+		drawText(members[i], width/2, membersHeight, center, publicAttributesDrawConfig );
+   } else if(members[i][0]=='-') {
+   	drawText(members[i], width/2, membersHeight, center, privateAttributesDrawConfig);
+   }
+	membersHeight+=30;
+}
+
+// draw book
+drawArc(10,10,20,10,0,180,true)  //Parameters (x, y, width, height, start, extent, open, drawConfig?)
+drawArc(30,10,20,10,0,180,true)  //Parameters (x, y, width, height, start, extent, open, drawConfig?)
+drawLine(30, 13, 30, 40)
+drawArc(30,37,20,10,0,180,false, {bg: 'black'})  //Parameters (x, y, width, height, start, extent, open, drawConfig?)
+drawArc(10,37,20,10,0,180,false, {bg: 'black'})  //Parameters (x, y, width, height, start, extent, open, drawConfig?)
+drawLine(10, 13, 10, 40)
+drawLine(50, 13, 50, 40)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>0</y>
+      <w>220</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Cloud Server
+_umletcode=
+//cloud
+
+//DrawConfig Parameters (bg: bgColor?, fg: fgColor?, lt: lineType?, lw: lineWidth?, transparency: transparencyValue?)
+var cloudConfig = {fg: '#00BFFF', lt: '-', lw: 2}
+
+//Parameters (x, y, width, height, start, extent, open, drawConfig?)
+drawArc(60,70,50,50,30,130,true, cloudConfig)
+drawArc(36,83,49,50,70,100,true, cloudConfig)
+drawArc(73,83,50,30,-100,180,true, cloudConfig)
+drawArc(36,84,60,40,180,180,true, cloudConfig)
+var innerCloudConfig= {fg: '#87CEFA', lt: '-', lw: 2}
+drawArc(45,87,40,30,170,180,true, innerCloudConfig)
+drawArc(75,79,20,20,30,130,true, innerCloudConfig)
+
+//server
+//Parameters (x, y, width, height, radius, drawConfig?)
+drawRectangleRound(140,50,60,90,5, {bg: 'gray', fg: 'black', lt: '-', lw: 2})
+
+//Parameters (x, y, width, height, drawConfig?)
+drawRectangle(150,60,40,8)
+drawRectangle(150,80,40,8)
+drawRectangle(150,100,40,8)
+
+//Parameters (x, y, radius, drawConfig?)
+drawCircle(170,125,5)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+    <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>440</x>
+      <y>0</y>
+      <w>170</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Circle Examples
+_umletcode=
+//DrawConfig Parameters (bg: bgColor?, fg: fgColor?, lt: lineType?, lw: lineWidth?, transparency: transparencyValue?)
+var drawConfigBlue = {bg: blue}; 
+var config = { bg: blue, fg: '#8A2BE2', lt: '-', lw: 3}
+var configRedBlack = {bg: 'red', fg: 'black', lt:'=', lw: 3, transparency: 0}
+var randomConfig = {bg: '#6B8E23', fg: "#8B4513", lt: '.', lw: 3, transparency:10}
+
+drawCircle(30,60,20)
+drawCircle(80,60,20, drawConfigBlue)
+drawCircle(130,60,20, config)
+drawCircle(30,110,20,configRedBlack)
+drawCircle(80,110,20, randomConfig)
+drawCircle(130,110,20, {bg: green, fg: red, lt: '..', lw: 2, transparency: 80})
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>210</x>
+      <y>270</y>
+      <w>120</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>     Note..
+     Placeholder
+     laurem
+ipsum
+_umletcode=
+fg=red; bg=red;
+drawArc(5,5,10,50,50,80,false)  //Parameters (x, y, width, height, start, extent, open)
+drawCircle(10,40,3) //Parameters (x, y, radius)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>210</x>
+      <y>200</y>
+      <w>120</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Note..
+_umletcode=
+fg=red; bg=red;
+drawArc(width-25,5,10,50,50,80,false) //Parameters (x, y, width, height, start, extent, open)
+drawCircle(width-20,40,3) //Parameters (x, y, radius)
+    </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>220</y>
+      <w>170</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>// Class Element
+
+EntityDAO
+--
+-id: Long
+_-ClassAttribute: Long_
+--
+#Operation(i: int): int
+/+AbstractOperation()/
+
+_umletcode=
+fg='black'
+bg='#222222'
+drawArc(5,5,26,8,0,180,true) //Parameters (x, y, width, height, start, extent, open)
+bg='bg'
+drawArc(5,5,26,8,180,180,true) //Parameters (x, y, width, height, start, extent, open)
+fg='#929292'
+bg='#222222'
+drawRectangle(5,9,26,15) //Parameters (x, y, width, height);
+fg='black';
+drawLine(5,9,5,24) //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24) //Parameters (x1, y1, x2, y2) 
+bg='bg'
+drawArc(5,10,26,8,180,180,true) //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) //Parameters (x, y, width, height, start, extent, open)
+bg='#222222'
+drawArc(5,20,26,8,180,180,true) //Parameters (x, y, width, height, start, extent, open)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>340</x>
+      <y>310</y>
+      <w>210</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>//Text Element
+_umletcode=
+// Parameters drawText(text, x, y, horizontal alignment)
+// Parameters drawLine(x1, y1, x2, y2) 
+// Helping lines are drawn for better understanding of the Text Positioning
+
+// " can be escaped by \ and \\ is converted to \
+drawText("Example how to draw \"Strings\"", width/2, 18, center) //fg= //Parameters (text, x, y, horizontal alignment)
+fg=red; lw=2; 
+drawLine(50,40,50,80)
+fg='black'
+drawText("This",50,40,center)
+fg=red
+drawLine(20, 40, 38, 40)
+fg='black'
+drawText("This gy",50,60,left)
+fg=red
+drawLine(75, 60, 100, 60) 
+fg='black'
+drawText("This",50,80,right)
+fg=red;
+drawLine(10, 80, 25, 80)
+fg=blue;
+drawText("Escaping: \" and \\ and \\\\", width/2, 110, center)
+    </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>500</y>
+      <w>290</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>
+Draw inner rectangle similar
+to the double border with fixed margin
+with the help of 'width' and 'height'
+_umletcode=
+drawRectangle(10,10,width-20,height-20) //fg= bg= lt= lw= //Parameters (x, y, width, height)
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>370</y>
+      <w>250</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>On the left side a Union symbol
+Middle and right,shows the 
+difference between open and closed
+transparency=80
+bg=red
+
+_umletcode=
+transparency=100;
+drawArc(10,40,30,50,180,180,true)
+transparency=80;
+bg='gray'
+drawArc(100,60,30,45,130,280,true)
+drawArc(150,60,30,45,130,280,false)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>710</y>
+      <w>290</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>
+Draw inner rectangle similar
+to the double border, but the margin 
+depends on the size of the element
+with the help of 'width' and 'height'
+
+_umletcode=
+drawRectangle(width / 10, height * 0.1, width / 1.25, height * 0.8 ) //fg= bg= lt= lw= //Parameters (x, y, width, height)
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>610</y>
+      <w>290</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>
+Draw inner rounded rectangle similar
+to the double border with fixed margin
+with the help of 'width' and 'height'
+
+_umletcode=
+drawRectangleRound(10,10,width-20,height-20,10) //fg= bg= lt= lw= //Parameters (x, y, width, height)
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>540</y>
+      <w>210</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>Some arbitrary figures to show
+coloring and line type and width
+
+_umletcode=
+//left top rectangle
+fg='orange'; bg=blue; lt='.'
+drawRectangle(50,40,50,50)
+
+//right rectangle with double dashed border
+lt=':'
+drawRectangleRound(120,45,50,50,5)
+
+
+//gren point line
+fg=green; lt='..';
+drawLine(50,100,170,130)
+
+//very transparent circle with dashed border
+fg='black'; bg='yellow'; lw=2; lt='.'; transparency=50;
+drawCircle(75,150,25)
+
+//Ellipse with backgroundcolor from HEX string
+lt='-'; fg='cyan'; bg='#FFC000'; lw=1
+drawEllipse(120,150,70,40) 
+
+//drawing a solid Circle without border using drawArc
+lw=0; bg=red; transparency=0;
+drawArc(50,180,50,50,0,360,true) 
+
+//a pie
+lw=1; fg='black'; bg=red; lt='.'; transparency=50;
+drawArc(80,200,120,40,0,30,false) 
+
+lt='-'
+//paint over other elements, to from complex figures
+bg=blue; transparency=0; lw=0;
+drawRectangle(10,240,60,40) 
+bg='white'; transparency=0; lw=0;
+drawCircle(40,260,15) 
+
+lw=1;bg=red; transparency=0; fg='black';
+drawRectangle(100,240,60,40)
+bg='white'; transparency=0; lw=1; fg='white';
+drawCircle(100,240,15) 
+bg='white'; transparency=0; lw=1; fg='white';
+drawRectangle(130,260,31,21) 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>440</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>        Drawing 2 parallel lines
+
+_umletcode=
+//arithmetical skills
+drawLine(width * (1*0.1),height/100*(100-90),width * 0.9,height * (1-0.1))
+drawLine(width *0.1,5+height*0.1,width * 0.9,height * (1-0.1)+5)
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>400</x>
+      <y>200</y>
+      <w>100</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>// Text Element
+// DB Symbol
+_umletcode=
+fg='black';
+bg='#222222';
+drawArc(0,0,width,height*2/5,0,180,true) //Parameters (x, y, width, height, start, extent, open)
+bg='bg';
+drawArc(0,0,width,height*2/5,180,180,true)  //Parameters (x, y, width, height, start, extent, open)
+fg='#929292';
+bg='#222222';
+drawRectangle(0,(height+0.5)/5,width,(height)*3/5-1)  //Parameters (x, y, width, height)
+fg='black'
+drawLine(0,height/5,0,height*4/5) //Parameters (x1, y1, x2, y2)
+drawLine(width,height/5,width,height*4/5) //Parameters (x1, y1, x2, y2)
+bg='bg';
+drawArc(0,height*1/5,width,height*2/5,180,180,true)  //Parameters (x, y, width, height, start, extent, open)
+drawArc(0,height*2/5,width,height*2/5,180,180,true)  //Parameters (x, y, width, height, start, extent, open)
+bg='#222222'
+drawArc(0,height*3/5,width,height*2/5,180,180,true)  //Parameters (x, y, width, height, start, extent, open)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>840</y>
+      <w>530</w>
+      <h>670</h>
+    </coordinates>
+    <panel_attributes>halign=left
+style=wordwrap
+*Custom Drawing Commands:*
+- can be used in any element other than Plot or Relation
+- // starts a comment, which ends at the line end
+- 'width' and 'height' can be used as parameters
+- arithmetic operations (+, - , *, /) are supported
+- all commands can overwrite some settings locally
+/     e.g. drawLine(10,20,30,40) fg=red/
+
+*Command Details:*
+drawLine(x1,y1,x2,y2) // parameters are doubles
+- draws a line from (x1,y1) to (x2,y2)
+- can overwrite fg, lt, lw
+-
+drawRectangle(x,y,width,height) // parameters are doubles
+- draws a rectangle with the top left corner at (x,y)
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawRectangleRound(x,y,width,height radius) // parameters are doubles
+- draws a round rectangle with the top left corner at (x,y)
+- the corners have the given radius
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawCircle(x,y,radius) // parameters are doubles
+- draws a cricle with the center at (x,y) and the given radius
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawEllipse(x,y,width,height) // parameters are doubles
+- draws an ellipse where the top left corner of the surrounding rectangle is at (x,y)
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawArc(x,y,width,height,start,extent,open) // first 6 parameters are doubles, the last is a boolean (true or false)
+- draws an elliptical arc where the top left corner of the surrounding rectangle is at (x,y). This arc starts at &lt;start&gt; degrees and ends at &lt;start&gt;+&lt;extent&gt; degrees. If open is false two border lines are drawn from the center to the arc otherwise the arc is filled as there would exist a line between the two endpoints.
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawText(Text,x,y,horizontal alignment) // Parameters: String, double, double, HAlignment
+- HAlignment can be one of the following: left, right or center
+- draws a text which is aligned as follows:
+   - according to the HAlignment the text starts (left), stops (right) or  is centered at x
+   - the text is drawn on the line, which is described by y
+- can overwrite fg</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>// Boundary Element
+	  Boundary
+	  
+_umletcode=
+// Boundary Symbol
+drawCircle(50, 50, 20)
+drawLine(20, 50, 30, 50)
+drawLine(20, 30, 20, 70)	 
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>560</x>
+      <y>200</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>// Entity Element
+	      Entity
+	      
+_umletcode=
+// Entity Symbol
+drawCircle(50, 50, 20)
+drawLine(30, 70, 70, 70)
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>560</x>
+      <y>360</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>// Control Element
+	     Control
+	     
+_umletcode=
+// Control Symbol
+drawCircle(50, 50, 20)
+drawLine(44, 31, 54, 21)
+drawLine(44, 31, 54, 41)
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

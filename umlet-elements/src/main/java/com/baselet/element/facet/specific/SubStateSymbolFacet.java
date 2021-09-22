@@ -5,6 +5,8 @@ import java.util.Locale;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.DrawHandler.Layer;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
@@ -32,7 +34,7 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 		DrawHandler drawer = state.getDrawer();
 		drawer.setLayer(Layer.Foreground); // should be always on top of background
 		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
-		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
+		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT));
 		SubStateSymbolEnum symbol = SubStateSymbolEnum.valueOf(value.toUpperCase(Locale.ENGLISH));
 		final double w = state.getGridElementSize().getWidth();
 		final double h = state.getGridElementSize().getHeight();

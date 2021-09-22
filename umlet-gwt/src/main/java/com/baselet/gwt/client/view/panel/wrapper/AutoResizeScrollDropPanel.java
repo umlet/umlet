@@ -2,7 +2,6 @@ package com.baselet.gwt.client.view.panel.wrapper;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Rectangle;
-import com.baselet.gwt.client.base.Browser;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
 import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
 import com.google.gwt.core.client.Scheduler;
@@ -11,13 +10,19 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import elemental2.dom.DOMRect;
+import elemental2.dom.Element;
+import jsinterop.base.Js;
 
 public class AutoResizeScrollDropPanel extends ScrollPanel implements HasScrollPanel {
 
-	private final FileDropPanel dropPanel;
+	private FileDropPanel dropPanel;
 
-	public AutoResizeScrollDropPanel(final AutoresizeScrollDropTarget diagram) {
-		setAlwaysShowScrollBars(true); // must be set otherwise elements can "jump around" (eg: empty diagram, class outside of top of diagram, click multiple times on diagram -> class jumps back to diagram)
+	public AutoResizeScrollDropPanel() {
+		setAlwaysShowScrollBars(false);
+	}
+
+	public void init(final AutoresizeScrollDropTarget diagram) {
 		diagram.setAutoresizeScrollDrop(this);
 		dropPanel = new FileDropPanel(diagram);
 		this.add(dropPanel);
@@ -51,14 +56,11 @@ public class AutoResizeScrollDropPanel extends ScrollPanel implements HasScrollP
 
 	@Override
 	public Rectangle getVisibleBounds() {
-		int width = getOffsetWidth() - getScrollbarSize()[0];
-		int height = getOffsetHeight() - getScrollbarSize()[1];
-		if (Browser.get() == Browser.FIREFOX || Browser.get() == Browser.INTERNET_EXPLORER) {
-			height -= 4; // if too low, the "scroll down" arrow of the vertical scrollbar will never stop moving the diagram and the scrollbar is always visible, if too high, elements will move down if user clicks on the diagram
-		}
-		else {
-			height -= 3; // if too low, the "scroll down" arrow of the vertical scrollbar will never stop moving the diagram and the scrollbar is always visible, if too high, elements will move down if user clicks on the diagram
-		}
+		int width = getOffsetWidth();
+		int height = getOffsetHeight();
+
+		height -= 3; // if too low, the "scroll down" arrow of the vertical scrollbar will never stop moving the diagram and the scrollbar is always visible, if too high, elements will move down if user clicks n the diagram
+
 		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), width, height);
 	}
 
@@ -78,12 +80,20 @@ public class AutoResizeScrollDropPanel extends ScrollPanel implements HasScrollP
 	 * returns vertical scrollbar width and horizontal scrollbar height
 	 * IGNORES ZOOM LEVEL AT THE MOMENT!!
 	 */
+	@Override
 	public int[] getScrollbarSize() {
 		if (scrollbarSize == null) {
 			String[] split = getScrollbarSizeHelper().split(" ");
 			scrollbarSize = new int[] { Integer.parseInt(split[0]), Integer.parseInt(split[1]) };
 		}
 		return SharedUtils.cloneArray(scrollbarSize);
+	}
+
+	@Override
+	public DOMRect getBoundedRectCoordinates() {
+		Element element = Js.cast(getElement());
+
+		return element.getBoundingClientRect();
 	}
 
 	private final native static String getScrollbarSizeHelper() /*-{

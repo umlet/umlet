@@ -21,6 +21,7 @@ import com.baselet.control.config.Config;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElement;
 import com.baselet.element.old.custom.CustomElementHandler;
@@ -76,7 +77,7 @@ public abstract class BaseGUI {
 
 		JMenuItem ungroup = menuFactory.createUngroup();
 		contextMenu.add(ungroup);
-		if (e.getGroup() == null) {
+		if (GroupFacet.getElementGroupValSafe(e.getGroup()) == null) {
 			ungroup.setEnabled(false);
 		}
 

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.umlet</groupId>
 		<artifactId>umlet-parent</artifactId>
-		<version>14.3.0-SNAPSHOT</version>
+		<version>14.4.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>umlet-eclipse-feature</artifactId>
@@ -13,7 +13,7 @@
 	<repositories>
 		<repository>
 			<id>eclipse-mars</id>
-			<url>http://download.eclipse.org/releases/mars</url>
+			<url>http://download.eclipse.org/releases/mars</url> <!-- update to e.g. photon works but only with tyco v2.3.0 (which requires java11) otherwise animal-sniffer-plugin fails -->
 			<layout>p2</layout>
 		</repository>
 	</repositories>

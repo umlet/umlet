@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.umlet</groupId>
 		<artifactId>umlet-parent</artifactId>
-		<version>14.3.0-SNAPSHOT</version>
+		<version>14.4.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>umlet-swing</artifactId>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>autocomplete</artifactId>
-			<version>2.5.8</version>
+			<version>2.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
@@ -101,7 +101,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
-			<version>5.4.1</version>
+			<version>5.5.13</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.javaparser</groupId>
@@ -127,12 +127,12 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>2.5.8</version>
+			<version>2.6.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.jdt.core.compiler</groupId>
+			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>ecj</artifactId>
-			<version>4.4.2</version>
+			<version>3.18.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.bcel</groupId>
@@ -144,6 +144,11 @@
 					<groupId>jakarta-regexp</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>org.mozilla</groupId>
+		    <artifactId>rhino</artifactId>
+		    <version>1.7.13</version>
 		</dependency>
 	</dependencies>
 

@@ -3,16 +3,17 @@ package com.baselet.gwt.client.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.ElementId;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.base.Notification;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.version.BuildInfoProperties;
+import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
+import com.baselet.gwt.client.view.widgets.DownloadType;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
@@ -33,7 +34,7 @@ public class DiagramXmlParser {
 	private static final String AMP = "&";
 	private static final String AMP_ENCODED = "&amp;";
 
-	private static final Logger log = LoggerFactory.getLogger(DiagramXmlParser.class);
+	private static final CustomLogger log = CustomLoggerFactory.getLogger(DiagramXmlParser.class);
 
 	private static final String DIAGRAM = "diagram";
 	private static final String ELEMENT = "element";
@@ -79,13 +80,14 @@ public class DiagramXmlParser {
 				}
 			}
 
-			float zoomScale = 1.0f;
+			diagram = new DiagramGwt(helpText, new ArrayList<GridElement>());
+
 			Node zoomElement = messageDom.getElementsByTagName(ZOOM_LEVEL).item(0);
 			if (zoomElement != null) {
-				zoomScale = Float.valueOf(zoomElement.getFirstChild().getNodeValue()) / SharedConstants.DEFAULT_GRID_SIZE;
+				int zoomLevel = Integer.parseInt(zoomElement.getFirstChild().getNodeValue());
+				diagram.setZoomLevel(zoomLevel);
 			}
 
-			diagram = new DiagramGwt(helpText, new ArrayList<GridElement>());
 			NodeList elements = messageDom.getElementsByTagName(ELEMENT);
 			for (int i = 0; i < elements.getLength(); i++) {
 				Element element = (Element) elements.item(i);
@@ -105,13 +107,10 @@ public class DiagramXmlParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					if (zoomScale != 1.0f) {
-						rect.setX((int) (rect.getX() / zoomScale));
-						rect.setY((int) (rect.getY() / zoomScale));
-						rect.setWidth((int) (rect.getWidth() / zoomScale));
-						rect.setHeight((int) (rect.getHeight() / zoomScale));
-					}
 					GridElement gridElement = ElementFactoryGwt.create(id, rect, panelAttributes, additionalPanelAttributes, diagram);
+					double zoomFactor = diagram.getZoomLevel() / (double) SharedConstants.DEFAULT_GRID_SIZE;
+					((DrawHandlerGwt) gridElement.getComponent().getDrawHandler()).setZoomFactor(zoomFactor);
+					((DrawHandlerGwt) gridElement.getComponent().getMetaDrawHandler()).setZoomFactor(zoomFactor);
 					diagram.getGridElements().add(gridElement);
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);
@@ -135,7 +134,7 @@ public class DiagramXmlParser {
 		Element diagramElement = doc.createElement(DIAGRAM);
 		diagramElement.setAttribute(ATTR_PROGRAM, "umletino");
 		diagramElement.setAttribute(ATTR_VERSION, BuildInfoProperties.getVersion());
-		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode("10")));
+		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode(String.valueOf(diagram.getZoomLevel()))));
 		String helpText = diagram.getPanelAttributes();
 		if (helpText != null) {
 			diagramElement.appendChild(create(doc, HELP_TEXT, doc.createTextNode(helpText)));
@@ -168,6 +167,11 @@ public class DiagramXmlParser {
 			xml = URL.encode(xml).replace(NUMBER_SIGN, NUMBER_SIGN_URL_ENCODED);
 		}
 		return xml;
+	}
+
+	public static void diagramToXml(boolean encodeUrl, boolean encodeXml, Diagram diagram, DownloadPopupPanel receiver, DownloadType type) {
+		String xml = diagramToXml(encodeUrl, encodeXml, diagram);
+		receiver.onData(xml, type);
 	}
 
 	private static Element create(Document doc, String name, Node... children) {

@@ -12,7 +12,7 @@ public class DiagramPopupMenu extends JPopupMenu {
 	public DiagramPopupMenu(boolean extendedForStandaloneGUI) {
 		final MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 
-		add(menuFactory.createPaste());
+		add(menuFactory.createPaste(true));
 		if (extendedForStandaloneGUI) { // Extended is true for StandaloneGUI
 			add(menuFactory.createNew());
 			add(menuFactory.createOpen());

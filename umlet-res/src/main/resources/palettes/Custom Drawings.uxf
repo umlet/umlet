@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.1.0">
+<diagram program="umlet" version="14.2">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLNote</id>
@@ -295,6 +295,59 @@ drawText(Text,x,y,horizontal alignment) // Parameters: String, double, double, H
    - according to the HAlignment the text starts (left), stops (right) or  is centered at x
    - the text is drawn on the line, which is described by y
 - can overwrite fg</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>560</x>
+      <y>80</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>// Boundary Element
+	  Boundary
+customelement=
+// Boundary Symbol
+drawCircle(50, 50, 20)
+drawLine(20, 50, 30, 50)
+drawLine(20, 30, 20, 70)
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>560</x>
+      <y>0</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>// Entity Element
+	      Entity
+customelement=
+// Entity Symbol
+drawCircle(50, 50, 20)
+drawLine(30, 70, 70, 70)
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>560</x>
+      <y>160</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>// Control Element
+	     Control
+customelement=
+// Control Symbol
+drawCircle(50, 50, 20)
+drawLine(44, 31, 54, 21)
+drawLine(44, 31, 54, 41)
+	</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

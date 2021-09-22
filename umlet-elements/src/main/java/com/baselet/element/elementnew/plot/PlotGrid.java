@@ -11,7 +11,8 @@ import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.elementnew.plot.drawer.PlotGridDrawConfig;
 import com.baselet.element.elementnew.plot.elements.AbstractPlot;
@@ -280,8 +281,9 @@ public class PlotGrid extends NewGridElement {
 			drawPlots();
 
 		} catch (ParserException e) {
-			drawer.setForegroundColor(ColorOwn.RED);
-			drawer.setBackgroundColor(ColorOwn.WHITE);
+			Theme currentTheme = ThemeFactory.getCurrentTheme();
+			drawer.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.RED));
+			drawer.setBackgroundColor(currentTheme.getColor(Theme.PredefinedColors.WHITE));
 			drawer.drawRectangle(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 			float x = getRectangle().getWidth() / 2.0f;
 			drawer.print(e.getMessage(), x, getRealSize().height / 2.0, AlignHorizontal.CENTER);

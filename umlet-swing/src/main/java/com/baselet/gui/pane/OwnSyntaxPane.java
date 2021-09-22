@@ -25,7 +25,8 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.config.DerivedConfig;
 import com.baselet.diagram.CurrentDiagram;
-import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.AutocompletionText;
 
@@ -70,7 +71,7 @@ public class OwnSyntaxPane {
 		atmf.putMapping(OwnTokenMaker.ID, OwnTokenMaker.class.getName());
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 
-		textArea.getSyntaxScheme().getStyle(TokenTypes.RESERVED_WORD).foreground = Converter.convert(ColorOwn.SYNTAX_HIGHLIGHTING);
+		textArea.getSyntaxScheme().getStyle(TokenTypes.RESERVED_WORD).foreground = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.SYNTAX_HIGHLIGHTING));
 
 		// Setup autocompletion
 		createAutocompletionCompletionProvider();
@@ -156,8 +157,9 @@ public class OwnSyntaxPane {
 	private void setText(String text) {
 		if (!textArea.getText().equals(text)) {
 			textArea.setText(text); // Always set text even if they are equal to trigger correct syntax highlighting (if words to highlight have changed but text not)
+			textArea.setCaretPosition(0);
 		}
-		textArea.setCaretPosition(0);
+
 		createHightLightMap();
 		createAutocompletionCompletionProvider();
 	}

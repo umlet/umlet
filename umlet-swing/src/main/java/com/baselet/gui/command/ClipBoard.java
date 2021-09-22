@@ -65,7 +65,7 @@ public class ClipBoard implements Transferable {
 		if (!isDataFlavorSupported(flavor)) {
 			throw new UnsupportedFlavorException(flavor);
 		}
-		return OutputHandler.createImageForGridElements(entities, null);
+		return OutputHandler.createImageForGridElements(entities, null, 1);
 	}
 
 }

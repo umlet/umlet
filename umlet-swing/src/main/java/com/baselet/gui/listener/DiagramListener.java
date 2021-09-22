@@ -1,5 +1,6 @@
 package com.baselet.gui.listener;
 
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -79,7 +80,8 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 			CurrentDiagram.getInstance().getDiagramHandler().setGridAndZoom(actualZoom - e.getWheelRotation());
 		}
 		else { // otherwise scroll the diagram
-			CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().scroll(e.getWheelRotation());
+			boolean as_horizontal = (e.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK;
+			CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().scroll(e.getWheelRotation(), as_horizontal);
 		}
 	}
 }

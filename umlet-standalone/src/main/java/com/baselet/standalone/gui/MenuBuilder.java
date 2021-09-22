@@ -13,6 +13,7 @@ import com.baselet.control.constants.MenuConstants;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.menu.MenuFactorySwing;
 
@@ -51,6 +52,7 @@ public class MenuBuilder {
 		fileMenu.addSeparator();
 		fileMenu.add(menuFactory.createSave());
 		fileMenu.add(menuFactory.createSaveAs());
+		fileMenu.add(menuFactory.createExport());
 		fileMenu.add(menuFactory.createExportAs());
 		fileMenu.add(menuFactory.createMailTo());
 		fileMenu.addSeparator();
@@ -75,7 +77,7 @@ public class MenuBuilder {
 		editMenu.addSeparator();
 		editMenu.add(editCopy = menuFactory.createCopy());
 		editMenu.add(editCut = menuFactory.createCut());
-		editMenu.add(editPaste = menuFactory.createPaste());
+		editMenu.add(editPaste = menuFactory.createPaste(false));
 		menu.add(editMenu);
 		editDelete.setEnabled(false);
 		editGroup.setEnabled(false);
@@ -128,7 +130,7 @@ public class MenuBuilder {
 
 			boolean allElementsInGroup = true;
 			for (GridElement e : selectedElements) {
-				if (e.getGroup() == null) {
+				if (GroupFacet.getElementGroupValSafe(e.getGroup()) == null) {
 					allElementsInGroup = false;
 				}
 			}

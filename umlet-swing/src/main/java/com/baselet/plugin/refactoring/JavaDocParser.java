@@ -33,8 +33,9 @@ public class JavaDocParser {
 		public <T extends JavaDocNodeBase> List<T> ofType(Class<T> clazz) {
 			ArrayList<T> result = new ArrayList<T>();
 			for (JavaDocNodeBase child : children) {
-				if (clazz.isInstance(child))
+				if (clazz.isInstance(child)) {
 					result.add(clazz.cast(child));
+				}
 			}
 			return result;
 		}
@@ -90,29 +91,36 @@ public class JavaDocParser {
 			int result = 1;
 			result = prime * result + end;
 			result = prime * result + start;
-			result = prime * result + ((source == null) ? 0 : source.hashCode());
+			result = prime * result + (source == null ? 0 : source.hashCode());
 			return result;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj)
+			if (this == obj) {
 				return true;
-			if (obj == null)
-				return false;
-			if (!(obj instanceof SourceString))
-				return false;
-			SourceString other = (SourceString) obj;
-			if (end != other.end)
-				return false;
-			if (start != other.start)
-				return false;
-			if (source == null) {
-				if (other.source != null)
-					return false;
 			}
-			else if (!source.equals(other.source))
+			if (obj == null) {
 				return false;
+			}
+			if (!(obj instanceof SourceString)) {
+				return false;
+			}
+			SourceString other = (SourceString) obj;
+			if (end != other.end) {
+				return false;
+			}
+			if (start != other.start) {
+				return false;
+			}
+			if (source == null) {
+				if (other.source != null) {
+					return false;
+				}
+			}
+			else if (!source.equals(other.source)) {
+				return false;
+			}
 			return true;
 		}
 
@@ -150,45 +158,55 @@ public class JavaDocParser {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((attrs == null) ? 0 : attrs.hashCode());
+			result = prime * result + (attrs == null ? 0 : attrs.hashCode());
 			result = prime * result + end;
 			result = prime * result + start;
-			result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
+			result = prime * result + (tagName == null ? 0 : tagName.hashCode());
 			return result;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj)
+			if (this == obj) {
 				return true;
-			if (obj == null)
+			}
+			if (obj == null) {
 				return false;
-			if (!(obj instanceof HtmlTagStartNode))
+			}
+			if (!(obj instanceof HtmlTagStartNode)) {
 				return false;
+			}
 			HtmlTagStartNode other = (HtmlTagStartNode) obj;
 			if (attrs == null) {
-				if (other.attrs != null)
+				if (other.attrs != null) {
 					return false;
+				}
 			}
-			else if (!attrs.equals(other.attrs))
+			else if (!attrs.equals(other.attrs)) {
 				return false;
-			if (end != other.end)
+			}
+			if (end != other.end) {
 				return false;
-			if (start != other.start)
+			}
+			if (start != other.start) {
 				return false;
+			}
 			if (tagName == null) {
-				if (other.tagName != null)
+				if (other.tagName != null) {
 					return false;
+				}
 			}
-			else if (!tagName.equals(other.tagName))
+			else if (!tagName.equals(other.tagName)) {
 				return false;
+			}
 			return true;
 		}
 
 		public HtmlTagAttr getAttr(String key) {
 			for (HtmlTagAttr attr : attrs) {
-				if (attr.key.getValue().equals(key))
+				if (attr.key.getValue().equals(key)) {
 					return attr;
+				}
 			}
 			return null;
 		}

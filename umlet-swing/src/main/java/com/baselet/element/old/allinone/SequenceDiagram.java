@@ -64,7 +64,7 @@ class Interaction {
 		}
 		Interaction i = (Interaction) o;
 
-		return srcObj == i.srcObj &&srcObjHasControl == i.srcObjHasControl &&
+		return srcObj == i.srcObj && srcObjHasControl == i.srcObjHasControl &&
 				arrowKind == i.arrowKind && destObj == i.destObj &&
 				destObjHasControl == i.destObjHasControl &&
 				methodName == null || methodName.equals(i.methodName);
@@ -72,7 +72,7 @@ class Interaction {
 
 	@Override
 	public int hashCode() {
-		return (methodName != null ? methodName.hashCode() : 1) +srcObj +
+		return (methodName != null ? methodName.hashCode() : 1) +	srcObj +
 				(srcObjHasControl ? 1 : 0) + arrowKind + destObj + (destObjHasControl ? 1 : 0);
 	}
 
@@ -837,7 +837,7 @@ public class SequenceDiagram extends OldGridElement {
 	}
 
 	protected int vCenterForLevel(int level) {
-		return level * levelHeight +rectToFirstLevelDistance +
+		return level * levelHeight + rectToFirstLevelDistance +
 				rectHeight + borderDistance + yOffsetforTitle - levelHeight / 2;
 	}
 

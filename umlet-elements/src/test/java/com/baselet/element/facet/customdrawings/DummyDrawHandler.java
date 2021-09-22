@@ -7,11 +7,13 @@ import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 
 public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 
-	public static final ColorOwn defaultBg = ColorOwn.DEFAULT_BACKGROUND;
-	public static final ColorOwn defaultFg = ColorOwn.DEFAULT_FOREGROUND;
+	public static final ColorOwn defaultBg = ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND);
+	public static final ColorOwn defaultFg = ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND);
 	public static final LineType defaultLineType = LineType.SOLID;
 	public static final double defaultLineWidth = FacetConstants.LINE_WIDTH_DEFAULT;
 
@@ -274,5 +276,11 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 		}
 		return String.format("drawText('%s', %.3f, %.3f, %s)", text, x, y, align) +
 				String.format(" fg='%s' ", fg);
+	}
+
+	@Override
+	public void drawCircle(double x, double y, double radius, String bgColor, String fgColor, String lineTypeString, Double lineWidth, Double transparency) {
+		// TODO Auto-generated method stub
+
 	}
 }

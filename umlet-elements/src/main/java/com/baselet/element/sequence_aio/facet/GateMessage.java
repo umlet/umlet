@@ -81,8 +81,7 @@ public class GateMessage extends Message {
 	@Override
 	public double getOverallMinWidth(DrawHandler drawHandler, double lifelineHorizontalPadding) {
 		double executionSpecWidth = !sendGate ? Math.abs(getSendCenterXOffset()) : Math.abs(getReceiveCenterXOffset());
-		double neededWidth = executionSpecWidth + TextSplitter.getTextMinWidth(textLines, drawHandler)
-								+ LIFELINE_TEXT_PADDING * 2;
+		double neededWidth = executionSpecWidth + TextSplitter.getTextMinWidth(textLines, drawHandler) + LIFELINE_TEXT_PADDING * 2;
 		if (from == to) {
 			return neededWidth * 2;
 		}

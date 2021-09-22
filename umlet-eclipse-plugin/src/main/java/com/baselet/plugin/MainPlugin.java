@@ -2,12 +2,16 @@ package com.baselet.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
@@ -45,10 +49,35 @@ public class MainPlugin extends AbstractUIPlugin {
 		plugin = this;
 	}
 
+	// see https://wiki.eclipse.org/Eclipse_Plug-in_Development_FAQ#How_do_I_show_a_message_dialogue_for_exceptions_and_log_them.3F
+	public void showAndLogError(Throwable ex, final String title) {
+		StringWriter writer = new StringWriter();
+		ex.printStackTrace(new PrintWriter(writer));
+
+		final String message = ex.getMessage();
+		final String formattedMessage = pluginId + " : " + message; //$NON-NLS-1$
+		final Status status = new Status(IStatus.ERROR, pluginId, formattedMessage, new Throwable(writer.toString()));
+
+		getLog().log(status);
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				ErrorDialog.openError(Display.getDefault().getActiveShell(),
+						title, message, status);
+			}
+		});
+	}
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext) */
 	@Override
 	public void start(BundleContext context) throws Exception {
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread t, Throwable e) {
+				showAndLogError(e, "Unexpected Exception in UMLet plugin");
+			}
+		});
 		log.info("Initializing Plugin ...");
 		super.start(context);
 		initHomeProgramPath();

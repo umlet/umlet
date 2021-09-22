@@ -16,6 +16,11 @@ public class Paste extends Command {
 
 	private int viewpX = 0;
 	private int viewpY = 0;
+	private final Point ctxMenuLocation;
+
+	public Paste(Point ctxMenuLocation) {
+		this.ctxMenuLocation = ctxMenuLocation;
+	}
 
 	@Override
 	public void execute(DiagramHandler handler) {
@@ -36,6 +41,8 @@ public class Paste extends Command {
 
 			// AB: Include viewport position to paste on visible area
 			Point viewp = handler.getDrawPanel().getScrollPane().getViewport().getViewPosition();
+			viewp.x += ctxMenuLocation.x; // adjust viewport by ctxmenu displacement if insert was done via ctxmenu
+			viewp.y += ctxMenuLocation.y;
 			viewpX = handler.realignToGrid(false, (int) viewp.getX()) / handler.getGridSize();
 			viewpY = handler.realignToGrid(false, (int) viewp.getY()) / handler.getGridSize();
 		}
