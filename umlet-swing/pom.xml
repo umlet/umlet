@@ -10,7 +10,7 @@
 	<artifactId>umlet-swing</artifactId>
 
 	<properties>
-		<batik.version>1.8</batik.version>
+		<batik.version>1.14</batik.version>
 	</properties>
 
 	<dependencies>
