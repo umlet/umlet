@@ -4,7 +4,7 @@ Created-By: 1.8.0_65-b17 (Oracle Corporation)
 Bundle-ManifestVersion: 2
 Bundle-Name: UMLet
 Bundle-SymbolicName: com.umlet.plugin;singleton:=true
-Bundle-Version: 15.0.0
+Bundle-Version: 15.1.0.qualifier
 Bundle-ClassPath: .,lib/bcel.jar,lib/umlet-swing.jar,lib/itextpdf.jar,
  lib/batik-xml.jar,lib/rhino.jar,lib/javaparser-core.jar,lib/log4j.jar
  ,lib/commons-io.jar,lib/batik-awt-util.jar,lib/javax.mail.jar,lib/bat
