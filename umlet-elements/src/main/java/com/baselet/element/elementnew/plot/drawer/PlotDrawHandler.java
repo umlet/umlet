@@ -276,7 +276,14 @@ public class PlotDrawHandler {
 		}
 
 		drawGraylines(xpoints, ypoints);
-		base.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
+		ColorOwn axisColor;
+		if (ThemeFactory.getActiveThemeEnum() == ThemeFactory.THEMES.DARK) {
+			axisColor = ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.WHITE).transparency(Transparency.FOREGROUND);
+		}
+		else {
+			axisColor = ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND);
+		}
+		base.setForegroundColor(axisColor);
 		drawAxisLine();
 		drawMarkers(xpoints, ypoints);
 		drawMarkerTexts(xpoints, xtext, ypoints, ytext);
@@ -303,7 +310,14 @@ public class PlotDrawHandler {
 	}
 
 	private void drawGraylines(List<Integer> xpoints, List<Integer> ypoints) {
-		base.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND));
+		ColorOwn grayLines;
+		if (ThemeFactory.getActiveThemeEnum() == ThemeFactory.THEMES.DARK) {
+			grayLines = ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.WHITE).transparency(Transparency.BACKGROUND);
+		}
+		else {
+			grayLines = ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND);
+		}
+		base.setForegroundColor(grayLines);
 		boolean drawVerticalGraylines = axisConfig.isxDescription() && axisConfig.drawDescriptionAxisMarkerGrayline() || !axisConfig.isxDescription() && axisConfig.drawValueAxisMarkerGrayline();
 		boolean drawHorizontalGraylines = !axisConfig.isxDescription() && axisConfig.drawDescriptionAxisMarkerGrayline() || axisConfig.isxDescription() && axisConfig.drawValueAxisMarkerGrayline();
 		if (drawVerticalGraylines) {
@@ -491,7 +505,14 @@ public class PlotDrawHandler {
 			int value_x = (int) (diameter / 2.0 * Math.cos(radians) + ulCorner.x + diameter / 2.0 + width / 2.0 - diameter / 2.0);
 			int value_y = (int) (diameter / 2.0 * Math.sin(radians) + ulCorner.y + diameter / 2.0 + height / 2.0 - diameter / 2.0);
 
-			base.setForegroundColor(currentTheme.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND).darken(75));
+			ColorOwn colorDesc;
+			if (ThemeFactory.getActiveThemeEnum() == ThemeFactory.THEMES.DARK) {
+				colorDesc = currentTheme.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND).darken(25);
+			}
+			else {
+				colorDesc = currentTheme.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND).darken(75);
+			}
+			base.setForegroundColor(colorDesc);
 			base.print(desc[i], value_x, value_y, AlignHorizontal.CENTER);
 
 			// System.out.println("value_x: "+value_x+" / value_y:"+value_y);
