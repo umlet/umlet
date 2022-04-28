@@ -101,6 +101,10 @@ public class WebDownloadPopupPanel extends DownloadPopupPanel {
 			filename += "." + Program.getInstance().getExtension();
 		}
 
+		if (downloadType == DownloadType.PDF && !filename.endsWith(".pdf")) {
+			filename += ".pdf";
+		}
+
 		Element element = Document.get().createElement("a");
 		element.setAttribute("download", filename);
 		element.setAttribute("href", data);

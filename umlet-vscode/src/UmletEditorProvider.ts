@@ -97,7 +97,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                     this.saveFileDecodePng(actual_data);
                     return;
                 case 'exportPdf':
-                    var actual_data = message.text.replace("data:application/pdf;base64,", "");
+                    var actual_data = message.text.replace("data:application/octet-stream;base64,", "");
                     this.saveFileDecodePdf(actual_data);
                     return;
                 case 'postLog':

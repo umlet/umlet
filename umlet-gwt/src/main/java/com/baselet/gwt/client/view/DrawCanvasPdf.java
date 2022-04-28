@@ -49,7 +49,9 @@ public class DrawCanvasPdf {
 
 		stream.on("finish", () -> {
 			FileReader fileReader = new FileReader();
-			Object pdfBlob = stream.toBlob("application/pdf");
+			// octet-stream because otherwise Firefox opens PDF in same tab causing current diagram state to be lost
+			// see (most likely): https://bugzilla.mozilla.org/show_bug.cgi?id=1756980
+			Object pdfBlob = stream.toBlob("application/octet-stream");
 			fileReader.onloadend = () -> {
 				receiver.onData(fileReader.result, type);
 			};
