@@ -6,19 +6,19 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 
 public class ThemeDark extends Theme {
-	private final ColorOwn RED = new ColorOwn(220, 0, 0, Transparency.FOREGROUND);
-	private final ColorOwn GREEN = new ColorOwn(0, 220, 0, Transparency.FOREGROUND);
-	private final ColorOwn BLUE = new ColorOwn(0, 0, 220, Transparency.FOREGROUND);
-	private final ColorOwn YELLOW = new ColorOwn(100, 100, 0, Transparency.FOREGROUND);
-	private final ColorOwn MAGENTA = new ColorOwn(100, 0, 100, ColorOwn.Transparency.FOREGROUND);
-	private final ColorOwn WHITE = new ColorOwn(255, 255, 255, ColorOwn.Transparency.FOREGROUND);
-	private final ColorOwn BLACK = new ColorOwn(40, 40, 40, Transparency.FOREGROUND);
-	private final ColorOwn ORANGE = new ColorOwn(175, 117, 0, Transparency.FOREGROUND);
-	private final ColorOwn CYAN = new ColorOwn(0, 100, 100, Transparency.FOREGROUND);
+	private final ColorOwn RED = new ColorOwn(255, 100, 100, Transparency.FOREGROUND);
+	private final ColorOwn GREEN = new ColorOwn(100, 255, 100, Transparency.FOREGROUND);
+	private final ColorOwn BLUE = new ColorOwn(100, 100, 255, Transparency.FOREGROUND);
+	private final ColorOwn YELLOW = new ColorOwn(255, 255, 100, Transparency.FOREGROUND);
+	private final ColorOwn MAGENTA = new ColorOwn(255, 0, 255, Transparency.FOREGROUND);
+	private final ColorOwn WHITE = new ColorOwn(255, 255, 255, Transparency.FOREGROUND);
+	private final ColorOwn BLACK = new ColorOwn(0, 0, 0, Transparency.FOREGROUND);
+	private final ColorOwn ORANGE = new ColorOwn(255, 165, 0, Transparency.FOREGROUND);
+	private final ColorOwn CYAN = new ColorOwn(0, 255, 255, Transparency.FOREGROUND);
 	private final ColorOwn DARK_GRAY = new ColorOwn(70, 70, 70, Transparency.FOREGROUND);
 	private final ColorOwn GRAY = new ColorOwn(120, 120, 120, Transparency.FOREGROUND);
 	private final ColorOwn LIGHT_GRAY = new ColorOwn(200, 200, 200, Transparency.FOREGROUND);
-	private final ColorOwn PINK = new ColorOwn(205, 120, 120, Transparency.FOREGROUND);
+	private final ColorOwn PINK = new ColorOwn(255, 175, 175, Transparency.FOREGROUND);
 
 	private final ColorOwn TRANSPARENT = BLACK.transparency(Transparency.FULL_TRANSPARENT); // color white is important because EPS export doesn't support transparency, therefore background will be white
 	private final ColorOwn SELECTION_FG = new ColorOwn(150, 150, 255, Transparency.FOREGROUND);
