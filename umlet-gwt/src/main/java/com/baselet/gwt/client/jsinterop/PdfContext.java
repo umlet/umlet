@@ -135,13 +135,15 @@ public class PdfContext {
 
 		// Drawing occurrences of specified unicode characters with the standard font
 		char[] chars = text.toCharArray();
-		int start = 0;
+		StringBuilder textUntilReplacement = new StringBuilder();
 		boolean replacedOnce = false;
-		for (int i = 0; i < chars.length; i++) {
-			char c = chars[i];
+		for (char c : chars) {
+			boolean fontReplaced = false;
 			for (int checkUnicode : UNICODE_TO_REPLACE) {
 				if ((int) c == checkUnicode) {
-					String textUntilChar = text.substring(start, i);
+					fontReplaced = true;
+					String textUntilChar = textUntilReplacement.toString();
+					textUntilReplacement = new StringBuilder();
 					if (!replacedOnce) {
 						this.text(textUntilChar, x, y, Option.create(false, false, true));
 					}
@@ -173,12 +175,21 @@ public class PdfContext {
 					font(font, textFont.getFontSize());
 					this.text(String.valueOf(c), Option.create(false, false, true));
 					font(oldFont, textFont.getFontSize());
-					start = i + 1;
+					break;
 				}
 			}
+			if (!fontReplaced) {
+				textUntilReplacement.append(c);
+			}
 		}
-		if (!replacedOnce) {
-			this.text(text, x, y, Option.create(false, false, true));
+
+		if (textUntilReplacement.length() > 0) {
+			if (!replacedOnce) {
+				this.text(textUntilReplacement.toString(), x, y, Option.create(false, false, true));
+			}
+			else {
+				this.text(textUntilReplacement.toString(), Option.create(false, false, true));
+			}
 		}
 	}
 
