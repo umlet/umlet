@@ -26,6 +26,9 @@ public class GeometricFunctions {
 	private static double getDistanceBetweenLineAndPoint(double x1, double y1, double x2, double y2, double checkX, double checkY) {
 		double px = x2 - x1;
 		double py = y2 - y1;
+		if (px == 0.0 && py == 0.0) { // if both ends of the line are on the same point, it's just the distance between the location of the 0-length line and the check point
+			return distanceBetweenTwoPoints(x1, y1, checkX, checkY);
+		}
 
 		double mult = px * px + py * py;
 		double u = ((checkX - x1) * px + (checkY - y1) * py) / mult;

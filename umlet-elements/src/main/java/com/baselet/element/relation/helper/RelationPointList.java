@@ -156,6 +156,9 @@ public class RelationPointList {
 		List<Line> lines = getRelationPointLines();
 
 		double halfLength = getRelationHalfLength(lines);
+		if (halfLength == 0.0) { // if the line has 0 length, the start and end point are the same therefore return the start as center
+			return lines.get(0).getStart();
+		}
 
 		double currentLength = 0;
 		PointDouble relationMiddlePoint = null;
