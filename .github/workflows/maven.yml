@@ -35,7 +35,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: Umlet VSCode Plugin
-        path: umlet-vscode/target/*.zip
+        path: umlet-vscode/target/*.vsix
     - uses: actions/upload-artifact@v2
       with:
         name: Umletino (Web Version)
