@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -48,7 +49,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class OutputHandler {
 
-	private OutputHandler() {} // private constructor to avoid instantiation
+	private OutputHandler() {
+	} // private constructor to avoid instantiation
 
 	public static void createAndOutputToFile(String extension, File file, DiagramHandler handler) throws Exception {
 		OutputStream ostream = new FileOutputStream(file);
@@ -66,7 +68,11 @@ public class OutputHandler {
 
 		// if nothing is selected, try if there's some page frame defined
 		if (elementsToDraw.isEmpty()) {
-			elementsToDraw = handler.getDrawPanel().getPageElements();
+			List<GridElement> pages = handler.getDrawPanel().getPages();
+
+			if (!pages.isEmpty()) {
+				elementsToDraw = handler.getDrawPanel().getPageElements(pages.get(0));
+			}
 
 			if (elementsToDraw.isEmpty()) {
 				// if no page frame is defined, draw everything

@@ -190,10 +190,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		return gridElements;
 	}
 
-	public List<GridElement> getPageElements() {
-
-		List<GridElement> pageElements = new ArrayList<GridElement>();
-
+	public List<GridElement> getPages() {
 		List<GridElement> pages = new ArrayList<GridElement>();
 
 		// Search for pages
@@ -206,17 +203,21 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			}
 		}
 
+		return pages;
+	}
+
+	public List<GridElement> getPageElements(GridElement page) {
+
+		List<GridElement> pageElements = new ArrayList<GridElement>();
+		pageElements.add(page);
+
 		// Identify the elements per page
-		if (!pages.isEmpty()) {
-			GridElement page = pages.get(0);
-			Rectangle pageArea = page.getRectangle();
-			for (GridElement e : getGridElements()) {
-				if (e.isInRange(pageArea)) {
-					pageElements.add(e);
-				}
+		Rectangle pageArea = page.getRectangle();
+		for (GridElement e : getGridElements()) {
+			if (e.isInRange(pageArea)) {
+				pageElements.add(e);
 			}
 		}
-
 		return pageElements;
 	}
 
