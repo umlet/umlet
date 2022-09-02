@@ -89,9 +89,8 @@ public class OutputHandler {
 		int oldZoom = handler.getGridSize();
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
-		int i = 0;
 		for (GridElement page : handler.getDrawPanel().getPages()) {
-			OutputStream ostream = new FileOutputStream(new File(filenameWholeExport + ".page-" + (++i) + "." + extension));
+			OutputStream ostream = new FileOutputStream(new File(filenameWholeExport + ".page-" + page.getSetting("page") + "." + extension));
 			Collection<GridElement> elementsToDraw = handler.getDrawPanel().getPageElements(page);
 			OutputHandler.exportToOutputStream(extension, ostream, elementsToDraw, handler.getFontHandler());
 			ostream.close();

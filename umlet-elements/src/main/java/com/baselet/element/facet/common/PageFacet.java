@@ -1,5 +1,6 @@
 package com.baselet.element.facet.common;
 
+import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
@@ -20,8 +21,13 @@ public class PageFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
-		// Check restrictions
-		state.setPage(value);
+		if (value.matches("\\S+")) {
+			state.setPage(value);
+		}
+		else {
+			throw new StyleException("page identifier must be text w/o whitespaces");
+		}
+
 	}
 
 }
