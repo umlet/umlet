@@ -12,7 +12,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -56,6 +55,7 @@ public class OutputHandler {
 		OutputStream ostream = new FileOutputStream(file);
 		createToStream(extension, ostream, handler);
 		ostream.close();
+		createToStreamForPages(extension, file, handler);
 	}
 
 	public static void createToStream(String extension, OutputStream ostream, DiagramHandler handler) throws Exception {
@@ -66,22 +66,36 @@ public class OutputHandler {
 		// if some GridElements are selected, only export them
 		Collection<GridElement> elementsToDraw = handler.getDrawPanel().getSelector().getSelectedElements();
 
-		// if nothing is selected, try if there's some page frame defined
+		// if no page frame is defined, draw everything
 		if (elementsToDraw.isEmpty()) {
-			List<GridElement> pages = handler.getDrawPanel().getPages();
-
-			if (!pages.isEmpty()) {
-				elementsToDraw = handler.getDrawPanel().getPageElements(pages.get(0));
-			}
-
-			if (elementsToDraw.isEmpty()) {
-				// if no page frame is defined, draw everything
-				elementsToDraw = handler.getDrawPanel().getGridElements();
-			}
-
+			elementsToDraw = handler.getDrawPanel().getGridElements();
 		}
 
 		OutputHandler.exportToOutputStream(extension, ostream, elementsToDraw, handler.getFontHandler());
+
+		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
+	}
+
+	private static void createToStreamForPages(String extension, File file, DiagramHandler handler) throws Exception {
+
+		// Skip export of pages if something is selected
+		if (!handler.getDrawPanel().getSelector().getSelectedElements().isEmpty()) {
+			return;
+		}
+
+		// File without extension
+		String filenameWholeExport = file.getAbsolutePath().replaceFirst("[.][^.]+$", "");
+
+		int oldZoom = handler.getGridSize();
+		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
+
+		int i = 0;
+		for (GridElement page : handler.getDrawPanel().getPages()) {
+			OutputStream ostream = new FileOutputStream(new File(filenameWholeExport + ".page-" + (++i) + "." + extension));
+			Collection<GridElement> elementsToDraw = handler.getDrawPanel().getPageElements(page);
+			OutputHandler.exportToOutputStream(extension, ostream, elementsToDraw, handler.getFontHandler());
+			ostream.close();
+		}
 
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
 	}
