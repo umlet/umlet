@@ -63,9 +63,16 @@ public class OutputHandler {
 
 		// if some GridElements are selected, only export them
 		Collection<GridElement> elementsToDraw = handler.getDrawPanel().getSelector().getSelectedElements();
-		// if nothing is selected, draw everything
+
+		// if nothing is selected, try if there's some page frame defined
 		if (elementsToDraw.isEmpty()) {
-			elementsToDraw = handler.getDrawPanel().getGridElements();
+			elementsToDraw = handler.getDrawPanel().getPageElements();
+
+			if (elementsToDraw.isEmpty()) {
+				// if no page frame is defined, draw everything
+				elementsToDraw = handler.getDrawPanel().getGridElements();
+			}
+
 		}
 
 		OutputHandler.exportToOutputStream(extension, ostream, elementsToDraw, handler.getFontHandler());
