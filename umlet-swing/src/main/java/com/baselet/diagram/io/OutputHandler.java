@@ -83,11 +83,11 @@ public class OutputHandler {
 			return;
 		}
 
-		// File without extension
-		String filenameWholeExport = file.getAbsolutePath().replaceFirst("[.][^.]+$", "");
-
 		int oldZoom = handler.getGridSize();
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
+
+		// File without extension
+		String filenameWholeExport = file.getAbsolutePath().replaceFirst("[.][^.]+$", "");
 
 		for (GridElement page : handler.getDrawPanel().getPages()) {
 			OutputStream ostream = new FileOutputStream(new File(filenameWholeExport + "_" + page.getSetting("page") + "." + extension));
