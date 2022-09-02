@@ -21,6 +21,7 @@ import com.baselet.element.facet.common.HorizontalAlignFacet;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.facet.common.LineTypeFacet;
 import com.baselet.element.facet.common.LineWidthFacet;
+import com.baselet.element.facet.common.PageFacet;
 import com.baselet.element.facet.common.SeparatorLineFacet;
 import com.baselet.element.facet.common.TextPrintFacet;
 import com.baselet.element.facet.common.TransparencyFacet;
@@ -39,7 +40,7 @@ import com.baselet.element.relation.facet.RelationLineTypeFacet;
  */
 public abstract class Settings {
 	// the following lists are default facet configurations. they are declared here as a simple overview and for easy reuse
-	protected static final List<Facet> BASE = listOf(BackgroundColorFacet.INSTANCE, TransparencyFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, CommentFacet.INSTANCE);
+	protected static final List<Facet> BASE = listOf(BackgroundColorFacet.INSTANCE, TransparencyFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, CommentFacet.INSTANCE, PageFacet.INSTANCE);
 	protected static final List<Facet> BASE_WITH_LINETYPE = listOf(BASE, LineTypeFacet.INSTANCE, CustomDrawingFacet.INSTANCE, AdvancedDrawingsFacet.INSTANCE);
 	protected static final List<Facet> BASE_EXTENDED = listOf(BASE_WITH_LINETYPE, TextPrintFacet.INSTANCE, FontSizeFacet.INSTANCE);
 

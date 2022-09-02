@@ -195,11 +195,8 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 		// Search for pages
 		for (GridElement e : getGridElements()) {
-			for (String attribute : e.getPanelAttributesAsList()) {
-				if (attribute.matches("^page=.+")) {
-					pages.add(e);
-					break;
-				}
+			if (null != e.getSetting("page")) {
+				pages.add(e);
 			}
 		}
 

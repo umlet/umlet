@@ -29,6 +29,7 @@ public class PropertiesParserState {
 	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
 	private double totalTextBlockHeight;
 	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
+	private String page;
 
 	public PropertiesParserState(Settings settings, DrawHandler drawer) {
 		this.settings = settings;
@@ -46,6 +47,7 @@ public class PropertiesParserState {
 		this.totalTextBlockHeight = totalTextBlockHeight;
 		facetResponse.clear();
 		drawer.setEnableDrawing(enableDrawing);
+		page = "";
 	}
 
 	public Alignment getAlignment() {
@@ -150,6 +152,14 @@ public class PropertiesParserState {
 
 	public void setDrawer(DrawHandler drawer) {
 		this.drawer = drawer;
+	}
+
+	public void setPage(String page) {
+		this.page = page;
+	}
+
+	public String getPage() {
+		return page;
 	}
 
 }
