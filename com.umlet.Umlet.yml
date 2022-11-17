@@ -1,0 +1,43 @@
+app-id: com.umlet.Umlet
+runtime: org.freedesktop.Platform
+runtime-version: "22.08"
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk17
+
+rename-icon: umlet_logo
+rename-desktop-file: umlet.desktop
+command: umlet
+
+finish-args:
+    - --env=PATH=/app/jre/bin:/usr/bin:/app/bin
+    - --env=UMLET_HOME=/app/lib/umlet
+    - --share=ipc
+#    - --socket=wayland # currently AWT does not support wayland
+    - --socket=x11
+    - --device=dri
+    - --filesystem=home
+
+modules:
+    - name: openjdk
+      buildsystem: simple
+      build-commands:
+        - /usr/lib/sdk/openjdk17/install.sh
+
+    - name: Umlet
+      buildsystem: simple
+      build-commands:
+        - install -D -m755 umlet.jar -t /app/lib/umlet
+        - cp -a  {img,lib,palettes,custom_elements} /app/lib/umlet
+        - install -D -m755 umlet.sh /app/bin/umlet
+        # fix start command
+        - sed -i -e 's/Exec=java -Dsun.java2d.xrender=f -jar umlet.jar/Exec=umlet/g' umlet.desktop
+        - install -D -m644 umlet.desktop -t /app/share/applications
+        - install -D -m644 img/umlet_logo.png -t /app/share/icons/hicolor/512x512/apps
+#      post-install:
+        # FIXME: create metainfo file
+#        - install -D -m644 metainfo.xml -t /app/share/metainfo
+      sources:
+        - type: archive
+          url: https://www.umlet.com/download/umlet_15_0/umlet-standalone-15.0.0.zip
+          sha256: 81dbe1a981b2ac5b90861ae4176eb05dbdd340b4422e6e7dfee4b14cf9877401
