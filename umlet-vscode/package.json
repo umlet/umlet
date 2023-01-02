@@ -182,11 +182,11 @@
     "eslint": "^6.8.0",
     "glob": "^7.1.6",
     "mocha": "^7.2.0",
-    "ts-loader": "^8.0.2",
+    "ts-loader": "^8.4.0",
     "typescript": "^3.9.7",
     "vscode-test": "^1.4.0",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "atob": "^2.1.2",
