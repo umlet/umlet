@@ -94,12 +94,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double xY) {
 		ColorOwn oldBg = drawer.getBackgroundColor();
 		Theme currentTheme = ThemeFactory.getCurrentTheme();
-		if (drawer.getBackgroundColor() == currentTheme.getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)) {
-			drawer.setBackgroundColor(currentTheme.getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
-		}
-		else {
-			drawer.setBackgroundColor(drawer.getBackgroundColor().transparency(Transparency.FOREGROUND));
-		}
+		drawer.setBackgroundColor(currentTheme.getColor(Theme.ColorStyle.DEFAULT_FOREGROUND).transparency(Transparency.FOREGROUND)); // #696 Background from Initial and Final state is always the default fg color
 		drawer.drawEllipse(xY, xY, width, height);
 		drawer.setBackgroundColor(oldBg);
 	}
