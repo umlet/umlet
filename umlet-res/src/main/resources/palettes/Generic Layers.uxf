@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.0">
+<diagram program="umlet" version="15.0">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLPackage</id>
@@ -37,8 +37,10 @@ layer=2</panel_attributes>
     </coordinates>
     <panel_attributes>Foreground
 via the "layer" command
+and custom transparency
 bg=green
-layer=3</panel_attributes>
+layer=3
+transparency=10</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
