@@ -2,7 +2,7 @@
   "name": "umlet",
   "displayName": "UMLet",
   "description": "Free UML Tool for Fast UML Diagrams",
-  "version": "15.1.0-SNAPSHOT",
+  "version": "15.1.0",
   "publisher": "theumletteam",
   "author": {
     "name": "The UMLet Team"
