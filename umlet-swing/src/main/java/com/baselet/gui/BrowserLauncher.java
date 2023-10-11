@@ -3,9 +3,14 @@ package com.baselet.gui;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.function.BiFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,10 +72,42 @@ public class BrowserLauncher {
 	}
 
 	public static String readURL(String url) throws IOException {
+		Map<String, Integer> visited = new HashMap<String, Integer>();
+		int times;
+		HttpURLConnection con;
+		while (true) { // follow redirects (see https://stackoverflow.com/q/1884230)
+			times = visited.compute(url, new BiFunction<String, Integer, Integer>() {
+				@Override
+				public Integer apply(String key, Integer count) {
+					return count == null ? 1 : count + 1;
+				}
+			});
+			if (times > 3) {
+				throw new IOException("Stuck in redirect loop");
+			}
+			URL resourceUrl = new URL(url);
+			con = (HttpURLConnection) resourceUrl.openConnection();
+			con.setConnectTimeout(15000);
+			con.setReadTimeout(15000);
+			con.setInstanceFollowRedirects(false); // Make the logic below easier to detect redirections
+
+			switch (con.getResponseCode()) {
+				case HttpURLConnection.HTTP_MOVED_PERM:
+				case HttpURLConnection.HTTP_MOVED_TEMP:
+					String location = con.getHeaderField("Location");
+					location = URLDecoder.decode(location, "UTF-8");
+					URL base = new URL(url);
+					URL next = new URL(base, location); // Deal with relative URLs
+					url = next.toExternalForm();
+					continue;
+			}
+			break;
+		}
+
 		StringBuilder sb = new StringBuilder("");
 		Scanner sc = null;
 		try {
-			sc = new Scanner(new URL(url).openStream());
+			sc = new Scanner(con.getInputStream());
 			while (sc.hasNextLine()) {
 				sb.append(sc.nextLine()).append("\n");
 			}

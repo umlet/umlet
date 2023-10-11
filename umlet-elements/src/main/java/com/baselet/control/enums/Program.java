@@ -40,7 +40,7 @@ public class Program {
 		this.runtimeType = runtimeType;
 		programName = "UMLet";
 		extension = "uxf";
-		website = "http://www." + getProgramName().toLowerCase() + ".com";
+		website = "https://www." + getProgramName().toLowerCase() + ".com";
 
 		if (runtimeType == RuntimeType.ECLIPSE_PLUGIN) {
 			configName = getProgramName().toLowerCase() + "plugin.cfg";
