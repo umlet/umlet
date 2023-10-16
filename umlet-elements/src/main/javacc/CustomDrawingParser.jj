@@ -2,7 +2,7 @@ options {
   static              = false;
   IGNORE_CASE         = false;
   JAVA_UNICODE_ESCAPE = true;
-  JDK_VERSION        = "1.6";
+  JDK_VERSION        = "1.8";
   // Not yet detected as a valid option by the Eclipse plugin, but works nonetheless. This is essential for GWT compatible generated code.
   JAVA_TEMPLATE_TYPE = "modern";  
 }
