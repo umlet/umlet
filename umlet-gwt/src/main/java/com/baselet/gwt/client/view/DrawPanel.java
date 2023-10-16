@@ -593,11 +593,11 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		else if (isMiddleMouseButton) {
 			moveElements(diffX, diffY, firstDrag, new ArrayList<>());
 		}
-		else if (!resizeDirections.isEmpty()) {
+		else if (draggedGridElement != null && !resizeDirections.isEmpty()) {
 			draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
-		else if (selector.getSelectedElements().size() == 1) {
+		else if (draggedGridElement != null && selector.getSelectedElements().size() == 1) {
 			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
 		else if (!selector.isLassoActive()) { // if != 1 elements are selected, move them
