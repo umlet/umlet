@@ -19,7 +19,7 @@ set -m
 # you must export the UMLET_HOME environment variable with the full qualified path of the UMLet installation directory.
 # export UMLET_HOME=/path/to/umlet
 
-_UMLET_HOME="$(dirname $(readlink -f $0))"
+_UMLET_HOME=$(dirname "$(readlink -f "$0")")
 
 # check and use programDir for backward compatibility
 if [ ! -z "${programDir}" ] ; then
@@ -56,7 +56,7 @@ _OS_NAME="$(uname -s)"
 case ${_OS_NAME} in
   'Darwin')
     _UMLET_JAVA_OPTS=" \
-      -Xdock:icon=${_UMLET_HOME}/img/umlet_logo.png \
+      -Xdock:icon="${_UMLET_HOME}/img/umlet_logo.png" \
       -Xdock:name=UMLet \
       ${_UMLET_JAVA_OPTS} \
       -Dapple.laf.useScreenMenuBar=true"
@@ -73,4 +73,4 @@ fi
 
 exec "${JAVA_CMD}" \
   ${_UMLET_JAVA_OPTS} \
-  -jar ${_UMLET_HOME}/umlet.jar ${_UMLET_OPTS}
+  -jar "${_UMLET_HOME}/umlet.jar" ${_UMLET_OPTS}
