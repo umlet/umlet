@@ -193,11 +193,4 @@
 		</builder>
 		<requires-nature id="org.eclipse.jdt.core.javanature"/>
 	</extension>
-	
-    <extension
-          point="org.eclipse.m2e.core.mavenProjectChangedListeners">
-       <listener
-             class="com.baselet.plugin.MavenProjectChangedListener">
-       </listener>
-    </extension>
 </plugin>
