@@ -188,6 +188,14 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
+				<!-- disable animal sniffer plugin because it throws weird errors with slf4j. Eclipse already requres Java17 so its signature is not that critical as that of standalone -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>animal-sniffer-maven-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
 				<!-- disable version checking because the ant script with the id updateManifestVersion will replace the version correctly -->
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
