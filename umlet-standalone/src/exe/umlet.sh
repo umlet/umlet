@@ -27,6 +27,12 @@ if [ ! -z "${programDir}" ] ; then
   _UMLET_HOME="${programDir}"
 fi
 
+# if UMLET_HOME is set, it must be a path to a directory (exit with error if it isn't)
+if [ ! -z "${UMLET_HOME}" ] && [ ! -d "${UMLET_HOME}" ] ; then
+  echo "UMLET_HOME contains an invalid value. If set, the value must be the directory which contains the Umlet program" >&2
+  exit 1
+fi
+
 # UMLET_HOME wins against deprecated programDir
 if [ ! -z "${UMLET_HOME}" ] ; then
   _UMLET_HOME="${UMLET_HOME}"
