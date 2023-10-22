@@ -11,5 +11,5 @@
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-action=convert -format=jpg &quot;-filename=${project_loc:umlet-res}/src/main/resources/palettes/UML Class.uxf&quot; -output=D:\output.jpg"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="umlet-standalone"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.awt.headless=true -Dlog4j.configuration=file:${project_loc:umlet-standalone}/src/test/resources/log4j.properties"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.awt.headless=true>
 </launchConfiguration>
