@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.function.BiFunction;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;

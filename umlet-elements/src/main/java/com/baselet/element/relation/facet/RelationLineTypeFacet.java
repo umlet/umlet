@@ -3,8 +3,8 @@ package com.baselet.element.relation.facet;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Line;

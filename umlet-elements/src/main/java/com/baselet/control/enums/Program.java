@@ -1,7 +1,7 @@
 package com.baselet.control.enums;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 /**
  * PROGRAM, PLATTFORM AND JAVA SPECIFIC SETTINGS

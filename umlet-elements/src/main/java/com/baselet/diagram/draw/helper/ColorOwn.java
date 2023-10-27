@@ -1,7 +1,7 @@
 package com.baselet.diagram.draw.helper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 public class ColorOwn {
 	private static final Logger log = LoggerFactory.getLogger(ColorOwn.class);

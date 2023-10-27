@@ -21,8 +21,8 @@ import java.util.Scanner;
 
 import javax.swing.JEditorPane;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Metakey;

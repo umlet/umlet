@@ -1,7 +1,7 @@
 package com.baselet.gwt.client.logging;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 public class GWTLogger implements CustomLogger {
 
