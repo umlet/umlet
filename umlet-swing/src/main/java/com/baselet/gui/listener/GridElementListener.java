@@ -11,8 +11,8 @@ import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.basics.Converter;

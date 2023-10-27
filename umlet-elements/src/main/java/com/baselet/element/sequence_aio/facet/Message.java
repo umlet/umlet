@@ -3,8 +3,8 @@ package com.baselet.element.sequence_aio.facet;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.PointDouble;

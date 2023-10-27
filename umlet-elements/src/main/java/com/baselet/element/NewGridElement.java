@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Dimension;
