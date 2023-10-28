@@ -22,10 +22,6 @@
 			<artifactId>umlet-res</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>

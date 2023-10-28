@@ -32,9 +32,6 @@
 	<!-- GWT Logger -->
 	<inherits name="com.google.gwt.logging.Logging" />
 
-	<!-- Slf4J for GWT Client side -->
-	<inherits name="ru.finam.slf4jgwt.logging.gwt.Logging" />
-
 	<inherits name="elemental2.core.Core"/>
 
 	<inherits name="elemental2.dom.Dom"/>
