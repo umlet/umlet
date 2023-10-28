@@ -3,26 +3,24 @@ package com.baselet.util.logging.impl;
 import com.baselet.util.logging.LogLevel;
 import com.baselet.util.logging.Logger;
 
-import java.util.logging.ConsoleHandler;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 public class LoggerImpl implements Logger {
     private final String className;
     private LogLevel logLevel;
-    private final java.util.logging.Logger logger;
+    private java.util.logging.Logger logger;
 
     public LoggerImpl(String className) {
         this.className = className;
         this.logLevel = LogLevel.INFO;
-        logger = java.util.logging.Logger.getLogger(this.className);
-        logger.setLevel(convertLogLevel(this.logLevel));
+        initLogger();
     }
 
     public LoggerImpl(String className, LogLevel logLevel) {
         this.className = className;
         this.logLevel = logLevel;
-        logger = java.util.logging.Logger.getLogger(this.className);
-        logger.setLevel(convertLogLevel(this.logLevel));
+        initLogger();
     }
 
     @Override
@@ -91,6 +89,22 @@ public class LoggerImpl implements Logger {
         logger.log(convertLogLevel(LogLevel.ERROR), msg, throwable);
     }
 
+    /**
+     * Initialize a java.util.logging.Logger with the specified parameters
+     */
+    private void initLogger() {
+        logger = java.util.logging.Logger.getLogger(this.className);
+        logger.setLevel(convertLogLevel(this.logLevel));
+        Arrays.stream(logger.getHandlers()).forEach(handler -> {
+            handler.setFormatter(new LogFormatter());
+        });
+    }
+
+    /**
+     * Convert custom log levels to java.util.logging.Level
+     * @param level level as a com.baselet.util.logging.LogLevel
+     * @return level as a java.util.logging.Level
+     */
     private Level convertLogLevel(LogLevel level) {
         switch (level) {
             case TRACE:
