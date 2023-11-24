@@ -58,13 +58,6 @@
 			<version>0.3.9</version>
 			<classifier>sources</classifier>
 		</dependency>
-		<dependency>
-			<groupId>ru.finam</groupId>
-			<artifactId>slf4j-gwt</artifactId>
-			<version>1.7.7.1</version>
-			<!-- no additional source entry necessary because the author packages
-				the normal jar with the sources -->
-		</dependency>
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-core</artifactId>

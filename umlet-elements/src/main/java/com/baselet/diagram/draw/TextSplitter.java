@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.enums.AlignHorizontal;

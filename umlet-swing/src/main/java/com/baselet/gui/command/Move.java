@@ -2,8 +2,8 @@ package com.baselet.gui.command;
 
 import java.util.Collection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.geom.Point;

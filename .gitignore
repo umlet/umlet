@@ -4,4 +4,5 @@ target/
 *.iml
 .factorypath
 .classpath
-# .project must be checked in because it is used for the linkedResources for umlet-eclipse-plugin
+*/.settings/org.eclipse.jdt.apt.core.prefs
+# some .project must be checked in because it is used for the linkedResources for umlet-eclipse-plugin

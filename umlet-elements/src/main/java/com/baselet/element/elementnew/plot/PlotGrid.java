@@ -3,8 +3,8 @@ package com.baselet.element.elementnew.plot;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.Matrix;
 import com.baselet.control.basics.geom.Dimension;

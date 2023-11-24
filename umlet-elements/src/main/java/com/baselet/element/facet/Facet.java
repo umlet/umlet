@@ -2,8 +2,8 @@ package com.baselet.element.facet;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.enums.Priority;
 import com.baselet.gui.AutocompletionText;
