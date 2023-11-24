@@ -60,6 +60,7 @@ public abstract class BaseGUI {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 
 		JPopupMenu contextMenu = new JPopupMenu();
+		contextMenu.add(createOpenLinkMenu(menuFactory));
 		if (e instanceof CustomElement) {
 			contextMenu.add(menuFactory.createEditSelected());
 		}
@@ -88,6 +89,12 @@ public abstract class BaseGUI {
 		contextMenu.add(createLayerMenu(menuFactory));
 
 		return contextMenu;
+	}
+
+	private JMenuItem createOpenLinkMenu(MenuFactorySwing menuFactory) {
+		JMenuItem item = menuFactory.createOpenLinkMenu();
+		item.setEnabled((selected_elements.size() == 1) && (selected_elements.iterator().next().getSetting("link") != null));
+		return item;
 	}
 
 	private JMenu createLayerMenu(MenuFactorySwing menuFactory) {

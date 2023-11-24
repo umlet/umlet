@@ -16,6 +16,7 @@ import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS_OPTIONS;
 import static com.baselet.control.constants.MenuConstants.GROUP;
 import static com.baselet.control.constants.MenuConstants.LAYER;
+import static com.baselet.control.constants.MenuConstants.OPEN_LINK;
 import static com.baselet.control.constants.MenuConstants.LAYER_DOWN;
 import static com.baselet.control.constants.MenuConstants.LAYER_UP;
 import static com.baselet.control.constants.MenuConstants.MAIL_TO;
@@ -299,6 +300,10 @@ public class MenuFactorySwing extends MenuFactory {
 			alignMenu.add(createJMenuItem(false, direction, ALIGN, direction));
 		}
 		return alignMenu;
+	}
+
+	public JMenuItem createOpenLinkMenu() {
+            return createJMenuItem(false, OPEN_LINK, null, null, null);
 	}
 
 	public JMenu createLayerUp() {

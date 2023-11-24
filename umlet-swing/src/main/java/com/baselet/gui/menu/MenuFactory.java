@@ -25,6 +25,7 @@ import static com.baselet.control.constants.MenuConstants.NEW_FROM_TEMPLATE;
 import static com.baselet.control.constants.MenuConstants.ONLINE_HELP;
 import static com.baselet.control.constants.MenuConstants.ONLINE_SAMPLE_DIAGRAMS;
 import static com.baselet.control.constants.MenuConstants.OPEN;
+import static com.baselet.control.constants.MenuConstants.OPEN_LINK;
 import static com.baselet.control.constants.MenuConstants.OPTIONS;
 import static com.baselet.control.constants.MenuConstants.PASTE;
 import static com.baselet.control.constants.MenuConstants.PRINT;
@@ -40,6 +41,8 @@ import static com.baselet.control.constants.MenuConstants.SET_FOREGROUND_COLOR;
 import static com.baselet.control.constants.MenuConstants.UNDO;
 import static com.baselet.control.constants.MenuConstants.UNGROUP;
 import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
+
+import java.io.File;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -241,6 +244,25 @@ public class MenuFactory {
 						valueMap.put(e, Integer.toString(e.getLayer() + change));
 					}
 					actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, valueMap));
+                                }
+				else if (menuItem.equals(OPEN_LINK) && actualHandler != null && actualSelector != null) {
+					List<GridElement> v = actualSelector.getSelectedElements();
+					if (v.size() == 1) {
+                                            GridElement e = v.get(0);
+                                            String absoluteLinkName = e.getSetting("link");
+                                            File link = new File(absoluteLinkName);
+                                            if (!link.isAbsolute()) {
+                                                File file = new File(actualHandler.getFileHandler().getFullPathName());
+                                                String parentDir = file.getParent();
+                                                try {
+                                                    File canonical = new File(parentDir + "/" + absoluteLinkName).getCanonicalFile();
+                                                    absoluteLinkName = canonical.getAbsolutePath();
+                                                } catch (Exception exc) {
+                                                    exc.printStackTrace();
+                                                }
+                                            }
+                                            main.doOpen(absoluteLinkName);
+					}
 				}
 			}
 		});

@@ -54,7 +54,7 @@ public abstract class Utils {
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)|(group=)).*")) {
+			if (filterComments && line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)|(group=)|(link=)).*")) {
 				continue;
 			}
 			else if (filterNewLines && line.isEmpty()) {
