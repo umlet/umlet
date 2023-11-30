@@ -15,6 +15,7 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DoubleStroke;
+import com.baselet.element.facet.common.LinkFacet;
 
 public abstract class Utils {
 
@@ -54,7 +55,7 @@ public abstract class Utils {
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)|(group=)|(link=)).*")) {
+			if (filterComments && line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)|(group=)|(" + LinkFacet.LINK + "=)).*")) {
 				continue;
 			}
 			else if (filterNewLines && line.isEmpty()) {

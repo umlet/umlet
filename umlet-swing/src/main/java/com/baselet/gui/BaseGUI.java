@@ -12,9 +12,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 import javax.swing.plaf.InsetsUIResource;
 
-import com.baselet.util.logging.Logger;
-import com.baselet.util.logging.LoggerFactory;
-
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.HandlerElementMap;
 import com.baselet.control.config.Config;
@@ -27,6 +24,8 @@ import com.baselet.element.old.custom.CustomElement;
 import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.menu.MenuFactorySwing;
 import com.baselet.gui.pane.OwnSyntaxPane;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 public abstract class BaseGUI {
 
@@ -60,7 +59,9 @@ public abstract class BaseGUI {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 
 		JPopupMenu contextMenu = new JPopupMenu();
-		contextMenu.add(createOpenLinkMenu(menuFactory));
+		if (selected_elements.size() == 1 && selected_elements.iterator().next().getSetting("link") != null) {
+			contextMenu.add(menuFactory.createOpenLinkMenu());
+		}
 		if (e instanceof CustomElement) {
 			contextMenu.add(menuFactory.createEditSelected());
 		}
@@ -89,12 +90,6 @@ public abstract class BaseGUI {
 		contextMenu.add(createLayerMenu(menuFactory));
 
 		return contextMenu;
-	}
-
-	private JMenuItem createOpenLinkMenu(MenuFactorySwing menuFactory) {
-		JMenuItem item = menuFactory.createOpenLinkMenu();
-		item.setEnabled((selected_elements.size() == 1) && (selected_elements.iterator().next().getSetting("link") != null));
-		return item;
 	}
 
 	private JMenu createLayerMenu(MenuFactorySwing menuFactory) {

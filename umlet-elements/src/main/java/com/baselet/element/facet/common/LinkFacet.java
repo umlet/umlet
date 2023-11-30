@@ -4,6 +4,7 @@ import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
 public class LinkFacet extends FirstRunKeyValueFacet {
+	public static final String LINK = "link";
 
 	public static final LinkFacet INSTANCE = new LinkFacet();
 
@@ -11,11 +12,11 @@ public class LinkFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("link", false, "../../dummyLink.uxf", "path to a uxf file relative to the path of current file.");
+		return new KeyValue(LINK, false, "../diagram.uxf", "path to another uxf file (absolute or relative)");
 	}
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
-            /* Empty at first. */
+		// only a marker facet to add a context menu entry to open the linked diagram
 	}
 }

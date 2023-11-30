@@ -42,10 +42,9 @@ import static com.baselet.control.constants.MenuConstants.UNDO;
 import static com.baselet.control.constants.MenuConstants.UNGROUP;
 import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
 
-import java.io.File;
-
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +63,7 @@ import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.io.ClassChooser;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.facet.common.LayerFacet;
+import com.baselet.element.facet.common.LinkFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElement;
 import com.baselet.generator.ClassDiagramConverter;
@@ -244,24 +244,21 @@ public class MenuFactory {
 						valueMap.put(e, Integer.toString(e.getLayer() + change));
 					}
 					actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, valueMap));
-                                }
+				}
 				else if (menuItem.equals(OPEN_LINK) && actualHandler != null && actualSelector != null) {
-					List<GridElement> v = actualSelector.getSelectedElements();
-					if (v.size() == 1) {
-                                            GridElement e = v.get(0);
-                                            String absoluteLinkName = e.getSetting("link");
-                                            File link = new File(absoluteLinkName);
-                                            if (!link.isAbsolute()) {
-                                                File file = new File(actualHandler.getFileHandler().getFullPathName());
-                                                String parentDir = file.getParent();
-                                                try {
-                                                    File canonical = new File(parentDir + "/" + absoluteLinkName).getCanonicalFile();
-                                                    absoluteLinkName = canonical.getAbsolutePath();
-                                                } catch (Exception exc) {
-                                                    exc.printStackTrace();
-                                                }
-                                            }
-                                            main.doOpen(absoluteLinkName);
+					List<GridElement> elements = actualSelector.getSelectedElements();
+					if (elements.size() == 1) {
+						String absoluteLink = elements.get(0).getSetting(LinkFacet.LINK);
+						File link = new File(absoluteLink);
+						if (!link.isAbsolute()) {
+							String parentDir = new File(actualHandler.getFileHandler().getFullPathName()).getParent(); // relative paths are relative to the currently opened diagram
+							try {
+								absoluteLink = new File(parentDir + "/" + absoluteLink).getCanonicalFile().getAbsolutePath();
+							} catch (Exception ex) {
+								throw new RuntimeException("Cannot get link path", ex);
+							}
+						}
+						main.doOpen(absoluteLink);
 					}
 				}
 			}

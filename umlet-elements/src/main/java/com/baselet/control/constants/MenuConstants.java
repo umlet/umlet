@@ -58,7 +58,7 @@ public class MenuConstants {
 	public static final String LAYER = "Layer";
 	public static final String LAYER_UP = "to front (layer +1)";
 	public static final String LAYER_DOWN = "to back (layer -1)";
-	public static final String OPEN_LINK = "Open Link";
+	public static final String OPEN_LINK = "Open Link"; // currently only supported in standalone Umlet
 
 	// OTHERS
 	public static final String SEARCH = "Search";
