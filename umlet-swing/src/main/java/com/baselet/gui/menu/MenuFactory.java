@@ -246,20 +246,17 @@ public class MenuFactory {
 					actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, valueMap));
 				}
 				else if (menuItem.equals(OPEN_LINK) && actualHandler != null && actualSelector != null) {
-					List<GridElement> elements = actualSelector.getSelectedElements();
-					if (elements.size() == 1) {
-						String absoluteLink = elements.get(0).getSetting(LinkFacet.LINK);
-						File link = new File(absoluteLink);
-						if (!link.isAbsolute()) {
-							String parentDir = new File(actualHandler.getFileHandler().getFullPathName()).getParent(); // relative paths are relative to the currently opened diagram
-							try {
-								absoluteLink = new File(parentDir + "/" + absoluteLink).getCanonicalFile().getAbsolutePath();
-							} catch (Exception ex) {
-								throw new RuntimeException("Cannot get link path", ex);
-							}
+					String absoluteLink = main.getEditedGridElement().getSetting(LinkFacet.LINK);
+					File link = new File(absoluteLink);
+					if (!link.isAbsolute()) {
+						String parentDir = new File(actualHandler.getFileHandler().getFullPathName()).getParent(); // relative paths are relative to the currently opened diagram
+						try {
+							absoluteLink = new File(parentDir + "/" + absoluteLink).getCanonicalFile().getAbsolutePath();
+						} catch (Exception ex) {
+							throw new RuntimeException("Cannot get link path", ex);
 						}
-						main.doOpen(absoluteLink);
 					}
+					main.doOpen(absoluteLink);
 				}
 			}
 		});
