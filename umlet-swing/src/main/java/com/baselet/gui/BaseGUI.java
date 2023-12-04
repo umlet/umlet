@@ -14,11 +14,13 @@ import javax.swing.plaf.InsetsUIResource;
 
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.HandlerElementMap;
+import com.baselet.control.Main;
 import com.baselet.control.config.Config;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.facet.common.LinkFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElement;
 import com.baselet.element.old.custom.CustomElementHandler;
@@ -59,7 +61,8 @@ public abstract class BaseGUI {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 
 		JPopupMenu contextMenu = new JPopupMenu();
-		if (selected_elements.size() == 1 && selected_elements.iterator().next().getSetting("link") != null) {
+		GridElement editedGridElement = Main.getInstance().getEditedGridElement();
+		if ((editedGridElement != null) && (editedGridElement.getSetting(LinkFacet.LINK) != null)) {
 			contextMenu.add(menuFactory.createOpenLinkMenu());
 		}
 		if (e instanceof CustomElement) {
