@@ -192,7 +192,7 @@
     "atob": "^2.1.2",
     "btoa": "^1.2.1",
     "btob": "^0.1.1",
-    "fast-xml-parser": "^3.17.4",
+    "fast-xml-parser": "^4.2.4",
     "file-saver": "^2.0.2",
     "sync-pom-version-to-package": "^1.5.0",
     "vsce": "^1.88.0",
