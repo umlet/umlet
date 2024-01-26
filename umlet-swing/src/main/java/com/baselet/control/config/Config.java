@@ -52,6 +52,7 @@ public class Config {
 	private String defaultFontFamily = Font.SANS_SERIF;
 	private Integer defaultFontsize = 14;
 	private Integer propertiesPanelFontsize = 11;
+        private boolean propertiesPanelLineWrap = false;
 	private Integer exportScale = 1;
 	private Integer exportDpi = null;
 
@@ -277,6 +278,14 @@ public class Config {
 
 	public void setPropertiesPanelFontsize(Integer propertiesPanelFontsize) {
 		this.propertiesPanelFontsize = propertiesPanelFontsize;
+	}
+
+	public boolean getPropertiesPanelLineWrap() {
+		return propertiesPanelLineWrap;
+	}
+
+	public void setPropertiesPanelLineWrap(boolean propertiesPanelLineWrap) {
+		this.propertiesPanelLineWrap = propertiesPanelLineWrap;
 	}
 
 	public Integer getExportScale() {
