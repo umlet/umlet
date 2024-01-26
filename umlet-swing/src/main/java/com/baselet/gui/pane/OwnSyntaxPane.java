@@ -22,6 +22,7 @@ import org.fife.ui.rsyntaxtextarea.TokenMap;
 import org.fife.ui.rsyntaxtextarea.TokenTypes;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import com.baselet.control.config.Config;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.config.DerivedConfig;
 import com.baselet.diagram.CurrentDiagram;
@@ -84,9 +85,10 @@ public class OwnSyntaxPane {
 		propertyLabel.setFont(DerivedConfig.getPanelHeaderFont());
 		panel.add(propertyLabel);
 
+                textArea.setLineWrap(Config.getInstance().getPropertiesPanelLineWrap());
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setFont(DerivedConfig.getPanelContentFont());
-		scrollPane = new RTextScrollPane(textArea, false);
+		scrollPane = new RTextScrollPane(textArea, Config.getInstance().getPropertiesPanelLineWrap());
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);

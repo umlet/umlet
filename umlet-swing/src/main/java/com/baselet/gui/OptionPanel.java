@@ -48,6 +48,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 	private final JCheckBox enable_custom_elements = new JCheckBox();
 	private final JCheckBox checkForUpdates = new JCheckBox();
 	private final JCheckBox developerMode = new JCheckBox();
+	private final JCheckBox propertiesPanelLineWrap = new JCheckBox();
 	private final JTextField pdfFont = new HintTextField("Path to font e.g.; c:/windows/fonts/msgothic.ttc,1");
 	private final JTextField pdfFontBold = new HintTextField("same as above but used for bold text");
 	private final JTextField pdfFontItalic = new HintTextField("same as above but used for italic text");
@@ -76,6 +77,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(show_stickingpolygon);
 		this.add(new JLabel("Show grid"));
 		this.add(show_grid);
+		this.add(new JLabel("Properties panel line wrapping (requires restart)"));
+		this.add(propertiesPanelLineWrap);
 		this.add(new JLabel("Enable Custom Elements"));
 		this.add(enable_custom_elements);
 		this.add(new JLabel("Check for " + Program.getInstance().getProgramName() + " updates"));
@@ -136,6 +139,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		show_stickingpolygon.setSelected(SharedConfig.getInstance().isShow_stickingpolygon());
 		show_grid.setSelected(Config.getInstance().isShow_grid());
 		enable_custom_elements.setSelected(Config.getInstance().isEnable_custom_elements());
+		propertiesPanelLineWrap.setSelected(Config.getInstance().getPropertiesPanelLineWrap());
 		checkForUpdates.setSelected(Config.getInstance().isCheckForUpdates());
 		developerMode.setSelected(SharedConfig.getInstance().isDev_mode());
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
@@ -170,6 +174,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			SharedConfig.getInstance().setShow_stickingpolygon(show_stickingpolygon.isSelected());
 			Config.getInstance().setShow_grid(show_grid.isSelected());
 			Config.getInstance().setEnable_custom_elements(enable_custom_elements.isSelected());
+			Config.getInstance().setPropertiesPanelLineWrap(propertiesPanelLineWrap.isSelected());
 			Config.getInstance().setCheckForUpdates(checkForUpdates.isSelected());
 			SharedConfig.getInstance().setDev_mode(developerMode.isSelected());
 			Config.getInstance().setDefaultFontsize((Integer) default_fontsize.getSelectedItem());
