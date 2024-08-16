@@ -49,6 +49,8 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	private final SelectorOld selector;
 	private final DiagramHandler handler;
 
+	StartUpHelpText startupHelpText;
+
 	private final List<GridElement> gridElements = new ArrayList<GridElement>();
 
 	public DrawPanel(DiagramHandler handler, boolean initStartupTextAndFiledrop) {
@@ -56,7 +58,13 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		// AB: Origin is used to track diagram movement in Cut Command
 		origin = new Point();
 		setLayout(null);
-		setBackground(Color.WHITE);
+		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
+			SharedConfig.getInstance().setDark_mode(true);
+			this.setBackground(new Color(40,40,40));
+		} else {
+			SharedConfig.getInstance().setDark_mode(false);
+			this.setBackground(Color.WHITE);
+		}
 		setOpaque(true);
 		selector = new SelectorOld(this);
 		JScrollPane p = new JScrollPane() {
@@ -94,7 +102,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			}, 25, 25);
 
 			if (initStartupTextAndFiledrop) {
-				StartUpHelpText startupHelpText = new StartUpHelpText(this);
+				setStartupHelpText(new StartUpHelpText(this));
 				add(startupHelpText);
 				@SuppressWarnings("unused")
 				FileDrop fd = new FileDrop(startupHelpText, new FileDropListener()); // only init if this is not a BATCH call. Also fixes Issue 81
@@ -102,6 +110,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		}
 
 		this.repaint(); // repaint the drawpanel to be sure everything is visible (startuphelp etc)
+	}
+
+	@Override
+	public void setBackground(Color bg) {
+		super.setBackground(bg);
 	}
 
 	@Override
@@ -117,6 +130,14 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		else {
 			setBackground(new Color(235, 235, 235));
 		}
+	}
+
+	public StartUpHelpText getStartupHelpText() {
+		return startupHelpText;
+	}
+
+	public void setStartupHelpText(StartUpHelpText startupHelpText) {
+		this.startupHelpText = startupHelpText;
 	}
 
 	public DiagramHandler getHandler() {
@@ -554,6 +575,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		for (GridElement e : gridElements) {
 			e.updateModelFromText();
 		}
+	}
+
+	@Override
+	public Color getBackground() {
+		return super.getBackground();
 	}
 
 	public GridElement getElementToComponent(Component component) {

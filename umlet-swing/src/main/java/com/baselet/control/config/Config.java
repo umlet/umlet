@@ -6,6 +6,7 @@ import java.io.File;
 
 import javax.swing.UIManager;
 
+import com.baselet.control.constants.Constants;
 import com.baselet.util.logging.Logger;
 import com.baselet.util.logging.LoggerFactory;
 
@@ -65,13 +66,20 @@ public class Config {
 		// The default MacOS theme looks ugly, therefore we set metal
 		if (SystemInfo.OS == Os.MAC) {
 			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
+			addFlatLafThemes();
 		}
 		else if (Program.getInstance().getRuntimeType() == RuntimeType.ECLIPSE_PLUGIN && UIManager.getSystemLookAndFeelClassName().equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")) {
 			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
 		}
 		else {
 			uiManager = UIManager.getSystemLookAndFeelClassName();
+			addFlatLafThemes();
 		}
+	}
+
+	private void addFlatLafThemes() {
+		UIManager.installLookAndFeel("Flat Darcula", Constants.FLAT_DARCULA_THEME);
+		UIManager.installLookAndFeel("Flat Light", Constants.FLAT_LIGHT_THEME);
 	}
 
 	public String getUiManager() {

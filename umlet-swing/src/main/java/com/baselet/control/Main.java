@@ -1,5 +1,6 @@
 package com.baselet.control;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -235,6 +236,12 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	public PaletteHandler getPalette() {
 		String name = CurrentGui.getInstance().getGui().getSelectedPalette();
 		if (name != null) {
+			boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
+			if(isDarkMode){
+				getPalettes().get(name).getDrawPanel().setBackground(new Color(40,40,40));
+			} else {
+				getPalettes().get(name).getDrawPanel().setBackground(Color.WHITE);
+			}
 			return getPalettes().get(name);
 		}
 		return null;

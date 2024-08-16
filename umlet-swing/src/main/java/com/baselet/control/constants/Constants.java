@@ -125,4 +125,7 @@ public abstract class Constants extends SharedConstants {
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
 
+	public static final String FLAT_DARCULA_THEME = "com.formdev.flatlaf.FlatDarculaLaf";
+	public static final String FLAT_LIGHT_THEME = "com.formdev.flatlaf.FlatLightLaf";
+
 }

@@ -1,21 +1,11 @@
 package com.baselet.gui;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.baselet.util.logging.Logger;
@@ -181,6 +171,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			String newui = uis_technicalNames.get(ui_manager.getSelectedIndex());
 			// only set look and feel if it has changed, because it messes up frame-size
 			if (newui != null && !newui.equals(Config.getInstance().getUiManager())) {
+                SharedConfig.getInstance().setDark_mode(newui.equals(Constants.FLAT_DARCULA_THEME));
 				Config.getInstance().setUiManager(newui);
 				CurrentGui.getInstance().getGui().setLookAndFeel(newui, optionframe);
 			}

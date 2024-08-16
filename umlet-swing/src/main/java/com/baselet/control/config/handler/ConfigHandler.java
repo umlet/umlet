@@ -48,6 +48,7 @@ public class ConfigHandler {
 	private static final String OPEN_FILE_HOME = "open_file_home";
 	private static final String SAVE_FILE_HOME = "save_file_home";
 	private static final String DEV_MODE = "dev_mode";
+	private static final String DARK_MODE = "dark_mode";
 	private static final String LAST_USED_PALETTE = "last_used_palette";
 	private static final String MAIN_SPLIT_POSITION = "main_split_position";
 	private static final String RIGHT_SPLIT_POSITION = "right_split_position";
@@ -105,6 +106,7 @@ public class ConfigHandler {
 		cfg.setOpenFileHome(getStringProperty(props, OPEN_FILE_HOME, cfg.getOpenFileHome()));
 		cfg.setSaveFileHome(getStringProperty(props, SAVE_FILE_HOME, cfg.getSaveFileHome()));
 		SharedConfig.getInstance().setDev_mode(getBoolProperty(props, DEV_MODE, SharedConfig.getInstance().isDev_mode()));
+		SharedConfig.getInstance().setDark_mode(getBoolProperty(props, DARK_MODE, SharedConfig.getInstance().isDark_mode()));
 		cfg.setLastUsedPalette(getStringProperty(props, LAST_USED_PALETTE, cfg.getLastUsedPalette()));
 		cfg.setMain_split_position(getIntProperty(props, MAIN_SPLIT_POSITION, cfg.getMain_split_position()));
 		cfg.setRight_split_position(getIntProperty(props, RIGHT_SPLIT_POSITION, cfg.getRight_split_position()));
@@ -185,6 +187,7 @@ public class ConfigHandler {
 			props.setProperty(OPEN_FILE_HOME, cfg.getOpenFileHome());
 			props.setProperty(SAVE_FILE_HOME, cfg.getSaveFileHome());
 			props.setProperty(DEV_MODE, Boolean.toString(SharedConfig.getInstance().isDev_mode()));
+			props.setProperty(DARK_MODE, Boolean.toString(SharedConfig.getInstance().isDark_mode()));
 			props.setProperty(LAST_USED_PALETTE, cfg.getLastUsedPalette());
 
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));

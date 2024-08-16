@@ -21,6 +21,8 @@ import java.util.Scanner;
 
 import javax.swing.JEditorPane;
 
+import com.baselet.control.config.Config;
+import com.baselet.control.constants.Constants;
 import com.baselet.util.logging.Logger;
 import com.baselet.util.logging.LoggerFactory;
 
@@ -86,19 +88,27 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	}
 
 	static InputStream getStartUpFileName() {
-		return StartUpHelpText.class.getClassLoader().getResourceAsStream("startuphelp.html");
+		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
+			return StartUpHelpText.class.getClassLoader().getResourceAsStream("startuphelpdark.html");
+		} else {
+			return StartUpHelpText.class.getClassLoader().getResourceAsStream("startuphelp.html");
+		}
 	}
 
-	private void showHTML(String filename) throws MalformedURLException, IOException {
+	public void showHTML(String filename) throws MalformedURLException, IOException {
 		this.setPage(new URL("file:///" + filename));
 		addHyperlinkListener(new HyperLinkActiveListener());
 		setEditable(false);
-		setBackground(Color.WHITE);
+		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
+			setBackground(new Color(40,40,40));
+		} else {
+			setBackground(Color.WHITE);
+		}
 		setSelectionColor(getBackground());
 		setSelectedTextColor(getForeground());
 	}
 
-	static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
+	public static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
 		File tempFile = File.createTempFile(Program.getInstance().getProgramName() + "_startupfile", ".html");
 		tempFile.deleteOnExit();
 		FileWriter w = new FileWriter(tempFile);
@@ -107,7 +117,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		return tempFile.getAbsolutePath();
 	}
 
-	private static String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
+	public static String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
 		StringBuilder sb = new StringBuilder("");
 		Scanner sc = null;
 		try {

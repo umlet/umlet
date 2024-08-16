@@ -1,9 +1,10 @@
 package com.baselet.standalone.gui;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Frame;
+import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Collection;
 
 import javax.swing.JComboBox;
@@ -14,6 +15,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.baselet.control.constants.Constants;
+import com.baselet.diagram.*;
 import com.baselet.util.logging.Logger;
 import com.baselet.util.logging.LoggerFactory;
 
@@ -21,9 +24,6 @@ import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
 import com.baselet.control.util.Path;
-import com.baselet.diagram.CurrentDiagram;
-import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.DrawPanel;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.BaseGUI;
@@ -282,11 +282,30 @@ public class StandaloneGUI extends BaseGUI {
 	public void setLookAndFeel(String newui, JFrame optionframe) {
 		try {
 			Frame topFrame = getMainFrame();
+			boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
+			DiagramHandler h = CurrentDiagram.getInstance().getDiagramHandler();
+
+			OwnSyntaxPane pane = getPropertyPane();
 			UIManager.setLookAndFeel(newui);
 			SwingUtilities.updateComponentTreeUI(topFrame);
 			SwingUtilities.updateComponentTreeUI(optionframe);
+
+			if (h != null && h.getDrawPanel() != null) {
+				if (isDarkMode) {
+					h.getDrawPanel().setBackground(new Color(40,40,40));
+					showStartUpText(h);
+					pane.getTextComponent().setBackground(new Color(40,40,40));
+					pane.getTextComponent().setForeground(Color.lightGray);
+				} else {
+					h.getDrawPanel().setBackground(Color.WHITE);
+					showStartUpText(h);
+					pane.getTextComponent().setBackground(Color.WHITE);
+					pane.getTextComponent().setForeground(Color.BLACK);
+				}
+			}
 			topFrame.pack();
 			optionframe.pack();
+
 		} catch (ClassNotFoundException e) {
 			log.error("Cannot set LookAndFeel", e);
 		} catch (InstantiationException e) {
@@ -295,7 +314,25 @@ public class StandaloneGUI extends BaseGUI {
 			log.error("Cannot set LookAndFeel", e);
 		} catch (UnsupportedLookAndFeelException e) {
 			log.error("Cannot set LookAndFeel", e);
+		} catch (MalformedURLException e) {
+			log.error("Cannot set LookAndFeel", e);
+        } catch (FileNotFoundException e) {
+			log.error("Cannot set LookAndFeel", e);
+        } catch (IOException e) {
+			log.error("Cannot set LookAndFeel", e);
 		}
+	}
+
+	private void showStartUpText(DiagramHandler h) throws IOException {
+		StartUpHelpText startUpHelpText = h.getDrawPanel().getStartupHelpText();
+		String htmlContent = StartUpHelpText.getDefaultTextWithReplacedSystemspecificMetakeys();
+		String tempFilePath = StartUpHelpText.createTempFileWithText(htmlContent);
+		startUpHelpText.showHTML(tempFilePath);
+
+		h.getDrawPanel().repaint();
+		startUpHelpText.repaint();
+
+		h.getDrawPanel().updatePanelAndScrollbars();
 	}
 
 	@Override

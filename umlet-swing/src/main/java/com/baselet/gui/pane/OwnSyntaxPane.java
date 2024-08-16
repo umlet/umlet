@@ -1,7 +1,6 @@
 package com.baselet.gui.pane;
 
-import java.awt.Component;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
+import com.baselet.control.config.Config;
+import com.baselet.control.constants.Constants;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;
@@ -86,6 +87,10 @@ public class OwnSyntaxPane {
 
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setFont(DerivedConfig.getPanelContentFont());
+		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
+			textArea.setBackground(new Color(40,40,40));
+			textArea.setForeground(Color.lightGray);
+		}
 		scrollPane = new RTextScrollPane(textArea, false);
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
