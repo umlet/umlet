@@ -20,16 +20,18 @@ import java.net.URL;
 import java.util.Scanner;
 
 import javax.swing.JEditorPane;
+import javax.swing.UIManager;
 
-import com.baselet.util.logging.Logger;
-import com.baselet.util.logging.LoggerFactory;
-
+import com.baselet.control.config.Config;
+import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Metakey;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Utils;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.listener.HyperLinkActiveListener;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 public class StartUpHelpText extends JEditorPane implements ContainerListener, ComponentListener {
 
@@ -52,6 +54,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		panel.addContainerListener(this);
 		panel.addComponentListener(this);
 		addMouseListener(new DelegatingMouseListener());
+		updateHtmlBackground();
 		try {
 			if (UpdateCheckTimerTask.getInstance().getFilename() == null) {
 				showHTML(createTempFileWithText(getDefaultTextWithReplacedSystemspecificMetakeys()));
@@ -65,6 +68,19 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			setText("Cannot load startupinfo");
 			setSize(130, 10);
 		}
+	}
+
+	public void updateHtmlBackground() {
+		boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
+
+		Color background = isDarkMode ? new Color(40, 40, 40) : Color.WHITE;
+		Color foreground = isDarkMode ? Color.LIGHT_GRAY : Color.BLACK;
+
+		setBackground(background);
+		setForeground(foreground);
+
+		UIManager.put("EditorPane.background", background);
+		UIManager.put("EditorPane.foreground", foreground);
 	}
 
 	// Must be overwritten to hide the helptext if a the custom elements panel is toggled without elements on the drawpanel
@@ -90,10 +106,10 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	}
 
 	private void showHTML(String filename) throws MalformedURLException, IOException {
+		updateHtmlBackground();
 		this.setPage(new URL("file:///" + filename));
 		addHyperlinkListener(new HyperLinkActiveListener());
 		setEditable(false);
-		setBackground(Color.WHITE);
 		setSelectionColor(getBackground());
 		setSelectedTextColor(getForeground());
 	}

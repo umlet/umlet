@@ -57,14 +57,18 @@ public class MainBatchmodeTest {
 
 	@Test
 	public void batchConvertToPng_wildcardAndNoOutputParam_newCustomElement() throws Exception {
+		System.setProperty("user.home", "src/test/resources/JUnit/");
 		File copy = copyInputToTmp("in_newCustomElement.uxf");
 		String wildcard = copy.getParent().toString() + "/*";
 		MainStandalone.main(new String[] { "-action=convert", "-format=png", "-filename=" + wildcard });
-		assertImageEqual(new File(copy + "." + "png"), new File(TEST_FILE_LOCATION + "out_newCustomElement.png"), new File(TEST_FILE_LOCATION + "out_newCustomElement2.png"), new File(TEST_FILE_LOCATION + "out_newCustomElement3.png"));
+		assertImageEqual(new File(copy + "." + "png"), new File(TEST_FILE_LOCATION + "out_newCustomElement.png"),
+				new File(TEST_FILE_LOCATION + "out_newCustomElement2.png"),
+				new File(TEST_FILE_LOCATION + "out_newCustomElement3.png"));
 	}
 
 	@Test
 	public void batchConvertToEps_newCustomElement() throws Exception {
+		System.setProperty("user.home", "src/test/resources/JUnit/");
 		// eps files contain the CreationDate which must be removed before the comparison
 		File output = changeLines(createOutputfile("eps", "in_newCustomElement.uxf"), "%%CreationDate", false);
 		File outWithoutCreated = changeLines(copyToTmp("out_newCustomElement.eps"), "%%CreationDate", false);

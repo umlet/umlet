@@ -12,7 +12,8 @@ Bundle-ClassPath: .,lib/umlet-swing.jar,lib/umlet-elements.jar,lib/aut
  onstants.jar,lib/batik-i18n.jar,lib/batik-xml.jar,lib/commons-io.jar,
  lib/itextpdf.jar,lib/javaparser-core.jar,lib/jlibeps.jar,lib/javax.ma
  il.jar,lib/rsyntaxtextarea.jar,lib/ecj.jar,lib/bcel.jar,lib/commons-l
- ang3.jar,lib/rhino.jar
+ ang3.jar,lib/rhino.jar,lib/flatlaf.jar,lib/flatlaf-extras.jar,lib/jsv
+ g.jar
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
  plugin.wizard

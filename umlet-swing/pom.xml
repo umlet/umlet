@@ -11,6 +11,7 @@
 
 	<properties>
 		<batik.version>1.17</batik.version>
+		<flatleaf.version>3.3</flatleaf.version>
 	</properties>
 
 	<dependencies>
@@ -145,6 +146,16 @@
 		    <groupId>org.mozilla</groupId>
 		    <artifactId>rhino</artifactId>
 		    <version>1.7.15</version>
+		</dependency>
+		<dependency>
+			<groupId>com.formdev</groupId>
+			<artifactId>flatlaf</artifactId>
+			<version>${flatleaf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.formdev</groupId>
+			<artifactId>flatlaf-extras</artifactId>
+			<version>${flatleaf.version}</version>
 		</dependency>
 	</dependencies>
 

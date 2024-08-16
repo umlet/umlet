@@ -1,5 +1,6 @@
 package com.baselet.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -190,6 +191,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			String newui = uis_technicalNames.get(ui_manager.getSelectedIndex());
 			// only set look and feel if it has changed, because it messes up frame-size
 			if (newui != null && !newui.equals(Config.getInstance().getUiManager())) {
+				SharedConfig.getInstance().setDark_mode(newui.equals(Constants.FLAT_DARCULA_THEME));
 				Config.getInstance().setUiManager(newui);
 				CurrentGui.getInstance().getGui().setLookAndFeel(newui, optionframe);
 			}
@@ -198,6 +200,12 @@ public class OptionPanel extends JPanel implements ActionListener {
 			for (DiagramHandler d : Main.getInstance().getDiagramsAndPalettes()) {
 				d.getFontHandler().resetFontSize();
 				d.getDrawPanel().updateElements();
+				if (SharedConfig.getInstance().isDark_mode()) {
+					d.getDrawPanel().setBackground(Constants.DARK_BACKGROUND_COLOR);
+				}
+				else {
+					d.getDrawPanel().setBackground(Color.WHITE);
+				}
 				d.getDrawPanel().repaint();
 			}
 			Config.getInstance().setPropertiesPanelFontsize((Integer) propertiesPanelFontsize.getSelectedItem());

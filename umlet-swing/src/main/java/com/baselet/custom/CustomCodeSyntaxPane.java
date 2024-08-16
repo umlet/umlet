@@ -1,6 +1,7 @@
 package com.baselet.custom;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -16,7 +17,10 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import com.baselet.control.config.Config;
 import com.baselet.control.config.DerivedConfig;
+import com.baselet.control.config.SharedConfig;
+import com.baselet.control.constants.Constants;
 import com.baselet.element.old.custom.CustomElement;
 
 public class CustomCodeSyntaxPane {
@@ -30,10 +34,15 @@ public class CustomCodeSyntaxPane {
 
 		panel = new JPanel(new BorderLayout());
 		textArea = new RSyntaxTextArea();
+		setLineHighlightColor(SharedConfig.getInstance().isDark_mode());
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setCodeFoldingEnabled(true);
 		textArea.setFont(DerivedConfig.getPanelContentFont());
+		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
+			textArea.setBackground(Constants.DARK_BACKGROUND_COLOR);
+			textArea.setForeground(Color.lightGray);
+		}
 
 		// setup autocompletion
 		for (String word : getAutocompletionStrings()) {
@@ -47,6 +56,15 @@ public class CustomCodeSyntaxPane {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel.add(scrollPane);
 		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); // Reduce tab size
+	}
+
+	public void setLineHighlightColor(boolean darkMode) {
+		if (darkMode) {
+			textArea.setCurrentLineHighlightColor(new Color(153, 102, 0));
+		}
+		else {
+			textArea.setCurrentLineHighlightColor(new Color(255, 255, 153));
+		}
 	}
 
 	public String getText() {
@@ -88,6 +106,10 @@ public class CustomCodeSyntaxPane {
 			}
 		}
 		return descriptors;
+	}
+
+	public RTextScrollPane getScrollPane() {
+		return scrollPane;
 	}
 
 	public void repaint() {

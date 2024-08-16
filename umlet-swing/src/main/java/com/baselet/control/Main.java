@@ -1,5 +1,6 @@
 package com.baselet.control;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,9 +11,6 @@ import java.util.TreeMap;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.filechooser.FileSystemView;
-
-import com.baselet.util.logging.Logger;
-import com.baselet.util.logging.LoggerFactory;
 
 import com.baselet.control.config.Config;
 import com.baselet.control.config.handler.ConfigHandler;
@@ -30,6 +28,8 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.pane.OwnSyntaxPane;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 public class Main implements CanCloseProgram, CanOpenDiagram {
 
@@ -235,6 +235,13 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	public PaletteHandler getPalette() {
 		String name = CurrentGui.getInstance().getGui().getSelectedPalette();
 		if (name != null) {
+			boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
+			if (isDarkMode) {
+				getPalettes().get(name).getDrawPanel().setBackground(Constants.DARK_BACKGROUND_COLOR);
+			}
+			else {
+				getPalettes().get(name).getDrawPanel().setBackground(Color.WHITE);
+			}
 			return getPalettes().get(name);
 		}
 		return null;

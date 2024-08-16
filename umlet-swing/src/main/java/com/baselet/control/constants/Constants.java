@@ -90,8 +90,9 @@ public abstract class Constants extends SharedConstants {
 	public static final String DELIMITER_ADDITIONAL_ATTRIBUTES = ";";
 
 	public static final int PASTE_DISPLACEMENT_GRIDS = 2;
-	public static final Color GRID_COLOR = new Color(235, 235, 235);
-
+	public static final Color GRID_COLOR_LIGHT = new Color(235, 235, 235);
+	public static final Color GRID_COLOR_DARK = new Color(70, 70, 70);
+	public static final Color DARK_BACKGROUND_COLOR = new Color(40,40,40);
 	public static final List<String> fontFamilyList = Arrays.asList(new String[] { Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED });
 
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
@@ -124,5 +125,8 @@ public abstract class Constants extends SharedConstants {
 
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
+
+	public static final String FLAT_DARCULA_THEME = "com.formdev.flatlaf.FlatDarculaLaf";
+	public static final String FLAT_LIGHT_THEME = "com.formdev.flatlaf.FlatLightLaf";
 
 }

@@ -1,10 +1,12 @@
 package com.baselet.standalone.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Frame;
 import java.io.File;
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,20 +16,22 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.baselet.util.logging.Logger;
-import com.baselet.util.logging.LoggerFactory;
-
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
+import com.baselet.control.constants.Constants;
 import com.baselet.control.util.Path;
 import com.baselet.diagram.CurrentDiagram;
+import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.diagram.StartUpHelpText;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.pane.OwnSyntaxPane;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 public class StandaloneGUI extends BaseGUI {
 
@@ -282,20 +286,67 @@ public class StandaloneGUI extends BaseGUI {
 	public void setLookAndFeel(String newui, JFrame optionframe) {
 		try {
 			Frame topFrame = getMainFrame();
+			boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
+			DiagramHandler diagramHandler = CurrentDiagram.getInstance().getDiagramHandler();
+			CustomElementHandler customElementHandler = getCurrentCustomHandler();
+			OwnSyntaxPane propertyPane = getPropertyPane();
+
 			UIManager.setLookAndFeel(newui);
 			SwingUtilities.updateComponentTreeUI(topFrame);
 			SwingUtilities.updateComponentTreeUI(optionframe);
+
+			Color background = isDarkMode ? new Color(40, 40, 40) : Color.WHITE;
+			Color foreground = isDarkMode ? Color.LIGHT_GRAY : Color.BLACK;
+
+			if (diagramHandler != null && diagramHandler.getDrawPanel() != null) {
+				updatePropertyPaneTheme(propertyPane, background, foreground);
+				propertyPane.setLineHighlightColor(isDarkMode);
+				updateStartupHelpText(diagramHandler.getDrawPanel());
+			}
+
+			if (customElementHandler != null) {
+				if (customElementHandler.getCodePane() != null) {
+					updateCustomElementHandlerTheme(customElementHandler, background, foreground);
+					customElementHandler.getCodePane().setLineHighlightColor(isDarkMode);
+				}
+				if (customElementHandler.getPreviewHandler() != null) {
+					updatePreviewPanelTheme(customElementHandler.getPreviewHandler(), background, foreground);
+				}
+			}
 			topFrame.pack();
 			optionframe.pack();
-		} catch (ClassNotFoundException e) {
-			log.error("Cannot set LookAndFeel", e);
-		} catch (InstantiationException e) {
-			log.error("Cannot set LookAndFeel", e);
-		} catch (IllegalAccessException e) {
-			log.error("Cannot set LookAndFeel", e);
-		} catch (UnsupportedLookAndFeelException e) {
+
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			log.error("Cannot set LookAndFeel", e);
 		}
+	}
+
+	private void updateStartupHelpText(DrawPanel drawPanel) {
+		StartUpHelpText helpText = drawPanel.getStartupHelpText();
+		if (helpText != null) {
+			helpText.updateHtmlBackground();
+			helpText.repaint();
+		}
+	}
+
+	private void updatePreviewPanelTheme(CustomPreviewHandler handler, Color background, Color foreground) {
+		if (Objects.nonNull(handler.getDrawPanel())) {
+			handler.getDrawPanel().setBackground(background);
+			handler.getDrawPanel().setForeground(foreground);
+		}
+	}
+
+	private void updateCustomElementHandlerTheme(CustomElementHandler handler, Color background, Color foreground) {
+		handler.getCodePane().getTextComponent().setBackground(background);
+		handler.getCodePane().getTextComponent().setForeground(foreground);
+		handler.getCodePane().getScrollPane().getGutter().setBackground(background);
+
+		handler.getCodePane().repaint();
+	}
+
+	private void updatePropertyPaneTheme(OwnSyntaxPane pane, Color background, Color foreground) {
+		pane.getTextComponent().setBackground(background);
+		pane.getTextComponent().setForeground(foreground);
 	}
 
 	@Override
