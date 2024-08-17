@@ -19,4 +19,11 @@
         <!-- static variables are supposed to be changed by other classes -->
         <Bug pattern="MS_CANNOT_BE_FINAL"/>
     </Match>
+	<Match>
+		<!-- singleton pattern -->
+		<Bug pattern="MS_EXPOSE_REP" />
+	</Match>
+    <Match>
+        <Bug code="EI, EI2"/>
+    </Match>
 </FindBugsFilter>

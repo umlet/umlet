@@ -13,13 +13,8 @@
     <packaging>gwt-app</packaging>
 
     <properties>
-        <!-- GWT 2.8 requires Java 8 -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <gwt.version>2.8.2</gwt.version>
-        <gwt.plugin.version>1.0-rc-10</gwt.plugin.version>
         <gwt.module.name>umletvscode</gwt.module.name>
-        <npm.version>v12.16.2</npm.version>
+        <npm.version>v16.20.2</npm.version> <!-- updating to v17.9.1 or later causes an issue with 'npm run vsce' command in LoaderRunner which must be fixed beforehand -->
     </properties>
 
     <dependencies>
@@ -36,7 +31,6 @@
             <!-- assemble UMLetVSCode output as zip file -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.5.3</version>
                 <configuration>
                     <style>PRETTY</style>
                     <descriptor>src/assembly/dep.xml</descriptor>
@@ -56,7 +50,6 @@
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwt.plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <style>PRETTY</style>
@@ -86,7 +79,6 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.9.1</version>
                 <executions>
                     <execution>
                         <id>install node and npm</id>

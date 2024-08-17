@@ -4,4 +4,7 @@
 		<Class name="com.baselet.standalone.gui.StandaloneGUI" />
 		<Bug pattern="DM_EXIT" />
 	</Match>
+    <Match>
+        <Bug code="EI, EI2"/>
+    </Match>
 </FindBugsFilter>

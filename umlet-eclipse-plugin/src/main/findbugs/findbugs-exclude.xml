@@ -4,4 +4,12 @@
 		<Class name="com.baselet.plugin.MainPlugin" />
 		<Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
 	</Match>
+	<Match>
+		<!-- singleton pattern -->
+		<Class name="com.baselet.plugin.MainPlugin" />
+		<Bug pattern="MS_EXPOSE_REP" />
+	</Match>
+    <Match>
+        <Bug code="EI, EI2"/>
+    </Match>
 </FindBugsFilter>
