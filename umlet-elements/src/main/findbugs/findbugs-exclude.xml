@@ -5,4 +5,12 @@
   <Match>
     <Package name="~com.baselet.element.facet.customdrawings.gen.*" />
   </Match>
+	<Match>
+		<!-- singleton pattern -->
+		<Class name="com.baselet.control.config.SharedConfig" />
+		<Bug pattern="MS_EXPOSE_REP" />
+	</Match>
+    <Match>
+        <Bug code="EI, EI2"/>
+    </Match>
 </FindBugsFilter>

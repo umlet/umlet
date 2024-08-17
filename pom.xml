@@ -30,7 +30,7 @@
 	</prerequisites>
 
 	<properties>
-		<tycho.version>2.7.5</tycho.version> <!-- versions after 1.7.0 require Java11 for the build (not for execution of the plugin). so only update if necessary -->
+		<tycho.version>2.7.5</tycho.version> <!-- 2.7.5 is the last version which allows building with JDK11. Unfortunately JDK21 requires a later version therefore building with JDK21 is not possible -->
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -179,6 +179,11 @@
 					<artifactId>maven-failsafe-plugin</artifactId>
 					<version>3.3.1</version>
 				</plugin>
+	            <plugin>
+	                <groupId>net.ltgt.gwt.maven</groupId>
+	                <artifactId>gwt-maven-plugin</artifactId>
+	                <version>1.1.0</version>
+	            </plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-antrun-plugin</artifactId>
@@ -277,7 +282,7 @@
 					<plugin>
 						<groupId>com.github.spotbugs</groupId>
 						<artifactId>spotbugs-maven-plugin</artifactId>
-						<version>4.1.4</version> <!-- later versions reveal new issues. update version and fix new issues at the same time -->
+						<version>4.3.0</version> <!-- JDK21 requires at least 4.8.0.0 but tycho version limit for JDK11 disallows JDK21 anyways so we keep 4.3.0 for now -->
 						<executions>
 							<!-- Ensures that FindBugs inspects source code when project is compiled. -->
 							<execution>
@@ -317,25 +322,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!-- use https://github.com/google/error-prone compiler -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>3.11.0</version>
-						<configuration>
-							<compilerArgs>
-								<arg>-XDcompilePolicy=simple</arg>
-								<arg>-Xplugin:ErrorProne</arg>
-							</compilerArgs>
-							<annotationProcessorPaths>
-								<path>
-									<groupId>com.google.errorprone</groupId>
-									<artifactId>error_prone_core</artifactId>
-									<version>2.30.0</version> <!-- may cause issues with java16 (see https://errorprone.info/docs/installation) -->
-								</path>
-							</annotationProcessorPaths>
-						</configuration>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -358,6 +344,32 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile> <!-- errorprone is no longer enabled by default because it requires specific jvm settings since java16 (see https://errorprone.info/docs/installation) reenable by default if there is a way to configure them in the pom without requiring every dev to update local mvn settings -->
+			<id>errorprone</id>
+			<build>
+				<plugins>
+					<!-- use https://github.com/google/error-prone compiler -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.11.0</version>
+						<configuration>
+							<compilerArgs>
+								<arg>-XDcompilePolicy=simple</arg>
+								<arg>-Xplugin:ErrorProne</arg>
+							</compilerArgs>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>com.google.errorprone</groupId>
+									<artifactId>error_prone_core</artifactId>
+									<version>2.30.0</version>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>

@@ -14,7 +14,6 @@
 
 	<properties>
 		<gwt.version>2.11.0</gwt.version> <!-- some java11+ laguage features are still not available see https://github.com/gwtproject/gwt/issues/9869 -->
-		<gwt.plugin.version>1.1.0</gwt.plugin.version>
 		<elemental2-core.version>1.1.0</elemental2-core.version> <!-- 1.2.0 and later are no longer Java 8 compatible -->
 	</properties>
 
@@ -103,7 +102,6 @@
 			<plugin>
 				<groupId>net.ltgt.gwt.maven</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>${gwt.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<!-- <skipCompilation>true</skipCompilation> -->

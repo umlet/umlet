@@ -13,7 +13,6 @@
     <packaging>gwt-app</packaging>
 
     <properties>
-        <gwt.plugin.version>1.1.0</gwt.plugin.version>
         <gwt.module.name>umletweb</gwt.module.name>
     </properties>
 
@@ -50,7 +49,6 @@
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwt.plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <style>PRETTY</style>
@@ -94,7 +92,6 @@
                     <plugin>
                         <groupId>net.ltgt.gwt.maven</groupId>
                         <artifactId>gwt-maven-plugin</artifactId>
-                        <version>${gwt.plugin.version}</version>
                         <extensions>true</extensions>
                         <executions>
                             <execution>

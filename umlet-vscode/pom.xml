@@ -13,9 +13,8 @@
     <packaging>gwt-app</packaging>
 
     <properties>
-        <gwt.plugin.version>1.1.0</gwt.plugin.version>
         <gwt.module.name>umletvscode</gwt.module.name>
-        <npm.version>v12.16.2</npm.version>
+        <npm.version>v16.20.2</npm.version> <!-- updating to v17.9.1 or later causes an issue with 'npm run vsce' command in LoaderRunner which must be fixed beforehand -->
     </properties>
 
     <dependencies>
@@ -51,7 +50,6 @@
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwt.plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <style>PRETTY</style>
