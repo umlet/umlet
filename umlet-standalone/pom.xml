@@ -29,7 +29,6 @@
 			<!-- assemble UMLet output as zip file -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.3</version>
 				<configuration>
 					<descriptor>src/assembly/dep.xml</descriptor>
 					<appendAssemblyId>false</appendAssemblyId>

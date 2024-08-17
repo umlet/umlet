@@ -52,7 +52,6 @@
 			<!-- assemble P2 Repo as zip file -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.3</version>
 				<configuration>
 					<descriptor>assembly.xml</descriptor>
 					<appendAssemblyId>false</appendAssemblyId>
