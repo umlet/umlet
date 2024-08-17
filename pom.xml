@@ -27,7 +27,7 @@
 	</scm>
 
 	<properties>
-		<tycho.version>1.7.0</tycho.version> <!-- versions after 1.7.0 require Java11 for the build (not for execution of the plugin). so only update if necessary -->
+		<tycho.version>2.7.5</tycho.version> <!-- versions after 1.7.0 require Java11 for the build (not for execution of the plugin). so only update if necessary -->
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -265,7 +265,7 @@
 					<plugin>
 						<groupId>com.github.spotbugs</groupId>
 						<artifactId>spotbugs-maven-plugin</artifactId>
-						<version>3.1.8</version>
+						<version>4.8.6.2</version>
 						<executions>
 							<!-- Ensures that FindBugs inspects source code when project is compiled. -->
 							<execution>
