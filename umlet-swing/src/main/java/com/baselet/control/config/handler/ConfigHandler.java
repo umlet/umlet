@@ -36,6 +36,8 @@ public class ConfigHandler {
 	private static final String SHOW_STICKINGPOLYGON = "show_stickingpolygon";
 	private static final String SHOW_GRID = "show_grid";
 	private static final String ENABLE_CUSTOM_ELEMENTS = "enable_custom_elements";
+	private static final String PROPERTIES_PANEL_LINE_WRAP = "properties_panel_line_wrap";
+	private static final String PROPERTIES_PANEL_LINE_NUMBERS = "properties_panel_line_numbers";
 	private static final String UI_MANAGER = "ui_manager";
 	private static final String PRINT_PADDING = "print_padding";
 	private static final String PDF_EXPORT_FONT = "pdf_export_font";
@@ -95,6 +97,8 @@ public class ConfigHandler {
 		SharedConfig.getInstance().setShow_stickingpolygon(getBoolProperty(props, SHOW_STICKINGPOLYGON, SharedConfig.getInstance().isShow_stickingpolygon()));
 		cfg.setShow_grid(getBoolProperty(props, SHOW_GRID, cfg.isShow_grid()));
 		cfg.setEnable_custom_elements(getBoolProperty(props, ENABLE_CUSTOM_ELEMENTS, cfg.isEnable_custom_elements()));
+		cfg.setPropertiesPanelLineWrap(getBoolProperty(props, PROPERTIES_PANEL_LINE_WRAP, cfg.isPropertiesPanelLineWrap()));
+		cfg.setPropertiesPanelLineNumbers(getBoolProperty(props, PROPERTIES_PANEL_LINE_NUMBERS, cfg.isPropertiesPanelLineNumbers()));
 		cfg.setUiManager(getStringProperty(props, UI_MANAGER, cfg.getUiManager()));
 		cfg.setPrintPadding(getIntProperty(props, PRINT_PADDING, cfg.getPrintPadding()));
 		cfg.setPdfExportFont(getStringProperty(props, PDF_EXPORT_FONT, cfg.getPdfExportFont()));
@@ -175,6 +179,8 @@ public class ConfigHandler {
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(SharedConfig.getInstance().isShow_stickingpolygon()));
 			props.setProperty(SHOW_GRID, Boolean.toString(cfg.isShow_grid()));
 			props.setProperty(ENABLE_CUSTOM_ELEMENTS, Boolean.toString(cfg.isEnable_custom_elements()));
+			props.setProperty(PROPERTIES_PANEL_LINE_WRAP, Boolean.toString(cfg.isPropertiesPanelLineWrap()));
+			props.setProperty(PROPERTIES_PANEL_LINE_NUMBERS, Boolean.toString(cfg.isPropertiesPanelLineNumbers()));
 			props.setProperty(UI_MANAGER, cfg.getUiManager());
 			props.setProperty(PRINT_PADDING, Integer.toString(cfg.getPrintPadding()));
 			props.setProperty(PDF_EXPORT_FONT, cfg.getPdfExportFont());

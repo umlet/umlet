@@ -8,9 +8,6 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import com.baselet.util.logging.Logger;
-import com.baselet.util.logging.LoggerFactory;
-
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.SharedConfig;
@@ -18,6 +15,8 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 @SuppressWarnings("serial")
 public class OptionPanel extends JPanel implements ActionListener {
@@ -38,6 +37,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 	private final JCheckBox enable_custom_elements = new JCheckBox();
 	private final JCheckBox checkForUpdates = new JCheckBox();
 	private final JCheckBox developerMode = new JCheckBox();
+	private final JCheckBox propertiesPanelLineWrap = new JCheckBox();
+	private final JCheckBox propertiesPanelLineNumbers = new JCheckBox();
 	private final JTextField pdfFont = new HintTextField("Path to font e.g.; c:/windows/fonts/msgothic.ttc,1");
 	private final JTextField pdfFontBold = new HintTextField("same as above but used for bold text");
 	private final JTextField pdfFontItalic = new HintTextField("same as above but used for italic text");
@@ -78,6 +79,10 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(default_fontsize);
 		this.add(new JLabel("Properties panel fontsize (requires restart)"));
 		this.add(propertiesPanelFontsize);
+		this.add(new JLabel("Properties panel line wrap (requires restart)"));
+		this.add(propertiesPanelLineWrap);
+		this.add(new JLabel("Properties panel line numbers (requires restart)"));
+		this.add(propertiesPanelLineNumbers);
 		this.add(new JLabel("Export Scale for image export"));
 		this.add(exportScale);
 		this.add(new JLabel("Default fontfamily"));
@@ -126,6 +131,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 		show_stickingpolygon.setSelected(SharedConfig.getInstance().isShow_stickingpolygon());
 		show_grid.setSelected(Config.getInstance().isShow_grid());
 		enable_custom_elements.setSelected(Config.getInstance().isEnable_custom_elements());
+		propertiesPanelLineWrap.setSelected(Config.getInstance().isPropertiesPanelLineWrap());
+		propertiesPanelLineNumbers.setSelected(Config.getInstance().isPropertiesPanelLineNumbers());
 		checkForUpdates.setSelected(Config.getInstance().isCheckForUpdates());
 		developerMode.setSelected(SharedConfig.getInstance().isDev_mode());
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
@@ -160,6 +167,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 			SharedConfig.getInstance().setShow_stickingpolygon(show_stickingpolygon.isSelected());
 			Config.getInstance().setShow_grid(show_grid.isSelected());
 			Config.getInstance().setEnable_custom_elements(enable_custom_elements.isSelected());
+			Config.getInstance().setPropertiesPanelLineWrap(propertiesPanelLineWrap.isSelected());
+			Config.getInstance().setPropertiesPanelLineNumbers(propertiesPanelLineNumbers.isSelected());
 			Config.getInstance().setCheckForUpdates(checkForUpdates.isSelected());
 			SharedConfig.getInstance().setDev_mode(developerMode.isSelected());
 			Config.getInstance().setDefaultFontsize((Integer) default_fontsize.getSelectedItem());

@@ -7,14 +7,13 @@ import java.io.File;
 import javax.swing.UIManager;
 
 import com.baselet.control.constants.Constants;
-import com.baselet.util.logging.Logger;
-import com.baselet.util.logging.LoggerFactory;
-
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
+import com.baselet.util.logging.Logger;
+import com.baselet.util.logging.LoggerFactory;
 
 public class Config {
 
@@ -53,6 +52,8 @@ public class Config {
 	private String defaultFontFamily = Font.SANS_SERIF;
 	private Integer defaultFontsize = 14;
 	private Integer propertiesPanelFontsize = 11;
+	private boolean propertiesPanelLineWrap = false;
+	private boolean propertiesPanelLineNumbers = false;
 	private Integer exportScale = 1;
 	private Integer exportDpi = null;
 
@@ -285,6 +286,22 @@ public class Config {
 
 	public void setPropertiesPanelFontsize(Integer propertiesPanelFontsize) {
 		this.propertiesPanelFontsize = propertiesPanelFontsize;
+	}
+
+	public boolean isPropertiesPanelLineWrap() {
+		return propertiesPanelLineWrap;
+	}
+
+	public void setPropertiesPanelLineWrap(boolean propertiesPanelLineWrap) {
+		this.propertiesPanelLineWrap = propertiesPanelLineWrap;
+	}
+
+	public boolean isPropertiesPanelLineNumbers() {
+		return propertiesPanelLineNumbers;
+	}
+
+	public void setPropertiesPanelLineNumbers(boolean propertiesPanelLineNumbers) {
+		this.propertiesPanelLineNumbers = propertiesPanelLineNumbers;
 	}
 
 	public Integer getExportScale() {

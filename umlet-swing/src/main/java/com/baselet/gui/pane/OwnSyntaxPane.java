@@ -85,13 +85,15 @@ public class OwnSyntaxPane {
 		propertyLabel.setFont(DerivedConfig.getPanelHeaderFont());
 		panel.add(propertyLabel);
 
+		textArea.setLineWrap(Config.getInstance().isPropertiesPanelLineWrap());
+		textArea.setWrapStyleWord(Config.getInstance().isPropertiesPanelLineWrap());
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setFont(DerivedConfig.getPanelContentFont());
 		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
 			textArea.setBackground(new Color(40,40,40));
 			textArea.setForeground(Color.lightGray);
 		}
-		scrollPane = new RTextScrollPane(textArea, false);
+		scrollPane = new RTextScrollPane(textArea, Config.getInstance().isPropertiesPanelLineNumbers());
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
