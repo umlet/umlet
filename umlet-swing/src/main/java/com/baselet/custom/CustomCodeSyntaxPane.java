@@ -1,6 +1,6 @@
 package com.baselet.custom;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -9,6 +9,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
+import com.baselet.control.config.Config;
+import com.baselet.control.constants.Constants;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;
@@ -34,6 +36,10 @@ public class CustomCodeSyntaxPane {
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setCodeFoldingEnabled(true);
 		textArea.setFont(DerivedConfig.getPanelContentFont());
+		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
+			textArea.setBackground(new Color(40,40,40));
+			textArea.setForeground(Color.lightGray);
+		}
 
 		// setup autocompletion
 		for (String word : getAutocompletionStrings()) {

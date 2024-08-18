@@ -124,11 +124,15 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		for (Component c : getComponents()) {
 			c.setEnabled(en);
 		}
-		if (en) {
-			setBackground(new Color(255, 255, 255));
-		}
-		else {
-			setBackground(new Color(235, 235, 235));
+		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
+			setBackground(new Color(40,40,40));
+		} else {
+			if (en) {
+				setBackground(new Color(255, 255, 255));
+			}
+			else {
+				setBackground(new Color(235, 235, 235));
+			}
 		}
 	}
 

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -325,14 +326,15 @@ public class StandaloneGUI extends BaseGUI {
 
 	private void showStartUpText(DiagramHandler h) throws IOException {
 		StartUpHelpText startUpHelpText = h.getDrawPanel().getStartupHelpText();
-		String htmlContent = StartUpHelpText.getDefaultTextWithReplacedSystemspecificMetakeys();
-		String tempFilePath = StartUpHelpText.createTempFileWithText(htmlContent);
-		startUpHelpText.showHTML(tempFilePath);
+		if (Objects.nonNull(startUpHelpText)) {
+			String htmlContent = StartUpHelpText.getDefaultTextWithReplacedSystemspecificMetakeys();
+			String tempFilePath = StartUpHelpText.createTempFileWithText(htmlContent);
+			startUpHelpText.showHTML(tempFilePath);
 
-		h.getDrawPanel().repaint();
-		startUpHelpText.repaint();
-
-		h.getDrawPanel().updatePanelAndScrollbars();
+			h.getDrawPanel().repaint();
+			startUpHelpText.repaint();
+			h.getDrawPanel().updatePanelAndScrollbars();
+		}
 	}
 
 	@Override
