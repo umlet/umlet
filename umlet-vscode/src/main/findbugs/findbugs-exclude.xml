@@ -1,2 +1,5 @@
 <FindBugsFilter>
+    <Match>
+        <Bug code="EI, EI2"/>
+    </Match>
 </FindBugsFilter>

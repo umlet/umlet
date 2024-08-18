@@ -6,11 +6,13 @@ Bundle-Name: UMLet
 Bundle-SymbolicName: com.umlet.plugin;singleton:=true
 Bundle-Version: 15.2.0.qualifier
 Bundle-ClassPath: .,lib/umlet-swing.jar,lib/umlet-elements.jar,lib/aut
- ocomplete.jar,lib/batik-awt-util.jar,lib/batik-dom.jar,lib/batik-ext.
- jar,lib/batik-svggen.jar,lib/batik-util.jar,lib/batik-xml.jar,lib/com
- mons-io.jar,lib/itextpdf.jar,lib/javaparser-core.jar,lib/jlibeps.jar,
- lib/javax.mail.jar,lib/rsyntaxtextarea.jar,lib/ecj.jar,lib/bcel.jar,l
- ib/rhino.jar
+ ocomplete.jar,lib/batik-awt-util.jar,lib/batik-shared-resources.jar,l
+ ib/xmlgraphics-commons.jar,lib/commons-logging.jar,lib/batik-dom.jar,
+ lib/batik-ext.jar,lib/batik-svggen.jar,lib/batik-util.jar,lib/batik-c
+ onstants.jar,lib/batik-i18n.jar,lib/batik-xml.jar,lib/commons-io.jar,
+ lib/itextpdf.jar,lib/javaparser-core.jar,lib/jlibeps.jar,lib/javax.ma
+ il.jar,lib/rsyntaxtextarea.jar,lib/ecj.jar,lib/bcel.jar,lib/commons-l
+ ang3.jar,lib/rhino.jar
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
  plugin.wizard

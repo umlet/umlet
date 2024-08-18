@@ -13,11 +13,8 @@
 	<packaging>gwt-lib</packaging>
 
 	<properties>
-		<!-- GWT 2.8 requires Java 8 -->
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<gwt.version>2.9.0</gwt.version>
-		<gwt.plugin.version>1.0-rc-10</gwt.plugin.version>
+		<gwt.version>2.11.0</gwt.version> <!-- some java11+ laguage features are still not available see https://github.com/gwtproject/gwt/issues/9869 -->
+		<elemental2-core.version>1.1.0</elemental2-core.version> <!-- 1.2.0 and later are no longer Java 8 compatible -->
 	</properties>
 
 	<dependencies>
@@ -33,17 +30,17 @@
 			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
-			<groupId>com.google.gwt</groupId>
+			<groupId>org.gwtproject</groupId>
 			<artifactId>gwt-servlet</artifactId>
 			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.gwt</groupId>
+			<groupId>org.gwtproject</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.gwt</groupId>
+			<groupId>org.gwtproject</groupId>
 			<artifactId>gwt-dev</artifactId>
 			<version>${gwt.version}</version>
 		</dependency>
@@ -61,12 +58,12 @@
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-core</artifactId>
-            <version>1.1.0</version>
+			<version>${elemental2-core.version}</version>
 	    </dependency>
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-dom</artifactId>
-            <version>1.1.0</version>
+			<version>${elemental2-core.version}</version>
         </dependency>
 	</dependencies>
 
@@ -105,7 +102,6 @@
 			<plugin>
 				<groupId>net.ltgt.gwt.maven</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>${gwt.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<!-- <skipCompilation>true</skipCompilation> -->
