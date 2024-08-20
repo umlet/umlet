@@ -39,9 +39,6 @@ public class CustomCodeSyntaxPane {
 		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
 			textArea.setBackground(new Color(40,40,40));
 			textArea.setForeground(Color.lightGray);
-		} else {
-			textArea.setBackground(Color.WHITE);
-			textArea.setForeground(Color.BLACK);
 		}
 
 		// setup autocompletion

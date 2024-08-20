@@ -293,33 +293,35 @@ public class StandaloneGUI extends BaseGUI {
 			SwingUtilities.updateComponentTreeUI(optionframe);
 
 			if (h != null && h.getDrawPanel() != null) {
-				if (isDarkMode) {
-					h.getDrawPanel().setBackground(new Color(40,40,40));
-					showStartUpText(h);
-					pane.getTextComponent().setBackground(new Color(40,40,40));
+                showStartUpText(h);
+                if (isDarkMode) {
+                    pane.getTextComponent().setBackground(new Color(40,40,40));
 					pane.getTextComponent().setForeground(Color.lightGray);
 				} else {
-					h.getDrawPanel().setBackground(Color.WHITE);
-					showStartUpText(h);
-					pane.getTextComponent().setBackground(Color.WHITE);
+                    pane.getTextComponent().setBackground(Color.WHITE);
 					pane.getTextComponent().setForeground(Color.BLACK);
 				}
 			}
 
 			if (ceh != null && ceh.getCodePane() != null) {
 				if (isDarkMode) {
-					ceh.getPanel().setBackground(new Color(40,40,40));
-					ceh.getCodePane().getScrollPane().getGutter().setBackground(new Color(40,40,40));
 					ceh.getCodePane().getTextComponent().setBackground(new Color(40,40,40));
 					ceh.getCodePane().getTextComponent().setForeground(Color.lightGray);
+
+					ceh.getCodePane().getScrollPane().getGutter().setBackground(new Color(40,40,40));
+
+					ceh.getPreviewHandler().getDrawPanel().setBackground(new Color(40,40,40));
+					ceh.getPreviewHandler().getDrawPanel().setForeground(Color.lightGray);
 				} else {
-					ceh.getPanel().setBackground(Color.WHITE);
-					ceh.getCodePane().getScrollPane().getGutter().setBackground(Color.WHITE);
 					ceh.getCodePane().getTextComponent().setBackground(Color.WHITE);
 					ceh.getCodePane().getTextComponent().setForeground(Color.BLACK);
+
+					ceh.getCodePane().getScrollPane().getGutter().setBackground(Color.WHITE);
+
+					ceh.getPreviewHandler().getDrawPanel().setBackground(Color.WHITE);
+					ceh.getPreviewHandler().getDrawPanel().setForeground(Color.BLACK);
 				}
 				ceh.getCodePane().repaint();
-				ceh.getPanel().repaint();
 			}
 			topFrame.pack();
 			optionframe.pack();
