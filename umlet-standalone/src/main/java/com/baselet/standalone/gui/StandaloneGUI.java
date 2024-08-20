@@ -2,9 +2,7 @@ package com.baselet.standalone.gui;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -284,63 +282,58 @@ public class StandaloneGUI extends BaseGUI {
 		try {
 			Frame topFrame = getMainFrame();
 			boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
-			DiagramHandler h = CurrentDiagram.getInstance().getDiagramHandler();
-			CustomElementHandler ceh = getCurrentCustomHandler();
+			DiagramHandler diagramHandler = CurrentDiagram.getInstance().getDiagramHandler();
+			CustomElementHandler customElementHandler = getCurrentCustomHandler();
+			OwnSyntaxPane propertyPane = getPropertyPane();
 
-			OwnSyntaxPane pane = getPropertyPane();
 			UIManager.setLookAndFeel(newui);
 			SwingUtilities.updateComponentTreeUI(topFrame);
 			SwingUtilities.updateComponentTreeUI(optionframe);
 
-			if (h != null && h.getDrawPanel() != null) {
-                showStartUpText(h);
-                if (isDarkMode) {
-                    pane.getTextComponent().setBackground(new Color(40,40,40));
-					pane.getTextComponent().setForeground(Color.lightGray);
-				} else {
-                    pane.getTextComponent().setBackground(Color.WHITE);
-					pane.getTextComponent().setForeground(Color.BLACK);
-				}
+			Color background = isDarkMode ? new Color(40, 40, 40) : Color.WHITE;
+			Color foreground = isDarkMode ? Color.LIGHT_GRAY : Color.BLACK;
+
+			if (diagramHandler != null && diagramHandler.getDrawPanel() != null) {
+                showStartUpText(diagramHandler);
+				updatePropertyPaneTheme(propertyPane, background, foreground);
 			}
 
-			if (ceh != null && ceh.getCodePane() != null) {
-				if (isDarkMode) {
-					ceh.getCodePane().getTextComponent().setBackground(new Color(40,40,40));
-					ceh.getCodePane().getTextComponent().setForeground(Color.lightGray);
-
-					ceh.getCodePane().getScrollPane().getGutter().setBackground(new Color(40,40,40));
-
-					ceh.getPreviewHandler().getDrawPanel().setBackground(new Color(40,40,40));
-					ceh.getPreviewHandler().getDrawPanel().setForeground(Color.lightGray);
-				} else {
-					ceh.getCodePane().getTextComponent().setBackground(Color.WHITE);
-					ceh.getCodePane().getTextComponent().setForeground(Color.BLACK);
-
-					ceh.getCodePane().getScrollPane().getGutter().setBackground(Color.WHITE);
-
-					ceh.getPreviewHandler().getDrawPanel().setBackground(Color.WHITE);
-					ceh.getPreviewHandler().getDrawPanel().setForeground(Color.BLACK);
+			if (customElementHandler != null && customElementHandler.getCodePane() != null) {
+				if (customElementHandler.getCodePane() != null) {
+					updateCustomElementHandlerTheme(customElementHandler, background, foreground);
 				}
-				ceh.getCodePane().repaint();
+				if (customElementHandler.getPreviewHandler() != null) {
+					updatePreviewPanelTheme(customElementHandler.getPreviewHandler(), background, foreground);
+				}
 			}
 			topFrame.pack();
 			optionframe.pack();
 
-		} catch (ClassNotFoundException e) {
-			log.error("Cannot set LookAndFeel", e);
-		} catch (InstantiationException e) {
-			log.error("Cannot set LookAndFeel", e);
-		} catch (IllegalAccessException e) {
-			log.error("Cannot set LookAndFeel", e);
-		} catch (UnsupportedLookAndFeelException e) {
-			log.error("Cannot set LookAndFeel", e);
-		} catch (MalformedURLException e) {
-			log.error("Cannot set LookAndFeel", e);
-        } catch (FileNotFoundException e) {
-			log.error("Cannot set LookAndFeel", e);
-        } catch (IOException e) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+				 UnsupportedLookAndFeelException |
+                 IOException e) {
 			log.error("Cannot set LookAndFeel", e);
 		}
+	}
+
+	private void updatePreviewPanelTheme(CustomPreviewHandler handler, Color background, Color foreground) {
+		if (Objects.nonNull(handler.getDrawPanel())) {
+			handler.getDrawPanel().setBackground(background);
+			handler.getDrawPanel().setForeground(foreground);
+		}
+	}
+
+	private void updateCustomElementHandlerTheme(CustomElementHandler handler, Color background, Color foreground) {
+		handler.getCodePane().getTextComponent().setBackground(background);
+		handler.getCodePane().getTextComponent().setForeground(foreground);
+		handler.getCodePane().getScrollPane().getGutter().setBackground(background);
+
+		handler.getCodePane().repaint();
+	}
+
+	private void updatePropertyPaneTheme(OwnSyntaxPane pane, Color background, Color foreground) {
+		pane.getTextComponent().setBackground(background);
+		pane.getTextComponent().setForeground(foreground);
 	}
 
 	private void showStartUpText(DiagramHandler h) throws IOException {
