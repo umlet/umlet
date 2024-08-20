@@ -285,6 +285,7 @@ public class StandaloneGUI extends BaseGUI {
 			Frame topFrame = getMainFrame();
 			boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
 			DiagramHandler h = CurrentDiagram.getInstance().getDiagramHandler();
+			CustomElementHandler ceh = getCurrentCustomHandler();
 
 			OwnSyntaxPane pane = getPropertyPane();
 			UIManager.setLookAndFeel(newui);
@@ -303,6 +304,22 @@ public class StandaloneGUI extends BaseGUI {
 					pane.getTextComponent().setBackground(Color.WHITE);
 					pane.getTextComponent().setForeground(Color.BLACK);
 				}
+			}
+
+			if (ceh != null && ceh.getCodePane() != null) {
+				if (isDarkMode) {
+					ceh.getPanel().setBackground(new Color(40,40,40));
+					ceh.getCodePane().getScrollPane().getGutter().setBackground(new Color(40,40,40));
+					ceh.getCodePane().getTextComponent().setBackground(new Color(40,40,40));
+					ceh.getCodePane().getTextComponent().setForeground(Color.lightGray);
+				} else {
+					ceh.getPanel().setBackground(Color.WHITE);
+					ceh.getCodePane().getScrollPane().getGutter().setBackground(Color.WHITE);
+					ceh.getCodePane().getTextComponent().setBackground(Color.WHITE);
+					ceh.getCodePane().getTextComponent().setForeground(Color.BLACK);
+				}
+				ceh.getCodePane().repaint();
+				ceh.getPanel().repaint();
 			}
 			topFrame.pack();
 			optionframe.pack();

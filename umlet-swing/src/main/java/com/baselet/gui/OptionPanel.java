@@ -189,6 +189,11 @@ public class OptionPanel extends JPanel implements ActionListener {
 			for (DiagramHandler d : Main.getInstance().getDiagramsAndPalettes()) {
 				d.getFontHandler().resetFontSize();
 				d.getDrawPanel().updateElements();
+				if (SharedConfig.getInstance().isDark_mode()) {
+					d.getDrawPanel().setBackground(new Color(40,40,40));
+				} else {
+					d.getDrawPanel().setBackground(Color.WHITE);
+				}
 				d.getDrawPanel().repaint();
 			}
 			Config.getInstance().setPropertiesPanelFontsize((Integer) propertiesPanelFontsize.getSelectedItem());
