@@ -294,8 +294,8 @@ public class StandaloneGUI extends BaseGUI {
 			Color foreground = isDarkMode ? Color.LIGHT_GRAY : Color.BLACK;
 
 			if (diagramHandler != null && diagramHandler.getDrawPanel() != null) {
-                showStartUpText(diagramHandler);
 				updatePropertyPaneTheme(propertyPane, background, foreground);
+				updateStartupHelpText(diagramHandler.getDrawPanel());
 			}
 
 			if (customElementHandler != null && customElementHandler.getCodePane() != null) {
@@ -310,9 +310,16 @@ public class StandaloneGUI extends BaseGUI {
 			optionframe.pack();
 
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-				 UnsupportedLookAndFeelException |
-                 IOException e) {
+				 UnsupportedLookAndFeelException e) {
 			log.error("Cannot set LookAndFeel", e);
+		}
+	}
+
+	private void updateStartupHelpText(DrawPanel drawPanel) {
+		StartUpHelpText helpText = drawPanel.getStartupHelpText();
+		if (helpText != null) {
+			helpText.updateHtmlBackground();
+			helpText.repaint();
 		}
 	}
 
@@ -334,19 +341,6 @@ public class StandaloneGUI extends BaseGUI {
 	private void updatePropertyPaneTheme(OwnSyntaxPane pane, Color background, Color foreground) {
 		pane.getTextComponent().setBackground(background);
 		pane.getTextComponent().setForeground(foreground);
-	}
-
-	private void showStartUpText(DiagramHandler h) throws IOException {
-		StartUpHelpText startUpHelpText = h.getDrawPanel().getStartupHelpText();
-		if (Objects.nonNull(startUpHelpText)) {
-			String htmlContent = StartUpHelpText.getDefaultTextWithReplacedSystemspecificMetakeys();
-			String tempFilePath = StartUpHelpText.createTempFileWithText(htmlContent);
-			startUpHelpText.showHTML(tempFilePath);
-
-			h.getDrawPanel().repaint();
-			startUpHelpText.repaint();
-			h.getDrawPanel().updatePanelAndScrollbars();
-		}
 	}
 
 	@Override

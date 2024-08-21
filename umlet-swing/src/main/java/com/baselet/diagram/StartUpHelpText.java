@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-import javax.swing.JEditorPane;
+import javax.swing.*;
 
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
@@ -54,6 +54,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		panel.addContainerListener(this);
 		panel.addComponentListener(this);
 		addMouseListener(new DelegatingMouseListener());
+		updateHtmlBackground();
 		try {
 			if (UpdateCheckTimerTask.getInstance().getFilename() == null) {
 				showHTML(createTempFileWithText(getDefaultTextWithReplacedSystemspecificMetakeys()));
@@ -67,6 +68,19 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			setText("Cannot load startupinfo");
 			setSize(130, 10);
 		}
+	}
+
+	public void updateHtmlBackground() {
+		boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
+
+		Color background = isDarkMode ? new Color(40, 40, 40) : Color.WHITE;
+		Color foreground = isDarkMode ? Color.LIGHT_GRAY : Color.BLACK;
+
+		this.setBackground(background);
+		this.setForeground(foreground);
+
+		UIManager.put("EditorPane.background", background);
+		UIManager.put("EditorPane.foreground", foreground);
 	}
 
 	// Must be overwritten to hide the helptext if a the custom elements panel is toggled without elements on the drawpanel
@@ -88,27 +102,19 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	}
 
 	static InputStream getStartUpFileName() {
-		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
-			return StartUpHelpText.class.getClassLoader().getResourceAsStream("startuphelpdark.html");
-		} else {
-			return StartUpHelpText.class.getClassLoader().getResourceAsStream("startuphelp.html");
-		}
+		return StartUpHelpText.class.getClassLoader().getResourceAsStream("startuphelp.html");
 	}
 
-	public void showHTML(String filename) throws MalformedURLException, IOException {
+	private void showHTML(String filename) throws MalformedURLException, IOException {
+		updateHtmlBackground();
 		this.setPage(new URL("file:///" + filename));
 		addHyperlinkListener(new HyperLinkActiveListener());
 		setEditable(false);
-		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
-			setBackground(new Color(40,40,40));
-		} else {
-			setBackground(Color.WHITE);
-		}
 		setSelectionColor(getBackground());
 		setSelectedTextColor(getForeground());
 	}
 
-	public static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
+	static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
 		File tempFile = File.createTempFile(Program.getInstance().getProgramName() + "_startupfile", ".html");
 		tempFile.deleteOnExit();
 		FileWriter w = new FileWriter(tempFile);
@@ -117,7 +123,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		return tempFile.getAbsolutePath();
 	}
 
-	public static String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
+	private static String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
 		StringBuilder sb = new StringBuilder("");
 		Scanner sc = null;
 		try {
