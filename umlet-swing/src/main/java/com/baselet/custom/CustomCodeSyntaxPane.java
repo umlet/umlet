@@ -10,6 +10,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
 import com.baselet.control.config.Config;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
@@ -32,6 +33,7 @@ public class CustomCodeSyntaxPane {
 
 		panel = new JPanel(new BorderLayout());
 		textArea = new RSyntaxTextArea();
+		setLineHighlightColor(SharedConfig.getInstance().isDark_mode());
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setCodeFoldingEnabled(true);
@@ -53,6 +55,14 @@ public class CustomCodeSyntaxPane {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel.add(scrollPane);
 		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); // Reduce tab size
+	}
+
+	public void setLineHighlightColor(boolean darkMode) {
+		if (darkMode) {
+			textArea.setCurrentLineHighlightColor(new Color(153, 102, 0));
+		} else {
+			textArea.setCurrentLineHighlightColor(new Color(255, 255, 153));
+		}
 	}
 
 	public String getText() {

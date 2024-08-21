@@ -295,12 +295,14 @@ public class StandaloneGUI extends BaseGUI {
 
 			if (diagramHandler != null && diagramHandler.getDrawPanel() != null) {
 				updatePropertyPaneTheme(propertyPane, background, foreground);
+				propertyPane.setLineHighlightColor(isDarkMode);
 				updateStartupHelpText(diagramHandler.getDrawPanel());
 			}
 
 			if (customElementHandler != null && customElementHandler.getCodePane() != null) {
 				if (customElementHandler.getCodePane() != null) {
 					updateCustomElementHandlerTheme(customElementHandler, background, foreground);
+					customElementHandler.getCodePane().setLineHighlightColor(isDarkMode);
 				}
 				if (customElementHandler.getPreviewHandler() != null) {
 					updatePreviewPanelTheme(customElementHandler.getPreviewHandler(), background, foreground);
