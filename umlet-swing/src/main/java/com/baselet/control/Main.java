@@ -238,7 +238,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		if (name != null) {
 			boolean isDarkMode = Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME);
 			if(isDarkMode){
-				getPalettes().get(name).getDrawPanel().setBackground(new Color(40,40,40));
+				getPalettes().get(name).getDrawPanel().setBackground(Constants.DARK_BACKGROUND_COLOR);
 			} else {
 				getPalettes().get(name).getDrawPanel().setBackground(Color.WHITE);
 			}

@@ -90,7 +90,7 @@ public class OwnSyntaxPane {
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setFont(DerivedConfig.getPanelContentFont());
 		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
-			textArea.setBackground(new Color(40,40,40));
+			textArea.setBackground(Constants.DARK_BACKGROUND_COLOR);
 			textArea.setForeground(Color.lightGray);
 		}
 		scrollPane = new RTextScrollPane(textArea, Config.getInstance().isPropertiesPanelLineNumbers());

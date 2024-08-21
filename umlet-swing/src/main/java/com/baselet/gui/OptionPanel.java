@@ -190,7 +190,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 				d.getFontHandler().resetFontSize();
 				d.getDrawPanel().updateElements();
 				if (SharedConfig.getInstance().isDark_mode()) {
-					d.getDrawPanel().setBackground(new Color(40,40,40));
+					d.getDrawPanel().setBackground(Constants.DARK_BACKGROUND_COLOR);
 				} else {
 					d.getDrawPanel().setBackground(Color.WHITE);
 				}

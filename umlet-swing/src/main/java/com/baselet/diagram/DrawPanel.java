@@ -60,7 +60,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		setLayout(null);
 		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
 			SharedConfig.getInstance().setDark_mode(true);
-			this.setBackground(new Color(40,40,40));
+			this.setBackground(Constants.DARK_BACKGROUND_COLOR);
 		} else {
 			SharedConfig.getInstance().setDark_mode(false);
 			this.setBackground(Color.WHITE);
@@ -125,10 +125,10 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			c.setEnabled(en);
 		}
 		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
-			setBackground(new Color(40,40,40));
+			setBackground(Constants.DARK_BACKGROUND_COLOR);
 		} else {
 			if (en) {
-				setBackground(new Color(255, 255, 255));
+				setBackground(Color.WHITE);
 			}
 			else {
 				setBackground(new Color(235, 235, 235));
@@ -458,7 +458,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	}
 
 	private void drawGrid(Graphics2D g2d) {
-		g2d.setColor(Constants.GRID_COLOR);
+		if (!Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
+			g2d.setColor(Constants.GRID_COLOR_LIGHT);
+		} else {
+			g2d.setColor(Constants.GRID_COLOR_DARK);
+		}
 
 		int gridSize = handler.getGridSize();
 		if (gridSize == 1) {
