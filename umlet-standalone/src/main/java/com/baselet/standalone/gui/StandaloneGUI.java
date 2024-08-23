@@ -299,7 +299,7 @@ public class StandaloneGUI extends BaseGUI {
 				updateStartupHelpText(diagramHandler.getDrawPanel());
 			}
 
-			if (customElementHandler != null && customElementHandler.getCodePane() != null) {
+			if (customElementHandler != null) {
 				if (customElementHandler.getCodePane() != null) {
 					updateCustomElementHandlerTheme(customElementHandler, background, foreground);
 					customElementHandler.getCodePane().setLineHighlightColor(isDarkMode);

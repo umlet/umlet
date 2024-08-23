@@ -113,11 +113,6 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	}
 
 	@Override
-	public void setBackground(Color bg) {
-		super.setBackground(bg);
-	}
-
-	@Override
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		handler.setEnabled(en);
@@ -584,12 +579,6 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			e.updateModelFromText();
 		}
 	}
-
-	@Override
-	public Color getBackground() {
-		return super.getBackground();
-	}
-
 	public GridElement getElementToComponent(Component component) {
 		for (GridElement e : gridElements) {
 			if (e.getComponent().equals(component)) {
