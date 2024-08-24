@@ -19,7 +19,6 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.config.Config;
 import com.baselet.control.config.DerivedConfig;
-import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
 import com.baselet.element.old.custom.CustomElement;
 
@@ -34,7 +33,7 @@ public class CustomCodeSyntaxPane {
 
 		panel = new JPanel(new BorderLayout());
 		textArea = new RSyntaxTextArea();
-		setLineHighlightColor(SharedConfig.getInstance().isDark_mode());
+		setLineHighlightColor(Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME));
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setCodeFoldingEnabled(true);

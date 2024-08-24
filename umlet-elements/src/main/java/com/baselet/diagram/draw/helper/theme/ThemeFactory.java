@@ -55,7 +55,8 @@ public class ThemeFactory {
 	}
 
 	public static Theme getCurrentTheme() {
-		if (theme == null || Program.isInitialized() && Program.getInstance().getRuntimeType() == RuntimeType.STANDALONE) {
+		if (theme == null || (Program.isInitialized() &&
+				Program.getInstance().getRuntimeType() == RuntimeType.STANDALONE)) {
 			if(SharedConfig.getInstance().isDark_mode()) {
 				changeTheme(THEMES.DARK, null, true);
 			} else {
