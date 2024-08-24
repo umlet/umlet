@@ -265,10 +265,14 @@ public class ConfigHandler {
 		}
 	}
 
+	public static final String UMLET_CFG_PATH = "umlet.cfg.path";
+
 	private static Properties loadProperties() {
 		Properties result = new Properties();
-
-		if (Path.hasOsConformConfig()) {
+		if (System.getProperty(UMLET_CFG_PATH) != null) {
+			result = loadPropertiesFromFile(System.getProperty(UMLET_CFG_PATH));
+		}
+		else if (Path.hasOsConformConfig()) {
 			result = loadPropertiesFromFile(Path.osConformConfig());
 		}
 		else if (Path.hasLegacyConfig()) {
@@ -281,13 +285,8 @@ public class ConfigHandler {
 	private static Properties loadPropertiesFromFile(String filePath) {
 		Properties result = new Properties();
 
-		try {
-			FileInputStream inputStream = new FileInputStream(filePath);
-			try {
-				result.load(inputStream);
-			} finally {
-				inputStream.close();
-			}
+		try (FileInputStream inputStream = new FileInputStream(filePath)) {
+			result.load(inputStream);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

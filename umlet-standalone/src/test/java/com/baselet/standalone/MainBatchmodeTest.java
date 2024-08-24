@@ -20,6 +20,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.baselet.control.config.handler.ConfigHandler;
 import com.google.common.io.Files;
 
 /**
@@ -57,7 +58,7 @@ public class MainBatchmodeTest {
 
 	@Test
 	public void batchConvertToPng_wildcardAndNoOutputParam_newCustomElement() throws Exception {
-		System.setProperty("user.home", "src/test/resources/JUnit/");
+		System.setProperty(ConfigHandler.UMLET_CFG_PATH, "src/test/resources/JUnit/UMLet/umlet.cfg");
 		File copy = copyInputToTmp("in_newCustomElement.uxf");
 		String wildcard = copy.getParent().toString() + "/*";
 		MainStandalone.main(new String[] { "-action=convert", "-format=png", "-filename=" + wildcard });
@@ -68,7 +69,7 @@ public class MainBatchmodeTest {
 
 	@Test
 	public void batchConvertToEps_newCustomElement() throws Exception {
-		System.setProperty("user.home", "src/test/resources/JUnit/");
+		System.setProperty(ConfigHandler.UMLET_CFG_PATH, "src/test/resources/JUnit/UMLet/umlet.cfg");
 		// eps files contain the CreationDate which must be removed before the comparison
 		File output = changeLines(createOutputfile("eps", "in_newCustomElement.uxf"), "%%CreationDate", false);
 		File outWithoutCreated = changeLines(copyToTmp("out_newCustomElement.eps"), "%%CreationDate", false);
