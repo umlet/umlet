@@ -9,7 +9,6 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.facet.KeyValueFacet;
@@ -46,15 +45,15 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 		double w = getWidth(s);
 		double h = getHeight(s);
 		if (type == StateTypeEnum.INITIAL) {
-			drawBlackEllipse(drawer, w - 1, h - 1, 1);
+			drawFgColoredEllipse(drawer, w - 1, h - 1, 1);
 		}
 		else if (type == StateTypeEnum.FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
 			ColorOwn oldFg = drawer.getForegroundColor();
 			drawer.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT)); // don't use foregroundcolor for the inner circle, because otherwise in Swing it would look very ugly
 			double ellipseDistance = Math.max(w - 1, h - 1) / 5.5;
-			drawBlackEllipse(drawer, w - ellipseDistance * 2, h - ellipseDistance * 2, ellipseDistance);
 			drawer.setForegroundColor(oldFg);
+			drawFgColoredEllipse(drawer, w - ellipseDistance * 2, h - ellipseDistance * 2, ellipseDistance);
 		}
 		else if (type == StateTypeEnum.FLOW_FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
@@ -91,10 +90,9 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 		drawer.drawLines(new PointDouble(0.5 + w / 2, 1), new PointDouble(w, 0.5 + h / 2), new PointDouble(0.5 + w / 2, h), new PointDouble(1, 0.5 + h / 2), new PointDouble(0.5 + w / 2, 1));
 	}
 
-	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double xY) {
+	private void drawFgColoredEllipse(final DrawHandler drawer, double width, double height, double xY) {
 		ColorOwn oldBg = drawer.getBackgroundColor();
-		Theme currentTheme = ThemeFactory.getCurrentTheme();
-		drawer.setBackgroundColor(currentTheme.getColor(Theme.ColorStyle.DEFAULT_FOREGROUND).transparency(Transparency.FOREGROUND)); // #696 Background from Initial and Final state is always the default fg color
+		drawer.setBackgroundColor(drawer.getForegroundColor());
 		drawer.drawEllipse(xY, xY, width, height);
 		drawer.setBackgroundColor(oldBg);
 	}
