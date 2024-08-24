@@ -30,6 +30,8 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Utils;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory.THEMES;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.element.Relation;
 import com.baselet.gui.filedrop.FileDrop;
@@ -58,11 +60,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		origin = new Point();
 		setLayout(null);
 		if (Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME)) {
-			SharedConfig.getInstance().setDark_mode(true);
+			ThemeFactory.changeTheme(THEMES.DARK, null, true);
 			setBackground(Constants.DARK_BACKGROUND_COLOR);
 		}
 		else {
-			SharedConfig.getInstance().setDark_mode(false);
+			ThemeFactory.changeTheme(THEMES.LIGHT, null, true);
 			setBackground(Color.WHITE);
 		}
 		setOpaque(true);

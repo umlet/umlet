@@ -30,6 +30,7 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory.THEMES;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -159,7 +160,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setBackgroundColor(currentTheme.getColor(Theme.ColorStyle.SELECTION_BG));
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 		if (SharedConfig.getInstance().isDev_mode()) {
-			if (SharedConfig.getInstance().isDark_mode()) {
+			if (ThemeFactory.getActiveThemeEnum() == THEMES.DARK) {
 				drawer.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.WHITE));
 			} else {
 				drawer.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.BLACK));

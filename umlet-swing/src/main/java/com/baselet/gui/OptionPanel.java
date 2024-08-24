@@ -26,6 +26,8 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory.THEMES;
 import com.baselet.util.logging.Logger;
 import com.baselet.util.logging.LoggerFactory;
 
@@ -191,7 +193,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			String newui = uis_technicalNames.get(ui_manager.getSelectedIndex());
 			// only set look and feel if it has changed, because it messes up frame-size
 			if (newui != null && !newui.equals(Config.getInstance().getUiManager())) {
-				SharedConfig.getInstance().setDark_mode(newui.equals(Constants.FLAT_DARCULA_THEME));
+				ThemeFactory.changeTheme(newui.equals(Constants.FLAT_DARCULA_THEME) ? THEMES.DARK : THEMES.LIGHT, null, true);
 				Config.getInstance().setUiManager(newui);
 				CurrentGui.getInstance().getGui().setLookAndFeel(newui, optionframe);
 			}
@@ -200,7 +202,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			for (DiagramHandler d : Main.getInstance().getDiagramsAndPalettes()) {
 				d.getFontHandler().resetFontSize();
 				d.getDrawPanel().updateElements();
-				if (SharedConfig.getInstance().isDark_mode()) {
+				if (ThemeFactory.getActiveThemeEnum() == THEMES.DARK) {
 					d.getDrawPanel().setBackground(Constants.DARK_BACKGROUND_COLOR);
 				}
 				else {

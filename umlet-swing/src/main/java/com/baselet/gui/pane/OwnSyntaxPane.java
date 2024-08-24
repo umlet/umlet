@@ -68,7 +68,7 @@ public class OwnSyntaxPane {
 				CurrentDiagram.getInstance().getDiagramHandler().getController().redo();
 			}
 		};
-		setLineHighlightColor(SharedConfig.getInstance().isDark_mode());
+		setLineHighlightColor(Config.getInstance().getUiManager().equals(Constants.FLAT_DARCULA_THEME));
 		// Setup highlighting
 		createHightLightMap();
 		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
