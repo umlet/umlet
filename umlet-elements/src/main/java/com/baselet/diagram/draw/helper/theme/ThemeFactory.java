@@ -1,6 +1,8 @@
 package com.baselet.diagram.draw.helper.theme;
 
 import com.baselet.control.config.SharedConfig;
+import com.baselet.control.enums.Program;
+import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.draw.helper.ColorOwn;
 
 import java.util.ArrayList;
@@ -53,10 +55,12 @@ public class ThemeFactory {
 	}
 
 	public static Theme getCurrentTheme() {
-		if(SharedConfig.getInstance().isDark_mode()) {
-			changeTheme(THEMES.DARK, null, true);
-		} else {
-			changeTheme(THEMES.LIGHT, null, true);
+		if (theme == null || Program.isInitialized() && Program.getInstance().getRuntimeType() == RuntimeType.STANDALONE) {
+			if(SharedConfig.getInstance().isDark_mode()) {
+				changeTheme(THEMES.DARK, null, true);
+			} else {
+				changeTheme(THEMES.LIGHT, null, true);
+			}
 		}
 		return theme;
 	}
