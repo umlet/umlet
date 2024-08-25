@@ -40,6 +40,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory.THEMES;
 import com.baselet.element.ElementUtils;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoHistory;
@@ -370,7 +371,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (selected) {
 			if (SharedConfig.getInstance().isDev_mode()) {
 				Color oldColor = g2.getColor();
-				if (SharedConfig.getInstance().isDark_mode()) {
+				if (ThemeFactory.getActiveThemeEnum() == THEMES.DARK) {
 					g2.setColor(Converter.convert(currentTheme.getColor(Theme.PredefinedColors.WHITE)));
 				} else {
 					g2.setColor(Converter.convert(currentTheme.getColor(Theme.PredefinedColors.BLACK)));
