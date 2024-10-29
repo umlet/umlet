@@ -140,7 +140,7 @@ valign=center</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
+&lt;&lt;extend&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
   <element>
@@ -152,7 +152,7 @@ valign=center</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-&lt;&lt;includes&gt;&gt;</panel_attributes>
+&lt;&lt;include&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
   <element>
