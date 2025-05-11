@@ -8,6 +8,9 @@ public interface Resources extends ClientBundle {
 
 	Resources INSTANCE = GWT.create(Resources.class);
 
+	@Source("UME API Diagram.uxf")
+	TextResource UME_API_Diagram();
+
 	@Source("UML Common Elements.uxf")
 	TextResource UML_Common_Elements();
 

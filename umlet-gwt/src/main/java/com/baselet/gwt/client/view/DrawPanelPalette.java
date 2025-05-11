@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.ListBox;
 public class DrawPanelPalette extends DrawPanel {
 
 	private static final List<TextResource> PALETTELIST = Arrays.asList(
+			Resources.INSTANCE.UME_API_Diagram(),
 			Resources.INSTANCE.UML_Common_Elements(),
 			Resources.INSTANCE.Advanced_Drawings(),
 			Resources.INSTANCE.Custom_Drawings(),

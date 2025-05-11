@@ -42,14 +42,7 @@
 	<modules>
 		<module>umlet-elements</module>
 		<module>umlet-res</module>
-		<module>umlet-swing</module>
-		<module>umlet-standalone</module>
-		<module>umlet-eclipse-plugin-deps</module>
-		<module>umlet-eclipse-plugin</module>
-		<module>umlet-eclipse-feature</module>
-		<module>umlet-eclipse-p2</module>
 		<module>umlet-gwt</module>
-		<module>umlet-web</module>
 		<module>umlet-vscode</module>
 	</modules>
 

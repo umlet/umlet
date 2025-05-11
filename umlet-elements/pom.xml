@@ -10,7 +10,7 @@
 	<artifactId>umlet-elements</artifactId>
 
 	<properties>
-		<javacc.gen.dir>${project.build.directory}/generated-sources/annotations</javacc.gen.dir> <!-- reuse the annotation-processing gendir to avoid too many separate src folders for eclipse plugin; perhaps it would be more correct to create a separate javacc subdir -->
+		<javacc.gen.dir>${project.build.directory}/classes</javacc.gen.dir> <!-- reuse the annotation-processing gendir to avoid too many separate src folders for eclipse plugin; perhaps it would be more correct to create a separate javacc subdir -->
 	</properties>
 
 	<build>

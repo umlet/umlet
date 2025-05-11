@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>16</y>
+      <w>168</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;application entity&gt;&gt;
+ApplicationEntity
+--
+- id: String
+--
++apiOperation(request): Response
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+
+<element>
+  <id>UMLClass</id>
+  <coordinates>
+    <x>200</x>
+    <y>16</y>
+    <w>168</w>
+    <h>65</h>
+  </coordinates>
+  <panel_attributes>&lt;&lt;domain entity&gt;&gt;
+DomainEntity
+--
+- id: String
+--
++apiOperation(request): Response
+</panel_attributes>
+  <additional_attributes/>
+</element>
+
+<element>
+  <id>UMLClass</id>
+  <coordinates>
+    <x>16</x>
+    <y>100</y>
+    <w>168</w>
+    <h>65</h>
+  </coordinates>
+  <panel_attributes>&lt;&lt;collection&gt;&gt;
+Collection
+--
+- entities: Entity[]
+--
++apiOperation(request): Response
+</panel_attributes>
+  <additional_attributes/>
+</element>
+
+<element>
+  <id>UMLClass</id>
+  <coordinates>
+    <x>200</x>
+    <y>100</y>
+    <w>168</w>
+    <h>65</h>
+  </coordinates>
+  <panel_attributes>&lt;&lt;value object&gt;&gt;
+ValueObject
+--
+- attribute: String
+</panel_attributes>
+  <additional_attributes/>
+</element>
+</diagram>
