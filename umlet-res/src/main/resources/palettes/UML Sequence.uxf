@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.3">
+<diagram program="umlet" version="15.2.0">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLFrame</id>
@@ -188,12 +188,13 @@ bg=red</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>112</y>
+      <y>104</y>
       <w>112</w>
-      <h>24</h>
+      <h>32</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+syncMsg</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -211,13 +212,12 @@ asyncMsg</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>152</y>
+      <y>160</y>
       <w>112</w>
-      <h>32</h>
+      <h>24</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;-
-syncMsg</panel_attributes>
-    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -249,7 +249,7 @@ syncMsg</panel_attributes>
       <w>120</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;&gt;
+    <panel_attributes>lt=-&gt;&gt;&gt;
 sync call</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
   </element>
