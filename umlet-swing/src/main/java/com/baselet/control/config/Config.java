@@ -6,8 +6,8 @@ import java.io.File;
 
 import javax.swing.UIManager;
 
-import com.baselet.control.constants.Constants;
 import com.baselet.control.basics.geom.Dimension;
+import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
@@ -54,16 +54,11 @@ public class Config {
 	private Integer propertiesPanelFontsize = 11;
 	private boolean propertiesPanelLineWrap = false;
 	private boolean propertiesPanelLineNumbers = false;
+	private String uiScale = "Default";
 	private Integer exportScale = 1;
 	private Integer exportDpi = null;
 
-	public Config() {
-		if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) { // batchmode shouldn't access UIManager.class
-			initUiManager();
-		}
-	}
-
-	private void initUiManager() {
+	public void initUiManager() {
 		// The default MacOS theme looks ugly, therefore we set metal
 		if (SystemInfo.OS == Os.MAC) {
 			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
@@ -302,6 +297,14 @@ public class Config {
 
 	public void setPropertiesPanelLineNumbers(boolean propertiesPanelLineNumbers) {
 		this.propertiesPanelLineNumbers = propertiesPanelLineNumbers;
+	}
+
+	public String getUiScale() {
+		return uiScale;
+	}
+
+	public void setUiScale(String uiScale) {
+		this.uiScale = uiScale;
 	}
 
 	public Integer getExportScale() {

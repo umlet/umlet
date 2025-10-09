@@ -17,6 +17,7 @@ import com.baselet.control.config.ConfigClassGen;
 import com.baselet.control.config.ConfigMail;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Program;
+import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.enums.generator.FieldOptions;
 import com.baselet.control.enums.generator.MethodOptions;
 import com.baselet.control.enums.generator.SignatureOptions;
@@ -29,6 +30,7 @@ public class ConfigHandler {
 
 	private static final String PROGRAM_VERSION = "program_version";
 	private static final String PROPERTIES_PANEL_FONTSIZE = "properties_panel_fontsize";
+	private static final String UI_SCALE = "ui_scale"; // #430: scales the UI (e.g. for hidpi monitors)
 	private static final String EXPORT_SCALE = "export_scale"; // #510: scales exported images by this factor (default=1, e.g. 2 doubles the amount of pixels)
 	private static final String EXPORT_DPI = "export_dpi"; // #510: if set, and the image format supports it (e.g. png), this dpi value is stored in the img metadata (default=null which means no dpi value is stored)
 	private static final String DEFAULT_FONTSIZE = "default_fontsize";
@@ -86,6 +88,16 @@ public class ConfigHandler {
 		}
 
 		Config cfg = Config.getInstance();
+		cfg.setUiScale(getStringProperty(props, UI_SCALE, cfg.getUiScale())); // scaling must be initialized before calling initUiManager()
+
+		// #430: if uiScaling is enabled, no vm arg is set and if the scale is not Default, set the sysProp (Default sets no sysprop to allow future java releases to improve auto-detection)
+		if (Boolean.valueOf(System.getProperty("sun.java2d.uiScale.enabled", "true")) && System.getProperty("sun.java2d.uiScale") == null && !"Default".equals(cfg.getUiScale())) {
+			System.setProperty("sun.java2d.uiScale", cfg.getUiScale());
+		}
+
+		if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) { // batchmode shouldn't access UIManager.class
+			cfg.initUiManager();
+		}
 
 		cfg.setProgramVersion(getStringProperty(props, PROGRAM_VERSION, Program.getInstance().getVersion()));
 		cfg.setDefaultFontsize(getIntProperty(props, DEFAULT_FONTSIZE, cfg.getDefaultFontsize()));
@@ -169,6 +181,7 @@ public class ConfigHandler {
 			props.setProperty(PROGRAM_VERSION, Program.getInstance().getVersion());
 			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(cfg.getDefaultFontsize()));
 			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(cfg.getPropertiesPanelFontsize()));
+			props.setProperty(UI_SCALE, cfg.getUiScale());
 			props.setProperty(EXPORT_SCALE, Integer.toString(cfg.getExportScale()));
 			if (cfg.getExportDpi() != null) {
 				props.setProperty(EXPORT_DPI, Integer.toString(cfg.getExportDpi()));

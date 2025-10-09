@@ -59,6 +59,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 	private final JComboBox ui_manager;
 	private final JComboBox default_fontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
 	private final JComboBox propertiesPanelFontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
+	private final JComboBox<String> uiScale = new JComboBox<>(new String[] { "Default", "1", "1.5", "2", "2.5", "3", "3.5", "4" });
 	private final JComboBox exportScale = new JComboBox(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8 });
 	private final JComboBox default_fontfamily = new JComboBox(Constants.fontFamilyList.toArray(new String[Constants.fontFamilyList.size()]));
 
@@ -96,6 +97,12 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(propertiesPanelLineWrap);
 		this.add(new JLabel("Properties panel line numbers (requires restart)"));
 		this.add(propertiesPanelLineNumbers);
+		JLabel uiScaleLabel = new JLabel("UI Scale for hi res monitors (requires restart)");
+		String uiScaleToolTip = "Overwrite the default scaling which is determined by your OS (some OS only accept integers)";
+		uiScaleLabel.setToolTipText(uiScaleToolTip);
+		uiScale.setToolTipText(uiScaleToolTip);
+		this.add(uiScaleLabel);
+		this.add(uiScale);
 		this.add(new JLabel("Export Scale for image export"));
 		this.add(exportScale);
 		this.add(new JLabel("Default fontfamily"));
@@ -151,6 +158,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
 		default_fontsize.setSelectedItem(Config.getInstance().getDefaultFontsize());
 		propertiesPanelFontsize.setSelectedItem(Config.getInstance().getPropertiesPanelFontsize());
+		uiScale.setSelectedItem(Config.getInstance().getUiScale());
 		exportScale.setSelectedItem(Config.getInstance().getExportScale());
 		default_fontfamily.setSelectedItem(Config.getInstance().getDefaultFontFamily());
 		pdfFont.setText(Config.getInstance().getPdfExportFont());
@@ -211,6 +219,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 				d.getDrawPanel().repaint();
 			}
 			Config.getInstance().setPropertiesPanelFontsize((Integer) propertiesPanelFontsize.getSelectedItem());
+			Config.getInstance().setUiScale((String) uiScale.getSelectedItem());
 			Config.getInstance().setExportScale((Integer) exportScale.getSelectedItem());
 
 			String newfamily = (String) default_fontfamily.getSelectedItem();
