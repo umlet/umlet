@@ -38,18 +38,23 @@ import static com.baselet.control.constants.MenuConstants.SAVE_AS;
 import static com.baselet.control.constants.MenuConstants.SELECT_ALL;
 import static com.baselet.control.constants.MenuConstants.SET_BACKGROUND_COLOR;
 import static com.baselet.control.constants.MenuConstants.SET_FOREGROUND_COLOR;
+import static com.baselet.control.constants.MenuConstants.SHOW_GRID;
 import static com.baselet.control.constants.MenuConstants.UNDO;
 import static com.baselet.control.constants.MenuConstants.UNGROUP;
 import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -58,6 +63,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import com.baselet.control.Main;
+import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
@@ -181,6 +187,25 @@ public class MenuFactorySwing extends MenuFactory {
 
 	public JMenuItem createOptions() {
 		return createJMenuItemNoShortcut(false, OPTIONS, KeyEvent.VK_T);
+	}
+
+	public JMenuItem createShowGrid() {
+		final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem(SHOW_GRID, Config.getInstance().isShow_grid());
+		menuItem.setMnemonic(KeyEvent.VK_G);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, SystemInfo.META_KEY.getMaskDown() | InputEvent.SHIFT_DOWN_MASK));
+		menuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				doAction(SHOW_GRID, null);
+			}
+		});
+		Config.getInstance().addShowGridListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				menuItem.setSelected(Config.getInstance().isShow_grid());
+			}
+		});
+		return menuItem;
 	}
 
 	public JMenuItem createPrint() {

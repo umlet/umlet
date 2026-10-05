@@ -34,6 +34,10 @@ public class MenuConstants {
 	public static final String COPY = "Copy";
 	public static final String PASTE = "Paste";
 
+	// VIEW
+	public static final String VIEW = "View";
+	public static final String SHOW_GRID = "Show Grid";
+
 	// CUSTOM ELEMENTS
 	public static final String CUSTOM_ELEMENTS = "Custom Elements";
 	public static final String NEW_CE = "New...";

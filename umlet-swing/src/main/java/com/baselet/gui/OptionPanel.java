@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -81,6 +83,12 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(show_stickingpolygon);
 		this.add(new JLabel("Show grid"));
 		this.add(show_grid);
+		Config.getInstance().addShowGridListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				show_grid.setSelected(Config.getInstance().isShow_grid());
+			}
+		});
 		this.add(new JLabel("Enable Custom Elements"));
 		this.add(enable_custom_elements);
 		this.add(new JLabel("Check for " + Program.getInstance().getProgramName() + " updates"));

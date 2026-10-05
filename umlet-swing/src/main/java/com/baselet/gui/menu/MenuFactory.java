@@ -38,6 +38,7 @@ import static com.baselet.control.constants.MenuConstants.SAVE_AS;
 import static com.baselet.control.constants.MenuConstants.SELECT_ALL;
 import static com.baselet.control.constants.MenuConstants.SET_BACKGROUND_COLOR;
 import static com.baselet.control.constants.MenuConstants.SET_FOREGROUND_COLOR;
+import static com.baselet.control.constants.MenuConstants.SHOW_GRID;
 import static com.baselet.control.constants.MenuConstants.UNDO;
 import static com.baselet.control.constants.MenuConstants.UNGROUP;
 import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
@@ -54,6 +55,7 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 import com.baselet.control.Main;
+import com.baselet.control.config.Config;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.Program;
 import com.baselet.diagram.CurrentDiagram;
@@ -88,6 +90,14 @@ public class MenuFactory {
 			@Override
 			public void run() {
 				Main main = Main.getInstance();
+				if (menuItem.equals(SHOW_GRID)) {
+					Config config = Config.getInstance();
+					config.setShow_grid(!config.isShow_grid());
+					for (DiagramHandler diagram : main.getDiagramsAndPalettes()) {
+						diagram.getDrawPanel().repaint();
+					}
+					return;
+				}
 				BaseGUI gui = CurrentGui.getInstance().getGui();
 				DiagramHandler diagramHandler = gui.getCurrentDiagram().getHandler();
 				DiagramHandler actualHandler = CurrentDiagram.getInstance().getDiagramHandler();
