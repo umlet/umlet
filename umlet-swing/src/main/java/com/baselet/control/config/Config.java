@@ -2,6 +2,8 @@ package com.baselet.control.config;
 
 import java.awt.Font;
 import java.awt.Point;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 
 import javax.swing.UIManager;
@@ -47,6 +49,7 @@ public class Config {
 	private int main_split_position = 600;
 	private boolean enable_custom_elements = true;
 	private boolean show_grid = false;
+	private final PropertyChangeSupport propertyChanges = new PropertyChangeSupport(this);
 	private boolean start_maximized = false;
 	private boolean secureXmlProcessing = true;
 	private String defaultFontFamily = Font.SANS_SERIF;
@@ -248,7 +251,17 @@ public class Config {
 	}
 
 	public void setShow_grid(boolean show_grid) {
+		boolean oldValue = this.show_grid;
 		this.show_grid = show_grid;
+		propertyChanges.firePropertyChange("show_grid", oldValue, show_grid);
+	}
+
+	public void addShowGridListener(PropertyChangeListener listener) {
+		propertyChanges.addPropertyChangeListener("show_grid", listener);
+	}
+
+	public void removeShowGridListener(PropertyChangeListener listener) {
+		propertyChanges.removePropertyChangeListener("show_grid", listener);
 	}
 
 	public boolean isStart_maximized() {
