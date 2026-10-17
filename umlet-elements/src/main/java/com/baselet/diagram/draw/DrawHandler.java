@@ -210,6 +210,15 @@ public abstract class DrawHandler {
 		return style.getFontSize();
 	}
 
+	/** Renderers opt in only when both measurement and painting support an element family. */
+	public boolean supportsFontFamily() {
+		return false;
+	}
+
+	public final void setFontFamily(String fontFamily) {
+		style.setFontFamily(fontFamily);
+	}
+
 	public final void setLineType(LineType type) {
 		style.setLineType(type);
 	}
@@ -237,6 +246,7 @@ public abstract class DrawHandler {
 	public void resetStyle() {
 		resetColorSettings();
 		style.setFontSize(getDefaultFontSize());
+		style.setFontFamily(null);
 		style.setLineType(LineType.SOLID);
 		style.setLineWidth(1);
 	}

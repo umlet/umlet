@@ -10,6 +10,7 @@ public class Style {
 	private ColorOwn backgroundColor;
 
 	private double fontSize;
+	private String fontFamily; // resolved by renderers which support font families
 	private boolean applyZoom;
 
 	public Style() {
@@ -25,6 +26,7 @@ public class Style {
 		clone.foregroundColor = foregroundColor;
 		clone.backgroundColor = backgroundColor;
 		clone.fontSize = fontSize;
+		clone.fontFamily = fontFamily;
 		clone.applyZoom = applyZoom;
 		return clone;
 	}
@@ -69,6 +71,14 @@ public class Style {
 		return fontSize;
 	}
 
+	public void setFontFamily(String fontFamily) {
+		this.fontFamily = fontFamily;
+	}
+
+	public String getFontFamily() {
+		return fontFamily;
+	}
+
 	public void setApplyZoom(boolean applyZoom) {
 		this.applyZoom = applyZoom;
 	}
@@ -84,6 +94,7 @@ public class Style {
 		result = prime * result + (applyZoom ? 1231 : 1237);
 		result = prime * result + (backgroundColor == null ? 0 : backgroundColor.hashCode());
 		result = prime * result + (foregroundColor == null ? 0 : foregroundColor.hashCode());
+		result = prime * result + (fontFamily == null ? 0 : fontFamily.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(fontSize);
 		result = prime * result + (int) (temp ^ temp >>> 32);
@@ -105,6 +116,9 @@ public class Style {
 			return false;
 		}
 		Style other = (Style) obj;
+		if (fontFamily == null ? other.fontFamily != null : !fontFamily.equals(other.fontFamily)) {
+			return false;
+		}
 		if (applyZoom != other.applyZoom) {
 			return false;
 		}
