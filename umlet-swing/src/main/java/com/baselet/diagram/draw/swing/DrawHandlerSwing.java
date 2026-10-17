@@ -72,12 +72,24 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	@Override
+	public boolean supportsFontFamily() {
+		return true;
+	}
+
+	@Override
+	public void resetStyle() {
+		super.resetStyle();
+		// Include the inherited family in captured styles and word-wrap cache keys too.
+		setFontFamily(handler.getFontHandler().getFont(false).getFamily());
+	}
+
+	@Override
 	public DimensionDouble textDimensionHelper(StringStyle singleLine) {
 		boolean specialFontSize = style.getFontSize() != getDefaultFontSize();
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
 		}
-		DimensionDouble returnVal = handler.getFontHandler().getTextSize(singleLine, false);
+		DimensionDouble returnVal = handler.getFontHandler().getTextSize(singleLine, false, style.getFontFamily());
 		if (specialFontSize) {
 			handler.getFontHandler().resetFontSize();
 		}
@@ -207,8 +219,8 @@ public class DrawHandlerSwing extends DrawHandler {
 		ColorOwn col = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
 		g2.setColor(Converter.convert(col));
 		handler.getFontHandler().setFontSize(style.getFontSize());
-		g2.setFont(handler.getFontHandler().getFont());
-		handler.getFontHandler().writeText(g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());
+		g2.setFont(handler.getFontHandler().getFont(true, style.getFontFamily()));
+		handler.getFontHandler().writeText(g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment(), true, style.getFontFamily());
 		handler.getFontHandler().resetFontSize();
 	}
 

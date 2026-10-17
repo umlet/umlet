@@ -35,6 +35,8 @@ import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
+import com.baselet.element.facet.common.FontFamilyFacet;
+import com.baselet.element.facet.common.FontSizeFacet;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.interfaces.Component;
@@ -73,7 +75,11 @@ public abstract class NewGridElement implements GridElement {
 		setPanelAttributesHelper(panelAttributes);
 		setRectangle(bounds);
 		this.handler = handler;
-		state = new PropertiesParserState(createSettings(), drawer);
+		Settings settings = createSettings();
+		if (drawer.supportsFontFamily() && settings.getFacetsForFirstRun().contains(FontSizeFacet.INSTANCE)) {
+			settings.addFacet(FontFamilyFacet.INSTANCE);
+		}
+		state = new PropertiesParserState(settings, drawer);
 		setAdditionalAttributes(additionalAttributes);
 	}
 

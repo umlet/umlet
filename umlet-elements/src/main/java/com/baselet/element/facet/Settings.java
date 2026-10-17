@@ -92,6 +92,14 @@ public abstract class Settings {
 	private List<Facet> firstRunFacets;
 	private List<Facet> secondRunFacets;
 
+	/** Adds a renderer-specific facet without changing the shared default settings. */
+	public final void addFacet(Facet facet) {
+		initFacets();
+		addAll(Collections.singletonList(facet));
+		sortListByPriority(firstRunFacets);
+		sortListByPriority(secondRunFacets);
+	}
+
 	private void initFacets() {
 		if (firstRunFacets == null) {
 			firstRunFacets = new ArrayList<Facet>();
