@@ -85,6 +85,11 @@ public class MenuBuilder {
 		editPaste.setEnabled(false);
 		editUngroup.setEnabled(false);
 
+		JMenu viewMenu = new JMenu(MenuConstants.VIEW);
+		viewMenu.setMnemonic(KeyEvent.VK_V);
+		viewMenu.add(menuFactory.createTogglePalette());
+		menu.add(viewMenu);
+
 		// Custom Element Menu
 		JMenu menu_custom = new JMenu(MenuConstants.CUSTOM_ELEMENTS);
 		menu_custom.setMnemonic(KeyEvent.VK_C);

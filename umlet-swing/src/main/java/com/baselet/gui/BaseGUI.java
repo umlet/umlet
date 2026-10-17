@@ -133,6 +133,10 @@ public abstract class BaseGUI {
 
 	public abstract boolean isMailPanelVisible();
 
+	public void togglePalette() {
+		/* only supported in standalone */
+	}
+
 	public abstract void updateDiagramName(DiagramHandler diagram, String name);
 
 	public abstract void setDiagramChanged(DiagramHandler diagram, boolean changed);

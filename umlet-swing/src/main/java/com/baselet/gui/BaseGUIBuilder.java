@@ -37,9 +37,11 @@ public abstract class BaseGUIBuilder {
 	private JSplitPane customSplit;
 	private JSplitPane mailSplit;
 	private JPanel rightPanel;
+	private int initialMainDividerLocation;
 	private OwnSyntaxPane propertyTextPane;
 
 	protected JSplitPane initBase(Component mainComponent, final int mainDividerLoc) {
+		initialMainDividerLocation = mainDividerLoc;
 		propertyTextPane = createPropertyTextPane(); // must be initialized before palettePanel because it could be accessed during palette initialization (eg in case of different default fontsize)
 		palettePanel = newPalettePanel();
 		rightSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), 2, Config.getInstance().getRight_split_position(), true);
@@ -51,8 +53,7 @@ public abstract class BaseGUIBuilder {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					rightPanel.setVisible(!rightPanel.isVisible());
-					mainSplit.setDividerLocation(mainDividerLoc);
+					togglePalette();
 				}
 			}
 		});
@@ -63,6 +64,11 @@ public abstract class BaseGUIBuilder {
 		mailPanel.setVisible(false);
 		mailSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit, 0, 0, true);
 		return mailSplit;
+	}
+
+	public void togglePalette() {
+		rightPanel.setVisible(!rightPanel.isVisible());
+		mainSplit.setDividerLocation(initialMainDividerLocation);
 	}
 
 	public JSplitPane getMailSplit() {

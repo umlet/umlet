@@ -38,12 +38,14 @@ import static com.baselet.control.constants.MenuConstants.SAVE_AS;
 import static com.baselet.control.constants.MenuConstants.SELECT_ALL;
 import static com.baselet.control.constants.MenuConstants.SET_BACKGROUND_COLOR;
 import static com.baselet.control.constants.MenuConstants.SET_FOREGROUND_COLOR;
+import static com.baselet.control.constants.MenuConstants.TOGGLE_PALETTE;
 import static com.baselet.control.constants.MenuConstants.UNDO;
 import static com.baselet.control.constants.MenuConstants.UNGROUP;
 import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -185,6 +187,12 @@ public class MenuFactorySwing extends MenuFactory {
 
 	public JMenuItem createPrint() {
 		return createJMenuItem(true, PRINT, KeyEvent.VK_P, true, null);
+	}
+
+	public JMenuItem createTogglePalette() {
+		JMenuItem menuItem = createJMenuItemNoShortcut(false, TOGGLE_PALETTE, KeyEvent.VK_P);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, SystemInfo.META_KEY.getMaskDown() | InputEvent.SHIFT_DOWN_MASK));
+		return menuItem;
 	}
 
 	public JMenuItem createExit() {
