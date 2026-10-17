@@ -38,6 +38,7 @@ import static com.baselet.control.constants.MenuConstants.SAVE_AS;
 import static com.baselet.control.constants.MenuConstants.SELECT_ALL;
 import static com.baselet.control.constants.MenuConstants.SET_BACKGROUND_COLOR;
 import static com.baselet.control.constants.MenuConstants.SET_FOREGROUND_COLOR;
+import static com.baselet.control.constants.MenuConstants.TOGGLE_PALETTE;
 import static com.baselet.control.constants.MenuConstants.UNDO;
 import static com.baselet.control.constants.MenuConstants.UNGROUP;
 import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
@@ -89,6 +90,10 @@ public class MenuFactory {
 			public void run() {
 				Main main = Main.getInstance();
 				BaseGUI gui = CurrentGui.getInstance().getGui();
+				if (menuItem.equals(TOGGLE_PALETTE)) {
+					gui.togglePalette();
+					return;
+				}
 				DiagramHandler diagramHandler = gui.getCurrentDiagram().getHandler();
 				DiagramHandler actualHandler = CurrentDiagram.getInstance().getDiagramHandler();
 				SelectorOld actualSelector = actualHandler == null ? null : actualHandler.getDrawPanel().getSelector();
