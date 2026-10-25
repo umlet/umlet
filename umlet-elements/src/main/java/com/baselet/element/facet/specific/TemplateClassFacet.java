@@ -34,7 +34,7 @@ public class TemplateClassFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("template", new ValueInfo("text", "print template rectangle on top right corner"));
+		return new KeyValue("template", new ValueInfo("text", "print template rectangle on top right corner (use \\n for linebreaks)"));
 	}
 
 	@Override
@@ -66,7 +66,8 @@ public class TemplateClassFacet extends FirstRunKeyValueFacet {
 
 	private static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesParserState state, int height, int width) {
 		ColorOwn transparentColor = ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT);
-		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
+		String[] lines = SharedUtils.splitAtLineEndChar(templateClassText); // template text can be split up with \n into multiple lines
+		Rectangle tR = calcTemplateRect(lines, drawer, width);
 		int classTopEnd = round(tR.getHeight() / 2.0);
 		int classWidth = width - round(tR.getWidth() / 2.0);
 		PointDouble start = new PointDouble(0, classTopEnd);
@@ -96,13 +97,19 @@ public class TemplateClassFacet extends FirstRunKeyValueFacet {
 		// DRAW PARTIAL CLASS BORDER
 		drawer.drawLines(p.get(1), p.get(0), p.get(7), p.get(6), p.get(5));
 		// DRAW TEMPLATE TEXT
-		drawer.print(templateClassText, width - drawer.getDistanceBorderToText(), tR.getHeight() - LOWER_SPACE, AlignHorizontal.RIGHT);
+		for (int i = 0; i < lines.length; i++) {
+			drawer.print(lines[i], width - drawer.getDistanceBorderToText(), tR.getHeight() - LOWER_SPACE - (lines.length - 1 - i) * drawer.textHeightMax(), AlignHorizontal.RIGHT);
+		}
 		return p;
 	}
 
-	private static Rectangle calcTemplateRect(String templateClassText, DrawHandler drawer, int width) {
-		double templateHeight = drawer.textHeightMax() + UPPER_SPACE + LOWER_SPACE;
-		double templateWidth = drawer.textWidth(templateClassText) + LEFT_SPACE;
+	private static Rectangle calcTemplateRect(String[] lines, DrawHandler drawer, int width) {
+		double templateHeight = lines.length * drawer.textHeightMax() + UPPER_SPACE + LOWER_SPACE;
+		double maxLineWidth = 0;
+		for (String line : lines) {
+			maxLineWidth = Math.max(maxLineWidth, drawer.textWidth(line));
+		}
+		double templateWidth = maxLineWidth + LEFT_SPACE;
 		Rectangle tR = new Rectangle(width - templateWidth, 0.0, templateWidth, templateHeight);
 		return tR;
 	}
