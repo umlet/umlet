@@ -59,6 +59,11 @@ public class DiagramXmlParser {
 	}
 
 	public static Diagram xmlToDiagram(String xml) {
+		return xmlToDiagram(xml, false);
+	}
+
+	/** Strict parsing for automatic exports: never silently export an incomplete diagram. */
+	public static Diagram xmlToDiagram(String xml, boolean failOnError) {
 		log.debug("Serializing " + xml);
 		if (xml.startsWith(SharedConstants.UTF8_BOM)) {
 			xml = xml.substring(1); // remove BOM if it is given
@@ -68,6 +73,9 @@ public class DiagramXmlParser {
 		try {
 			// parse the XML document into a DOM
 			Document messageDom = XMLParser.parse(xml);
+			if (failOnError && !DIAGRAM.equals(messageDom.getDocumentElement().getTagName())) {
+				throw new IllegalArgumentException("Expected a UXF diagram");
+			}
 
 			Node helpTextNode = messageDom.getElementsByTagName(HELP_TEXT).item(0);
 			if (helpTextNode != null) {
@@ -85,6 +93,9 @@ public class DiagramXmlParser {
 			Node zoomElement = messageDom.getElementsByTagName(ZOOM_LEVEL).item(0);
 			if (zoomElement != null) {
 				int zoomLevel = Integer.parseInt(zoomElement.getFirstChild().getNodeValue());
+				if (failOnError && (zoomLevel < 1 || zoomLevel > 20)) {
+					throw new IllegalArgumentException("Invalid diagram zoom level");
+				}
 				diagram.setZoomLevel(zoomLevel);
 			}
 
@@ -113,11 +124,17 @@ public class DiagramXmlParser {
 					((DrawHandlerGwt) gridElement.getComponent().getMetaDrawHandler()).setZoomFactor(zoomFactor);
 					diagram.getGridElements().add(gridElement);
 				} catch (Exception e) {
+					if (failOnError) {
+						throw new IllegalArgumentException("Diagram has an invalid or unsupported element", e);
+					}
 					log.error("Element has invalid XML structure: " + element, e);
 					Notification.showFeatureNotSupported("Diagram has invalid element: " + element, true);
 				}
 			}
 		} catch (DOMException e) {
+			if (failOnError) {
+				throw new IllegalArgumentException("Could not parse UXF XML", e);
+			}
 			log.error("Parsing error", e);
 			Window.alert("Could not parse XML document.");
 		}

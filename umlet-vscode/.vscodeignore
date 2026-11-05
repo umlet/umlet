@@ -20,5 +20,5 @@ target/maven-status
 target/*.war
 target/*.zip
 target/*.jar
-target/out/test/**
+target/out/**
 images

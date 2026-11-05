@@ -6,6 +6,7 @@ import * as path from 'path';
 import * as fs from "fs";
 import * as parser from 'fast-xml-parser';
 import {DebugLevel} from "./main/typescript/DebugLevel";
+import {ExportOnSave} from './ExportOnSave';
 
 export var currentlyActivePanel: WebviewPanel | null = null;
 let lastCurrentlyActivePanel: WebviewPanel | null = null; //always saves last panel which was active, even if its not in focus anymore. used for export commands and edit->copy/paste/cut
@@ -28,6 +29,7 @@ export let exportCurrentlyActivePanel: WebviewPanel | null = null;
 let lastChangeTriggeredByUri = ""; //whenever a document change is triggered by an instance of the UMLet Gwt application, the uri of the corresponding document will be tracked here.
 
 export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
+    private readonly exportOnSave = new ExportOnSave();
 
     private static outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel('UMLet');
     private static debugLevel: number | undefined = UmletEditorProvider.getConfiguration().get<number>('debugLevel');
@@ -38,12 +40,14 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         private readonly context: vscode.ExtensionContext,
         private readonly port: number
     ) {
+        this.context.subscriptions.push(this.exportOnSave);
     }
 
     /**
      * Called when our custom editor is opened.
      */
     resolveCustomTextEditor(document: vscode.TextDocument, webviewPanel: vscode.WebviewPanel, token: vscode.CancellationToken): void | Thenable<void> {
+        this.exportOnSave.register(document, webviewPanel);
         //whenever the .uxf file is changed (for example throough a text editor in vs code), these changes shoule be reflected in umlet
         const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
             console.log("DOCCHANGE" + e.contentChanges.length);
@@ -69,7 +73,18 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
                 }
             }
         });
-        this.context.subscriptions.push(changeDocumentSubscription);
+        webviewPanel.onDidDispose(() => {
+            changeDocumentSubscription.dispose();
+            if (currentlyActivePanel === webviewPanel) {
+                currentlyActivePanel = null;
+            }
+            if (lastCurrentlyActivePanel === webviewPanel) {
+                lastCurrentlyActivePanel = null;
+            }
+            if (exportCurrentlyActivePanel === webviewPanel) {
+                exportCurrentlyActivePanel = null;
+            }
+        });
 
         this.prepareActivePanel(webviewPanel, document);
         // Extracting version from POM

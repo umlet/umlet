@@ -14,6 +14,32 @@ Then you can
 
 You're ready to go -- enjoy!
 
+## Automatically export PNG on save
+
+Enable **UMLet: Export On Save** in VS Code settings, or add this to your workspace settings:
+
+```json
+"umlet.exportOnSave": true
+```
+
+Saving a `.uxf` document open in a UMLet editor (including Auto Save and Save All) writes a PNG next to it:
+`Architecture.uxf` becomes `Architecture.png`. An existing PNG with that name is overwritten without a dialog.
+The setting is off by default and can be set per workspace folder. Manual PNG and PDF export commands remain available.
+
+Automatic PNGs use `umlet.exportScale` (default: 4), the existing white background, and cropping to diagram contents
+with a small border. Transparent or configurable backgrounds are not currently supported by the PNG renderer.
+
+The saved document's contents are exported even when another diagram is active. Rapid saves are combined so that
+the latest saved contents are exported after any ongoing write. Unsaved edits made after a save are not included.
+Export failures are reported separately and do not change the saved UXF file.
+
+A UMLet editor must remain open for that document; files edited only as text or changed by external tools are not
+batch exported. Untitled documents must first be saved to a `.uxf` file and opened in UMLet. Closing the last UMLet
+view cancels queued rendering; a PNG write already in progress can finish. Save again after reopening if needed.
+Remote and virtual destinations use VS Code's filesystem API and require a provider that can write the sibling PNG.
+Read-only, disconnected or unsupported destinations report an export error. The extension's existing webview/server
+requirements still apply to remote environments.
+
 <br/>
 <br/>
 
