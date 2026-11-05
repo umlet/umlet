@@ -124,6 +124,12 @@
           "minimum": 1,
           "markdownDescription": "Defines the scale of exported PNG diagrams"
         },
+        "umlet.exportOnSave": {
+          "type": "boolean",
+          "default": false,
+          "scope": "resource",
+          "description": "Automatically export a PNG image alongside a UXF diagram whenever it is saved."
+        },
         "umlet.fontNormal": {
           "title": "Custom Font File for Normal Fonts",
           "type": "string",
@@ -166,7 +172,7 @@
     "lint": "eslint src --ext ts",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "test": "node ./out/test/runTest.js",
+    "test": "node ./target/out/test/runTest.js",
     "postinstall": "sync-pom-version"
   },
   "devDependencies": {

@@ -1,13 +1,16 @@
 package com.vscode.gwt.client.view.widgets;
 
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.element.DiagramXmlParser;
+import com.baselet.gwt.client.element.GridElementZoomUtil;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.CanvasUtils;
 import com.baselet.gwt.client.view.DrawPanelDiagram;
 import com.baselet.gwt.client.view.widgets.*;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -22,6 +25,55 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 	public VsCodeDownloadPopupPanel() {
 		initListener();
 	}
+
+	@Override
+	public void init(DrawPanelDiagram drawPanel) {
+		super.init(drawPanel);
+		// MainView installs the fonts after initializing this panel.
+		Scheduler.get().scheduleDeferred(() -> notifyExportReady());
+	}
+
+	private native void notifyExportReady() /*-{
+		$doc.fonts.ready.then(function () {
+			$wnd.vscode.postMessage({command: 'pngExportReady'});
+		});
+	}-*/;
+
+	private void handleExportPngOnSave(final double requestId, String content, double scale) {
+		ThemeFactory.THEMES theme = ThemeFactory.getActiveThemeEnum();
+		try {
+			if (Double.isNaN(scale) || Double.isInfinite(scale) || scale < 1) {
+				throw new IllegalArgumentException("Invalid PNG export scale");
+			}
+			// Detached elements are not theme listeners; create their drawing styles in the export theme.
+			ThemeFactory.changeTheme(ThemeFactory.THEMES.LIGHT, null, false);
+			// Parse a separate snapshot: never replace the editor's diagram, selection or undo history.
+			Diagram diagram = DiagramXmlParser.xmlToDiagram(content.trim().isEmpty() ? "<diagram/>" : content, true);
+			int oldZoom = diagram.getZoomLevel();
+			diagram.setZoomLevel(SharedConstants.DEFAULT_GRID_SIZE);
+			if (oldZoom != SharedConstants.DEFAULT_GRID_SIZE) {
+				GridElementZoomUtil.zoomEntities(oldZoom, SharedConstants.DEFAULT_GRID_SIZE, diagram.getGridElements());
+			}
+			CanvasUtils.createPngCanvasDataUrl(diagram, scale, new DownloadPopupPanel() {
+				@Override
+				public void prepare(FilenameAndScaleHolder holder) {}
+
+				@Override
+				public void onData(String data, DownloadType type) {
+					exportPngOnSaveVSCode(requestId, data, null);
+				}
+			}, DownloadType.PNG);
+		} catch (Exception e) {
+			exportPngOnSaveVSCode(requestId, null, e.getMessage());
+		} finally {
+			// Canvas allocation/drawing can fail, too; restore the editor theme in that case.
+			ThemeFactory.changeTheme(theme, null, true);
+		}
+	}
+
+	private native void exportPngOnSaveVSCode(double requestId, String data, String error) /*-{
+		$wnd.vscode.postMessage({command: 'exportPngOnSave', requestId: requestId, text: data, error: error});
+	}-*/;
 
 	@Override
 	public void prepare(FilenameAndScaleHolder filenameAndScaleHolder) {
@@ -119,6 +171,11 @@ public class VsCodeDownloadPopupPanel extends DownloadPopupPanel {
 		$wnd.addEventListener('message', function (event) {
 			var message = event.data;
 			switch (message.command) {
+				case 'requestExportPngOnSave':
+					$doc.fonts.ready.then(function () {
+						that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleExportPngOnSave(DLjava/lang/String;D)(message.requestId, message.text, message.scale);
+					});
+					break;
 				case 'requestExportPng':
 					that.@com.vscode.gwt.client.view.widgets.VsCodeDownloadPopupPanel::handleExportPng(Ljava/lang/String;)(message.text);
 					break;

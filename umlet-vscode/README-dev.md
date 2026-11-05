@@ -23,3 +23,26 @@ communication is asynchronously, the architecture of a functionality has to be p
 of pasting the clipboard using the context menu of UMLet is shown in the following.
 
 ![Architecture overview](./images/example-paste.png)
+
+## Export on save
+
+`ExportOnSave` listens to `workspace.onDidSaveTextDocument` because UMLet is a `CustomTextEditorProvider`:
+VS Code owns UXF persistence. Each resolved webview is registered with its document URI. Automatic export never
+uses the last-active-panel heuristic used by manual commands.
+
+The renderer announces `pngExportReady` after initialization. `requestExportPngOnSave` carries a request ID,
+the saved XML snapshot and export scale. GWT parses a separate diagram with strict error handling, normalizes
+its zoom and uses the same `CanvasUtils` PNG renderer as manual export. `exportPngOnSave` returns the ID and
+PNG data or an error. This separate protocol leaves manual exports and their Save dialogs unchanged.
+
+Each URI has at most one active render/write and one queued snapshot (the newest save). Responses from other
+panels or superseded requests are ignored. Writes remain serialized through panel closure/reopening. Renderer
+readiness and responses time out after 30 seconds; writes are awaited because filesystem operations cannot be
+cancelled safely. Disposing panels releases listeners and timers. No source-file writes occur in this path.
+
+## Tests
+
+Build the GWT application and extension first (`mvn install -pl umlet-vscode -am` from the repository root), then
+run `npm test` in this directory. It compiles TypeScript, runs ESLint, and launches the Mocha tests in an isolated
+VS Code profile and temporary workspace. Set `VSCODE_EXECUTABLE_PATH` to an existing VS Code executable to avoid
+downloading a test instance. Test output goes into `target/out`; the packaged extension remains in `target/dist`.
